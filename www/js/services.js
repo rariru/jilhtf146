@@ -11,8 +11,6 @@ var restoran = firebase.database().ref('dataResto');
 var menu = firebase.database().ref('dataMenu');
 var review = firebase.database().ref('review');
 
-
-
 angular.module('app.services', [])
 
 .service('Services', function($q) {
@@ -48,8 +46,6 @@ angular.module('app.services', [])
 			review.child(id)
 			);
 	}
-
-	
 
 	function promiseAdded(obj) {
 		var promise = $q.defer();
