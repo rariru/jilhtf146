@@ -9808,7 +9808,8 @@ p {
   font-size: 10px;
   color: yellow;
   line-height: 12px;
-  text-decoration: none; }
+  text-decoration: none;
+  margin-bottom: 10px; }
 
 .mangan-menu-review {
   float: right;
@@ -9953,3 +9954,84 @@ p {
   padding: 0 5px;
   width: auto;
   height: auto; }
+
+.mangan-review-title {
+  display: inline-block;
+  width: 100%;
+  height: auto;
+  font-size: 20px;
+  font-weight: bold; }
+
+.mangan-modal-container .modal {
+  min-height: 0 !important; }
+
+.mangan-modal {
+  width: 90%;
+  height: 60%;
+  top: 20%;
+  bottom: 20%;
+  right: 5%;
+  left: 5%; }
+
+.mangan-modal-menu {
+  width: 90%;
+  height: 80%;
+  top: 10%;
+  bottom: 10%;
+  right: 5%;
+  left: 5%; }
+
+.mangan-modal-review {
+  width: 90%;
+  height: 50%;
+  top: 25%;
+  bottom: 25%;
+  right: 5%;
+  left: 5%; }
+
+.modal-backdrop-bg {
+  transition: opacity 300ms ease-in-out;
+  -webkit-transition: opacity 300ms ease-in-out;
+  background-color: #000;
+  opacity: 0; }
+
+.active .modal-backdrop-bg {
+  opacity: 0.5; }
+
+.mangan-tag-review {
+  float: right; }
+
+.mangan-menu-navigasi {
+  bottom: 0;
+  text-align: center;
+  padding: 10px;
+  background-color: #01b2b1; }
+
+.mangan-container {
+  height: 100%;
+  width: 100%; }
+
+#mangan-peta {
+  min-height: 92.5%;
+  width: 100%; }
+
+.ionic_ratings .icon {
+  font-size: 40px; }
+
+.mangan-rating {
+  padding: 10px;
+  background-color: #e6e7e8; }
+
+.mangan-ulasan {
+  padding: 10px;
+  background-color: #e6e7e8;
+  border-top: 1px solid white; }
+
+.mangan-ulasan > textarea {
+  width: 100%;
+  border: 2px solid grey;
+  padding: 5px;
+  border-radius: 2px; }
+
+.mangan-review-button {
+  padding-top: 5px; }
