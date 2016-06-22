@@ -163,6 +163,23 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+  .state('tabsController.menus', {
+    url: '/menus',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/menus.html',
+        controller: 'menusCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/menus.html',
+        controller: 'menusCtrl'
+      }
+    },
+    params: {
+      index: null
+    }
+  })
+
   /* 
     The IonicUIRouter.js UI-Router Modification is being used for this route.
     To navigate to this route, do NOT use a URL. Instead use one of the following:
@@ -201,6 +218,9 @@ angular.module('app.routes', ['ionicUIRouter'])
         templateUrl: 'templates/peta.html',
         controller: 'petaCtrl'
       }
+    },
+    params: {
+      index: null
     }
   })
 
@@ -215,7 +235,5 @@ angular.module('app.routes', ['ionicUIRouter'])
   })
 
 $urlRouterProvider.otherwise('/page1/page2')
-
-  
 
 });

@@ -10,18 +10,16 @@
 			<div class="list">
 				<div class="item item-avatar">
 					<img class="mangan-ulasan-resto" src="img/I2zcNZBWSvKHt1RKm5eR_photo_2016-04-14_12-26-26.jpg">
-					<h2 style="font-weight: bold;">Hamzah</h2>
+					<h2 style="font-weight: bold;">{{ selectedMenu.reviewer.nama }}</h2>
 					<p>Diulas pada 8 Agustus</p>
 				</div>
 		        <div class="item-body" style="background-color: rgb(230, 231, 232);">
 			        <div class="mangan-review-title">
-						Selat Solo
+						{{ selectedMenu.namaMenu }}
 						<span class="mangan-tag-review mangan-tag-menumakanan">Khas</span>
 			        </div>
 		        	<div class="mangan-keterangan-teks">
-		        		<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum auctor cursus condimentum. Curabitur placerat nisl sapien, a tincidunt urna tempus nec. Morbi volutpat nulla lectus. Sed quis semper risus. Curabitur eu risus sed neque accumsan finibus. Praesent ut risus fermentum, vulputate tortor ac, dapibus turpis. Sed pharetra consectetur egestas. Donec eu maximus tortor, et volutpat enim.</p>
-		        		<p>Pellentesque at facilisis mi, ut maximus metus. Cras efficitur porttitor lectus. Nulla aliquet, diam nec auctor facilisis, ex ipsum dapibus diam, ac fermentum ante diam at enim. Vestibulum quis iaculis sapien, tristique mattis nibh. Nulla tristique justo magna, nec varius nisi vehicula sit amet. Vestibulum pellentesque mauris id tempor congue. Nulla facilisi. Proin blandit libero quis ante molestie, non malesuada turpis tristique. Nunc varius dolor ut lectus vulputate consequat. Donec convallis non quam et euismod. Curabitur eleifend efficitur orci, sit amet rutrum magna accumsan id. Nam feugiat lorem a libero cursus finibus.</p>
-		        		<p>Sed tincidunt aliquam ex vitae porta. Duis volutpat porttitor turpis id scelerisque. In ut maximus libero. Cras ultrices vel ipsum at vestibulum. Mauris egestas urna non ipsum pharetra, semper iaculis ligula dapibus. Vestibulum semper justo dui, accumsan ullamcorper diam fringilla eu. Sed sed sapien sem. Cras ac ligula urna. Fusce suscipit risus a neque fermentum congue. Integer sit amet tristique felis.</p>
+		        		{{ selectedMenu.review }}
 		        	</div>
 		        </div>
 			</div>
