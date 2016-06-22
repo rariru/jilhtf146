@@ -15,9 +15,294 @@ $royal:                           #886aea !default;
 $dark:                            #444 !default;
 */
 
+$balanced: rgb(1,178,177) !default;
+$positive: orangered !default;
+$button-small-height: 20px !default;
+$item-padding: 10px !default;
+$button-border-radius:  0px !default;
+$card-box-shadow: 0 -1px -1px rgba(0, 0, 0, 0.3) !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
+
+p {
+	margin-bottom: 0;
+}
+
+.mangan-nama-resto{
+	color: white; 
+	background: rgba(0,0,0,0.6); 
+	position:absolute;
+	bottom: 0;
+	padding: 8px 0 5px 10px; 
+	width: 100%; 
+	height: auto; 
+	font-size: 20px;
+}
+
+.mangan-list-header {
+	position: relative;
+	width: auto;
+}
+
+.mangan-selengkapnya{
+	width: 100%;
+	height: auto;
+	padding: 10px; 
+	background-color:rgb(1,178,177);
+}
+
+.mangan-detail-review {
+	background-color: rgb(1,178,177);
+	color: white;
+	padding-top: 5px;
+	min-height: 100px;
+}
+
+.mangan-detail-keterangan {
+	background-color: rgb(230, 231, 232);
+	color: orangered;
+	font-size: 16px;
+	padding: 5px;
+	padding-right: 20px;
+	display: inline-block;
+}
+
+.mangan-image-4_3 {
+	width: 100%;
+	height: auto;
+	margin: 0;
+	padding: 0;
+	display: block;
+}
+
+.mangan-reviewer {
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	border: 2px solid white;
+	right: 0;
+}
+
+.mangan-ulasan-resto{
+	width: 50px;
+	height: 50px;
+	border-radius: 25px;
+	border: none;
+}
+
+.mangan-detail-review-col-1 {
+	float: left;
+	width: 75%;
+	margin-left: 5px;
+	padding-top: 5px;
+}
+
+.mangan-detail-review-col-1 > p {
+	margin: 0;
+}
+
+.mangan-detail-review-col-2 {
+	float: right;
+	width: 60px;
+}
+
+.clear {
+	clear: both;
+}
+
+.selengkapnya {
+	font-size: 10px;
+	color: yellow;
+	line-height: 12px;
+	text-decoration: none;
+}
+
+.mangan-menu-review {
+	float:right;
+	padding-right:5px;
+	margin-top:-25px;
+}
+
+.mangan-menu-tag {
+	color: rgb(1, 178, 177);
+	border: 1px solid rgb(1, 178, 177);
+	border-radius: 3px;
+	display: inline-block;
+	padding: 2px;
+}
+
+.item > p {
+	color: rgb(1, 178, 177);
+}
+
+.card .item{
+	// border: 2.5px solid rgb(230, 231, 232);
+	border-left: 5px solid rgb(230, 231, 232);
+	border-right: 5px solid rgb(230, 231, 232);
+}
+
+.card .item:first-child {
+	// border: 5px solid rgb(230, 231, 232);
+}
+
+.card .item:last-child {
+	// border: 5px solid rgb(230, 231, 232);
+}
+
+.mangan-menu-selengkapnya {
+	text-align: center;
+	padding: 10px;
+	background-color: rgb(1, 178, 177);
+}
+
+.list {
+	margin-bottom: 10px;
+	border-bottom: white;
+}
+
+.card {
+	margin-top: 0;
+	// background-color: rgb(1, 178, 177);
+}
+
+.list:last-child.card {
+	margin-bottom: 10px;
+}
+
+.mangan-rating-nilai {
+	float: right; 
+	color: yellow; 
+	padding-right: 10px; 
+	font-size: 20px;
+}
+
+.mangan-rating-icon {
+	color: yellow; 
+	font-size: 20px;
+}
+
+.mangan-keterangan {
+	border: 5px solid rgb(230,231,232);
+}
+
+.mangan-keterangan-buka {
+	color: red; 
+	font-weight: bold; 
+	font-size: 14px;
+}
+
+.mangan-keterangan-teks {
+	font-size: 12px;
+	line-height:12px;
+}
+
+// .mangan-ikon-aksi {
+// 	margin-top: -5px;
+// 	// float: right;
+// }
+
+.mangan-tombol-aksi {
+	background: none;
+	border: none;
+}
+
+.mangan-icon {
+	font-size: 20px;
+	color: white;
+}
+
+.mangan-menu-list{
+	margin-bottom: 0;
+}
+
+.mangan-spacer {
+	height: 5px;
+	width: auto;
+	background-color: rgb(230,231,232);
+}
+
+.mangan-kontak {
+	background-color: rgb(230,231,232);
+	padding: 5px;
+	padding-bottom: 0;
+}
+
+.mangan-kontak-header {
+	background-color: rgb(1, 178, 177);
+	padding: 10px;
+	color: white;
+	font-size: 18px;
+}
+
+.mangan-kontak-header > p{
+	margin-bottom: 0;
+}
+
+.mangan-kontak-konten {
+	background-color: white;
+	padding: 10px;
+}
+
+.mangan-kontak-konten > a {
+	text-decoration: none;
+}
+
+.mangan-kontak-icon {
+	margin-right: 10px;
+	font-size: 15px;
+	color: orangered;
+}
+
+.mangan-button-menumakanan{
+	background:rgb(230,231,232);
+	border:solid rgb(230,231,232); 
+	border-radius: 20px;
+}
+
+.mangan-label-menumakanan{
+	font-size: 12px; color: white; background: rgb(1,178,177); 
+	position:absolute; 
+	border-bottom-right-radius: 10px; 
+	left:10px; top: 5px; 
+	padding: 2px 7px;
+}
+
+.mangan-tag-menumakanan{
+	font-weight: bold; font-size: 12px; 
+	color: rgb(1,178,177); 
+	border: 1px solid rgb(1,178,177); border-radius: 4px;
+	padding: 2px; 
+}
+
+.mangan-menu {
+	border: 5px solid rgb(230,231,232);
+}
+
+.mangan-menu > img {
+	margin-top: -5px;
+}
+
+.mangan-menu > h2 {
+	padding-top: 5px;
+}
+
+.mangan-menu > h3 {
+	color: rgb(1,178,177);
+}
+
+.mangan-kategori{
+	font-size: 12px; 
+	color: white; 
+	background: rgba(0,0,0,0.6); 
+	position:absolute; 
+	border-top-right-radius:10px;
+	bottom: 10px;
+	padding: 0 5px; 
+	width: auto; 
+	height: auto;
+}
+
 

@@ -1,0 +1,29 @@
+<div class="mangan-modal-container">
+	<ion-modal-view class="mangan-modal">
+		<ion-header-bar class="bar bar-header bar-balanced">
+			<h1 class="title">Ulasan</h1>
+			<button class="button button-primary" ng-click="modalReview.hide()"><span class="icon ion-close"></span></button>
+		</ion-header-bar>
+
+		<ion-content has-header="true" padding="true">
+			<div class="list">
+				<div class="item item-avatar">
+					<img class="mangan-ulasan-resto" src="img/I2zcNZBWSvKHt1RKm5eR_photo_2016-04-14_12-26-26.jpg">
+					<h2 style="font-weight: bold;">{{restoran.reviewer.nama}}</h2>
+					<p>Diulas pada 8 Agustus</p>
+				</div>
+		        <div class="item-body" style="background-color: rgb(230, 231, 232);">
+			        <div class="mangan-review-title">
+						{{restoran.namaResto}}
+						<span class="mangan-rating-nilai" style="color:orangered; font-weight: normal; font-size: 16px;">{{restoran.rating}}
+							<i class="mangan-rating-icon icon ion-star" style="color:orangered; font-size: 20px;"></i>
+			            </span>
+			        </div>
+		        	<div class="mangan-keterangan-teks">
+		        		<p>{{restoran.reviewTim}}</p>
+		        	</div>
+		        </div>
+			</div>
+		</ion-content>
+	</ion-modal-view>
+</div>

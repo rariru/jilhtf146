@@ -1,0 +1,24 @@
+<div class="mangan-modal-container">
+	<ion-modal-view class="mangan-modal-review">
+		<ion-header-bar class="bar bar-header bar-balanced">
+			<h1 class="title">Rating dan Ulasan</h1>
+			<button class="button button-primary" ng-click="modalRating.hide()"><span class="icon ion-close"></span></button>
+		</ion-header-bar>
+
+		<ion-content has-header="true" padding="true">
+			<div class="mangan-rating">
+				<ionic-ratings ratingsobj='ratingsObject'></ionic-ratings>
+			</div>
+			<div class="mangan-ulasan">
+				<h3>Ulasan</h3>
+				<textarea rows="7"></textarea>
+			</div>
+		</ion-content>
+
+		<ion-footer-bar class="bar bar-footer bar-balanced">
+			<div class="mangan-review-button title">
+				<button class="button button-positive button-small" ng-click="modalRating.hide()">SIMPAN</button>
+			</div>
+		</ion-footer-bar>
+	</ion-modal-view>
+</div>

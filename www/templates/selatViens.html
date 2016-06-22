@@ -1,55 +1,136 @@
-<ion-view title="Selat Viens" id="page10">
+<ion-view title="Rarana Cafe" id="page10">
     <ion-content padding="true" class="has-header">
         <div class="list card">
-            <div class="item item-divider">Informasi</div>
-            <div class="item item-body">
-                <ion-list>
-                    <ion-item class="item-thumbnail-left balanced">
-                        <img src="img/J76T9KGRS6eA6B7hUvax_selat_viens.jpg">
-                        <h2balanced>Selat Viens
-                            <p style="white-space:normal;">Restoran yang menjual menu makanan selat solo</p>
-                        </h2balanced>
-                    </ion-item>
-                </ion-list>
-            </div>
+        <div class="mangan-list-header">
+            <div class="mangan-nama-resto">Rarana Cafe
+                <span class="mangan-rating-nilai">4.6 
+                    <i class="mangan-rating-icon icon ion-star"></i>
+                </span>
+             </div>
+            <img src="img/cafe 3-2.jpg" class="mangan-image-4_3">
         </div>
-        <div class="list card">
-            <div class="item item-divider">Menu</div>
-            <div class="item item-body">
-                <div id="selatViens-markdown9" style="color:#000000;">
-                    <p>Selat daging iga
-                        <strong>Rp 10.000</strong>
-                    </p>
+            <div class="mangan-detail-review">
+                <div class="mangan-detail-keterangan"><strong>Buka 9.00 - 20.00</strong></div>
+                <div class="mangan-detail-review-col-1">
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris dapibus auctor vehicula. Vivamus odio orci, cursus at urna a, dignissim lacinia ante. Maecenas a nisl nec risus ornare ultricies.</p>
+                    <a href="#/ulasanResto.html" class="selengkapnya">(selengkapnya)</a>
                 </div>
-                <div id="selatViens-markdown10" style="color:#000000;">
-                    <p>Selat daging cacah
-                        <strong>Rp 8.500</strong>
-                    </p>
+                <div class="mangan-detail-review-col-2">
+                    <a href=""><img class="mangan-reviewer" src="img/I2zcNZBWSvKHt1RKm5eR_photo_2016-04-14_12-26-26.jpg"></a>
                 </div>
-                <div class="spacer" style="width: 251px; height: 17px;"></div>
-                <a ui-sref="tabsController.menuSelatViens" id="selatViens-button20" class="button button-assertive  button-block">Pesan</a>
+                <div class="clear"></div>
             </div>
-        </div>
-        <div class="list card">
-            <div class="item item-divider">Lokasi</div>
-            <div class="item item-body">
-                <div>
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3955.155849619024!2d110.81506121518586!3d-7.557980194549342!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a169ad2687e0b%3A0x1e4117fca398f6f5!2sVien's+Selat+Segar+%26+Sup+Matahari!5e0!3m2!1sid!2sid!4v1462779675338"
-                    width="100%" height="auto" frameborder="0" style="border:0" allowfullscreen=""></iframe>
+            <ion-list class="mangan-menu-list">
+                <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);">
+                    <img src="img/U9JxNAdRoujELS74q83z_selat_solo.jpg">
+                    <h2>Selat Solo</h2>
+                    <h3>Rp 15000</h3>
+                    <span class="mangan-tag-menumakanan">Khas</span>
+
+                    <span class="mangan-menu-review">
+                        <button class="mangan-button-menumakanan">
+                            <i class="icon ion-eye assertive" style="font-size: 20px;"></i>
+                        </button>
+                    </span>
+                </ion-item>
+                <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);">
+                    <img src="img/U9JxNAdRoujELS74q83z_selat_solo.jpg">
+                    <h2>Selat Solo</h2>
+                    <h3>Rp 15000</h3>
+                    <span class="mangan-tag-menumakanan">Khas</span>
+                    
+                    <span class="mangan-menu-review">
+                        <button class="mangan-button-menumakanan">
+                            <i class="icon ion-eye assertive" style="font-size: 20px;"></i>
+                        </button>
+                    </span>
+                </ion-item>
+                <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);">
+                    <img src="img/U9JxNAdRoujELS74q83z_selat_solo.jpg">
+                    <h2>Selat Solo</h2>
+                    <h3>Rp 15000</h3>
+                    <span class="mangan-tag-menumakanan">Khas</span>
+                    
+                    <span class="mangan-menu-review">
+                        <button class="mangan-button-menumakanan">
+                            <i class="icon ion-eye assertive" style="font-size: 20px;"></i>
+                        </button>
+                    </span>
+                </ion-item>
+            </ion-list>
+<!--             <div class="mangan-menu-list list">
+                <div class="mangan-spacer"></div>
+                <div class="mangan-detail-menu item item-thumbnail-left">
+                    <img src="img/b2qTRNVFQxayBaHtDDHC_Selat_solo.jpg">
+                    <h2>Selat Enaque</h2>
+                    <p>Rp 1.000</p>
+                    <p class="mangan-menu-tag"><strong>Khas</strong></p>
+                    <a href=""><div class="mangan-menu-review">
+                        <i class="icon ion-eye"></i>
+                    </div></a>
+                    <div class="clear"></div>
                 </div>
-                <button id="selatViens-button21" class="button button-assertive  button-block">Lihat Peta</button>
+                <div class="mangan-spacer"></div>
+                <div class="mangan-detail-menu item item-thumbnail-left">
+                    <img src="img/b2qTRNVFQxayBaHtDDHC_Selat_solo.jpg">
+                    <h2>Selat Enaque</h2>
+                    <p>Rp 1.000</p>
+                    <p class="mangan-menu-tag"><strong>Khas</strong></p>
+                    <a href=""><div class="mangan-menu-review">
+                        <i class="icon ion-eye"></i>
+                    </div></a>
+                    <div class="clear"></div>
+                </div>
+                <div class="mangan-spacer"></div>
+                <div class="mangan-detail-menu item item-thumbnail-left">
+                    <img src="img/b2qTRNVFQxayBaHtDDHC_Selat_solo.jpg">
+                    <h2>Selat Enaque</h2>
+                    <p>Rp 1.000</p>
+                    <p class="mangan-menu-tag"><strong>Khas</strong></p>
+                    <a href=""><div class="mangan-menu-review">
+                        <i class="icon ion-eye"></i>
+                    </div></a>
+                    <div class="clear"></div>
+                </div>
+                <div class="mangan-spacer"></div>
+            </div> -->
+            <div class="mangan-menu-selengkapnya">
+                <a ui-sref="tabsController.menuSelatViens" id="selatViens-button20" class="button button-positive button-small">MENU LAINNYA</a>
             </div>
-        </div>
-        <div class="list card">
-            <div class="item item-divider">Galeri</div>
-            <div class="item item-body">
-                <div>
-                    <img src="img/GGufOL8QSPCtKclqLI2t_selat_solo.jpg" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
+            <div class="mangan-spacer"></div>
+            <div class="mangan-kontak-header">
+                <p>Kontak</p>
+            </div>
+            <div class="mangan-kontak">
+                <div class="mangan-kontak-konten">
+                    <a href=""><i class="mangan-kontak-icon icon ion-ios-telephone"></i>(0271) 7265467</a>
+                    </br>
+                    <a href=""><i class="mangan-kontak-icon icon ion-email"></i>ranalacafe@mail.co</a>
+                    <p href=""><i class="mangan-kontak-icon icon ion-map"></i>Jln Ir Soekarno no.76 Surakarta</p>
                 </div>
-                <div class="button-bar">
-                    <button id="selatViens-button22" class="button button-assertive  button-block icon ion-ios-arrow-left"></button>
-                    <button id="selatViens-button24" class="button button-assertive  button-block icon ion-ios-arrow-right"></button>
+            </div>
+            <div class="mangan-spacer"></div>
+            <div class="mangan-menu-selengkapnya">
+                <button class="button button-positive button-small">LIHAT PETA</button>
+            </div>
+            <div class="mangan-spacer"></div>
+            <div class="mangan-kontak-header">
+                <p>Ulasan Pengunjung</p>
+            </div>
+            <div class="mangan-menu-list list">
+                <div class="item item-avatar item-text-wrap">
+                    <img src="img/anonim.jpg">
+                    <h2>User</h2>
+                    <p>Lorem ipsum dolor sit amet</p>
                 </div>
+                <div class="item item-avatar item-text-wrap">
+                    <img src="img/anonim.jpg">
+                    <h2>User</h2>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris dapibus auctor vehicula. Vivamus odio orci, cursus at urna a, dignissim lacinia ante. Maecenas a nisl nec risus ornare ultricies.</p>
+                </div>
+            </div>
+            <div class="mangan-menu-selengkapnya">
+                <button class="button button-positive button-small">TULIS ULASAN</button>
             </div>
         </div>
     </ion-content>

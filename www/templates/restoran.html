@@ -1,0 +1,79 @@
+<ion-view id="page10">
+    <ion-nav-title>{{restoran.namaResto}}</ion-nav-title>
+    <ion-content padding="true" class="has-header">
+        <div class="list card">
+        <div class="mangan-list-header">
+            <div class="mangan-nama-resto">{{restoran.namaResto}}
+                <span class="mangan-rating-nilai">{{restoran.rating}}
+                    <i class="mangan-rating-icon icon ion-star"></i>
+                </span>
+             </div>
+            <img src="img/cafe 3-2.jpg" class="mangan-image-4_3">
+        </div>
+            <div class="mangan-detail-review">
+                <div class="mangan-detail-keterangan"><strong>{{restoran.keteranganBuka}}</strong></div>
+                <div class="mangan-detail-review-col-1">
+                    <p>{{restoran.reviewTim | limitTo: 70}}{{restoran.reviewTim.length > 70 ? '...' : ''}}</p>
+                    <button class="selengkapnya mangan-tombol-aksi" ng-click="openReview()">(selengkapnya)</button>
+                </div>
+                <div class="mangan-detail-review-col-2">
+                    <a href=""><img class="mangan-reviewer" src="img/I2zcNZBWSvKHt1RKm5eR_photo_2016-04-14_12-26-26.jpg"></a>
+                </div>
+                <div class="clear"></div>
+            </div>
+            
+
+            <ion-list class="mangan-menu-list">
+                <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus">
+                    <img src="img/U9JxNAdRoujELS74q83z_selat_solo.jpg">
+                    <h2>{{menu.namaMenu}}</h2>
+                    <h3>{{menu.harga | currency:'Rp ':2}}</h3>
+                    <span class="mangan-tag-menumakanan">Khas</span>
+
+                    <span class="mangan-menu-review">
+                        <button class="mangan-button-menumakanan" ng-click="openMenu(item.id)">
+                            <i class="icon ion-eye assertive" style="font-size: 20px;"></i>
+                        </button>
+                    </span>
+                </ion-item>
+            </ion-list>
+            <div class="mangan-menu-selengkapnya">
+                <a ui-sref="tabsController.menuSelatViens" id="selatViens-button20" class="button button-positive button-small">MENU LAINNYA</a>
+            </div>
+
+
+            <div class="mangan-spacer"></div>
+            <div class="mangan-kontak-header">
+                <p>Kontak</p>
+            </div>
+            <div class="mangan-kontak">
+                <div class="mangan-kontak-konten">
+                    <a href=""><i class="mangan-kontak-icon icon ion-ios-telephone"></i>{{restoran.noTelp}}</a>
+                    </br>
+                    <a href=""><i class="mangan-kontak-icon icon ion-email"></i>{{restoran.email}}</a>
+                    <p href=""><i class="mangan-kontak-icon icon ion-map"></i>{{restoran.alamat}}</p>
+                </div>
+            </div>
+            <div class="mangan-spacer"></div>
+            <div class="mangan-menu-selengkapnya">
+                <a ui-sref="tabsController.peta" id="selatViens-button21" class="button button-positive button-small">LIHAT PETA</a>
+            </div>
+            <div class="mangan-spacer"></div>
+            <div class="mangan-kontak-header">
+                <p>Ulasan Pengunjung</p>
+            </div>
+            <div class="mangan-menu-list list">
+                <div ng-repeat="review in reviews">
+                    <div class="item item-avatar item-text-wrap">
+                        <img src="img/anonim.jpg">
+                        <h2>{{review.username}}</h2>
+                        <p>{{review.review | limitTo: 50}}{{restoran.reviewTim.length > 50 ? '...' : ''}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="mangan-menu-selengkapnya">
+                <button class="button button-positive button-small" ng-click="openRating()">TULIS ULASAN</button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

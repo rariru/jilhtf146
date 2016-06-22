@@ -1,41 +1,115 @@
 <ion-view title="Jelajah" hide-back-button="true" id="page2">
-    <ion-content padding="true" class="has-header">
+    <ion-content padding="false" class="has-header">
         <form class="list">
-            <label class="item item-input" name="Pencarian">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input type="search" placeholder="Cari">
+            <label class="item item-input" name="Pencarian" style="border: 5px solid rgb(150, 152, 154); padding: 0;">
+                <div style="min-height: 37px; min-width: 37px; background-color: rgb(230, 231, 232); text-align:center; margin-right: 10px;">
+                    <i class="icon ion-search placeholder-icon" style="font-size: 20px; line-height: 40px;"></i>
+                </div>
+                <input type="search" placeholder="Cari" style="font-size: 14px;">
             </label>
         </form>
-        <h3 id="jelajah-heading1">Populer</h3>
-        <div style="margin-left: -10px; width: calc(100% + 20px);">
-            <a style="display:block;" ui-sref="tabsController.populer">
-                <img src="img/7I1KZLZVQjCY87nyfc0e_weekly.jpg" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
-            </a>
+
+        <div class="row">
+            <div class="col col-50" style="position:relative; width:100%;">
+                   <!--  <div style="margin-left: -10px; width: calc(100% + 20px);"> -->
+                <a ui-sref="tabsController.restorans({category: 'Populer'})">
+                    <div class="mangan-kategori">POPULER</div>
+                    <img src="img/populer.jpg" width="100%">
+                </a>
+               <!--  <h5 style="text-align: center;">Populer</h5> -->
+            </div>
+            <div class="col col-50" style="position:relative; width:100%;">
+                <!-- <div style="margin-left: -10px; width: calc(100% + 20px);"> -->
+                <a ui-sref="tabsController.restorans({category: 'Tempat Baru'})">
+                    <div class="mangan-kategori">TEMPAT BARU</div>
+                    <img src="img/tempatbaru.jpg" width="100%">
+                </a>
+                <!-- <h5 style="text-align: center;">Tempat Baru</h5> -->
+            </div>
+
+             
         </div>
-        <h3 id="jelajah-heading5" style="color:#000000;">Terdekat</h3>
-        <div style="margin-left: -10px; width: calc(100% + 20px);">
-            <a style="display:block;" ui-sref="tabsController.populer">
-                <img src="img/s992BIrUQfWsyewQinlS_near.jpg" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
-            </a>
+
+        <div class="row">
+            
+            <div class="col col-50" style="position:relative;">
+                   <!--  <div style="margin-left: -10px; width: calc(100% + 20px);"> -->
+                <a ui-sref="tabsController.restorans({category: 'Oleh-oleh'})">
+                    <div class="mangan-kategori">OLEH-OLEH</div>
+                    <img src="img/oleholeh.jpg" width="100%">
+                </a>
+                <!-- <h5 style="text-align: center;">Oleh-oleh</h5> -->
+            </div>
+       
         </div>
-        <h3 id="jelajah-heading2">Kategori</h3>
-        <div style="margin-left: -10px; width: calc(100% + 20px);">
-            <a style="display:block;" ui-sref="tabsController.kategori">
-                <img src="img/fTvUYefT6b0WrHVH7dEw_kategori.jpg" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
-            </a>
+
+        
+        <!-- Kategori    -->
+        <h4 style="background: rgba(0,0,0,0.2); padding: 5px; width: 100%; margin: 0;" > Kategori </h4>
+
+        <div class="row">
+            <div class="col col-50" style="position:relative;">
+                   <!--  <div style="margin-left: -10px; width: calc(100% + 20px);"> -->
+                <a ui-sref="tabsController.restorans({category: 'Khas Solo'})">
+                    <div class="mangan-kategori">KHAS SOLO</div>
+                    <img src="img/kategori.jpg" width="100%">
+                </a>
+                <!-- <h5 style="text-align: center;">Kategori</h5> -->
+            </div>
+            <div class="col col-50" style="position:relative;">
+                <a ui-sref="tabsController.restorans({category: 'Nasi'})">
+                    <div class="mangan-kategori">NASI</div>
+                    <img src="img/maincourse.jpg" width="100%">
+                </a>
+            </div>
         </div>
-        <h3 id="jelajah-heading3">Tempat Baru</h3>
-        <div style="margin-left: -10px; width: calc(100% + 20px);">
-            <a style="display:block;" ui-sref="tabsController.populer">
-                <img src="img/8P3FlQuvQZGcOpZ5MAam_new.jpg" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
-            </a>
+        <div class="row">
+            <div class="col col-50" style="position:relative;">
+                <a ui-sref="tabsController.restorans({category: 'Bakso, Sup & Mie'})">
+                    <div class="mangan-kategori">BAKSO, SUP & MIE</div>
+                    <img src="img/bakso.jpg" width="100%">
+                </a>
+            </div>
+            <div class="col col-50" style="position:relative">
+                <a ui-sref="tabsController.restorans({category: 'Wedangan'})">
+                    <div class="mangan-kategori">WEDANGAN</div>
+                    <img src="img/wedangan.jpg" width="100%">
+                </a>
+            </div>
         </div>
-        <h3 id="jelajah-heading4">Oleh-oleh</h3>
-        <div style="margin-left: -10px; width: calc(100% + 20px);">
-            <a style="display:block;" ui-sref="tabsController.populer">
-                <img src="img/XxVPCB1KSfKsyos4m24u_oleholeh.jpg" width="100%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
-            </a>
+        <div class="row">
+            <div class="col col-50" style="position:relative;">
+                <a ui-sref="tabsController.restorans({category: 'Sate & Gulai'})">
+                    <div class="mangan-kategori">SATE & GULAI</div>
+                    <img src="img/sate.jpg" width="100%">
+                </a>
+            </div>
+            <div class="col col-50" style="position:relative;">
+                <a ui-sref="tabsController.restorans({category: 'Martabak'})">
+                    <div class="mangan-kategori">MARTABAK</div>
+                    <img src="img/martabak.jpg" width="100%">
+                </a>
+            </div>
         </div>
-        <div class="spacer" style="width: 283px; height: 15px;"></div>
+        <div class="row">
+            <div class="col col-50" style="position:relative;">
+                <a ui-sref="tabsController.restorans({category: 'Minuman Khas'})">
+                    <div class="mangan-kategori">MINUMAN KHAS</div>
+                    <img src="img/dawet.jpg" width="100%">
+                </a>
+            </div>
+            <div class="col col-50" style="position:relative;">
+                <a ui-sref="tabsController.restorans({category: 'Cafe & Resto'})">
+                    <div class="mangan-kategori">CAFFE & RESTO</div>
+                    <img src="img/cafe.jpg" width="100%">
+                </a>
+            </div>
+        </div>
+
+        <div class="row" style="width: 100%; padding: 0;">
+            <div class="">
+                <img src="img/promo.jpg" style="width: 100%; display: block;">
+            </div>
+        </div>
     </ion-content>
 </ion-view>

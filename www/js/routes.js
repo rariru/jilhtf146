@@ -8,9 +8,7 @@ angular.module('app.routes', ['ionicUIRouter'])
   // Each state's controller can be found in controllers.js
   $stateProvider
     
-  
-
-      .state('tabsController.jelajah', {
+  .state('tabsController.jelajah', {
     url: '/page2',
     views: {
       'tab1': {
@@ -57,6 +55,19 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+  .state('tabsController.restorans', {
+    url: '/restorans',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/restorans.html',
+        controller: 'restoransCtrl'
+      }
+    },
+    params: {
+      category: null
+    }
+  })
+
   .state('tabsController', {
     url: '/page1',
     templateUrl: 'templates/tabsController.html',
@@ -87,6 +98,23 @@ angular.module('app.routes', ['ionicUIRouter'])
         templateUrl: 'templates/selatViens.html',
         controller: 'selatViensCtrl'
       }
+    }
+  })
+
+  .state('tabsController.restoran', {
+    url: '/restoran',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/restoran.html',
+        controller: 'restoranCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/restoran.html',
+        controller: 'restoranCtrl'
+      }
+    },
+    params: {
+      index: null
     }
   })
 
@@ -158,6 +186,20 @@ angular.module('app.routes', ['ionicUIRouter'])
       'tab3': {
         templateUrl: 'templates/invoice.html',
         controller: 'invoiceCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.peta', {
+    url: '/peta',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/peta.html',
+        controller: 'petaCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/peta.html',
+        controller: 'petaCtrl'
       }
     }
   })
