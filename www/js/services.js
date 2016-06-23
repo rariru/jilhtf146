@@ -1,15 +1,15 @@
 // Initialize Firebase
 var config = {
-	apiKey: "",
-	authDomain: "",
-	databaseURL: "",
-	storageBucket: "",
+	apiKey: "AIzaSyBvDJSC5qe1AfnNbEZOiqw3GUFjvb4i3go",
+	authDomain: "project-7791088175021720001.firebaseapp.com",
+	databaseURL: "https://project-7791088175021720001.firebaseio.com",
+	storageBucket: "project-7791088175021720001.appspot.com",
 };
 firebase.initializeApp(config);
 
 var restoran = firebase.database().ref('dataResto');
 var menu = firebase.database().ref('dataMenu');
-var review = firebase.database().ref('review');
+var review = firebase.database().ref('reviewRating');
 
 angular.module('app.services', [])
 
