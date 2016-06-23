@@ -42,6 +42,10 @@ angular.module('app.controllers', [])
 			});
 		} break;
 	}
+
+	$scope.getGambar = function(gambarUrl) {
+		return Services.getImgUrl(gambarUrl);
+	}
 })
 
 .controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $ionicModal) {
