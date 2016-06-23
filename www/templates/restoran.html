@@ -31,14 +31,14 @@
                     <span class="mangan-tag-menumakanan">Khas</span>
 
                     <span class="mangan-menu-review">
-                        <button class="mangan-button-menumakanan" ng-click="openMenu(item.id)">
+                        <button class="mangan-button-menumakanan" ng-click="openMenu( {{ $index }} )">
                             <i class="icon ion-eye assertive" style="font-size: 20px;"></i>
                         </button>
                     </span>
                 </ion-item>
             </ion-list>
             <div class="mangan-menu-selengkapnya">
-                <a ui-sref="tabsController.menuSelatViens" id="selatViens-button20" class="button button-positive button-small">MENU LAINNYA</a>
+                <a ui-sref="tabsController.menus({ index: restoran.index })" id="selatViens-button20" class="button button-positive button-small">MENU LAINNYA</a>
             </div>
 
 
@@ -56,7 +56,7 @@
             </div>
             <div class="mangan-spacer"></div>
             <div class="mangan-menu-selengkapnya">
-                <a ui-sref="tabsController.peta" id="selatViens-button21" class="button button-positive button-small">LIHAT PETA</a>
+                <a ui-sref="tabsController.peta({ index: restoran.index })" id="selatViens-button21" class="button button-positive button-small">LIHAT PETA</a>
             </div>
             <div class="mangan-spacer"></div>
             <div class="mangan-kontak-header">
