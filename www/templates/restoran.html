@@ -8,7 +8,7 @@
                     <i class="mangan-rating-icon icon ion-star"></i>
                 </span>
              </div>
-            <img src="img/cafe 3-2.jpg" class="mangan-image-4_3">
+            <img ng-src="{{restoran.gambar[0]}}" class="mangan-image-4_3">
         </div>
             <div class="mangan-detail-review">
                 <div class="mangan-detail-keterangan"><strong>{{restoran.keteranganBuka}}</strong></div>
@@ -25,7 +25,7 @@
 
             <ion-list class="mangan-menu-list">
                 <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus">
-                    <img src="img/U9JxNAdRoujELS74q83z_selat_solo.jpg">
+                    <img ng-src="{{menu.gambar}}">
                     <h2>{{menu.namaMenu}}</h2>
                     <h3>{{menu.harga | currency:'Rp ':2}}</h3>
                     <span class="mangan-tag-menumakanan">Khas</span>

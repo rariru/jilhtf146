@@ -35,11 +35,11 @@ angular.module('app.routes', ['ionicUIRouter'])
     url: '/page3',
     views: {
       'tab1': {
-        templateUrl: 'templates/tersimpan.html',
+        templateUrl: 'templates/restorans.html',
         controller: 'tersimpanCtrl'
       },
       'tab3': {
-        templateUrl: 'templates/tersimpan.html',
+        templateUrl: 'templates/restorans.html',
         controller: 'tersimpanCtrl'
       }
     }

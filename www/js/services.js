@@ -1,10 +1,5 @@
 // Initialize Firebase
-var config = {
-	apiKey: "AIzaSyBvDJSC5qe1AfnNbEZOiqw3GUFjvb4i3go",
-	authDomain: "project-7791088175021720001.firebaseapp.com",
-	databaseURL: "https://project-7791088175021720001.firebaseio.com",
-	storageBucket: "project-7791088175021720001.appspot.com",
-};
+var config = {};
 firebase.initializeApp(config);
 
 var restoran = firebase.database().ref('dataResto');
@@ -13,7 +8,12 @@ var review = firebase.database().ref('reviewRating');
 
 angular.module('app.services', [])
 
-.service('Services', function($q) {
+.service('Services', function($q, $localStorage) {
+	$localStorage = $localStorage.$default({
+		indexes: ['resto1'],
+		maxSaved: 5
+	});
+
 	this.getRestoranCategory = function(category) {
 		// var promise = $q.defer();
 
@@ -46,6 +46,29 @@ angular.module('app.services', [])
 			review.child(id)
 			);
 	}
+
+	this.getSavedRestorans = function() {
+		return $localStorage.indexes;
+	}
+
+	this.saveRestoran = function(id) {
+		if($localStorage.indexes.length < 5) {
+			isSaved = false;
+			for(var i=0; i<$localStorage.indexes.length; i++) {
+				if(id === $localStorage.indexes[i]) {
+					isSaved = true;
+					break;
+				}
+			}
+
+			if(!isSaved) {
+				$localStorage.indexes.push(id);
+				return true;
+			}
+		} return false;
+	}
+
+
 
 	function promiseAdded(obj) {
 		var promise = $q.defer();

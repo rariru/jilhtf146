@@ -185,8 +185,34 @@ angular.module('app.controllers', [])
 
 })
    
-.controller('tersimpanCtrl', function($scope) {
+.controller('tersimpanCtrl', function($scope, Services) {
+	var savedRestorans = [];
+	$scope.restorans = [];
 
+	$scope.$on('$ionicView.enter', function() {
+		var temp = Services.getSavedRestorans();
+
+		if(savedRestorans.length !== temp.length) {
+			updateSavedRestorans();
+		} else {
+			var diff = false;
+			var prev = savedRestorans.slice(0);
+			var next = temp.slice(0);
+			prev.sort();
+			next.sort();
+
+			for(var i=0; i<prev.length; i++) {
+				if(prev[i] !== next[i]) {
+					updateSavedRestorans();
+					break;
+				}
+			}
+		}
+	});
+
+	function updateSavedRestorans() {
+
+	}
 })
    
 .controller('populerCtrl', function($scope) {
