@@ -8,7 +8,7 @@
                     <i class="mangan-rating-icon icon ion-star"></i>
                 </span>
              </div>
-            <img src="{{ restoran.gambar[0] }}" class="mangan-image-4_3">
+            <img ng-src="{{ restoran.gambar[0] }}" class="mangan-image-4_3">
         </div>
             <div class="mangan-detail-review">
                 <div class="mangan-detail-keterangan"><strong>{{restoran.keteranganBuka}}</strong></div>
@@ -25,9 +25,9 @@
 
             <ion-list class="mangan-menu-list">
                 <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus">
-                    <img src="{{ menu.gambar }}">
+                    <img ng-src="{{ menu.gambar }}">
                     <h2>{{menu.namaMenu}}</h2>
-                    <h3>{{menu.harga | currency:'Rp ':2}}</h3>
+                    <h3>{{menu.harga | currency:'Rp '}}</h3>
                     <span class="mangan-tag-menumakanan">Khas</span>
 
                     <span class="mangan-menu-review">
@@ -66,8 +66,8 @@
                 <div ng-repeat="review in reviews">
                     <div class="item item-avatar item-text-wrap">
                         <img src="img/anonim.jpg">
-                        <h2>{{review.username}}</h2>
-                        <p>{{review.review | limitTo: 50}}{{restoran.reviewTim.length > 50 ? '...' : ''}}</p>
+                        <h2>{{review.reviewer}}</h2>
+                        <p>{{review.review}}</p>
                     </div>
                 </div>
             </div>

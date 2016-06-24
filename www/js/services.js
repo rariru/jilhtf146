@@ -1,16 +1,16 @@
 // Initialize Firebase
 var config = {
-	apiKey: "AIzaSyBvDJSC5qe1AfnNbEZOiqw3GUFjvb4i3go",
-	authDomain: "project-7791088175021720001.firebaseapp.com",
-	databaseURL: "https://project-7791088175021720001.firebaseio.com",
-	storageBucket: "project-7791088175021720001.appspot.com",
+	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
+    authDomain: "project-1449647215698534337.firebaseapp.com",
+    databaseURL: "https://project-1449647215698534337.firebaseio.com",
+    storageBucket: "project-1449647215698534337.appspot.com",
 };
 firebase.initializeApp(config);
 
 var restoran = firebase.database().ref('dataResto');
 var menu = firebase.database().ref('dataMenu');
 var review = firebase.database().ref('review');
-var storage = firebase.storage();
+var review = firebase.database().ref('reviewRating');
 
 angular.module('app.services', [])
 
@@ -46,13 +46,6 @@ angular.module('app.services', [])
 		return promiseValue(
 			review.child(id)
 			);
-	}
-
-	this.getImgUrl = function(gambarUrl) {
-		storage.refFromURL(gambarUrl).getMetadata().then(function(metadata) {
-				// $scope.src = metadata.downloadURLs[0];
-				return metadata.downloadURLs[0];
-			});
 	}
 
 	function promiseAdded(obj) {

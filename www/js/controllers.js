@@ -42,10 +42,6 @@ angular.module('app.controllers', [])
 			});
 		} break;
 	}
-
-	$scope.getGambar = function(gambarUrl) {
-		return Services.getImgUrl(gambarUrl);
-	}
 })
 
 .controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $ionicModal) {
@@ -69,6 +65,11 @@ angular.module('app.controllers', [])
 
 					Services.getRestoranReviews($stateParams.index).then(function(reviews) {
 						if(reviews) {
+							for(var i=0; i<reviews.length; i++) {
+								if(reviews[i].review == undefined || reviews[i].review == null) {
+									reviews.splice(i, 1);
+								}
+							}
 							$scope.reviews = reviews;
 
 							console.log('success');

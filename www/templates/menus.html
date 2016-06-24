@@ -3,7 +3,7 @@
         <ion-list>
 
             <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus">
-                <img src="{{ menu.gambar }}" style="margin-top: -5px;">
+                <img ng-src="{{ menu.gambar }}" style="margin-top: -5px;">
                     <!-- <span class="mangan-label-menumakanan">Rp 15000</span> -->
                 <h2>{{menu.namaMenu}}</h2>
                 <h3>{{menu.harga | currency:'Rp ':2}}</h3>
