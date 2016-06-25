@@ -1,7 +1,5 @@
 // Initialize Firebase
-
 var config = {};
-
 firebase.initializeApp(config);
 
 var restoran = firebase.database().ref('dataResto');

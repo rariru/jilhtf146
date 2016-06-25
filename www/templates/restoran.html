@@ -25,9 +25,9 @@
 
             <ion-list class="mangan-menu-list">
                 <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus">
-                    <img ng-src="{{ menu.gambar }}">
+                    <img ng-src="{{menu.gambar}}">
                     <h2>{{menu.namaMenu}}</h2>
-                    <h3>{{menu.harga | currency:'Rp '}}</h3>
+                    <h3>{{menu.harga | currency:'Rp ':2}}</h3>
                     <span class="mangan-tag-menumakanan">Khas</span>
 
                     <span class="mangan-menu-review">
