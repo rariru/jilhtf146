@@ -15,7 +15,7 @@ angular.module('app.services', [])
 
 .service('Services', function($q, $localStorage) {
 	$localStorage = $localStorage.$default({
-		indexes: ['resto1'],
+		indexes: [],
 		maxSaved: 5
 	});
 
@@ -53,7 +53,18 @@ angular.module('app.services', [])
 	}
 
 	this.getSavedRestorans = function() {
+		// if($localStorage.indexes.length === 0) {
+		// 	$localStorage.indexes.push('resto1');
+		// }
 		return $localStorage.indexes;
+	}
+
+	this.checkSavedRestoran = function(id) {
+		for(var i=0; i<$localStorage.indexes.length; i++) {
+			if(id === $localStorage.indexes[i]) {
+				return true;
+			}
+		} return false;
 	}
 
 	this.saveRestoran = function(id) {
@@ -71,6 +82,10 @@ angular.module('app.services', [])
 				return true;
 			}
 		} return false;
+	}
+
+	this.deleteRestoran = function(id) {
+		$localStorage.indexes.splice($localStorage.indexes.indexOf(id), 1);
 	}
 
 

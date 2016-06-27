@@ -17,15 +17,15 @@
             
             <div class="row mangan-selengkapnya">
                 <span class="col col-75" style="padding:0;margin-top: 3px;">
-                    <a ui-sref="tabsController.restoran({index: '{{restoran.index}}'})" id="tersimpan-button18" class="button button-positive button-small">SELENGKAPNYA</a>
+                    <a ui-sref="tabsController.restoran({index: restoran.index})" id="tersimpan-button18" class="button button-positive button-small">SELENGKAPNYA</a>
                 </span>
                 <span class="col" style="padding:0;">
-                    <button class="mangan-tombol-aksi">
+                    <button class="mangan-tombol-aksi" ng-click="shareRestoran(restoran.index)">
                         <i class="mangan-icon icon ion-android-share-alt"></i>
                     </button>
                 </span>
                 <span class="col" style="padding:0;">
-                    <button class="mangan-tombol-aksi">
+                    <button class="mangan-tombol-aksi" ng-click="saveRestoran(restoran.index)">
                         <i class="mangan-icon icon ion-heart" style="color:red;"></i>
                     </button>
                 </span>
