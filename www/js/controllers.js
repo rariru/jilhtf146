@@ -225,8 +225,12 @@ angular.module('app.controllers', [])
 	};
 })
   
-.controller('jelajahCtrl', function($scope) {
-
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate) {
+	$scope.options = {
+		loop: true,
+		autoplay: true,
+		speed: 4000,
+	}
 })
    
 .controller('tersimpanCtrl', function($scope, Services, $ionicPopup, $state) {
