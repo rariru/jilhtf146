@@ -86,6 +86,15 @@ angular.module('app.controllers', [])
 	$scope.shareRestoran = function(index) {
 		console.log('share: '+ index);
 	}
+
+	$scope.checkSavedRestoran = function(index) {
+		// if(Services.checkSavedRestoran(index)) {
+		// 	return true;
+		// } else {
+		// 	return false;
+		// }
+		return Services.checkSavedRestoran(index);
+	}
 })
 
 .controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $ionicModal) {
@@ -229,11 +238,11 @@ angular.module('app.controllers', [])
 	$scope.options = {
 		loop: true,
 		autoplay: true,
-		speed: 4000,
+		speed: 3000,
 	}
 })
    
-.controller('tersimpanCtrl', function($scope, Services, $ionicPopup, $state) {
+.controller('tersimpanCtrl', function($scope, Services, $ionicPopup, $state, $cordovaSocialSharing) {
 	$scope.category = 'Tersimpan';
 	var savedRestorans = [];
 	$scope.restorans = [];
@@ -284,7 +293,14 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.shareRestoran = function(index) {
-		console.log('share: '+ index);
+		// console.log('share: '+ index);
+		var resto = $scope.restorans[index];
+		var link = 'www.mobilepangan.com/downloads';
+		$cordovaSocialSharing.share(resto.reviewTim, resto.namaResto, resto.gambar[0], link).then(function(result) {
+			console.log('shared');
+		}, function(err) {
+			console.log('error');
+		});
 	}
 
 
@@ -308,6 +324,14 @@ angular.module('app.controllers', [])
 			});
 		}
 		// console.log($scope.restorans);
+	}
+
+	$scope.checkSavedRestoran = function(index) {
+		if(Services.checkSavedRestoran(index)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 })
    
