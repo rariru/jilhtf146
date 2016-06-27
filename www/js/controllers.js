@@ -15,7 +15,7 @@ var category = {
 
 angular.module('app.controllers', [])
 
-.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading) {
+.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $ionicPopup, $ionicTabsDelegate) {
 	$ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
@@ -41,6 +41,50 @@ angular.module('app.controllers', [])
 				$ionicLoading.hide();
 			});
 		} break;
+	}
+
+	$scope.saveRestoran = function(index) {
+		if(Services.checkSavedRestoran(index)) {
+			$ionicPopup.confirm({
+				template: 'Apakah Anda yakin ingin menghapus restoran ini?',
+				okText: 'Hapus',
+				cancelText: 'Batal',
+				okType: 'button-assertive'
+			}).then(function(res) {
+				if(res) {
+					Services.deleteRestoran(index);
+					$ionicPopup.alert({
+						template: 'Restoran berhasil dihapus',
+						okText: 'OK',
+						okType: 'button-balanced'
+					});
+				}
+			});
+		} else {
+			if(Services.saveRestoran(index)) {
+				$ionicPopup.confirm({
+					template: 'Restoran berhasil disimpan',
+					okText: 'Lihat tersimpan',
+					cancelText: 'Tutup',
+					okType: 'button-balanced'
+				}).then(function(res) {
+					if(res) {
+						// $state.go('tabsController.tersimpan');
+						$ionicTabsDelegate.select(1);
+					}
+				});
+			} else {
+				$ionicPopup.alert({
+					template: 'Gagal menyimpan restoran',
+					okText: 'OK',
+					okType: 'button-balanced'
+				});
+			}
+		}
+	}
+
+	$scope.shareRestoran = function(index) {
+		console.log('share: '+ index);
 	}
 })
 
@@ -185,33 +229,81 @@ angular.module('app.controllers', [])
 
 })
    
-.controller('tersimpanCtrl', function($scope, Services) {
+.controller('tersimpanCtrl', function($scope, Services, $ionicPopup, $state) {
+	$scope.category = 'Tersimpan';
 	var savedRestorans = [];
 	$scope.restorans = [];
 
 	$scope.$on('$ionicView.enter', function() {
 		var temp = Services.getSavedRestorans();
+		savedRestorans = temp.slice(0);
+		savedRestorans.reverse();
+		// console.log(savedRestorans.length +" | "+ temp.length);
+		// if(savedRestorans.length !== temp.length) {
+		// 	updateSavedRestorans(temp);
+		// } else {
+		// 	var diff = false;
+		// 	var prev = savedRestorans.slice(0);
+		// 	var next = temp.slice(0);
+		// 	prev.sort();
+		// 	next.sort();
 
-		if(savedRestorans.length !== temp.length) {
-			updateSavedRestorans();
-		} else {
-			var diff = false;
-			var prev = savedRestorans.slice(0);
-			var next = temp.slice(0);
-			prev.sort();
-			next.sort();
+		// 	for(var i=0; i<prev.length; i++) {
+		// 		if(prev[i] !== next[i]) {
+		// 			updateSavedRestorans(temp);
+		// 			break;
+		// 		}
+		// 	}
+		// }
 
-			for(var i=0; i<prev.length; i++) {
-				if(prev[i] !== next[i]) {
-					updateSavedRestorans();
-					break;
-				}
-			}
-		}
+		updateSavedRestorans(savedRestorans);
 	});
 
-	function updateSavedRestorans() {
+	$scope.saveRestoran = function(index) {
+		$ionicPopup.confirm({
+			template: 'Apakah Anda yakin ingin menghapus restoran ini?',
+			okText: 'Hapus',
+			cancelText: 'Batal',
+			okType: 'button-assertive'
+		}).then(function(res) {
+			if(res) {
+				Services.deleteRestoran(index);
+				$ionicPopup.alert({
+					template: 'Restoran berhasil dihapus',
+					okText: 'OK',
+					okType: 'button-balanced'
+				}).then(function() {
+					$state.go($state.current, {}, {reload: true});
+				});
+			}
+		});
+	}
 
+	$scope.shareRestoran = function(index) {
+		console.log('share: '+ index);
+	}
+
+
+
+	function updateSavedRestorans(news) {
+		console.log('update');
+		savedRestorans = news;
+		$scope.restorans = [];
+		for(var i=0; i<news.length; i++) {
+			Services.getRestoranDetails(news[i]).then(function(restoran) {
+				if(restoran) {
+					$scope.restorans.push(restoran);
+					// console.log(restoran);
+					console.log('success');
+				} else {
+					console.log('failure');
+				}
+			}, function(reason) {
+				console.log(reason);
+				console.log('error');
+			});
+		}
+		// console.log($scope.restorans);
 	}
 })
    
