@@ -1,5 +1,10 @@
 // Initialize Firebase
-var config = {};
+var config = {
+	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
+    authDomain: "project-1449647215698534337.firebaseapp.com",
+    databaseURL: "https://project-1449647215698534337.firebaseio.com",
+    storageBucket: "project-1449647215698534337.appspot.com",
+};
 firebase.initializeApp(config);
 
 var restoran = firebase.database().ref('dataResto');
@@ -48,6 +53,7 @@ angular.module('app.services', [])
 	}
 
 	this.getSavedRestorans = function() {
+		// for testing purpose
 		// if($localStorage.indexes.length === 0) {
 		// 	$localStorage.indexes.push('resto1');
 		// }
@@ -55,27 +61,33 @@ angular.module('app.services', [])
 	}
 
 	this.checkSavedRestoran = function(id) {
-		for(var i=0; i<$localStorage.indexes.length; i++) {
-			if(id === $localStorage.indexes[i]) {
-				return true;
-			}
+		// for below IE9. Dude, we use mobile.
+		// for(var i=0; i<$localStorage.indexes.length; i++) {
+		// 	if(id === $localStorage.indexes[i]) {
+		// 		return true;
+		// 	}
+		// } return false;
+		if($localStorage.indexes.indexOf(id) >= 0) {
+			return true;
 		} return false;
 	}
 
 	this.saveRestoran = function(id) {
-		if($localStorage.indexes.length < 5) {
-			isSaved = false;
-			for(var i=0; i<$localStorage.indexes.length; i++) {
-				if(id === $localStorage.indexes[i]) {
-					isSaved = true;
-					break;
-				}
-			}
+		if($localStorage.indexes.length < 5 && !this.checkSavedRestoran(id)) {
+			// isSaved = false;
+			// for(var i=0; i<$localStorage.indexes.length; i++) {
+			// 	if(id === $localStorage.indexes[i]) {
+			// 		isSaved = true;
+			// 		break;
+			// 	}
+			// }
 
-			if(!isSaved) {
-				$localStorage.indexes.push(id);
-				return true;
-			}
+			// if(!isSaved) {
+			// 	$localStorage.indexes.push(id);
+			// 	return true;
+			// }
+			$localStorage.indexes.push(id);
+			return true;
 		} return false;
 	}
 
