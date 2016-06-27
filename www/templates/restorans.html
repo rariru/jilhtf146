@@ -1,7 +1,7 @@
 <ion-view id="page3">
     <ion-nav-title>{{category}}</ion-nav-title>
     <ion-content padding="true" class="has-header">
-        <div class="list card" ng-repeat="restoran in restorans">
+        <div class="list card" ng-repeat="restoran in restorans track by $index">
             <div class="mangan-list-header">
                 <div class="mangan-nama-resto">{{restoran.namaResto}}
                     <span class="mangan-rating-nilai">{{restoran.rating}}
@@ -20,16 +20,20 @@
                     <a ui-sref="tabsController.restoran({index: restoran.index})" id="tersimpan-button18" class="button button-positive button-small">SELENGKAPNYA</a>
                 </span>
                 <span class="col" style="padding:0;">
-                    <button class="mangan-tombol-aksi" ng-click="shareRestoran(restoran.index)">
+                    <button class="mangan-tombol-aksi" ng-click="shareRestoran($index)">
                         <i class="mangan-icon icon ion-android-share-alt"></i>
                     </button>
                 </span>
-                <span class="col" style="padding:0;">
+                <span ng-if="checkSavedRestoran(restoran.index) == true" class="col" style="padding:0;">
                     <button class="mangan-tombol-aksi" ng-click="saveRestoran(restoran.index)">
                         <i class="mangan-icon icon ion-heart" style="color:red;"></i>
                     </button>
                 </span>
-                    
+                <span ng-if="checkSavedRestoran(restoran.index) == false" class="col" style="padding:0;">
+                    <button class="mangan-tombol-aksi" ng-click="saveRestoran(restoran.index)">
+                        <i class="mangan-icon icon ion-heart" style="color:white;"></i>
+                    </button>
+                </span>
             </div>
         </div>
 
