@@ -181,8 +181,12 @@ angular.module('app.controllers', [])
 	};
 })
   
-.controller('jelajahCtrl', function($scope) {
-
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate) {
+	$scope.options = {
+		loop: false,
+		autoplay: true,
+		speed: 3500,
+	}
 })
    
 .controller('tersimpanCtrl', function($scope, Services) {
