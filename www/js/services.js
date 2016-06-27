@@ -1,10 +1,5 @@
 // Initialize Firebase
-var config = {
-	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
-    authDomain: "project-1449647215698534337.firebaseapp.com",
-    databaseURL: "https://project-1449647215698534337.firebaseio.com",
-    storageBucket: "project-1449647215698534337.appspot.com",
-};
+var config = {};
 firebase.initializeApp(config);
 
 var restoran = firebase.database().ref('dataResto');

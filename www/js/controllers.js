@@ -227,9 +227,9 @@ angular.module('app.controllers', [])
   
 .controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate) {
 	$scope.options = {
-		loop: false,
+		loop: true,
 		autoplay: true,
-		speed: 3500,
+		speed: 4000,
 	}
 })
    
