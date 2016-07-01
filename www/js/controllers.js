@@ -15,7 +15,9 @@ var category = {
 
 angular.module('app.controllers', [])
 
-.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $ionicPopup, $ionicTabsDelegate) {
+.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, 
+	$cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing) {
+
 	$ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
@@ -45,46 +47,58 @@ angular.module('app.controllers', [])
 
 	$scope.saveRestoran = function(index) {
 		if(Services.checkSavedRestoran(index)) {
-			$ionicPopup.confirm({
-				template: 'Apakah Anda yakin ingin menghapus restoran ini?',
-				okText: 'Hapus',
-				cancelText: 'Batal',
-				okType: 'button-assertive'
-			}).then(function(res) {
-				if(res) {
-					Services.deleteRestoran(index);
-					$ionicPopup.alert({
-						template: 'Restoran berhasil dihapus',
-						okText: 'OK',
-						okType: 'button-balanced'
-					});
-				}
+			Services.deleteRestoran(index).then(function() {
+				makeToast('Restoran telah dihapus', 1500, 'bottom');
 			});
 		} else {
 			if(Services.saveRestoran(index)) {
-				$ionicPopup.confirm({
-					template: 'Restoran berhasil disimpan',
-					okText: 'Lihat tersimpan',
-					cancelText: 'Tutup',
-					okType: 'button-balanced'
-				}).then(function(res) {
-					if(res) {
-						// $state.go('tabsController.tersimpan');
-						$ionicTabsDelegate.select(1);
-					}
-				});
+				makeToast('Restoran berhasil disimpan', 1500, 'bottom');
 			} else {
-				$ionicPopup.alert({
-					template: 'Gagal menyimpan restoran',
-					okText: 'OK',
-					okType: 'button-balanced'
-				});
+				makeToast('Restoran gagal disimpan', 1500, 'bottom');
 			}
 		}
 	}
 
 	$scope.shareRestoran = function(index) {
-		console.log('share: '+ index);
+		var resto = $scope.restorans[index];
+
+		// var urlImg = resto.gambar[0];
+		// var targetPath = "www/img/"+ resto.namaResto;
+		// var trustHost = true;
+		// var options = {};
+
+		// $cordovaFileTransfer.download(urlImg, targetPath, options, trustHosts)
+		// .then(function(result) {
+			// var optionShare = {
+			// 	message: resto.keteranganResto,
+			// 	subject: resto.namaResto,
+			// 	files: [resto.gambar[0]],
+			// 	url: 'www.mobilepangan.com/downloads',
+			// 	chooserTitle: 'Bagikan restoran'
+			// };
+
+			// window.plugins.socialsharing.shareWithOptions(options, function() {
+			// 	console.log('shared');
+			// }, function() {
+			// 	console.log('error');
+			// });
+			var link = 'www.mobilepangan.com/downloads';
+			$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, null, link)
+			.then(function(result) {
+				console.log('shared');
+			}, function(err) {
+				console.log('error');
+			});;
+		// });
+
+
+
+		// $cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, resto.gambar[0], link)
+		// .then(function(result) {
+		// 	console.log('shared');
+		// }, function(err) {
+		// 	console.log('error');
+		// });
 	}
 
 	$scope.checkSavedRestoran = function(index) {
@@ -94,6 +108,16 @@ angular.module('app.controllers', [])
 		// 	return false;
 		// }
 		return Services.checkSavedRestoran(index);
+	}
+
+
+	function makeToast(_message) {
+		window.plugins.toast.showWithOptions({
+			message: _message,
+			duration: 1500,
+			position: 'bottom',
+			addPixelsY: -40
+		});
 	}
 })
 
@@ -106,6 +130,9 @@ angular.module('app.controllers', [])
 	$scope.restoran = null;
 	$scope.menus = null;
 	$scope.reviews = null;
+	$scope.user = {
+		rating: 5
+	};
 
 	Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 		if(restoran) {
@@ -166,6 +193,17 @@ angular.module('app.controllers', [])
 
 	$scope.ratingsCallback = function(rating) {
 		console.log('Select', rating);
+		$scope.user.rating = rating;
+	};
+
+	var id = Math.ceil(Math.random() * 100);
+	$scope.saveRatingReview = function() {
+		console.log($scope.user.review);
+		console.log($scope.user.rating);
+		console.log('user-'+ id);
+
+		Services.updateRatingReview($scope.restoran.index, 'user-'+id, $scope.user.rating, $scope.user.review);
+		// modalRating.hide();
 	};
 
 
@@ -209,7 +247,7 @@ angular.module('app.controllers', [])
 
 	$scope.openRating = function() {
 		$scope.modalRating.show();
-	}
+	};
 })
 
 .controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal) {
@@ -242,8 +280,9 @@ angular.module('app.controllers', [])
 	}
 })
    
-.controller('tersimpanCtrl', function($scope, Services, $ionicPopup, $state, $cordovaSocialSharing) {
+.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing) {
 	$scope.category = 'Tersimpan';
+
 	var savedRestorans = [];
 	$scope.restorans = [];
 
@@ -273,22 +312,14 @@ angular.module('app.controllers', [])
 	});
 
 	$scope.saveRestoran = function(index) {
-		$ionicPopup.confirm({
-			template: 'Apakah Anda yakin ingin menghapus restoran ini?',
-			okText: 'Hapus',
-			cancelText: 'Batal',
-			okType: 'button-assertive'
-		}).then(function(res) {
-			if(res) {
-				Services.deleteRestoran(index);
-				$ionicPopup.alert({
-					template: 'Restoran berhasil dihapus',
-					okText: 'OK',
-					okType: 'button-balanced'
-				}).then(function() {
-					$state.go($state.current, {}, {reload: true});
-				});
-			}
+		Services.deleteRestoran(index).then(function() {
+			window.plugins.toast.showWithOptions({
+				message: 'Restoran berhasil dihapus',
+				duration: 1500,
+				position: 'bottom',
+				addPixelsY: -40
+			});
+			$state.go($state.current, {}, {reload: true});
 		});
 	}
 
@@ -296,11 +327,38 @@ angular.module('app.controllers', [])
 		// console.log('share: '+ index);
 		var resto = $scope.restorans[index];
 		var link = 'www.mobilepangan.com/downloads';
-		$cordovaSocialSharing.share(resto.reviewTim, resto.namaResto, resto.gambar[0], link).then(function(result) {
+		// console.log(resto.keteranganResto);
+		// console.log(resto.namaResto);
+		// console.log(resto.gambar[0]);
+		// console.log(link);
+		$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, null, link)
+		.then(function(result) {
 			console.log('shared');
 		}, function(err) {
 			console.log('error');
 		});
+
+		// var optionShare = {
+		// 	message: resto.keteranganResto,
+		// 	subject: resto.namaResto,
+		// 	files: [resto.gambar[0]],
+		// 	url: link,
+		// 	chooserTitle: 'Bagikan restoran'
+		// };
+
+		// window.plugins.socialsharing.shareWithOptions(options, function() {
+		// 	console.log('shared');
+		// }, function() {
+		// 	console.log('error');
+		// });
+	}
+
+	$scope.checkSavedRestoran = function(index) {
+		if(Services.checkSavedRestoran(index)) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 
@@ -324,14 +382,6 @@ angular.module('app.controllers', [])
 			});
 		}
 		// console.log($scope.restorans);
-	}
-
-	$scope.checkSavedRestoran = function(index) {
-		if(Services.checkSavedRestoran(index)) {
-			return true;
-		} else {
-			return false;
-		}
 	}
 })
    

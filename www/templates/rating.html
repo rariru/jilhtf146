@@ -11,13 +11,13 @@
 			</div>
 			<div class="mangan-ulasan">
 				<h3>Ulasan</h3>
-				<textarea rows="7"></textarea>
+				<textarea rows="7" ng-model="user.review"></textarea>
 			</div>
 		</ion-content>
 
 		<ion-footer-bar class="bar bar-footer bar-balanced">
 			<div class="mangan-review-button title">
-				<button class="button button-positive button-small" ng-click="modalRating.hide()">SIMPAN</button>
+				<button class="button button-positive button-small" ng-click="saveRatingReview()">SIMPAN</button>
 			</div>
 		</ion-footer-bar>
 	</ion-modal-view>
