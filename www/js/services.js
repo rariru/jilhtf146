@@ -1,10 +1,5 @@
 // Initialize Firebase
-var config = {
-	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
-    authDomain: "project-1449647215698534337.firebaseapp.com",
-    databaseURL: "https://project-1449647215698534337.firebaseio.com",
-    storageBucket: "project-1449647215698534337.appspot.com",
-};
+var config = {};
 firebase.initializeApp(config);
 
 var restoran = firebase.database().ref('dataResto');
@@ -57,6 +52,21 @@ angular.module('app.services', [])
 		// if($localStorage.indexes.length === 0) {
 		// 	$localStorage.indexes.push('resto1');
 		// }
+
+
+		// var promise = $q.defer();
+
+		// var indexes = $localStorage.indexes;
+		// if(indexes) {
+		// 	promise.resolve(indexes);
+		// } else {
+		// 	promise.reject(null);
+		// 	console.log("Error fetch data");
+		// }
+
+		// return promise.promise;
+
+
 		return $localStorage.indexes;
 	}
 
@@ -73,26 +83,69 @@ angular.module('app.services', [])
 	}
 
 	this.saveRestoran = function(id) {
-		if($localStorage.indexes.length < 5 && !this.checkSavedRestoran(id)) {
-			// isSaved = false;
-			// for(var i=0; i<$localStorage.indexes.length; i++) {
-			// 	if(id === $localStorage.indexes[i]) {
-			// 		isSaved = true;
-			// 		break;
-			// 	}
-			// }
+		var promise = $q.defer();
 
-			// if(!isSaved) {
-			// 	$localStorage.indexes.push(id);
-			// 	return true;
-			// }
+		if($localStorage.indexes.length < 5 && !this.checkSavedRestoran(id)) {
 			$localStorage.indexes.push(id);
-			return true;
-		} return false;
+			if(this.checkSavedRestoran(id)) {
+				promise.resolve(true);
+			} else {
+				promise.reject(false);
+			}
+		} else {
+			promise.resolve(false);
+		}
+
+		return promise.promise;
+
+		// isSaved = false;
+		// for(var i=0; i<$localStorage.indexes.length; i++) {
+		// 	if(id === $localStorage.indexes[i]) {
+		// 		isSaved = true;
+		// 		break;
+		// 	}
+		// }
+
+		// if(!isSaved) {
+		// 	$localStorage.indexes.push(id);
+		// 	return true;
+		// }
 	}
 
 	this.deleteRestoran = function(id) {
+		var promise = $q.defer();
+
 		$localStorage.indexes.splice($localStorage.indexes.indexOf(id), 1);
+		if(!this.checkSavedRestoran(id)) {
+			promise.resolve(true);
+		} else {
+			promise.reject(false);
+		}
+
+		return promise.promise;
+	}
+
+	this.updateRatingReview = function(resto, user, userRating, userReview) {
+		this.getRestoranReviews(resto).then(function(result) {
+			var ratingReviews = result;
+			console.log(ratingReviews);
+			var newRR = {
+				'rating': userRating,
+				'review': userReview || null,
+				'reviewer': user
+			};
+			ratingReviews.push(newRR);
+			console.log(ratingReviews);
+
+			
+			var promise = $q.defer();
+
+			review.child(resto).set(ratingReviews).then(function() {
+				promise.resolve(true);
+			});
+
+			return promise;
+		});
 	}
 
 
