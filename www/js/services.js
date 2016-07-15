@@ -130,27 +130,55 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
+	this.getRatingReview = function(resto, user) {
+		console.log('try get ratrev');
+		// return promiseAdded(
+		// 	review.child(resto +'/'+ user)
+		// 	);
+
+		var promise = $q.defer();
+
+		firebase.database().ref('reviewRating/'+ resto +'/'+ user).on('value', function(data) {
+			promise.resolve(data.val());
+			console.log(data.val().review);
+		});
+
+		return promise.promise;
+	}
+
 	this.updateRatingReview = function(resto, user, userRating, userReview) {
-		this.getRestoranReviews(resto).then(function(result) {
-			var ratingReviews = result;
-			console.log(ratingReviews);
-			var newRR = {
-				'rating': userRating,
-				'review': userReview || null,
-				'reviewer': user
-			};
-			ratingReviews.push(newRR);
-			console.log(ratingReviews);
+		// this.getRestoranReviews(resto).then(function(result) {
+		// 	var ratingReviews = result;
+		// 	console.log(ratingReviews);
+		// 	var newRR = {
+		// 		'rating': userRating,
+		// 		'review': userReview || null,
+		// 		'reviewer': user
+		// 	};
+		// 	ratingReviews.push(newRR);
+		// 	console.log(ratingReviews);
 
 			
-			var promise = $q.defer();
+		// 	var promise = $q.defer();
 
-			review.child(resto).set(ratingReviews).then(function() {
-				promise.resolve(true);
-			});
+		// 	review.child(resto).set(ratingReviews).then(function() {
+		// 		promise.resolve(true);
+		// 	});
 
-			return promise;
+		// 	return promise;
+		// });
+
+		var promise = $q.defer();
+
+		review.child(resto +'/'+ user).set({
+			'rating': userRating,
+			'review' : userReview || null,
+			'reviewer': user
+		}).then(function() {
+			promise.resolve(true);
 		});
+
+		return promise;
 	}
 
 

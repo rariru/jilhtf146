@@ -197,13 +197,14 @@ angular.module('app.controllers', [])
 	};
 
 	var id = Math.ceil(Math.random() * 100);
+	var uid = 'user-'+ id;
 	$scope.saveRatingReview = function() {
-		console.log($scope.user.review);
-		console.log($scope.user.rating);
-		console.log('user-'+ id);
+		console.log(uid);
+		console.log('\t'+ $scope.user.review);
+		console.log('\t'+ $scope.user.rating);
 
-		Services.updateRatingReview($scope.restoran.index, 'user-'+id, $scope.user.rating, $scope.user.review);
-		// modalRating.hide();
+		Services.updateRatingReview($scope.restoran.index, uid, $scope.user.rating, $scope.user.review);
+		$scope.modalRating.hide();
 	};
 
 
@@ -246,7 +247,21 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.openRating = function() {
-		$scope.modalRating.show();
+		// check whether current user has already review this resto or not
+		Services.getRatingReview($scope.restoran.namaResto, uid).then(function(result) {
+			if(result) {
+				console.log(result.reviewer);
+				console.log('success');
+			} else {
+				console.log('no review yet');
+			}
+			$scope.modalRating.show();
+		}, function(reason) {
+			console.log('error');
+			$scope.modalRating.show();
+		});
+		
+		// $scope.modalRating.show();
 	};
 })
 
