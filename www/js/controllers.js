@@ -342,17 +342,14 @@ angular.module('app.controllers', [])
 		// console.log('share: '+ index);
 		var resto = $scope.restorans[index];
 		var link = 'www.mobilepangan.com/downloads';
-<<<<<<< HEAD
 		var image = 'www/img/cafe.jpg';
 		$cordovaSocialSharing.share(resto.reviewTim, resto.namaResto, image, link).then(function(result) {
-=======
 		// console.log(resto.keteranganResto);
 		// console.log(resto.namaResto);
 		// console.log(resto.gambar[0]);
 		// console.log(link);
 		$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, null, link)
 		.then(function(result) {
->>>>>>> 940e7cdf3424a1b25305a9ac7795af20e734aeae
 			console.log('shared');
 		}, function(err) {
 			console.log('error');
