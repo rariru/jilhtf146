@@ -1,18 +1,3 @@
-var category = {
-	POPULER: 'Populer',
-	TEMPAT_BARU: 'Tempat Baru',
-	OLEH_OLEH: 'Oleh-oleh',
-
-	KHAS_SOLO: 'Khas Solo',
-	NASI: 'Nasi',
-	BAKSO_SUP_MIE: 'Bakso, Sup & Mie',
-	WEDANGAN: 'Wedangan',
-	SATE_GULAI: 'Sate & Gulai',
-	MARTABAK: 'Martabak',
-	MINUMAN_KHAS: 'Minuman Khas',
-	CAFE_RESTO: 'Cafe & Resto'
-};
-
 angular.module('app.controllers', [])
 
 .controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, 
@@ -121,7 +106,9 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $ionicModal) {
+.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, 
+	$ionicModal, $state) {
+
 	$ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
@@ -184,7 +171,7 @@ angular.module('app.controllers', [])
 		iconOff: 'ion-ios-star-outline',
 		iconOnColor: 'orangered',
 		iconOffColor: 'grey',
-		rating: 5,
+		rating: $scope.user.rating,
 		minRating: 1,
 		callback: function(rating) {
 			$scope.ratingsCallback(rating);
@@ -205,6 +192,11 @@ angular.module('app.controllers', [])
 
 		Services.updateRatingReview($scope.restoran.index, uid, $scope.user.rating, $scope.user.review);
 		$scope.modalRating.hide();
+
+		$scope.reviews[uid] = {
+			reviewer: uid,
+			review: $scope.user.review
+		};
 	};
 
 
