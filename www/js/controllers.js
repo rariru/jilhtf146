@@ -342,6 +342,8 @@ angular.module('app.controllers', [])
 		// console.log('share: '+ index);
 		var resto = $scope.restorans[index];
 		var link = 'www.mobilepangan.com/downloads';
+		var image = 'www/img/cafe.jpg';
+		$cordovaSocialSharing.share(resto.reviewTim, resto.namaResto, image, link).then(function(result) {
 		// console.log(resto.keteranganResto);
 		// console.log(resto.namaResto);
 		// console.log(resto.gambar[0]);
