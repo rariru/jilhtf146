@@ -7,6 +7,7 @@ var config = {
 };
 firebase.initializeApp(config);
 
+var kategori = firebase.database().ref('kategori');
 var restoran = firebase.database().ref('dataResto');
 var menu = firebase.database().ref('dataMenu');
 var review = firebase.database().ref('reviewRating');
@@ -19,6 +20,12 @@ angular.module('app.services', [])
 		maxSaved: 5
 	});
 
+	this.getCategories = function() {
+		// return promiseValue(
+		// 	kategori.
+		// 	);
+	}
+
 	this.getRestoranCategory = function(category) {
 		// var promise = $q.defer();
 
@@ -30,7 +37,7 @@ angular.module('app.services', [])
 
 		// return promise.promise;
 		return promiseValue(
-			restoran.orderByChild('kategori')
+			kategori.child(category).orderByChild('tanggalInput')
 			);
 	}
 

@@ -12,11 +12,22 @@ angular.module('app.controllers', [])
 		default: {
 			Services.getRestoranCategory($scope.category).then(function(restorans) {
 				if(restorans) {
-					$scope.restorans = restorans;
+					$scope.restorans = [];
+					for(var r in restorans) {
+						Services.getRestoranDetails(r).then(function(restoran) {
+							$scope.restorans.push(restoran);
+						});
+					}
+
+					// for (var i = 0; i < restorans.length; i++) {
+					// 	console.log(restorans[i].index);
+					// 	Services.getRestoranDetails(restorans[i].index).then(function(restoran) {
+					// 		$scope.restorans.push(restoran);
+					// 	});
+					// }
 					console.log('success');
 					// console.log($scope.restorans);
 				} else {
-					$scope.restorans = null;
 					console.log('failure');
 				}
 
@@ -240,20 +251,20 @@ angular.module('app.controllers', [])
 
 	$scope.openRating = function() {
 		// check whether current user has already review this resto or not
-		Services.getRatingReview($scope.restoran.namaResto, uid).then(function(result) {
-			if(result) {
-				console.log(result.reviewer);
-				console.log('success');
-			} else {
-				console.log('no review yet');
-			}
-			$scope.modalRating.show();
-		}, function(reason) {
-			console.log('error');
-			$scope.modalRating.show();
-		});
+		// Services.getRatingReview($scope.restoran.namaResto, uid).then(function(result) {
+		// 	if(result) {
+		// 		console.log(result.reviewer);
+		// 		console.log('success');
+		// 	} else {
+		// 		console.log('no review yet');
+		// 	}
+		// 	$scope.modalRating.show();
+		// }, function(reason) {
+		// 	console.log('error');
+		// 	$scope.modalRating.show();
+		// });
 		
-		// $scope.modalRating.show();
+		$scope.modalRating.show();
 	};
 })
 
@@ -335,7 +346,7 @@ angular.module('app.controllers', [])
 		var resto = $scope.restorans[index];
 		var link = 'www.mobilepangan.com/downloads';
 		var image = 'www/img/cafe.jpg';
-		$cordovaSocialSharing.share(resto.reviewTim, resto.namaResto, image, link).then(function(result) {
+		// $cordovaSocialSharing.share(resto.reviewTim, resto.namaResto, image, link).then(function(result) {
 		// console.log(resto.keteranganResto);
 		// console.log(resto.namaResto);
 		// console.log(resto.gambar[0]);
