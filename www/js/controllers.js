@@ -1,18 +1,3 @@
-var category = {
-	POPULER: 'Populer',
-	TEMPAT_BARU: 'Tempat Baru',
-	OLEH_OLEH: 'Oleh-oleh',
-
-	KHAS_SOLO: 'Khas Solo',
-	NASI: 'Nasi',
-	BAKSO_SUP_MIE: 'Bakso, Sup & Mie',
-	WEDANGAN: 'Wedangan',
-	SATE_GULAI: 'Sate & Gulai',
-	MARTABAK: 'Martabak',
-	MINUMAN_KHAS: 'Minuman Khas',
-	CAFE_RESTO: 'Cafe & Resto'
-};
-
 angular.module('app.controllers', [])
 
 .controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, 
@@ -27,11 +12,23 @@ angular.module('app.controllers', [])
 		default: {
 			Services.getRestoranCategory($scope.category).then(function(restorans) {
 				if(restorans) {
-					$scope.restorans = restorans;
+					$scope.restorans = [];
+					for(var r in restorans) {
+						console.log(r);
+						Services.getRestoranDetails(r).then(function(restoran) {
+							$scope.restorans.push(restoran);
+						});
+					}
+
+					// for (var i = 0; i < restorans.length; i++) {
+					// 	console.log(restorans[i].index);
+					// 	Services.getRestoranDetails(restorans[i].index).then(function(restoran) {
+					// 		$scope.restorans.push(restoran);
+					// 	});
+					// }
 					console.log('success');
 					// console.log($scope.restorans);
 				} else {
-					$scope.restorans = null;
 					console.log('failure');
 				}
 
@@ -121,7 +118,9 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $ionicModal) {
+.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, 
+	$ionicModal, $state) {
+
 	$ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
@@ -145,9 +144,9 @@ angular.module('app.controllers', [])
 
 					Services.getRestoranReviews($stateParams.index).then(function(reviews) {
 						if(reviews) {
-							for(var i=0; i<reviews.length; i++) {
-								if(reviews[i].review == undefined || reviews[i].review == null) {
-									reviews.splice(i, 1);
+							for(var r in reviews) {
+								if(reviews[r].review == undefined || reviews[r].review == null) {
+									delete reviews[r];
 								}
 							}
 							$scope.reviews = reviews;
@@ -184,7 +183,7 @@ angular.module('app.controllers', [])
 		iconOff: 'ion-ios-star-outline',
 		iconOnColor: 'orangered',
 		iconOffColor: 'grey',
-		rating: 5,
+		rating: $scope.user.rating,
 		minRating: 1,
 		callback: function(rating) {
 			$scope.ratingsCallback(rating);
@@ -197,14 +196,18 @@ angular.module('app.controllers', [])
 	};
 
 	var id = Math.ceil(Math.random() * 100);
-	var uid = 'user-'+ id;
 	$scope.saveRatingReview = function() {
-		console.log(uid);
-		console.log('\t'+ $scope.user.review);
-		console.log('\t'+ $scope.user.rating);
+		// console.log(uid);
+		// console.log('\t'+ $scope.user.review);
+		// console.log('\t'+ $scope.user.rating);
 
-		Services.updateRatingReview($scope.restoran.index, uid, $scope.user.rating, $scope.user.review);
+		Services.updateRatingReview($scope.restoran.index, $scope.user.reviewer, $scope.user.rating, $scope.user.review);
 		$scope.modalRating.hide();
+
+		$scope.reviews[$scope.user.reviewer] = {
+			reviewer: $scope.user.reviewer,
+			review: $scope.user.review
+		};
 	};
 
 
@@ -248,20 +251,20 @@ angular.module('app.controllers', [])
 
 	$scope.openRating = function() {
 		// check whether current user has already review this resto or not
-		Services.getRatingReview($scope.restoran.namaResto, uid).then(function(result) {
-			if(result) {
-				console.log(result.reviewer);
-				console.log('success');
-			} else {
-				console.log('no review yet');
-			}
-			$scope.modalRating.show();
-		}, function(reason) {
-			console.log('error');
-			$scope.modalRating.show();
-		});
+		// Services.getRatingReview($scope.restoran.namaResto, uid).then(function(result) {
+		// 	if(result) {
+		// 		console.log(result.reviewer);
+		// 		console.log('success');
+		// 	} else {
+		// 		console.log('no review yet');
+		// 	}
+		// 	$scope.modalRating.show();
+		// }, function(reason) {
+		// 	console.log('error');
+		// 	$scope.modalRating.show();
+		// });
 		
-		// $scope.modalRating.show();
+		$scope.modalRating.show();
 	};
 })
 
@@ -343,7 +346,7 @@ angular.module('app.controllers', [])
 		var resto = $scope.restorans[index];
 		var link = 'www.mobilepangan.com/downloads';
 		var image = 'www/img/cafe.jpg';
-		$cordovaSocialSharing.share(resto.reviewTim, resto.namaResto, image, link).then(function(result) {
+		// $cordovaSocialSharing.share(resto.reviewTim, resto.namaResto, image, link).then(function(result) {
 		// console.log(resto.keteranganResto);
 		// console.log(resto.namaResto);
 		// console.log(resto.gambar[0]);
@@ -368,7 +371,7 @@ angular.module('app.controllers', [])
 		// }, function() {
 		// 	console.log('error');
 		// });
-	})
+	// })
 	}
 
 	$scope.checkSavedRestoran = function(index) {
