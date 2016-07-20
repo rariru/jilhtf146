@@ -1,6 +1,6 @@
 <ion-view id="page10">
     <ion-nav-title>{{restoran.namaResto}}</ion-nav-title>
-    <ion-content padding="true" class="has-header">
+    <ion-content lazy-scroll padding="true" class="has-header">
         <div class="list card">
         <div class="mangan-list-header">
             <div class="mangan-nama-resto" style="z-index: 9999;">{{restoran.namaResto}}
@@ -8,12 +8,12 @@
                     <i class="mangan-rating-icon icon ion-star"></i>
                 </span>
              </div>
-             <ion-slides style="width: 100%; height: 223px;">
+<!--              <ion-slides style="width: 100%; height: 223px;">
                 <ion-slide>
                     <img ng-src="{{restoran.gambar[0]}}" class="mangan-image-4_3">
                 </ion-slide>
-            </ion-slides>
-            <!-- <img ng-src="{{restoran.gambar[0]}}" class="mangan-image-4_3"> -->
+            </ion-slides> -->
+            <img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50">
         </div>
             <div class="mangan-detail-review">
                 <div class="mangan-detail-keterangan"><strong>{{restoran.keteranganBuka}}</strong></div>
@@ -30,7 +30,7 @@
 
             <ion-list class="mangan-menu-list">
                 <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus">
-                    <img ng-src="{{menu.gambar}}">
+                    <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50">
                     <h2>{{menu.namaMenu}}</h2>
                     <h3>{{menu.harga | currency:'Rp ':2}}</h3>
                     <span class="mangan-tag-menumakanan">Khas</span>
@@ -70,8 +70,9 @@
             <div class="mangan-menu-list list">
                 <div ng-repeat="review in reviews">
                     <div class="item item-avatar item-text-wrap">
-                        <img src="img/anonim.jpg">
                         <!-- <h2>{{review.reviewer}}</h2> -->
+                        <img image-lazy-src="img/anonim.jpg" image-lazy-distance-from-bottom-to-load="50">
+                        <h2>{{review.reviewer}}</h2>
                         <p>{{review.review}}</p>
                     </div>
                 </div>

@@ -144,9 +144,9 @@ angular.module('app.controllers', [])
 
 					Services.getRestoranReviews($stateParams.index).then(function(reviews) {
 						if(reviews) {
-							for(var i=0; i<reviews.length; i++) {
-								if(reviews[i].review == undefined || reviews[i].review == null) {
-									reviews.splice(i, 1);
+							for(var r in reviews) {
+								if(reviews[r].review == undefined || reviews[r].review == null) {
+									delete reviews[r];
 								}
 							}
 							$scope.reviews = reviews;
@@ -196,17 +196,16 @@ angular.module('app.controllers', [])
 	};
 
 	var id = Math.ceil(Math.random() * 100);
-	var uid = 'user-'+ id;
 	$scope.saveRatingReview = function() {
-		console.log(uid);
-		console.log('\t'+ $scope.user.review);
-		console.log('\t'+ $scope.user.rating);
+		// console.log(uid);
+		// console.log('\t'+ $scope.user.review);
+		// console.log('\t'+ $scope.user.rating);
 
-		Services.updateRatingReview($scope.restoran.index, uid, $scope.user.rating, $scope.user.review);
+		Services.updateRatingReview($scope.restoran.index, $scope.user.reviewer, $scope.user.rating, $scope.user.review);
 		$scope.modalRating.hide();
 
-		$scope.reviews[uid] = {
-			reviewer: uid,
+		$scope.reviews[$scope.user.reviewer] = {
+			reviewer: $scope.user.reviewer,
 			review: $scope.user.review
 		};
 	};
@@ -372,6 +371,7 @@ angular.module('app.controllers', [])
 		// }, function() {
 		// 	console.log('error');
 		// });
+	// })
 	}
 
 	$scope.checkSavedRestoran = function(index) {
@@ -381,8 +381,6 @@ angular.module('app.controllers', [])
 			return false;
 		}
 	}
-
-
 
 	function updateSavedRestorans(news) {
 		console.log('update');
@@ -404,38 +402,6 @@ angular.module('app.controllers', [])
 		}
 		// console.log($scope.restorans);
 	}
-})
-   
-.controller('populerCtrl', function($scope) {
-
-})
-         
-.controller('selatViensCtrl', function($scope) {
-
-})
-   
-.controller('transaksiCtrl', function($scope) {
-
-})
-   
-.controller('pengaturanCtrl', function($scope) {
-
-})
-   
-.controller('profilCtrl', function($scope) {
-
-})
-   
-.controller('menuSelatViensCtrl', function($scope) {
-
-})
-   
-.controller('invoiceCtrl', function($scope) {
-
-})
-   
-.controller('kategoriCtrl', function($scope) {
-
 })
 
 .controller('petaCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup) {

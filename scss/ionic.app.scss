@@ -71,11 +71,19 @@ p {
 }
 
 .mangan-image-4_3 {
+	background: url('../img/preload.jpg');
+	background-position:center;
 	width: 100%;
 	height: auto;
+	min-height: 220px;
 	margin: 0;
 	padding: 0;
 	display: block;
+}
+
+.mangan-image-1_1 {
+	background: url('../img/preload1.jpg');
+	background-position:center;
 }
 
 .mangan-reviewer {
