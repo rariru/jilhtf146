@@ -45,16 +45,6 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
-  .state('tabsController.populer', {
-    url: '/page12',
-    views: {
-      'tab1': {
-        templateUrl: 'templates/populer.html',
-        controller: 'populerCtrl'
-      }
-    }
-  })
-
   .state('tabsController.restorans', {
     url: '/restorans',
     views: {
@@ -87,19 +77,7 @@ angular.module('app.routes', ['ionicUIRouter'])
       /page1/tab1/page10
       /page1/tab3/page10
   */
-  .state('tabsController.selatViens', {
-    url: '/page10',
-    views: {
-      'tab1': {
-        templateUrl: 'templates/selatViens.html',
-        controller: 'selatViensCtrl'
-      },
-      'tab3': {
-        templateUrl: 'templates/selatViens.html',
-        controller: 'selatViensCtrl'
-      }
-    }
-  })
+
 
   .state('tabsController.restoran', {
     url: '/restoran',
@@ -118,24 +96,6 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
-  .state('transaksi', {
-    url: '/page13',
-    templateUrl: 'templates/transaksi.html',
-    controller: 'transaksiCtrl'
-  })
-
-  .state('pengaturan', {
-    url: '/page14',
-    templateUrl: 'templates/pengaturan.html',
-    controller: 'pengaturanCtrl'
-  })
-
-  .state('profil', {
-    url: '/page15',
-    templateUrl: 'templates/profil.html',
-    controller: 'profilCtrl'
-  })
-
   /* 
     The IonicUIRouter.js UI-Router Modification is being used for this route.
     To navigate to this route, do NOT use a URL. Instead use one of the following:
@@ -149,20 +109,6 @@ angular.module('app.routes', ['ionicUIRouter'])
       /page1/tab1/menu
       /page1/tab3/menu
   */
-  .state('tabsController.menuSelatViens', {
-    url: '/menu',
-    views: {
-      'tab1': {
-        templateUrl: 'templates/menuSelatViens.html',
-        controller: 'menuSelatViensCtrl'
-      },
-      'tab3': {
-        templateUrl: 'templates/menuSelatViens.html',
-        controller: 'menuSelatViensCtrl'
-      }
-    }
-  })
-
   .state('tabsController.menus', {
     url: '/menus',
     views: {
@@ -193,19 +139,6 @@ angular.module('app.routes', ['ionicUIRouter'])
       /page1/tab1/invoice
       /page1/tab3/invoice
   */
-  .state('tabsController.invoice', {
-    url: '/invoice',
-    views: {
-      'tab1': {
-        templateUrl: 'templates/invoice.html',
-        controller: 'invoiceCtrl'
-      },
-      'tab3': {
-        templateUrl: 'templates/invoice.html',
-        controller: 'invoiceCtrl'
-      }
-    }
-  })
 
   .state('tabsController.peta', {
     url: '/peta',
@@ -221,16 +154,6 @@ angular.module('app.routes', ['ionicUIRouter'])
     },
     params: {
       index: null
-    }
-  })
-
-  .state('tabsController.kategori', {
-    url: '/page6',
-    views: {
-      'tab1': {
-        templateUrl: 'templates/kategori.html',
-        controller: 'kategoriCtrl'
-      }
     }
   })
 

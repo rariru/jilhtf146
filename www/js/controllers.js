@@ -368,6 +368,7 @@ angular.module('app.controllers', [])
 		// }, function() {
 		// 	console.log('error');
 		// });
+	})
 	}
 
 	$scope.checkSavedRestoran = function(index) {
@@ -377,8 +378,6 @@ angular.module('app.controllers', [])
 			return false;
 		}
 	}
-
-
 
 	function updateSavedRestorans(news) {
 		console.log('update');
@@ -400,38 +399,6 @@ angular.module('app.controllers', [])
 		}
 		// console.log($scope.restorans);
 	}
-})
-   
-.controller('populerCtrl', function($scope) {
-
-})
-         
-.controller('selatViensCtrl', function($scope) {
-
-})
-   
-.controller('transaksiCtrl', function($scope) {
-
-})
-   
-.controller('pengaturanCtrl', function($scope) {
-
-})
-   
-.controller('profilCtrl', function($scope) {
-
-})
-   
-.controller('menuSelatViensCtrl', function($scope) {
-
-})
-   
-.controller('invoiceCtrl', function($scope) {
-
-})
-   
-.controller('kategoriCtrl', function($scope) {
-
 })
 
 .controller('petaCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup) {

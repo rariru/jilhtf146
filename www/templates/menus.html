@@ -1,9 +1,9 @@
 <ion-view title="Menu" id="page4">
-    <ion-content padding="true" class="has-header">
+    <ion-content lazy-scroll padding="true" class="has-header">
         <ion-list>
 
             <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus">
-                <img ng-src="{{menu.gambar}}" style="margin-top: -5px;">
+                <img ng-src="{{menu.gambar}}" style="margin-top: -5px;" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50">
                     <!-- <span class="mangan-label-menumakanan">Rp 15000</span> -->
                 <h2>{{menu.namaMenu}}</h2>
                 <h3>{{menu.harga | currency:'Rp ':2}}</h3>
