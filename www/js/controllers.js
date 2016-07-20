@@ -14,6 +14,7 @@ angular.module('app.controllers', [])
 				if(restorans) {
 					$scope.restorans = [];
 					for(var r in restorans) {
+						console.log(r);
 						Services.getRestoranDetails(r).then(function(restoran) {
 							$scope.restorans.push(restoran);
 						});
