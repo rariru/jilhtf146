@@ -301,9 +301,9 @@ angular.module('app.controllers', [])
 
 	Services.getCategories().then(function(categories) {
 		if(categories) {
-			for(var category in categories) {
-				categories[category].namaUp = categories[category].nama.toUpperCase();
-			}
+			// for(var category in categories) {
+			// 	categories[category].namaUp = categories[category].nama.toUpperCase();
+			// }
 			$scope.categories = categories;
 		}
 	});
