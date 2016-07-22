@@ -181,16 +181,10 @@ p {
 	margin-bottom: 10px;
 }
 
-.mangan-rating-nilai {
-	float: right; 
-	color: yellow; 
-	padding-right: 10px; 
-	font-size: 20px;
-}
-
-.mangan-rating-icon {
+.mangan-rating-nilai, .mangan-rating-icon {
 	color: yellow; 
 	font-size: 20px;
+	text-align: right;
 }
 
 .mangan-keterangan {
@@ -346,8 +340,8 @@ p {
 
 .mangan-modal-review {
     width: 90%;
-    height: 50%;
-    top: 25%;
+    height: 63%;
+    top: 20%;
     bottom: 25%;
     right: 5%;
     left: 5%;
@@ -400,7 +394,8 @@ p {
 	border-top: 1px solid white;
 }
 
-.mangan-ulasan > textarea {
+.mangan-ulasan > textarea, 
+.mangan-ulasan > input{
 	width: 100%;
 	border: 2px solid grey;
 	padding: 5px;
@@ -409,4 +404,28 @@ p {
 
 .mangan-review-button {
 	padding-top: 5px;
+}
+
+.mangan-nodata{
+	width: 100%;
+	height: auto;
+	padding: 10px 10px;
+}
+
+.mangan-nodata p{
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+  	text-align: center;
+  	color: rgba(0,0,0,0.7);
+  	margin:0;
+  	padding-top: 5px;
+}
+
+.mangan-nodata i{
+	display: flex;
+  	align-items: center;
+  	justify-content: center;
+  	color:rgba(0,0,0,0.3);
+	font-size: 40px;
 }
