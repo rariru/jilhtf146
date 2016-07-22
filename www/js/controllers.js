@@ -196,7 +196,6 @@ angular.module('app.controllers', [])
 		$scope.user.rating = rating;
 	};
 
-	var id = Math.ceil(Math.random() * 100);
 	$scope.saveRatingReview = function() {
 		// console.log(uid);
 		// console.log('\t'+ $scope.user.review);
@@ -300,9 +299,10 @@ angular.module('app.controllers', [])
 
 	Services.getCategories().then(function(categories) {
 		if(categories) {
-			// for(var category in categories) {
-			// 	categories[category].namaUp = categories[category].nama.toUpperCase();
-			// }
+			for(var category in categories) {
+				// categories[category].namaUp = categories[category].nama.toUpperCase();
+				console.log(categories[category]);
+			}
 			$scope.categories = categories;
 		}
 	});

@@ -52,7 +52,7 @@
                    <!--  <div style="margin-left: -10px; width: calc(100% + 20px);"> -->
                 <a ui-sref="tabsController.restorans({'category': category.kode, 'name': category.nama})">
                     <div class="mangan-kategori">{{category.nama | uppercase}}</div>
-                    <img image-lazy-src="{{category.gambar}}" width="100%">
+                    <img ng-src="{{category.gambar}}" width="100%">
                 </a>
                 <!-- <h5 style="text-align: center;">Kategori</h5> -->
             </div>
