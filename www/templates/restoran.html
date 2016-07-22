@@ -3,8 +3,9 @@
     <ion-content lazy-scroll padding="true" class="has-header">
         <div class="list card">
         <div class="mangan-list-header">
-            <div class="mangan-nama-resto" style="z-index: 9999;">{{restoran.namaResto}}
-                <span class="mangan-rating-nilai">{{restoran.rating}}
+            <div class="row mangan-nama-resto" style="z-index: 9999;">
+                <span class="col col-75">{{restoran.namaResto}}</span>
+                <span class="col mangan-rating-nilai">{{restoran.rating}}
                     <i class="mangan-rating-icon icon ion-star"></i>
                 </span>
              </div>
@@ -70,7 +71,6 @@
             <div class="mangan-menu-list list">
                 <div ng-repeat="review in reviews">
                     <div class="item item-avatar item-text-wrap">
-                        <!-- <h2>{{review.reviewer}}</h2> -->
                         <img image-lazy-src="img/anonim.jpg" image-lazy-distance-from-bottom-to-load="50">
                         <h2>{{review.reviewer}}</h2>
                         <p>{{review.review}}</p>

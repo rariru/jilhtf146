@@ -109,7 +109,6 @@ angular.module('app.controllers', [])
 		return Services.checkSavedRestoran(index);
 	}
 
-
 	function makeToast(_message) {
 		window.plugins.toast.showWithOptions({
 			message: _message,
@@ -417,73 +416,73 @@ angular.module('app.controllers', [])
 
 .controller('petaCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup) {
 
-	console.log($stateParams.index);
-	
-	Services.getRestoranDetails($stateParams.index).then(function(restoran) {
-		if(restoran) {
-			$scope.restoran = restoran;
-			var options = {timeout: 10000, enableHighAccuracy: true};
+	// console.log($stateParams.index);
 
-			var restoLat = restoran.map.lat;
-			var restoLng = restoran.map.long;
+	var options = {timeout: 10000, enableHighAccuracy: true};
 
-			var latLng = new google.maps.LatLng(restoLat, restoLng); 
-			console.log(restoran.map.lat);
-			console.log(restoran.map.long); 
+	$cordovaGeolocation.getCurrentPosition(options).then(function(position){
+		Services.getRestoranDetails($stateParams.index).then(function(restoran) {
+			if(restoran) {
+				$scope.restoran = restoran;
+				var restoLat = restoran.map.lat;
+				var restoLng = restoran.map.long;
 
-			var mapOptions = {
-				center: latLng,
-				zoom: 15,
-				mapTypeId: google.maps.MapTypeId.ROADMAP
-			};
+				var latLng = new google.maps.LatLng(restoLat, restoLng); 
+				console.log(restoran.map.lat);
+				console.log(restoran.map.long); 
 
-			$scope.map = new google.maps.Map(document.getElementById("mangan-peta"), mapOptions);
-			//Wait until the map is loaded
-			google.maps.event.addListenerOnce($scope.map, 'idle', function(){
-				var marker = new google.maps.Marker({
-					map: $scope.map,
-					animation: google.maps.Animation.DROP,
-					position: latLng,
-					icon: 'img/marker.png'
-				});
+				var mapOptions = {
+					center: latLng,
+					zoom: 15,
+					mapTypeId: google.maps.MapTypeId.ROADMAP
+				};
 
-				var contentString = '<p><b>'+restoran.namaResto+'</b></p>';
+				$scope.map = new google.maps.Map(document.getElementById("mangan-peta"), mapOptions);
+				//Wait until the map is loaded
+				google.maps.event.addListenerOnce($scope.map, 'idle', function(){
+					var marker = new google.maps.Marker({
+						map: $scope.map,
+						animation: google.maps.Animation.DROP,
+						position: latLng,
+						icon: 'img/marker.png'
+					});
 
-				var infoWindow = new google.maps.InfoWindow({
-					content: contentString
-				});
+					var contentString = '<p><b>'+restoran.namaResto+'</b></p>';
 
-				google.maps.event.addListener(marker, 'click', function () {
+					var infoWindow = new google.maps.InfoWindow({
+						content: contentString,
+						maxWidth: 500
+					});
+
+					google.maps.event.addListener(marker, 'click', function () {
+						infoWindow.open($scope.map, marker);
+					});
+
 					infoWindow.open($scope.map, marker);
 				});
 
-				infoWindow.open($scope.map, marker);
-			});
-
-			$scope.openUrl = function() {
-				$cordovaGeolocation.getCurrentPosition(options).then(function(position){
+				$scope.openUrl = function() {
 					var lat = position.coords.latitude;
 					var lng = position.coords.longitude;
 					window.open('http://maps.google.com/maps?saddr=+'+lat+'+,+'+lng+'+&daddr=+'+restoLat+'+,+'+restoLng+'+&dirflg=d', '_system', 'location=yes');
-					// window.open('geo:'+lat+','+lng+'?q=-7.5664551,110.8061434(Ralana Eatery)', '_system', 'location=yes');
+					// window.open('geo:'+lat+','+lng+'?q='+restoLat+','+restoLng+'('+restoran.namaResto+')', '_system', 'location=yes');
 					return false;
-				}, function(error){
-					// console.log("Could not get location");
-					$ionicPopup.alert({
-						title: 'Error',
-						template: 'Could not get location',
-						okText: 'OK',
-						okType: 'button-balanced'
-					});
-				});
+				}
+			} else {
+				console.log('failure');
 			}
-
-		} else {
-			console.log('failure');
-		}
-	}, function(reason) {
-		$scope.restoran = null;
-		console.log('error');
+		}, function(reason) {	
+			$scope.restoran = null;
+			console.log('error');
+		});
+	}, function(error){
+		console.log("Could not get location");
+		$ionicPopup.alert({
+			title: 'Error',
+			template: 'Tidak dapat menggunakan GPS, hidupkan setting GPS anda',
+			okText: 'OK',
+			okType: 'button-balanced'
+		});
 	});
 })
  
