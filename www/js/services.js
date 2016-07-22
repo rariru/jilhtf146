@@ -21,9 +21,9 @@ angular.module('app.services', [])
 	});
 
 	this.getCategories = function() {
-		// return promiseValue(
-		// 	kategori.
-		// 	);
+		return promiseValue(
+			kategori.child('jenis')
+			);
 	}
 
 	this.getRestoranCategory = function(category) {

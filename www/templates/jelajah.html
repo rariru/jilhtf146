@@ -48,13 +48,21 @@
         <h4 style="background: rgba(0,0,0,0.2); padding: 5px; width: 100%; margin: 0;" > Kategori </h4>
 
         <div class="row">
-            <div class="col col-50" style="position:relative;">
+            <div class="col col-50" style="position:relative;" ng-repeat="category in categories">
                    <!--  <div style="margin-left: -10px; width: calc(100% + 20px);"> -->
+                <a ui-sref="tabsController.restorans({'category': category.kode, 'name': category.nama})">
+                    <div class="mangan-kategori">{{category.namaUp}}</div>
+                    <img image-lazy-src="{{category.gambar}}" width="100%">
+                </a>
+                <!-- <h5 style="text-align: center;">Kategori</h5> -->
+            </div>
+        </div>
+        <!-- <div class="row">
+            <div class="col col-50" style="position:relative;">
                 <a ui-sref="tabsController.restorans({category: 'khasSolo'})">
                     <div class="mangan-kategori">KHAS SOLO</div>
                     <img src="img/kategori.jpg" width="100%">
                 </a>
-                <!-- <h5 style="text-align: center;">Kategori</h5> -->
             </div>
             <div class="col col-50" style="position:relative;">
                 <a ui-sref="tabsController.restorans({category: 'nasi'})">
@@ -104,7 +112,7 @@
                     <img src="img/cafe.jpg" width="100%">
                 </a>
             </div>
-        </div>
+        </div> -->
 
         <!-- <div class="row" style="width: 100%; padding: 0;"> -->
         <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 135px;">
