@@ -54,7 +54,8 @@ angular.module('app.routes', ['ionicUIRouter'])
       }
     },
     params: {
-      category: null
+      category: null,
+      name: null
     }
   })
 

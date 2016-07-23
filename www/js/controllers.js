@@ -7,10 +7,12 @@ angular.module('app.controllers', [])
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
 
-	$scope.category = $stateParams.category;
-	switch($scope.category) {
+	$scope.category = $stateParams.name;
+	var category = $stateParams.category;
+	switch(category) {
 		default: {
-			Services.getRestoranCategory($scope.category).then(function(restorans) {
+			console.log(category);
+			Services.getRestoranCategory(category).then(function(restorans) {
 				if(restorans) {
 					$scope.restorans = [];
 					for(var r in restorans) {
@@ -194,7 +196,6 @@ angular.module('app.controllers', [])
 		$scope.user.rating = rating;
 	};
 
-	var id = Math.ceil(Math.random() * 100);
 	$scope.saveRatingReview = function() {
 		// console.log(uid);
 		// console.log('\t'+ $scope.user.review);
@@ -289,12 +290,29 @@ angular.module('app.controllers', [])
 	};
 })
   
-.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate) {
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services) {
 	$scope.options = {
 		loop: true,
 		autoplay: true,
 		speed: 3000,
-	}
+	};
+
+	$scope.user = {};
+
+	$scope.searchQuery = function() {
+		console.log($scope.user.query);
+		Services.searchQuery($scope.user.query);
+		// search method
+	};
+
+	Services.getCategories().then(function(categories) {
+		if(categories) {
+			// for(var category in categories) {
+			// 	categories[category].namaUp = categories[category].nama.toUpperCase();
+			// }
+			$scope.categories = categories;
+		}
+	});
 })
    
 .controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing) {
