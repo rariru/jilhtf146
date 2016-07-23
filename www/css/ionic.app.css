@@ -9778,6 +9778,12 @@ p {
   padding: 0;
   display: block; }
 
+.mangan-image-jelajah {
+  background: url("../img/preload.jpg");
+  background-position: center;
+  width: 100%;
+  min-height: 100px; }
+
 .mangan-image-1_1 {
   background: url("../img/preload1.jpg");
   background-position: center; }
@@ -10059,3 +10065,7 @@ p {
   justify-content: center;
   color: rgba(0, 0, 0, 0.3);
   font-size: 40px; }
+
+.gallery {
+  -webkit-flex-wrap: wrap;
+  flex-wrap: wrap; }
