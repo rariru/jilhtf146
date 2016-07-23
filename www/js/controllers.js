@@ -192,7 +192,7 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.ratingsCallback = function(rating) {
-		console.log('Select', rating);
+		// console.log('Select', rating);
 		$scope.user.rating = rating;
 	};
 
@@ -241,7 +241,7 @@ angular.module('app.controllers', [])
 
 	$scope.openMenu = function(index) {
 		$scope.selectedMenu = $scope.menus[index];
-		console.log($scope.selectedMenu);
+		// console.log($scope.selectedMenu);
 		$scope.modalMenu.show();
 	};
 
@@ -285,7 +285,7 @@ angular.module('app.controllers', [])
 
 	$scope.openMenu = function(index) {
 		$scope.selectedMenu = $scope.menus[index];
-		console.log($scope.selectedMenu);
+		// console.log($scope.selectedMenu);
 		$scope.modalMenu.show();
 	};
 })
@@ -308,7 +308,8 @@ angular.module('app.controllers', [])
 	Services.getCategories().then(function(categories) {
 		if(categories) {
 			// for(var category in categories) {
-			// 	categories[category].namaUp = categories[category].nama.toUpperCase();
+			// 	// categories[category].namaUp = categories[category].nama.toUpperCase();
+			// 	console.log(categories[category]);
 			// }
 			$scope.categories = categories;
 		}
