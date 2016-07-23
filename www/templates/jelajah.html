@@ -1,11 +1,11 @@
 <ion-view title="Jelajah" hide-back-button="true" id="page2">
     <ion-content padding="false" class="has-header">
-        <form class="list">
+        <form class="list" ng-submit="searchQuery()">
             <label class="item item-input" name="Pencarian" style="border: 5px solid rgb(150, 152, 154); padding: 0;">
                 <div style="min-height: 37px; min-width: 37px; background-color: rgb(230, 231, 232); text-align:center; margin-right: 10px;">
                     <i class="icon ion-search placeholder-icon" style="font-size: 20px; line-height: 40px;"></i>
                 </div>
-                <input type="search" placeholder="Cari" style="font-size: 14px;">
+                <input type="search" placeholder="Cari" ng-model="user.query" style="font-size: 14px;">
             </label>
         </form>
 

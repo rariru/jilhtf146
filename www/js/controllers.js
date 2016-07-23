@@ -297,6 +297,14 @@ angular.module('app.controllers', [])
 		speed: 3000,
 	};
 
+	$scope.user = {};
+
+	$scope.searchQuery = function() {
+		console.log($scope.user.query);
+		Services.searchQuery($scope.user.query);
+		// search method
+	};
+
 	Services.getCategories().then(function(categories) {
 		if(categories) {
 			// for(var category in categories) {
