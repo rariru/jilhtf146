@@ -1,11 +1,13 @@
 // Initialize Firebase
-var config = {}
+var config = {};
+
 firebase.initializeApp(config);
 
 var kategori = firebase.database().ref('kategori');
 var restoran = firebase.database().ref('dataResto');
 var menu = firebase.database().ref('dataMenu');
 var review = firebase.database().ref('reviewRating');
+var search = firebase.database().ref('searching');
 
 angular.module('app.services', [])
 
@@ -183,7 +185,18 @@ angular.module('app.services', [])
 		return promise;
 	}
 
+	this.searchQuery = function(query) {
+		var promise = $q.defer();
 
+		search.child('all').push({
+			'keyword': query,
+			'timestamp': new Date(),
+		}).then(function() {
+			promise.resolve(true);
+		});
+
+		return promise;
+	}
 
 	function promiseAdded(obj) {
 		var promise = $q.defer();
