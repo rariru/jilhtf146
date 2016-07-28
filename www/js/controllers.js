@@ -300,8 +300,24 @@ angular.module('app.controllers', [])
 	$scope.user = {};
 
 	$scope.searchQuery = function() {
-		console.log($scope.user.query);
-		Services.searchQuery($scope.user.query);
+		// console.log($scope.user.query);
+		// Services.searchQuery($scope.user.query);
+		Services.searchQuery($scope.user.query).then(function(result) {
+			if(result) {
+				Services.searchRestorans($scope.user.query).then(function(result2) {
+					if(result2) {
+						console.log(result2);
+						console.log('success');
+					} else {
+						console.log('failure');
+					}
+				});
+
+				console.log('success');
+			}
+		}, function(reason) {
+			console.log('error');
+		});
 		// search method
 	};
 
