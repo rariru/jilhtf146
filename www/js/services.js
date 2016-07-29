@@ -8,6 +8,7 @@ var restoran = firebase.database().ref('dataResto');
 var menu = firebase.database().ref('dataMenu');
 var review = firebase.database().ref('reviewRating');
 var search = firebase.database().ref('searching');
+var keyword = firebase.database().ref('keywordResto');
 
 angular.module('app.services', [])
 
@@ -21,6 +22,10 @@ angular.module('app.services', [])
 		return promiseValue(
 			kategori.child('jenis')
 			);
+	}
+
+	this.getRestoranKeyword = function(key) {
+		return promiseValue(keyword);
 	}
 
 	this.getRestoranCategory = function(category) {

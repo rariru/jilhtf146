@@ -290,7 +290,7 @@ angular.module('app.controllers', [])
 	};
 })
   
-.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services) {
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state) {
 	$scope.options = {
 		loop: true,
 		autoplay: true,
@@ -300,25 +300,7 @@ angular.module('app.controllers', [])
 	$scope.user = {};
 
 	$scope.searchQuery = function() {
-		// console.log($scope.user.query);
-		// Services.searchQuery($scope.user.query);
-		Services.searchQuery($scope.user.query).then(function(result) {
-			if(result) {
-				Services.searchRestorans($scope.user.query).then(function(result2) {
-					if(result2) {
-						console.log(result2);
-						console.log('success');
-					} else {
-						console.log('failure');
-					}
-				});
-
-				console.log('success');
-			}
-		}, function(reason) {
-			console.log('error');
-		});
-		// search method
+		$state.go('tabsController.pencarian', {'query': $scope.user.query}, {});
 	};
 
 	Services.getCategories().then(function(categories) {
@@ -330,6 +312,69 @@ angular.module('app.controllers', [])
 			$scope.categories = categories;
 		}
 	});
+})
+
+.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services) {
+	// $ionicLoading.show({
+ //      template: '<ion-spinner icon="android"></ion-spinner>'
+ //    });
+	$scope.category = 'Pencarian';
+    $scope.search = function() {
+		// console.log($scope.user.query);
+		// Services.searchQuery($scope.user.query);
+		// Services.searchQuery($scope.user.query).then(function(result) {
+		// 	if(result) {
+		// 		Services.searchRestorans($scope.user.query).then(function(result2) {
+		// 			if(result2) {
+		// 				console.log(result2);
+		// 				console.log('success');
+		// 			} else {
+		// 				console.log('failure');
+		// 			}
+		// 		});
+
+		// 		console.log('success');
+		// 	}
+		// }, function(reason) {
+		// 	console.log('error');
+		// });
+		// search method
+
+		Services.getRestoranKeyword().then(function(result) {
+			// console.log($scope.user.query);
+			console.log(result);
+			// var resultList = [];
+			$scope.restorans = [];
+
+			for(var id in result) {
+				console.log(result[id].keyword);
+				if(result[id].keyword.indexOf($stateParams.query) >= 0) {
+					console.log('HASIL:\t'+ id);
+					// resultList.push(id);
+					Services.getRestoranDetails(id).then(function(result) {
+						console.log(result);
+						$scope.restorans.push(result);
+					});
+				}
+			}
+
+			if($scope.restorans.length != 0) {
+				// for(var id in resultList) {
+				// 	// console.log(resultList[id]);
+				// 	Services.getRestoranDetails(resultList[id]).then(function(result) {
+				// 		// console.log(result);
+				// 		resultResto.push(result);
+				// 	});
+				// }
+			} else {
+				console.log('no result');
+			}
+
+			// $ionicLoading.hide();
+		});
+	}
+
+    $scope.search();
 })
    
 .controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing) {
