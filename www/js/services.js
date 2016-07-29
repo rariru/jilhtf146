@@ -13,6 +13,7 @@ var restoran = firebase.database().ref('dataResto');
 var menu = firebase.database().ref('dataMenu');
 var review = firebase.database().ref('reviewRating');
 var search = firebase.database().ref('searching');
+var keyword = firebase.database().ref('keywordResto');
 
 angular.module('app.services', [])
 
@@ -26,6 +27,10 @@ angular.module('app.services', [])
 		return promiseValue(
 			kategori.child('jenis')
 			);
+	}
+
+	this.getRestoranKeyword = function(key) {
+		return promiseValue(keyword);
 	}
 
 	this.getRestoranCategory = function(category) {
@@ -57,7 +62,7 @@ angular.module('app.services', [])
 
 	this.getRestoranReviews = function(id) {
 		return promiseValue(
-			review.child(id)
+			firebase.database().ref('reviewRating/'+ id).orderByChild('tglReview')
 			);
 	}
 
@@ -182,12 +187,13 @@ angular.module('app.services', [])
 		review.child(resto +'/'+ user).set({
 			'rating': userRating,
 			'review' : userReview || null,
-			'reviewer': user
+			'reviewer': user,
+			'tglReview': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
 			promise.resolve(true);
 		});
 
-		return promise;
+		return promise.promise;
 	}
 
 	this.searchQuery = function(query) {
@@ -195,12 +201,18 @@ angular.module('app.services', [])
 
 		search.child('all').push({
 			'keyword': query,
-			'timestamp': new Date()
+			'timestamp': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
 			promise.resolve(true);
 		});
 
-		return promise;
+		return promise.promise;
+	}
+
+	this.searchRestorans = function(keyword) {
+		return promiseValue(
+			restoran.orderByChild('keyword').startAt(keyword)//.endAt(keyword)
+			);
 	}
 
 	function promiseAdded(obj) {
