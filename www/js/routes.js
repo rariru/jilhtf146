@@ -17,6 +17,19 @@ angular.module('app.routes', ['ionicUIRouter'])
       }
     }
   })
+    
+  .state('tabsController.pencarian', {
+    url: '/pencarian',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/restorans.html',
+        controller: 'pencarianCtrl'
+      }
+    },
+    params: {
+      query: null
+    }
+  })
 
   /* 
     The IonicUIRouter.js UI-Router Modification is being used for this route.

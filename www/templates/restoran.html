@@ -43,7 +43,7 @@
                     </span>
                 </ion-item>
             </ion-list>
-            <div class="mangan-menu-selengkapnya">
+            <div class="mangan-menu-selengkapnya" ng-hide="!menus || menus.length < 4">
                 <a ui-sref="tabsController.menus({ index: restoran.index })" id="selatViens-button20" class="button button-positive button-small">MENU LAINNYA</a>
             </div>
 
