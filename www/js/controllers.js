@@ -59,7 +59,89 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.shareRestoran = function(index) {
+		// create storage ref
+		var storage = firebase.storage();
+		var storageRef = storage.ref();
+
+		// get data resto
 		var resto = $scope.restorans[index];
+
+		// firebase get url
+		var starsRef = storageRef.child(resto.gambar[2]);
+		var refUrl = storage.refFromURL(resto.gambar[0]);
+
+		// get Data URI
+		function getDataUri(url, callback) {
+		    var image = new Image();
+		    image.setAttribute('crossOrigin', 'anonymous');
+		    image.onload = function () {
+		        var canvas = document.createElement('canvas');
+		        canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+		        canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+		        canvas.getContext('2d').drawImage(this, 0, 0);
+		        // Get raw image data
+		        // callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
+		        // ... or get as Data URI
+		        callback(canvas.toDataURL('image/png'));
+		    };
+
+		    image.src = url;
+		}
+
+		// get firebase download URL
+		refUrl.getDownloadURL().then(function(url) {
+			// Insert url into an <img> tag to "download"
+			console.log(url);
+				// getDataUri(url, function(dataUri) {
+				// // Do whatever you'd like with the Data URI!
+				// // console.log(dataUri);
+				// 	console.log('sukses')
+				// 	var link = 'www.mobilepangan.com/downloads';
+				// 	$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, dataUri, link)
+				// 	.then(function(result) {
+				// 		console.log('shared');
+				// 	}, function(err) {
+				// 		console.log('error');
+				// 	});;
+				// });
+		}).catch(function(error) {
+		  switch (error.code) {
+		    case 'storage/object_not_found':
+		      // File doesn't exist
+		      console.log('not found');
+		      break;
+
+		    case 'storage/unauthorized':
+		      // User doesn't have permission to access the object
+		      console.log('unauthorized');
+		      break;
+
+		    case 'storage/canceled':
+		      // User canceled the upload
+		      console.log('cancel');
+		      break;
+		    case 'storage/unknown':
+		      // Unknown error occurred, inspect the server response
+		      console.log('unknown');
+		      break;
+		  }
+		});
+		// var imagesrc = storage.refFromURL(resto.gambar[1]);
+		// imagesrc.getDownloadURL().then(function(urlgambar) {
+		// 	getDataUri(urlgambar, function(dataUri) {
+		// 	    // Do whatever you'd like with the Data URI!
+		// 	    // console.log(dataUri);
+		// 	    console.log('sukses')
+		// 	    var link = 'www.mobilepangan.com/downloads';
+		// 		$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, dataUri, link)
+		// 		.then(function(result) {
+		// 			console.log('shared');
+		// 		}, function(err) {
+		// 			console.log('error');
+		// 		});;
+		// 	});
+			
+		// });
 
 		// var urlImg = resto.gambar[0];
 		// var targetPath = "www/img/"+ resto.namaResto;
@@ -81,17 +163,16 @@ angular.module('app.controllers', [])
 			// }, function() {
 			// 	console.log('error');
 			// });
+	// usable
 			var link = 'www.mobilepangan.com/downloads';
-			$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, null, link)
+			$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, resto.gambar[3], link)
 			.then(function(result) {
 				console.log('shared');
 			}, function(err) {
 				console.log('error');
 			});;
+	// end usable
 		// });
-
-
-
 		// $cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, resto.gambar[0], link)
 		// .then(function(result) {
 		// 	console.log('shared');
@@ -125,7 +206,7 @@ angular.module('app.controllers', [])
 	$ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
-// console.log("index:'"+ $stateParams.index +"'");
+	// console.log("index:'"+ $stateParams.index +"'");
 
 	$scope.restoran = null;
 	$scope.menus = null;
