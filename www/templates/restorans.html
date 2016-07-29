@@ -1,13 +1,22 @@
 <ion-view id="page3">
     <ion-nav-title>{{category}}</ion-nav-title>
     <ion-content lazy-scroll padding="true" class="has-header">
+
+    <form class="list" ng-submit="searchQuery()" ng-show="category === 'Pencarian'">
+        <label class="item item-input" name="Pencarian" style="border: 5px solid rgb(150, 152, 154); padding: 0;">
+            <div style="min-height: 37px; min-width: 37px; background-color: rgb(230, 231, 232); text-align:center; margin-right: 10px;">
+                <i class="icon ion-search placeholder-icon" style="font-size: 20px; line-height: 40px;"></i>
+            </div>
+            <input type="search" placeholder="Cari" ng-model="query" style="font-size: 14px;">
+        </label>
+    </form>
     
-    <div ng-hide="restorans" class="mangan-nodata">
+    <div ng-hide="restorans || restorans.length > 0" class="mangan-nodata">
         <i class="ion-sad-outline"></i>
         <p>Ups, Sepertinya Belum Ada Kuliner Disini</p>
     </div>
 
-    <div ng-show="restorans.length == 0" class="mangan-nodata">
+    <div ng-show="restorans.length == 0 && category === 'Tersimpan'" class="mangan-nodata">
         <i class="ion-sad-outline"></i>
         <p>Ups, Sepertinya Anda belum menyimpan apapun</p>
     </div>
