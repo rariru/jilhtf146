@@ -190,7 +190,7 @@ angular.module('app.services', [])
 
 		search.child('all').push({
 			'keyword': query,
-			'timestamp': new Date(),
+			'timestamp': new Date()
 		}).then(function() {
 			promise.resolve(true);
 		});
