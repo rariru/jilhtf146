@@ -9773,13 +9773,13 @@ p {
   background-position: center;
   width: 100%;
   height: auto;
-  min-height: 220px;
+  min-height: 200px;
   margin: 0;
   padding: 0;
   display: block; }
 
 .mangan-image-jelajah {
-  background: url("../img/preload.jpg");
+  background: url("../img/minipreload.jpg");
   background-position: center;
   width: 100%;
   min-height: 105px; }
