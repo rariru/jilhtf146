@@ -381,7 +381,8 @@ angular.module('app.controllers', [])
 	$scope.user = {};
 
 	$scope.searchQuery = function() {
-		$state.go('tabsController.pencarian', {'query': $scope.user.query}, {});
+		$state.go('tabsController.pencarian', {'query': $scope.user.query});
+		delete $scope.user.query;
 	};
 
 	Services.getCategories().then(function(categories) {
@@ -397,74 +398,80 @@ angular.module('app.controllers', [])
 	});
 })
 
-.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services) {
-	// $ionicLoading.show({
- //      template: '<ion-spinner icon="android"></ion-spinner>'
- //    });
-
+.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services, $cordovaToast) {
 	$scope.category = 'Pencarian';
-	$scope.query = $stateParams.query;
-	// $scope.restorans = [];
+	$scope.user = {};
+	$scope.user.query = $stateParams.query;
+	
     $scope.searchQuery = function() {
-		// console.log($scope.user.query);
-		// Services.searchQuery($scope.user.query);
-		Services.searchQuery($scope.query).then(function(result) {
-			if(result) {
-			// 		Services.searchRestorans($scope.user.query).then(function(result2) {
-			// 			if(result2) {
-			// 				console.log(result2);
-			// 				console.log('success');
-			// 			} else {
-			// 				console.log('failure');
-			// 			}
-			// 		});
+    	$ionicLoading.show({
+	      template: '<ion-spinner icon="android"></ion-spinner>'
+	    });
 
-			// 		console.log('success');
-			// 	}
-			// }, function(reason) {
-			// 	console.log('error');
-			// });
-			// search method
+		Services.searchQuery($scope.user.query).then(function(inputQuery) {
+			console.log($scope.user.query);
+			if(inputQuery) {
+				// console.log(result);
 
 				Services.getRestoranKeyword().then(function(result) {
-					// console.log($scope.user.query);
-					// console.log(result);
-					// var resultList = [];
-					$scope.restorans = [];
+					if(result) {
+						$scope.restorans = [];
+						var isFound = false;
+						// console.log('mulai cari');
 
-					for(var id in result) {
-						console.log(result[id].keyword);
-						if(result[id].keyword.indexOf($scope.query) >= 0) {
-							console.log('HASIL:\t'+ id);
-							// resultList.push(id);
-							Services.getRestoranDetails(id).then(function(result) {
-								console.log(result);
-								$scope.restorans.push(result);
-							});
+						for(var id in result) {
+							console.log(result[id].keyword);
+							if(result[id].keyword.indexOf($scope.user.query) >= 0) {
+								// console.log('HASIL:\t'+ id);
+								isFound = true;
+								// resultList.push(id);
+								Services.getRestoranDetails(id).then(function(result) {
+									// console.log(result);
+									$scope.restorans.push(result);
+
+									$ionicLoading.hide();
+								});
+							}
+						}
+
+						if(!isFound) {
+							delete $scope.restorans;
+							$ionicLoading.hide();
 						}
 					}
-
-					console.log($scope.restorans);
-
-					if($scope.restorans.length != 0) {
-						// for(var id in resultList) {
-						// 	// console.log(resultList[id]);
-						// 	Services.getRestoranDetails(resultList[id]).then(function(result) {
-						// 		// console.log(result);
-						// 		resultResto.push(result);
-						// 	});
-						// }
-					} else {
-						console.log('no result');
-					}
-
-					// $ionicLoading.hide();
 				});
 			}
 		});
 	}
 
+	$scope.checkSavedRestoran = function(index) {
+		return Services.checkSavedRestoran(index);
+	}
+
+	$scope.saveRestoran = function(index) {
+		if(Services.checkSavedRestoran(index)) {
+			Services.deleteRestoran(index).then(function() {
+				makeToast('Restoran telah dihapus', 1500, 'bottom');
+			});
+		} else {
+			if(Services.saveRestoran(index)) {
+				makeToast('Restoran berhasil disimpan', 1500, 'bottom');
+			} else {
+				makeToast('Restoran gagal disimpan', 1500, 'bottom');
+			}
+		}
+	}
+
     $scope.searchQuery();
+
+    function makeToast(_message) {
+		window.plugins.toast.showWithOptions({
+			message: _message,
+			duration: 1500,
+			position: 'bottom',
+			addPixelsY: -40
+		});
+	}
 })
    
 .controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading) {
@@ -548,29 +555,29 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.checkSavedRestoran = function(index) {
-		if(Services.checkSavedRestoran(index)) {
-			return true;
-		} else {
-			return false;
-		}
+		return Services.checkSavedRestoran(index);
 	}
 
 	function updateSavedRestorans(news) {
 		console.log('update');
 		savedRestorans = news;
 		$scope.restorans = [];
-		for(var i=0; i<news.length; i++) {
-			Services.getRestoranDetails(news[i]).then(function(restoran) {
-				if(restoran) {
-					$scope.restorans.push(restoran);
-					// console.log(restoran);
-					console.log('success');
-				} else {
-					console.log('failure');
-				}
+		if(news && news.length > 0) {
+			for(var i=0; i<news.length; i++) {
+				Services.getRestoranDetails(news[i]).then(function(restoran) {
+					if(restoran) {
+						$scope.restorans.push(restoran);
+						// console.log(restoran);
+						console.log('success');
+					} else {
+						console.log('failure');
+					}
 
-				$ionicLoading.hide();
-			});
+					$ionicLoading.hide();
+				});
+			}
+		} else {
+			$ionicLoading.hide();
 		}
 		// console.log($scope.restorans);
 	}
