@@ -166,8 +166,9 @@ angular.module('app.controllers', [])
 			// 	console.log('error');
 			// });
 	// usable
-			var link = 'www.mobilepangan.com/downloads';
-			$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, resto.gambar[3], link)
+			var link = 'kunjungi mobilepangan.com untuk download aplikasinya';
+			var textshared = resto.namaResto+" - "+resto.keteranganResto;
+			$cordovaSocialSharing.share(textshared, resto.namaResto, resto.gambar[3], link)
 			.then(function(result) {
 				console.log('shared');
 			}, function(err) {
