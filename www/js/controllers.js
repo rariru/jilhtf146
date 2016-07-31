@@ -14,15 +14,18 @@ angular.module('app.controllers', [])
 			console.log(category);
 			Services.getRestoranCategory(category).then(function(restorans) {
 				if(restorans) {
-					var listRestorans = [];
+					$scope.restorans = [];
+
 					for(var r in restorans) {
 						console.log(r);
 						Services.getRestoranDetails(r).then(function(restoran) {
-							listRestorans.push(restoran);
+							$scope.restorans.push(restoran);
+
+							$ionicLoading.hide();
 						});
 					}
 
-					$scope.restorans = listRestorans;
+					// $scope.restorans = listRestorans;
 
 					// for (var i = 0; i < restorans.length; i++) {
 					// 	console.log(restorans[i].index);
@@ -30,18 +33,10 @@ angular.module('app.controllers', [])
 					// 		$scope.restorans.push(restoran);
 					// 	});
 					// }
-					console.log('success');
+					// console.log('success');
 					// console.log($scope.restorans);
-				} else {
-					console.log('failure');
+
 				}
-
-				$ionicLoading.hide();
-			}, function(reason) {
-				$scope.restorans = null;
-				console.log('error');
-
-				$ionicLoading.hide();
 			});
 		} break;
 	}
@@ -62,72 +57,74 @@ angular.module('app.controllers', [])
 
 	$scope.shareRestoran = function(index) {
 		// create storage ref
-		var storage = firebase.storage();
-		var storageRef = storage.ref();
+		// var storage = firebase.storage();
+		// var storageRef = storage.ref();
 
-		// get data resto
+		// // get data resto
 		var resto = $scope.restorans[index];
 
-		// firebase get url
-		var starsRef = storageRef.child(resto.gambar[2]);
-		var refUrl = storage.refFromURL(resto.gambar[0]);
+		// // firebase get url
+		// var starsRef = storageRef.child(resto.gambar[2]);
+		// var refUrl = storage.refFromURL(resto.gambar[0]);
 
-		// get Data URI
-		function getDataUri(url, callback) {
-		    var image = new Image();
-		    image.setAttribute('crossOrigin', 'anonymous');
-		    image.onload = function () {
-		        var canvas = document.createElement('canvas');
-		        canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
-		        canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
-		        canvas.getContext('2d').drawImage(this, 0, 0);
-		        // Get raw image data
-		        // callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
-		        // ... or get as Data URI
-		        callback(canvas.toDataURL('image/png'));
-		    };
+		// // get Data URI
+		// function getDataUri(url, callback) {
+		//     var image = new Image();
+		//     image.setAttribute('crossOrigin', 'anonymous');
+		//     image.onload = function () {
+		//         var canvas = document.createElement('canvas');
+		//         canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
+		//         canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
+		//         canvas.getContext('2d').drawImage(this, 0, 0);
+		//         // Get raw image data
+		//         // callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
+		//         // ... or get as Data URI
+		//         callback(canvas.toDataURL('image/png'));
+		//     };
 
-		    image.src = url;
-		}
+		//     image.src = url;
+		// }
 
-		// get firebase download URL
-		refUrl.getDownloadURL().then(function(url) {
-			// Insert url into an <img> tag to "download"
-			console.log(url);
-				// getDataUri(url, function(dataUri) {
-				// // Do whatever you'd like with the Data URI!
-				// // console.log(dataUri);
-				// 	console.log('sukses')
-				// 	var link = 'www.mobilepangan.com/downloads';
-				// 	$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, dataUri, link)
-				// 	.then(function(result) {
-				// 		console.log('shared');
-				// 	}, function(err) {
-				// 		console.log('error');
-				// 	});;
-				// });
-		}).catch(function(error) {
-		  switch (error.code) {
-		    case 'storage/object_not_found':
-		      // File doesn't exist
-		      console.log('not found');
-		      break;
+		// // get firebase download URL
+		// refUrl.getDownloadURL().then(function(url) {
+		// 	// Insert url into an <img> tag to "download"
+		// 	console.log(url);
+		// 		// getDataUri(url, function(dataUri) {
+		// 		// // Do whatever you'd like with the Data URI!
+		// 		// // console.log(dataUri);
+		// 		// 	console.log('sukses')
+		// 		// 	var link = 'www.mobilepangan.com/downloads';
+		// 		// 	$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, dataUri, link)
+		// 		// 	.then(function(result) {
+		// 		// 		console.log('shared');
+		// 		// 	}, function(err) {
+		// 		// 		console.log('error');
+		// 		// 	});;
+		// 		// });
+		// }).catch(function(error) {
+		//   switch (error.code) {
+		//     case 'storage/object_not_found':
+		//       // File doesn't exist
+		//       console.log('not found');
+		//       break;
 
-		    case 'storage/unauthorized':
-		      // User doesn't have permission to access the object
-		      console.log('unauthorized');
-		      break;
+		//     case 'storage/unauthorized':
+		//       // User doesn't have permission to access the object
+		//       console.log('unauthorized');
+		//       break;
 
-		    case 'storage/canceled':
-		      // User canceled the upload
-		      console.log('cancel');
-		      break;
-		    case 'storage/unknown':
-		      // Unknown error occurred, inspect the server response
-		      console.log('unknown');
-		      break;
-		  }
-		});
+		//     case 'storage/canceled':
+		//       // User canceled the upload
+		//       console.log('cancel');
+		//       break;
+		//     case 'storage/unknown':
+		//       // Unknown error occurred, inspect the server response
+		//       console.log('unknown');
+		//       break;
+		//   }
+		// });
+
+
 		// var imagesrc = storage.refFromURL(resto.gambar[1]);
 		// imagesrc.getDownloadURL().then(function(urlgambar) {
 		// 	getDataUri(urlgambar, function(dataUri) {
@@ -166,14 +163,21 @@ angular.module('app.controllers', [])
 			// 	console.log('error');
 			// });
 	// usable
+			// var link = 'www.mobilepangan.com/downloads';
 			var link = 'kunjungi mobilepangan.com untuk download aplikasinya';
+			var gambar = null;
 			var textshared = resto.namaResto+" - "+resto.keteranganResto;
-			$cordovaSocialSharing.share(textshared, resto.namaResto, resto.gambar[3], link)
+
+			if(resto.gambar[3]) {
+				gambar = resto.gambar[3];
+			}
+
+			$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
 			.then(function(result) {
 				console.log('shared');
 			}, function(err) {
 				console.log('error');
-			});;
+			});
 	// end usable
 		// });
 		// $cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, resto.gambar[0], link)
@@ -237,24 +241,13 @@ angular.module('app.controllers', [])
 							$scope.reviews = reviews;
 
 							console.log('success');
-						} else {
-							console.log('failure');
 						}
 					});
-				} else {
-					console.log('failure');
+
+					$ionicLoading.hide();
 				}
 			});
-		} else {
-			console.log('failure');
 		}
-
-		$ionicLoading.hide();
-	}, function(reason) {
-		$scope.restoran = null;
-		console.log('error');
-
-		$ionicLoading.hide();
 	});
 
 	
@@ -374,7 +367,11 @@ angular.module('app.controllers', [])
 	};
 })
   
-.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state) {
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading) {
+	$ionicLoading.show({
+      template: '<ion-spinner icon="android"></ion-spinner>'
+    });
+
 	$scope.options = {
 		loop: true,
 		autoplay: true,
@@ -395,6 +392,8 @@ angular.module('app.controllers', [])
 			// }
 			$scope.categories = categories;
 		}
+
+		$ionicLoading.hide();
 	});
 })
 
