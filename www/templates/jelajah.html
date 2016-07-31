@@ -9,26 +9,31 @@
             </label>
         </form>
 
-        <div class="row">
+        <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 135px; margin-bottom: 10px">
+            <ion-slide-page>
+                <img src="img/slider3.jpg" style="width: 100%; display: block;">
+            </ion-slide-page>
+            <ion-slide-page>
+                <img src="img/slider2.jpg" style="width: 100%; display: block;">
+            </ion-slide-page>
+            <ion-slide-page>
+                <img src="img/slider1.jpg" style="width: 100%; display: block;">
+            </ion-slide-page>
+        </ion-slides>
+<!--         <div class="row">
             <div class="col col-50" style="position:relative; width:100%;">
-                   <!--  <div style="margin-left: -10px; width: calc(100% + 20px);"> -->
                 <a ui-sref="tabsController.restorans({category: 'all'})">
                     <div class="mangan-kategori">POPULER</div>
                     <img src="img/populer.jpg" width="100%">
                 </a>
-               <!--  <h5 style="text-align: center;">Populer</h5> -->
             </div>
             <div class="col col-50" style="position:relative; width:100%;">
-                <!-- <div style="margin-left: -10px; width: calc(100% + 20px);"> -->
                 <a ui-sref="tabsController.restorans({category: 'all'})">
                     <div class="mangan-kategori">TEMPAT BARU</div>
                     <img src="img/tempatbaru.jpg" width="100%">
                 </a>
-                <!-- <h5 style="text-align: center;">Tempat Baru</h5> -->
             </div>
-
-             
-        </div>
+        </div> -->
 
         <!-- <div class="row">
             
@@ -57,17 +62,8 @@
         </div>
 
         <!-- <div class="row" style="width: 100%; padding: 0;"> -->
-        <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 135px;">
-            <ion-slide-page>
-                <img src="img/promo.jpg" style="width: 100%; display: block;">
-            </ion-slide-page>
-            <ion-slide-page>
-                <img src="img/promo.jpg" style="width: 100%; display: block;">
-            </ion-slide-page>
-            <ion-slide-page>
-                <img src="img/promo.jpg" style="width: 100%; display: block;">
-            </ion-slide-page>
-        </ion-slides>
+        <!-- ion slides awal -->
+
         <!-- </div> -->
     </ion-content>
 </ion-view>

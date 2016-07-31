@@ -18,8 +18,8 @@
 						{{ selectedMenu.namaMenu }}
 						<span class="mangan-tag-review mangan-tag-menumakanan">Khas</span>
 			        </div>
-		        	<div class="mangan-keterangan-teks">
-		        		{{ selectedMenu.review }}
+		        	<div class="mangan-keterangan-teks" ng-bind-html="selectedMenu.review">
+		        		<!-- {{ selectedMenu.review }} -->
 		        	</div>
 		        </div>
 			</div>
