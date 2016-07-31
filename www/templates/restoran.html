@@ -20,12 +20,11 @@
                 <div class="mangan-detail-keterangan" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'"><strong>{{restoran.keteranganBuka}}</strong></div>
                 <div class="mangan-detail-review-col-1">
                     <!-- <p>{{restoran.reviewTim | limitTo: 70}}{{restoran.reviewTim.length > 70 ? '...' : ''}}</p> -->
-                    <div ng-bind-html="restoran.keteranganResto"></div>
-                    <p>{{restoran.keteranganResto | limitTo: 100}}{{restoran.keteranganResto.length > 100 ? '...' : ''}}</p>
+                    <div ng-bind-html="restoran.keteranganResto | limitTo: 100"><p ng-bind="restoran.keteranganResto.length > 100 ? '...' : ''"></p></div>
                     <button class="selengkapnya mangan-tombol-aksi" ng-click="openReview()" ng-show="restoran.reviewTim && restoran.reviewTim != 'null'">(Baca Ulasan)</button>
                 </div>
                 <div class="mangan-detail-review-col-2">
-                    <a href=""><img class="mangan-reviewer" src="img/I2zcNZBWSvKHt1RKm5eR_photo_2016-04-14_12-26-26.jpg"></a>
+                    <a href=""><img class="mangan-reviewer" src="{{restoran.reviewer.foto}}"></a>
                 </div>
                 <div class="clear"></div>
             </div>

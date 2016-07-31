@@ -164,17 +164,15 @@ angular.module('app.controllers', [])
 			// });
 	// usable
 			// var link = 'www.mobilepangan.com/downloads';
+			var link = 'kunjungi mobilepangan.com untuk download aplikasinya';
 			var gambar = null;
+			var textshared = resto.namaResto+" - "+resto.keteranganResto;
 
 			if(resto.gambar[3]) {
 				gambar = resto.gambar[3];
 			}
 
-			console.log(resto.gambar[3]);
-			console.log(resto.keteranganResto);
-			console.log(resto.namaResto);
-
-			$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, gambar, null)
+			$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
 			.then(function(result) {
 				console.log('shared');
 			}, function(err) {
