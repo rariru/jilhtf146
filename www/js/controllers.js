@@ -14,15 +14,18 @@ angular.module('app.controllers', [])
 			console.log(category);
 			Services.getRestoranCategory(category).then(function(restorans) {
 				if(restorans) {
-					var listRestorans = [];
+					$scope.restorans = [];
+
 					for(var r in restorans) {
 						console.log(r);
 						Services.getRestoranDetails(r).then(function(restoran) {
-							listRestorans.push(restoran);
+							$scope.restorans.push(restoran);
+
+							$ionicLoading.hide();
 						});
 					}
 
-					$scope.restorans = listRestorans;
+					// $scope.restorans = listRestorans;
 
 					// for (var i = 0; i < restorans.length; i++) {
 					// 	console.log(restorans[i].index);
@@ -30,18 +33,10 @@ angular.module('app.controllers', [])
 					// 		$scope.restorans.push(restoran);
 					// 	});
 					// }
-					console.log('success');
+					// console.log('success');
 					// console.log($scope.restorans);
-				} else {
-					console.log('failure');
+
 				}
-
-				$ionicLoading.hide();
-			}, function(reason) {
-				$scope.restorans = null;
-				console.log('error');
-
-				$ionicLoading.hide();
 			});
 		} break;
 	}
@@ -236,24 +231,13 @@ angular.module('app.controllers', [])
 							$scope.reviews = reviews;
 
 							console.log('success');
-						} else {
-							console.log('failure');
 						}
+
+						$ionicLoading.hide();
 					});
-				} else {
-					console.log('failure');
 				}
 			});
-		} else {
-			console.log('failure');
 		}
-
-		$ionicLoading.hide();
-	}, function(reason) {
-		$scope.restoran = null;
-		console.log('error');
-
-		$ionicLoading.hide();
 	});
 
 	
@@ -373,7 +357,11 @@ angular.module('app.controllers', [])
 	};
 })
   
-.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state) {
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading) {
+	$ionicLoading.show({
+      template: '<ion-spinner icon="android"></ion-spinner>'
+    });
+
 	$scope.options = {
 		loop: true,
 		autoplay: true,
@@ -394,6 +382,8 @@ angular.module('app.controllers', [])
 			// }
 			$scope.categories = categories;
 		}
+
+		$ionicLoading.hide();
 	});
 })
 
