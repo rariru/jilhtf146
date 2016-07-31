@@ -467,13 +467,17 @@ angular.module('app.controllers', [])
     $scope.searchQuery();
 })
    
-.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing) {
+.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading) {
 	$scope.category = 'Tersimpan';
 
 	var savedRestorans = [];
 	$scope.restorans = [];
 
 	$scope.$on('$ionicView.enter', function() {
+		$ionicLoading.show({
+	      template: '<ion-spinner icon="android"></ion-spinner>'
+	    });
+
 		var temp = Services.getSavedRestorans();
 		savedRestorans = temp.slice(0);
 		savedRestorans.reverse();
@@ -564,9 +568,8 @@ angular.module('app.controllers', [])
 				} else {
 					console.log('failure');
 				}
-			}, function(reason) {
-				console.log(reason);
-				console.log('error');
+
+				$ionicLoading.hide();
 			});
 		}
 		// console.log($scope.restorans);

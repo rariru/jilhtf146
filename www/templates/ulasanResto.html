@@ -10,12 +10,12 @@
 				<div class="item item-avatar">
 					<img class="mangan-ulasan-resto" src="img/amy.jpeg">
 					<h2 style="font-weight: bold;">{{restoran.reviewer.nama}}</h2>
-					<p>Diulas pada {{restoran.reviewer.tglReview}}</p>
+					<!-- <p>Diulas pada {{restoran.reviewer.tglReview}}</p> -->
 				</div>
 		        <div class="item-body" style="background-color: rgb(230, 231, 232);">
 			        <div class="mangan-review-title">
 						{{restoran.namaResto}}
-						<span class="mangan-rating-nilai" style="color:orangered; font-weight: normal; font-size: 16px;">{{restoran.rating}}
+						<span class="mangan-rating-nilai" style="color:orangered; font-weight: normal; font-size: 16px;" ng-show="restoran.rating && restoran.rating != 'null'">{{restoran.rating}}
 							<i class="mangan-rating-icon icon ion-star" style="color:orangered; font-size: 20px;"></i>
 			            </span>
 			        </div>
