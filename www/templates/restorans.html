@@ -20,18 +20,18 @@
         <i class="ion-sad-outline"></i>
         <p>Ups, Sepertinya Anda belum menyimpan apapun</p>
     </div>
-        <div class="list card" ng-repeat="restoran in restorans track by $index">
+        <div class="list card" ng-repeat="restoran in restorans track by $index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
             <div class="mangan-list-header">
                 <div class="row mangan-nama-resto">
                     <span class="col col-75">{{restoran.namaResto}}</span>
-                    <span class="col mangan-rating-nilai">{{restoran.rating}}
+                    <span class="col mangan-rating-nilai" ng-show="restoran.rating && restoran.rating != 'null'">{{restoran.rating}}
                         <i class="mangan-rating-icon icon ion-star" style="color:yellow; font-size: 20px;"></i>
                     </span>
                 </div>
                 <img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50">
             </div>
             <div class="mangan-keterangan item-body">
-                <div class="mangan-keterangan-buka">{{restoran.keteranganBuka}}</div>
+                <div class="mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'">{{restoran.keteranganBuka}}</div>
                 <div class="mangan-keterangan-teks" ng-bind-html="restoran.keteranganResto"></div>
             </div>
             
