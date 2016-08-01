@@ -11,13 +11,13 @@ angular.module('app.controllers', [])
 	var category = $stateParams.category;
 	switch(category) {
 		default: {
-			console.log(category);
+			// console.log(category);
 			Services.getRestoranCategory(category).then(function(restorans) {
 				if(restorans) {
 					$scope.restorans = [];
 
 					for(var r in restorans) {
-						console.log(r);
+						// console.log(r);
 						Services.getRestoranDetails(r).then(function(restoran) {
 							$scope.restorans.push(restoran);
 
@@ -164,7 +164,7 @@ angular.module('app.controllers', [])
 			// });
 	// usable
 			// var link = 'www.mobilepangan.com/downloads';
-			var link = 'kunjungi mobilepangan.com untuk download aplikasinya';
+			var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
 			var gambar = null;
 			var textshared = resto.namaResto+" - "+resto.keteranganResto;
 
@@ -240,7 +240,7 @@ angular.module('app.controllers', [])
 							}
 							$scope.reviews = reviews;
 
-							console.log('success');
+							// console.log('success');
 						}
 					});
 
@@ -350,8 +350,6 @@ angular.module('app.controllers', [])
 	Services.getRestoranMenus($stateParams.index).then(function(menus) {
 		if(menus) {
 			$scope.menus = menus;
-		} else {
-			console.log('failure');
 		}
 	});
 
@@ -398,7 +396,7 @@ angular.module('app.controllers', [])
 	});
 })
 
-.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services, $cordovaToast) {
+.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services, $cordovaToast, $cordovaSocialSharing) {
 	$scope.category = 'Pencarian';
 	$scope.user = {};
 	$scope.user.query = $stateParams.query;
@@ -409,7 +407,7 @@ angular.module('app.controllers', [])
 	    });
 
 		Services.searchQuery($scope.user.query).then(function(inputQuery) {
-			console.log($scope.user.query);
+			// console.log($scope.user.query);
 			if(inputQuery) {
 				// console.log(result);
 
@@ -420,20 +418,20 @@ angular.module('app.controllers', [])
 						// console.log('mulai cari');
 
 						for(var id in result) {
-							console.log(result[id].keyword);
+							// console.log(result[id].keyword);
 							if(result[id].keyword.indexOf($scope.user.query) >= 0) {
 								// console.log('HASIL:\t'+ id);
 								isFound = true;
 								// resultList.push(id);
 								Services.getRestoranDetails(id).then(function(result) {
-									// console.log(result);
+									// console.log(result.namaResto);
 									$scope.restorans.push(result);
 
 									$ionicLoading.hide();
 								});
 							}
 						}
-
+						// console.log('isFound: '+ isFound);
 						if(!isFound) {
 							delete $scope.restorans;
 							$ionicLoading.hide();
@@ -460,6 +458,26 @@ angular.module('app.controllers', [])
 				makeToast('Restoran gagal disimpan', 1500, 'bottom');
 			}
 		}
+	}
+
+	$scope.shareRestoran = function(index) {
+		// console.log('share: '+ index);
+
+		var resto = $scope.restorans[index];
+		var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
+		var gambar = null;
+		var textshared = resto.namaResto+" - "+resto.keteranganResto;
+
+		if(resto.gambar[3]) {
+			gambar = resto.gambar[3];
+		}
+
+		$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
+		.then(function(result) {
+			console.log('shared');
+		}, function(err) {
+			console.log('error');
+		});
 	}
 
     $scope.searchQuery();
@@ -523,20 +541,37 @@ angular.module('app.controllers', [])
 
 	$scope.shareRestoran = function(index) {
 		// console.log('share: '+ index);
+
 		var resto = $scope.restorans[index];
-		var link = 'www.mobilepangan.com/downloads';
-		var image = 'www/img/cafe.jpg';
-		// $cordovaSocialSharing.share(resto.reviewTim, resto.namaResto, image, link).then(function(result) {
-		// console.log(resto.keteranganResto);
-		// console.log(resto.namaResto);
-		// console.log(resto.gambar[0]);
-		// console.log(link);
-		$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, null, link)
+		var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
+		var gambar = null;
+		var textshared = resto.namaResto+" - "+resto.keteranganResto;
+
+		if(resto.gambar[3]) {
+			gambar = resto.gambar[3];
+		}
+
+		$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
 		.then(function(result) {
 			console.log('shared');
 		}, function(err) {
 			console.log('error');
 		});
+
+		// var resto = $scope.restorans[index];
+		// var link = 'www.mobilepangan.com/downloads';
+		// var image = 'www/img/cafe.jpg';
+		// $cordovaSocialSharing.share(resto.reviewTim, resto.namaResto, image, link).then(function(result) {
+		// console.log(resto.keteranganResto);
+		// console.log(resto.namaResto);
+		// console.log(resto.gambar[0]);
+		// console.log(link);
+		// $cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, null, link)
+		// .then(function(result) {
+		// 	console.log('shared');
+		// }, function(err) {
+		// 	console.log('error');
+		// });
 
 		// var optionShare = {
 		// 	message: resto.keteranganResto,
