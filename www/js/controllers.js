@@ -47,11 +47,16 @@ angular.module('app.controllers', [])
 				makeToast('Restoran telah dihapus', 1500, 'bottom');
 			});
 		} else {
-			if(Services.saveRestoran(index)) {
-				makeToast('Restoran berhasil disimpan', 1500, 'bottom');
-			} else {
-				makeToast('Restoran gagal disimpan', 1500, 'bottom');
-			}
+			Services.saveRestoran(index).then(function(result) {
+				if(result) {
+					makeToast('Restoran berhasil disimpan', 1500, 'bottom');
+				} else {
+					makeToast('Restoran gagal disimpan', 1500, 'bottom');
+					console.log('this should not ever happen.');
+				}
+			}, function(reason) {
+				makeToast('Penyimpanan restoran penuh (max. 5)', 1500, 'bottom');
+			});
 		}
 	}
 
@@ -452,11 +457,16 @@ angular.module('app.controllers', [])
 				makeToast('Restoran telah dihapus', 1500, 'bottom');
 			});
 		} else {
-			if(Services.saveRestoran(index)) {
-				makeToast('Restoran berhasil disimpan', 1500, 'bottom');
-			} else {
-				makeToast('Restoran gagal disimpan', 1500, 'bottom');
-			}
+			Services.saveRestoran(index).then(function(result) {
+				if(result) {
+					makeToast('Restoran berhasil disimpan', 1500, 'bottom');
+				} else {
+					makeToast('Restoran gagal disimpan', 1500, 'bottom');
+					console.log('this should not be done.');
+				}
+			}, function(reason) {
+				makeToast('Penyimpanan restoran penuh (max. 5)', 1500, 'bottom');
+			});
 		}
 	}
 
@@ -622,9 +632,11 @@ angular.module('app.controllers', [])
 
 	// console.log($stateParams.index);
 
-	var options = {timeout: 10000, enableHighAccuracy: true};
+	var options = {timeout: 600000, enableHighAccuracy: true};
 
+	// navigator.geolocation.getCurrentPosition(options).then(function(position){
 	$cordovaGeolocation.getCurrentPosition(options).then(function(position){
+		console.log(position.coords.latitude);
 		Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 			if(restoran) {
 				$scope.restoran = restoran;
