@@ -52,7 +52,7 @@ angular.module('app.controllers', [])
 					makeToast('Restoran berhasil disimpan', 1500, 'bottom');
 				} else {
 					makeToast('Restoran gagal disimpan', 1500, 'bottom');
-					console.log('this should not be done.');
+					console.log('this should not ever happen.');
 				}
 			}, function(reason) {
 				makeToast('Penyimpanan restoran penuh (max. 5)', 1500, 'bottom');
