@@ -9959,11 +9959,13 @@ p {
   color: white;
   background: rgba(0, 0, 0, 0.6);
   position: absolute;
-  border-top-right-radius: 10px;
   bottom: 10px;
   padding: 0 5px;
-  width: auto;
+  width: 94.5%;
   height: auto; }
+
+.jelajah-tile {
+  position: relative; }
 
 .mangan-review-title {
   display: inline-block;

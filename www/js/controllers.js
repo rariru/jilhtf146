@@ -624,7 +624,7 @@ angular.module('app.controllers', [])
 
 	var options = {timeout: 10000, enableHighAccuracy: true};
 
-	$cordovaGeolocation.getCurrentPosition(options).then(function(position){
+	// $cordovaGeolocation.getCurrentPosition(options).then(function(position){
 		Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 			if(restoran) {
 				$scope.restoran = restoran;
@@ -666,11 +666,21 @@ angular.module('app.controllers', [])
 				});
 
 				$scope.openUrl = function() {
-					var lat = position.coords.latitude;
-					var lng = position.coords.longitude;
-					window.open('http://maps.google.com/maps?saddr=+'+lat+'+,+'+lng+'+&daddr=+'+restoLat+'+,+'+restoLng+'+&dirflg=d', '_system', 'location=yes');
-					// window.open('geo:'+lat+','+lng+'?q='+restoLat+','+restoLng+'('+restoran.namaResto+')', '_system', 'location=yes');
-					return false;
+					$cordovaGeolocation.getCurrentPosition(options).then(function(position){
+						var lat = position.coords.latitude;
+						var lng = position.coords.longitude;
+						window.open('http://maps.google.com/maps?saddr=+'+lat+'+,+'+lng+'+&daddr=+'+restoLat+'+,+'+restoLng+'+&dirflg=d', '_system', 'location=yes');
+						// window.open('geo:'+lat+','+lng+'?q='+restoLat+','+restoLng+'('+restoran.namaResto+')', '_system', 'location=yes');
+						return false;
+					}, function(error){
+						console.log("Could not get location");
+						$ionicPopup.alert({
+							title: 'Error',
+							template: 'Tidak dapat menggunakan GPS, hidupkan setting GPS anda',
+							okText: 'OK',
+							okType: 'button-balanced'
+						});
+					});
 				}
 			} else {
 				console.log('failure');
@@ -679,14 +689,14 @@ angular.module('app.controllers', [])
 			$scope.restoran = null;
 			console.log('error');
 		});
-	}, function(error){
-		console.log("Could not get location");
-		$ionicPopup.alert({
-			title: 'Error',
-			template: 'Tidak dapat menggunakan GPS, hidupkan setting GPS anda',
-			okText: 'OK',
-			okType: 'button-balanced'
-		});
-	});
+	// }, function(error){
+	// 	console.log("Could not get location");
+	// 	$ionicPopup.alert({
+	// 		title: 'Error',
+	// 		template: 'Tidak dapat menggunakan GPS, hidupkan setting GPS anda',
+	// 		okText: 'OK',
+	// 		okType: 'button-balanced'
+	// 	});
+	// });
 })
  
