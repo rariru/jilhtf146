@@ -20,7 +20,7 @@
                 <div class="mangan-detail-keterangan" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'"><strong>{{restoran.keteranganBuka}}</strong></div>
                 <div class="mangan-detail-review-col-1">
                     <!-- <p>{{restoran.reviewTim | limitTo: 70}}{{restoran.reviewTim.length > 70 ? '...' : ''}}</p> -->
-                    <div ng-bind-html="restoran.keteranganResto | limitTo: 100"><p ng-bind="restoran.keteranganResto.length > 100 ? '...' : ''"></p></div>
+                    <div ng-bind-html="(restoran.keteranganResto | limitTo: 100) + (restoran.keteranganResto.length > 100 ? '...' : '')"></div>
                     <button class="selengkapnya mangan-tombol-aksi" ng-click="openReview()" ng-show="restoran.reviewTim && restoran.reviewTim != 'null'">(Baca Ulasan)</button>
                 </div>
                 <div class="mangan-detail-review-col-2">
@@ -35,9 +35,9 @@
                     <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50">
                     <h2>{{menu.namaMenu}}</h2>
                     <h3>{{menu.harga | currency:'Rp ':2}}</h3>
-                    <span class="mangan-tag-menumakanan">Khas</span>
+                    <!-- <span class="mangan-tag-menumakanan">Khas</span> -->
 
-                    <span class="mangan-menu-review">
+                    <span class="mangan-menu-review" ng-show="menu.review && menu.review != 'null'">
                         <button class="mangan-button-menumakanan" ng-click="openMenu( {{ $index }} )">
                             <i class="icon ion-eye assertive" style="font-size: 20px;"></i>
                         </button>
@@ -57,8 +57,8 @@
             </div>
             <div class="mangan-kontak">
                 <div class="mangan-kontak-konten">
-                    <a href="tel:{{restoran.noTelp}}" ng-show="restoran.noTelp && restoran.noTelp != 'null'"><i class="mangan-kontak-icon icon ion-ios-telephone"></i>{{restoran.noTelp}}</a>
-                    </br>
+                    <a href="tel:{{restoran.noTelp}}" ng-show="restoran.noTelp && restoran.noTelp != 'null'"><i class="mangan-kontak-icon icon ion-ios-telephone"></i>{{restoran.noTelp}}
+                    </br></a>
                     <a href="mailto:{{restoran.email}}" ng-show="restoran.email && restoran.email != 'null'"><i class="mangan-kontak-icon icon ion-email"></i>{{restoran.email}}</a>
                     <p href="" ng-show="restoran.alamat && restoran.alamat != 'null'"><i class="mangan-kontak-icon icon ion-map"></i>{{restoran.alamat}}</p>
                 </div>
@@ -68,10 +68,10 @@
                 <a ui-sref="tabsController.peta({ index: restoran.index })" id="selatViens-button21" class="button button-positive button-small">LIHAT PETA</a>
             </div>
             <div class="mangan-spacer"></div>
-            <div class="mangan-kontak-header">
+            <div class="mangan-kontak-header" ng-hide="true">
                 <p>Ulasan Pengunjung</p>
             </div>
-            <div class="mangan-menu-list list">
+            <div class="mangan-menu-list list" ng-hide="true">
                 <div ng-hide="review">
                     <p>Tulis Ulasan Pertama</p>
                 </div>
@@ -84,7 +84,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mangan-menu-selengkapnya">
+            <div class="mangan-menu-selengkapnya" ng-hide="true">
                 <button class="button button-positive button-small" ng-click="openRating()">TULIS ULASAN</button>
             </div>
         </div>
