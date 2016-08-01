@@ -101,18 +101,26 @@ angular.module('app.services', [])
 		} return false;
 	}
 
+	/////////////////////////////////////////
+	//
+	// rs-1 = berhasil
+	// rs-0 = sudah ada, shouldn't ever happen
+	// rs-1 = 
+	// rs-0 = max
+	//
+	//////////////////////////////////////////
 	this.saveRestoran = function(id) {
 		var promise = $q.defer();
 
-		if($localStorage.indexes.length < 5 && !this.checkSavedRestoran(id)) {
-			$localStorage.indexes.push(id);
-			if(this.checkSavedRestoran(id)) {
+		if($localStorage.indexes.length < 5) {
+			if(!this.checkSavedRestoran(id)) {
+				$localStorage.indexes.push(id);
 				promise.resolve(true);
 			} else {
-				promise.reject(false);
+				promise.resolve(false);
 			}
 		} else {
-			promise.resolve(false);
+			promise.reject(false);
 		}
 
 		return promise.promise;
