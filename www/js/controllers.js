@@ -11,13 +11,13 @@ angular.module('app.controllers', [])
 	var category = $stateParams.category;
 	switch(category) {
 		default: {
-			console.log(category);
+			// console.log(category);
 			Services.getRestoranCategory(category).then(function(restorans) {
 				if(restorans) {
 					$scope.restorans = [];
 
 					for(var r in restorans) {
-						console.log(r);
+						// console.log(r);
 						Services.getRestoranDetails(r).then(function(restoran) {
 							$scope.restorans.push(restoran);
 
@@ -164,7 +164,7 @@ angular.module('app.controllers', [])
 			// });
 	// usable
 			// var link = 'www.mobilepangan.com/downloads';
-			var link = 'kunjungi mobilepangan.com untuk download aplikasinya';
+			var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
 			var gambar = null;
 			var textshared = resto.namaResto+" - "+resto.keteranganResto;
 
@@ -240,7 +240,7 @@ angular.module('app.controllers', [])
 							}
 							$scope.reviews = reviews;
 
-							console.log('success');
+							// console.log('success');
 						}
 					});
 
@@ -350,8 +350,6 @@ angular.module('app.controllers', [])
 	Services.getRestoranMenus($stateParams.index).then(function(menus) {
 		if(menus) {
 			$scope.menus = menus;
-		} else {
-			console.log('failure');
 		}
 	});
 
@@ -381,7 +379,8 @@ angular.module('app.controllers', [])
 	$scope.user = {};
 
 	$scope.searchQuery = function() {
-		$state.go('tabsController.pencarian', {'query': $scope.user.query}, {});
+		$state.go('tabsController.pencarian', {'query': $scope.user.query});
+		delete $scope.user.query;
 	};
 
 	Services.getCategories().then(function(categories) {
@@ -397,83 +396,113 @@ angular.module('app.controllers', [])
 	});
 })
 
-.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services) {
-	// $ionicLoading.show({
- //      template: '<ion-spinner icon="android"></ion-spinner>'
- //    });
-
+.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services, $cordovaToast, $cordovaSocialSharing) {
 	$scope.category = 'Pencarian';
-	$scope.query = $stateParams.query;
-	// $scope.restorans = [];
+	$scope.user = {};
+	$scope.user.query = $stateParams.query;
+	
     $scope.searchQuery = function() {
-		// console.log($scope.user.query);
-		// Services.searchQuery($scope.user.query);
-		Services.searchQuery($scope.query).then(function(result) {
-			if(result) {
-			// 		Services.searchRestorans($scope.user.query).then(function(result2) {
-			// 			if(result2) {
-			// 				console.log(result2);
-			// 				console.log('success');
-			// 			} else {
-			// 				console.log('failure');
-			// 			}
-			// 		});
+    	$ionicLoading.show({
+	      template: '<ion-spinner icon="android"></ion-spinner>'
+	    });
 
-			// 		console.log('success');
-			// 	}
-			// }, function(reason) {
-			// 	console.log('error');
-			// });
-			// search method
+		Services.searchQuery($scope.user.query).then(function(inputQuery) {
+			// console.log($scope.user.query);
+			if(inputQuery) {
+				// console.log(result);
 
 				Services.getRestoranKeyword().then(function(result) {
-					// console.log($scope.user.query);
-					// console.log(result);
-					// var resultList = [];
-					$scope.restorans = [];
+					if(result) {
+						$scope.restorans = [];
+						var isFound = false;
+						// console.log('mulai cari');
 
-					for(var id in result) {
-						console.log(result[id].keyword);
-						if(result[id].keyword.indexOf($scope.query) >= 0) {
-							console.log('HASIL:\t'+ id);
-							// resultList.push(id);
-							Services.getRestoranDetails(id).then(function(result) {
-								console.log(result);
-								$scope.restorans.push(result);
-							});
+						for(var id in result) {
+							// console.log(result[id].keyword);
+							if(result[id].keyword.indexOf($scope.user.query) >= 0) {
+								// console.log('HASIL:\t'+ id);
+								isFound = true;
+								// resultList.push(id);
+								Services.getRestoranDetails(id).then(function(result) {
+									// console.log(result.namaResto);
+									$scope.restorans.push(result);
+
+									$ionicLoading.hide();
+								});
+							}
+						}
+						// console.log('isFound: '+ isFound);
+						if(!isFound) {
+							delete $scope.restorans;
+							$ionicLoading.hide();
 						}
 					}
-
-					console.log($scope.restorans);
-
-					if($scope.restorans.length != 0) {
-						// for(var id in resultList) {
-						// 	// console.log(resultList[id]);
-						// 	Services.getRestoranDetails(resultList[id]).then(function(result) {
-						// 		// console.log(result);
-						// 		resultResto.push(result);
-						// 	});
-						// }
-					} else {
-						console.log('no result');
-					}
-
-					// $ionicLoading.hide();
 				});
 			}
 		});
 	}
 
+	$scope.checkSavedRestoran = function(index) {
+		return Services.checkSavedRestoran(index);
+	}
+
+	$scope.saveRestoran = function(index) {
+		if(Services.checkSavedRestoran(index)) {
+			Services.deleteRestoran(index).then(function() {
+				makeToast('Restoran telah dihapus', 1500, 'bottom');
+			});
+		} else {
+			if(Services.saveRestoran(index)) {
+				makeToast('Restoran berhasil disimpan', 1500, 'bottom');
+			} else {
+				makeToast('Restoran gagal disimpan', 1500, 'bottom');
+			}
+		}
+	}
+
+	$scope.shareRestoran = function(index) {
+		// console.log('share: '+ index);
+
+		var resto = $scope.restorans[index];
+		var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
+		var gambar = null;
+		var textshared = resto.namaResto+" - "+resto.keteranganResto;
+
+		if(resto.gambar[3]) {
+			gambar = resto.gambar[3];
+		}
+
+		$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
+		.then(function(result) {
+			console.log('shared');
+		}, function(err) {
+			console.log('error');
+		});
+	}
+
     $scope.searchQuery();
+
+    function makeToast(_message) {
+		window.plugins.toast.showWithOptions({
+			message: _message,
+			duration: 1500,
+			position: 'bottom',
+			addPixelsY: -40
+		});
+	}
 })
    
-.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing) {
+.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading) {
 	$scope.category = 'Tersimpan';
 
 	var savedRestorans = [];
 	$scope.restorans = [];
 
 	$scope.$on('$ionicView.enter', function() {
+		$ionicLoading.show({
+	      template: '<ion-spinner icon="android"></ion-spinner>'
+	    });
+
 		var temp = Services.getSavedRestorans();
 		savedRestorans = temp.slice(0);
 		savedRestorans.reverse();
@@ -512,20 +541,37 @@ angular.module('app.controllers', [])
 
 	$scope.shareRestoran = function(index) {
 		// console.log('share: '+ index);
+
 		var resto = $scope.restorans[index];
-		var link = 'www.mobilepangan.com/downloads';
-		var image = 'www/img/cafe.jpg';
-		// $cordovaSocialSharing.share(resto.reviewTim, resto.namaResto, image, link).then(function(result) {
-		// console.log(resto.keteranganResto);
-		// console.log(resto.namaResto);
-		// console.log(resto.gambar[0]);
-		// console.log(link);
-		$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, null, link)
+		var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
+		var gambar = null;
+		var textshared = resto.namaResto+" - "+resto.keteranganResto;
+
+		if(resto.gambar[3]) {
+			gambar = resto.gambar[3];
+		}
+
+		$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
 		.then(function(result) {
 			console.log('shared');
 		}, function(err) {
 			console.log('error');
 		});
+
+		// var resto = $scope.restorans[index];
+		// var link = 'www.mobilepangan.com/downloads';
+		// var image = 'www/img/cafe.jpg';
+		// $cordovaSocialSharing.share(resto.reviewTim, resto.namaResto, image, link).then(function(result) {
+		// console.log(resto.keteranganResto);
+		// console.log(resto.namaResto);
+		// console.log(resto.gambar[0]);
+		// console.log(link);
+		// $cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, null, link)
+		// .then(function(result) {
+		// 	console.log('shared');
+		// }, function(err) {
+		// 	console.log('error');
+		// });
 
 		// var optionShare = {
 		// 	message: resto.keteranganResto,
@@ -544,30 +590,29 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.checkSavedRestoran = function(index) {
-		if(Services.checkSavedRestoran(index)) {
-			return true;
-		} else {
-			return false;
-		}
+		return Services.checkSavedRestoran(index);
 	}
 
 	function updateSavedRestorans(news) {
 		console.log('update');
 		savedRestorans = news;
 		$scope.restorans = [];
-		for(var i=0; i<news.length; i++) {
-			Services.getRestoranDetails(news[i]).then(function(restoran) {
-				if(restoran) {
-					$scope.restorans.push(restoran);
-					// console.log(restoran);
-					console.log('success');
-				} else {
-					console.log('failure');
-				}
-			}, function(reason) {
-				console.log(reason);
-				console.log('error');
-			});
+		if(news && news.length > 0) {
+			for(var i=0; i<news.length; i++) {
+				Services.getRestoranDetails(news[i]).then(function(restoran) {
+					if(restoran) {
+						$scope.restorans.push(restoran);
+						// console.log(restoran);
+						console.log('success');
+					} else {
+						console.log('failure');
+					}
+
+					$ionicLoading.hide();
+				});
+			}
+		} else {
+			$ionicLoading.hide();
 		}
 		// console.log($scope.restorans);
 	}

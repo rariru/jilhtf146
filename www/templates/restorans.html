@@ -7,10 +7,10 @@
             <div style="min-height: 37px; min-width: 37px; background-color: rgb(230, 231, 232); text-align:center; margin-right: 10px;">
                 <i class="icon ion-search placeholder-icon" style="font-size: 20px; line-height: 40px;"></i>
             </div>
-            <input type="search" placeholder="Cari" ng-model="query" style="font-size: 14px;">
+            <input type="search" placeholder="Cari" ng-model="user.query" style="font-size: 14px;">
         </label>
     </form>
-    
+    <!-- {{restorans.length}} -->
     <div ng-hide="restorans || restorans.length > 0" class="mangan-nodata">
         <i class="ion-sad-outline"></i>
         <p>Ups, Sepertinya Belum Ada Kuliner Disini</p>
