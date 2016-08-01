@@ -9964,6 +9964,9 @@ p {
   width: 93.5%;
   height: auto; }
 
+.jelajah-tile {
+  position: relative; }
+
 .mangan-review-title {
   display: inline-block;
   width: 100%;
