@@ -632,9 +632,11 @@ angular.module('app.controllers', [])
 
 	// console.log($stateParams.index);
 
-	var options = {timeout: 10000, enableHighAccuracy: true};
+	var options = {timeout: 600000, enableHighAccuracy: true};
 
+	// navigator.geolocation.getCurrentPosition(options).then(function(position){
 	$cordovaGeolocation.getCurrentPosition(options).then(function(position){
+		console.log(position.coords.latitude);
 		Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 			if(restoran) {
 				$scope.restoran = restoran;
