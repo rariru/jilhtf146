@@ -57,9 +57,9 @@
             </div>
             <div class="mangan-kontak">
                 <div class="mangan-kontak-konten">
-                    <a href="" ng-show="restoran.noTelp && restoran.noTelp != 'null'"><i class="mangan-kontak-icon icon ion-ios-telephone"></i>{{restoran.noTelp}}</a>
+                    <a href="tel:{{restoran.noTelp}}" ng-show="restoran.noTelp && restoran.noTelp != 'null'"><i class="mangan-kontak-icon icon ion-ios-telephone"></i>{{restoran.noTelp}}</a>
                     </br>
-                    <a href="" ng-show="restoran.email && restoran.email != 'null'"><i class="mangan-kontak-icon icon ion-email"></i>{{restoran.email}}</a>
+                    <a href="mailto:{{restoran.email}}" ng-show="restoran.email && restoran.email != 'null'"><i class="mangan-kontak-icon icon ion-email"></i>{{restoran.email}}</a>
                     <p href="" ng-show="restoran.alamat && restoran.alamat != 'null'"><i class="mangan-kontak-icon icon ion-map"></i>{{restoran.alamat}}</p>
                 </div>
             </div>
