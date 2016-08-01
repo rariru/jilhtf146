@@ -9959,10 +9959,9 @@ p {
   color: white;
   background: rgba(0, 0, 0, 0.6);
   position: absolute;
-  border-top-right-radius: 10px;
   bottom: 10px;
   padding: 0 5px;
-  width: auto;
+  width: 93.5%;
   height: auto; }
 
 .mangan-review-title {
