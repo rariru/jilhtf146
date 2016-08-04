@@ -222,7 +222,6 @@ angular.module('app.controllers', [])
 
 	$scope.restoran = null;
 	$scope.menus = null;
-	$scope.reviews = null;
 	$scope.user = {
 		rating: 5
 	};

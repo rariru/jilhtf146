@@ -20,7 +20,7 @@
 							<i class="mangan-rating-icon icon ion-star" style="color:orangered; font-size: 20px;"></i>
 			            </span>
 			        </div>
-		        	<div class="mangan-keterangan-teks" ng-bind-html="restoran.reviewTim">
+		        	<div class="mangan-keterangan-teks" ng-bind-html="(restoran.reviewTim && restoran.reviewTim != 'null') ? restoran.reviewTim : restoran.keterangan">
 		        		<!-- {{restoran.reviewTim}} -->
 		        	</div>
 		        </div>

@@ -20,8 +20,12 @@
                 <div class="mangan-detail-keterangan" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'"><strong>{{restoran.keteranganBuka}}</strong></div>
                 <div class="mangan-detail-review-col-1">
                     <!-- <p>{{restoran.reviewTim | limitTo: 70}}{{restoran.reviewTim.length > 70 ? '...' : ''}}</p> -->
+                    <!-- <div ng-bind-html="((restoran.reviewTim && restoran.reviewTim != 'null') ? 
+                    ((restoran.keteranganResto | limitTo: 100) + (restoran.keteranganResto.length > 100 ? '...' : '')) :
+                    (restoran.keteranganResto))"></div> -->
                     <div ng-bind-html="(restoran.keteranganResto | limitTo: 100) + (restoran.keteranganResto.length > 100 ? '...' : '')"></div>
-                    <button class="selengkapnya mangan-tombol-aksi" ng-click="openReview()" ng-show="restoran.reviewTim && restoran.reviewTim != 'null'">(Baca Ulasan)</button>
+                    <!-- <button class="selengkapnya mangan-tombol-aksi" ng-click="openReview()" ng-show="restoran.reviewTim && restoran.reviewTim != 'null'">(Baca Ulasan)</button> -->
+                    <button class="selengkapnya mangan-tombol-aksi" ng-click="openReview()">(Baca Ulasan)</button>
                 </div>
                 <div class="mangan-detail-review-col-2">
                     <img class="mangan-reviewer" ng-src="{{ restoran.reviewer.foto }}">
@@ -68,11 +72,11 @@
                 <a ui-sref="tabsController.peta({ index: restoran.index })" id="selatViens-button21" class="button button-positive button-small">LIHAT PETA</a>
             </div>
             <div class="mangan-spacer"></div>
-            <div class="mangan-kontak-header" ng-hide="true">
+            <div class="mangan-kontak-header">
                 <p>Ulasan Pengunjung</p>
             </div>
-            <div class="mangan-menu-list list" ng-hide="true">
-                <div ng-hide="review">
+            <div class="mangan-menu-list list">
+                <div ng-hide="reviews" class="item item-text-wrap">
                     <p>Tulis Ulasan Pertama</p>
                 </div>
 
@@ -84,7 +88,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mangan-menu-selengkapnya" ng-hide="true">
+            <div class="mangan-menu-selengkapnya">
                 <button class="button button-positive button-small" ng-click="openRating()">TULIS ULASAN</button>
             </div>
         </div>
