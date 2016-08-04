@@ -1,8 +1,5 @@
 // Initialize Firebase
-var config = {apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
-authDomain: "project-1449647215698534337.firebaseapp.com",
-databaseURL: "https://project-1449647215698534337.firebaseio.com",
-storageBucket: "project-1449647215698534337.appspot.com",};
+var config = {};
 
 firebase.initializeApp(config);
 
@@ -60,7 +57,7 @@ angular.module('app.services', [])
 
 	this.getRestoranReviews = function(id) {
 		return promiseValue(
-			firebase.database().ref('reviewRating/'+ id).orderByChild('tglReview')
+			firebase.database().ref('reviewRating/'+ id).orderByPriority()
 			);
 	}
 
@@ -190,12 +187,12 @@ angular.module('app.services', [])
 
 		var promise = $q.defer();
 
-		review.child(resto +'/'+ user).set({
+		review.child(resto +'/'+ user).setWithPriority({
 			'rating': userRating,
 			'review' : userReview || null,
 			'reviewer': user,
 			'tglReview': firebase.database.ServerValue.TIMESTAMP
-		}).then(function() {
+		}, firebase.database.ServerValue.TIMESTAMP, function() {
 			promise.resolve(true);
 		});
 
