@@ -229,7 +229,7 @@ angular.module('app.controllers', [])
 	Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 		if(restoran) {
 			$scope.restoran = restoran;
-			// console.log(restoran);
+			console.log(restoran.reviewer.foto);
 
 			Services.getRestoranMenus($stateParams.index).then(function(menus) {
 				if(menus) {

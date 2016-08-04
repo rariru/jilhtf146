@@ -10071,5 +10071,6 @@ p {
   font-size: 40px; }
 
 .gallery {
+  max-width: 100%;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap; }
