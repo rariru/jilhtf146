@@ -1,13 +1,14 @@
 angular.module('app.controllers', [])
 
-.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, 
-	$cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing) {
-
+.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate) {
 	$ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
 
 	$scope.category = $stateParams.name;
+
+	analytics.trackView('Kategori '+$scope.category);
+	
 	var category = $stateParams.category;
 	switch(category) {
 		default: {
@@ -212,9 +213,8 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, 
-	$ionicModal, $state) {
-
+.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $ionicModal, $state) {
+    
 	$ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
@@ -230,7 +230,8 @@ angular.module('app.controllers', [])
 	Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 		if(restoran) {
 			$scope.restoran = restoran;
-			console.log(restoran.reviewer.foto);
+			console.log('Kuliner '+restoran.namaResto);
+			analytics.trackView('Kuliner '+restoran.namaResto);
 
 			Services.getRestoranMenus($stateParams.index).then(function(menus) {
 				if(menus) {
@@ -312,6 +313,11 @@ angular.module('app.controllers', [])
 		animation: 'slide-in-up'
 	}).then(function(modal) { $scope.modalMenu = modal; });
 
+	$ionicModal.fromTemplateUrl('templates/gambarMenu.html', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal) { $scope.modalMenuGambar = modal; });
+
 	$ionicModal.fromTemplateUrl('templates/rating.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
@@ -335,6 +341,16 @@ angular.module('app.controllers', [])
 		$scope.modalMenu.hide();
 	};
 
+	$scope.openMenuGambar = function(index) {
+		$scope.selectedMenu = $scope.menus[index];
+		// console.log($scope.selectedMenu);
+		$scope.modalMenuGambar.show();
+	};
+
+	$scope.closeMenuGambar = function() {
+		$scope.modalMenuGambar.hide();
+	};
+
 	$scope.openRating = function() {
 		// check whether current user has already review this resto or not
 		// Services.getRatingReview($scope.restoran.namaResto, uid).then(function(result) {
@@ -356,6 +372,10 @@ angular.module('app.controllers', [])
 
 .controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal) {
 
+    // $cordovaGoogleAnalytics.trackView('Informasi Menu Restoran '+$stateParams.index);
+    analytics.trackView('Menu Kuliner '+$stateParams.index);
+    console.log('Menu Menu Kuliner '+$stateParams.index);
+
 	Services.getRestoranMenus($stateParams.index).then(function(menus) {
 		if(menus) {
 			$scope.menus = menus;
@@ -374,10 +394,28 @@ angular.module('app.controllers', [])
 	};
 })
   
-.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading) {
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaGoogleAnalytics) {
 	$ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>'
     });
+
+    function _waitForAnalytics(){
+        if(typeof analytics !== 'undefined'){
+            analytics.startTrackerWithId('UA-81887762-1');
+            // $cordovaGoogleAnalytics.trackView('Jelajah');
+		    analytics.trackView('Jelajah');
+        }
+        else{
+            setTimeout(function(){
+                _waitForAnalytics();
+            },10000);
+        }
+    };
+    _waitForAnalytics();
+    console.log('Jelajah');
+
+    // $cordovaGoogleAnalytics.trackView('Jelajah');
+    // analytics.trackView('Home');
 
 	$scope.options = {
 		loop: true,
@@ -388,6 +426,19 @@ angular.module('app.controllers', [])
 	$scope.user = {};
 
 	$scope.searchQuery = function() {
+		function _waitForAnalytics(){
+	        if(typeof analytics !== 'undefined'){
+	            analytics.startTrackerWithId('UA-81887762-1');
+	            // $cordovaGoogleAnalytics.trackView('Jelajah');
+				analytics.trackEvent('Pencarian', $scope.user.query);
+	        }
+	        else{
+	            setTimeout(function(){
+	                _waitForAnalytics();
+	            },10000);
+	        }
+	    };
+	    _waitForAnalytics();
 		$state.go('tabsController.pencarian', {'query': $scope.user.query});
 		delete $scope.user.query;
 	};
@@ -409,6 +460,10 @@ angular.module('app.controllers', [])
 	$scope.category = 'Pencarian';
 	$scope.user = {};
 	$scope.user.query = $stateParams.query;
+
+    // $cordovaGoogleAnalytics.trackView('Pencarian pengguna '+$scope.user.query);
+    analytics.trackView('Pencarian');
+    // console.log('Keyword '+$scope.user.query);
 	
     $scope.searchQuery = function() {
     	$ionicLoading.show({
@@ -553,6 +608,7 @@ angular.module('app.controllers', [])
    
 .controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading) {
 	$scope.category = 'Tersimpan';
+	analytics.trackView('Tersimpan');
 
 	var savedRestorans = [];
 	$scope.restorans = [];
@@ -681,7 +737,8 @@ angular.module('app.controllers', [])
 
 	// console.log($stateParams.index);
 
-	var options = {timeout: 600000, enableHighAccuracy: true};
+	analytics.trackView('Peta');
+	var options = {timeout: 1000, enableHighAccuracy: true};
 	// $cordovaGeolocation.getCurrentPosition(options).then(function(position){
 	// navigator.geolocation.getCurrentPosition(options).then(function(position){
 		Services.getRestoranDetails($stateParams.index).then(function(restoran) {
@@ -733,12 +790,13 @@ angular.module('app.controllers', [])
 						return false;
 					}, function(error){
 						console.log("Could not get location");
-						$ionicPopup.alert({
-							title: 'Error',
-							template: 'Tidak dapat menggunakan GPS, hidupkan setting GPS anda',
-							okText: 'OK',
-							okType: 'button-balanced'
-						});
+						window.open('http://maps.google.com/maps?saddr=Current+Location&daddr=+'+restoLat+'+,+'+restoLng+'+&dirflg=d', '_system', 'location=yes');
+						// $ionicPopup.alert({
+						// 	title: 'Error',
+						// 	template: 'Tidak dapat menggunakan GPS, hidupkan setting GPS anda',
+						// 	okText: 'OK',
+						// 	okType: 'button-balanced'
+						// });
 					});
 				}
 			} else {
