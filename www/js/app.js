@@ -19,6 +19,24 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    // $cordovaGoogleAnalytics.debugMode();
+    // if(typeof analytics !== undefined) {
+    //   analytics.startTrackerWithId('UA-81887762-1');
+    // } else {
+    //   console.log("Google Analytics Unavailable");
+    // }
+    function _waitForAnalytics(){
+        if(typeof analytics !== 'undefined'){
+            // analytics.debugMode();
+            analytics.startTrackerWithId('UA-81887762-1');
+        }
+        else{
+            setTimeout(function(){
+                _waitForAnalytics();
+            },10000);
+        }
+    };
+    _waitForAnalytics();
   });
 })
 

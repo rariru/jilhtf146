@@ -23,12 +23,12 @@
                     <!-- <div ng-bind-html="((restoran.reviewTim && restoran.reviewTim != 'null') ? 
                     ((restoran.keteranganResto | limitTo: 100) + (restoran.keteranganResto.length > 100 ? '...' : '')) :
                     (restoran.keteranganResto))"></div> -->
-                    <div ng-bind-html="(restoran.keteranganResto | limitTo: 100) + (restoran.keteranganResto.length > 100 ? '...' : '')"></div>
+                    <div ng-bind-html="(restoran.keteranganResto | limitTo: 100) + (restoran.keteranganResto.length > 100 ? '...' : '')" style="font-size: 14px; text-align: justify;"></div>
                     <!-- <button class="selengkapnya mangan-tombol-aksi" ng-click="openReview()" ng-show="restoran.reviewTim && restoran.reviewTim != 'null'">(Baca Ulasan)</button> -->
                     <button class="selengkapnya mangan-tombol-aksi" ng-click="openReview()">(Baca Ulasan)</button>
                 </div>
                 <div class="mangan-detail-review-col-2">
-                    <img class="mangan-reviewer" ng-src="{{ restoran.reviewer.foto }}">
+                    <img class="mangan-reviewer" ng-src="{{ restoran.reviewer.foto }}" ng-click="openReview()">
                 </div>
                 <div class="clear"></div>
             </div>
@@ -36,7 +36,8 @@
 
             <ion-list class="mangan-menu-list">
                 <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus">
-                    <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50">
+                    <!-- <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50" ng-hide="menu.review && menu.review != 'null'"> -->
+                    <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50" ng-click="openMenuGambar( {{ $index }} )">
                     <h2>{{menu.namaMenu}}</h2>
                     <h3>{{menu.harga | currency:'Rp ':2}}</h3>
                     <!-- <span class="mangan-tag-menumakanan">Khas</span> -->
@@ -59,7 +60,9 @@
                                                         (restoran.alamat && restoran.alamat != 'null')">
                 <p>Kontak</p>
             </div>
-            <div class="mangan-kontak">
+            <div class="mangan-kontak" ng-show="(restoran.noTelp && restoran.noTelp != 'null') ||
+                                                        (restoran.email && restoran.email != 'null') ||
+                                                        (restoran.alamat && restoran.alamat != 'null')">
                 <div class="mangan-kontak-konten">
                     <a href="tel:{{restoran.noTelp}}" ng-show="restoran.noTelp && restoran.noTelp != 'null'"><i class="mangan-kontak-icon icon ion-ios-telephone"></i>{{restoran.noTelp}}
                     </br></a>
