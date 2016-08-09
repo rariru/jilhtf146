@@ -80,7 +80,7 @@
                     <p>Tulis Ulasan Pertama</p>
                 </div>
 
-                <div ng-repeat="review in reviews">
+                <div ng-repeat="review in reviews | orderObjectBy: 'tglReview' :true">
                     <div class="item item-avatar item-text-wrap">
                         <img image-lazy-src="img/anonim.jpg" image-lazy-distance-from-bottom-to-load="50">
                         <h2>{{review.reviewer}}</h2>

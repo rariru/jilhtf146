@@ -10070,7 +10070,21 @@ p {
   color: rgba(0, 0, 0, 0.3);
   font-size: 40px; }
 
+.gallery-container {
+  -ms-box-orient: horizontal;
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -moz-flex;
+  display: -webkit-flex;
+  display: flex; }
+
 .gallery {
-  max-width: 100%;
   -webkit-flex-wrap: wrap;
+  flex-wrap: wrap;
+  display: -webkit-flex;
+  /* Safari */
+  display: flex;
+  display: flexbox;
+  display: box;
   flex-wrap: wrap; }

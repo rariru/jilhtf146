@@ -285,6 +285,10 @@ angular.module('app.controllers', [])
 		Services.updateRatingReview($scope.restoran.index, $scope.user.reviewer, $scope.user.rating, $scope.user.review);
 		$scope.modalRating.hide();
 
+		if(!$scope.reviews) {
+			$scope.reviews = [];
+		}
+
 		$scope.reviews[$scope.user.reviewer] = {
 			reviewer: $scope.user.reviewer,
 			review: $scope.user.review
