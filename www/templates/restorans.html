@@ -11,7 +11,7 @@
         <center><i class="ion-sad-outline"></i></center>
         <p>Ups, Sepertinya Anda belum menyimpan apapun</p>
     </div>
-        <div class="list card" ng-repeat="restoran in restorans track by $index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
+        <div class="list card" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true track by $index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
             <div class="mangan-list-header">
                 <div class="row mangan-nama-resto">
                     <span class="col col-75">{{restoran.namaResto}}</span>

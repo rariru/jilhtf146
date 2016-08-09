@@ -44,4 +44,24 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 
     // $ionicConfigProvider.tabs.position('bottom'); // other values: top
     $ionicConfigProvider.navBar.alignTitle('center');
-}]);
+}])
+
+// http://justinklemm.com/angularjs-filter-ordering-objects-ngrepeat/
+.filter('orderObjectBy', function() {
+    return function(items, field, reverse) {
+      // console.log(field);
+      // console.log(items);
+      // console.log(reverse);
+      // console.log('wwwwww');
+      var filtered = [];
+      angular.forEach(items, function(item) {
+        filtered.push(item);
+      });
+      filtered.sort(function (a,b) {
+        // console.log(a[field] +"|"+ b[field] + "|"+ a[field]>b[field]);
+        return (a[field] > b[field] ? 1: -1);
+      });
+      if(reverse) filtered.reverse();
+      return filtered;
+    };
+});
