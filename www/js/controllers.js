@@ -222,6 +222,7 @@ angular.module('app.controllers', [])
 
 	$scope.restoran = null;
 	$scope.menus = null;
+	$scope.reviews = [];
 	$scope.user = {
 		rating: 5
 	};
@@ -285,9 +286,9 @@ angular.module('app.controllers', [])
 		Services.updateRatingReview($scope.restoran.index, $scope.user.reviewer, $scope.user.rating, $scope.user.review);
 		$scope.modalRating.hide();
 
-		if(!$scope.reviews) {
-			$scope.reviews = [];
-		}
+		// if(!$scope.reviews) {
+		// 	$scope.reviews = [];
+		// }
 
 		$scope.reviews[$scope.user.reviewer] = {
 			reviewer: $scope.user.reviewer,
@@ -421,23 +422,42 @@ angular.module('app.controllers', [])
 
 				Services.getRestoranKeyword().then(function(result) {
 					if(result) {
-						$scope.restorans = [];
+						// $scope.restorans = [];
+						var restoransNSorted = [];
 						var isFound = false;
 						// console.log('mulai cari');
 
+						var ta = 0;
+						for(var id in result) {
+							ta++;
+						}
+
+						// console.log('ta: '+ ta);
+
+						var ia = 0,
+							ir = 0,
+							tr = 0;
 						for(var id in result) {
 							// console.log(result[id].keyword);
 							if(result[id].keyword.indexOf($scope.user.query) >= 0) {
 								// console.log('HASIL:\t'+ id);
 								isFound = true;
 								// resultList.push(id);
+								tr++;
 								Services.getRestoranDetails(id).then(function(result) {
 									// console.log(result.namaResto);
-									$scope.restorans.push(result);
+									restoransNSorted.push(result);
 
 									$ionicLoading.hide();
+
+									ir++;
+									if((ir >= tr) && (ia >= ta)) {
+										sortRestorans(restoransNSorted);
+									}
 								});
 							}
+
+							ia++;
 						}
 						// console.log('isFound: '+ isFound);
 						if(!isFound) {
@@ -448,6 +468,32 @@ angular.module('app.controllers', [])
 				});
 			}
 		});
+	}
+
+	function sortRestorans(rs) {
+		$scope.restorans = [];
+
+		var i = 0;
+		var nrs = [];
+
+		for(var id in rs) {
+			nrs[i++] = rs[id];
+			console.log(nrs[i-1].namaResto);
+		}
+
+		nrs.sort(function(x,y) {
+			return x.tglInput < y.tglInput;
+		});
+
+		for(var i = 0; i < nrs.length; i++) {
+			$scope.restorans.push(nrs[i]);
+		}
+		// $scope.restoran = nrs;
+		// setTimeout(function() {
+		// 	// for(var i = 0; i < nrs.length; i++) {
+		// 	// 	$scope.restorans = nrs;
+		// 	// }
+		// }, 1000);
 	}
 
 	$scope.checkSavedRestoran = function(index) {
