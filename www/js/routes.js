@@ -22,7 +22,7 @@ angular.module('app.routes', ['ionicUIRouter'])
     url: '/pencarian',
     views: {
       'tab1': {
-        templateUrl: 'templates/restorans.html',
+        templateUrl: 'templates/pencarian.html',
         controller: 'pencarianCtrl'
       }
     },

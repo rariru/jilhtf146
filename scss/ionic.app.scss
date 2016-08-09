@@ -95,6 +95,7 @@ p {
 
 .mangan-reviewer {
 	background: url('../img/user.png');
+	background-position:center;
 	width: 50px;
 	height: 50px;
 	border-radius: 25px;
@@ -104,6 +105,7 @@ p {
 
 .mangan-ulasan-resto{
 	background: url('../img/user.png');
+	background-position:center;
 	width: 50px;
 	height: 50px;
 	border-radius: 25px;
@@ -131,11 +133,12 @@ p {
 }
 
 .selengkapnya {
-	font-size: 10px;
+	font-size: 14px;
 	color: yellow;
 	line-height: 12px;
 	text-decoration: none;
 	margin-bottom: 10px;
+	padding-left: 0;
 }
 
 .mangan-menu-review {
@@ -207,8 +210,9 @@ p {
 }
 
 .mangan-keterangan-teks {
-	font-size: 12px;
-	line-height:12px;
+	font-size: 14px;
+	text-align: justify;
+	line-height: 16px;
 }
 
 // .mangan-ikon-aksi {
@@ -351,6 +355,15 @@ p {
     left: 5%;
 }
 
+.mangan-modal-menu-gambar {
+	width: 90%;
+    height: 36%;
+    top: 32%;
+    bottom: 32%;
+    right: 5%;
+    left: 5%;
+}
+
 .mangan-modal-review {
     width: 90%;
     height: 63%;
@@ -426,7 +439,7 @@ p {
 }
 
 .mangan-nodata p{
-	display: flex;
+	// display: flex;
   	align-items: center;
   	justify-content: center;
   	text-align: center;
@@ -436,11 +449,17 @@ p {
 }
 
 .mangan-nodata i{
-	display: flex;
-  	align-items: center;
-  	justify-content: center;
+	// display: flex;
+ //  	align-items: center;
+ //  	justify-content: center;
+ //  	text-align: center;
+ 	display: block;
+ 	margin-left: auto;
+ 	margin-right: auto;
+ 	width: auto;
   	color:rgba(0,0,0,0.3);
 	font-size: 40px;
+	padding-top : 5px;
 }
 
 .gallery-container {
@@ -461,4 +480,14 @@ p {
     display: flexbox;
     display: box;
     flex-wrap: wrap;
+}
+
+.tabs-top.tabs-striped .tab-item.tab-item-active, .tabs-top.tabs-striped .tab-item.active, .tabs-top.tabs-striped .tab-item.activated {
+	margin-top: 0px;
+	border-width: 0px;
+	border-style: none;
+}
+
+.tabs-striped.tabs-balanced .tabs {
+	border-bottom: 0;
 }
