@@ -7,7 +7,7 @@
                     <!-- <span class="mangan-label-menumakanan">Rp 15000</span> -->
                 <h2>{{menu.namaMenu}}</h2>
                 <h3>{{menu.harga | currency:'Rp ':2}}</h3>
-                <span class="mangan-tag-menumakanan">Khas</span>
+                <!-- <span class="mangan-tag-menumakanan">Khas</span> -->
 
                 <span style="float:right;padding-right:5px;margin-top:-25px;">
                     <button class="mangan-button-menumakanan" ng-click="openMenu( {{ $index }} )">
@@ -23,7 +23,7 @@
             
         </ion-list>
 
-        <div class="mangan-menu-selengkapnya">
+        <div class="mangan-menu-selengkapnya" ng-hide="true">
             <button class="button button-positive button-small">PESAN</button>
         </div>
     </ion-content>
