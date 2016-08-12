@@ -1,8 +1,5 @@
 // Initialize Firebase
-var config = {apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
-authDomain: "project-1449647215698534337.firebaseapp.com",
-databaseURL: "https://project-1449647215698534337.firebaseio.com",
-storageBucket: "project-1449647215698534337.appspot.com",};
+var config = {};
 
 firebase.initializeApp(config);
 
@@ -42,7 +39,14 @@ angular.module('app.services', [])
 
 		// return promise.promise;
 		return promiseValue(
-			kategori.child(category).orderByChild('tanggalInput')
+			// kategori.child(category).orderByChild('tanggalInput')
+			kategori.child(category)
+			);
+	}
+
+	this.getAllRestorans = function() {
+		return promiseValue(
+			restoran.orderByChild('tglInput').limitToLast(10)
 			);
 	}
 
@@ -54,7 +58,7 @@ angular.module('app.services', [])
 
 	this.getRestoranMenus = function(id) {
 		return promiseValue(
-			menu.child(id)
+			menu.child(id)//.orderByChild('priority').equalTo(true)
 			);
 	}
 

@@ -15,7 +15,7 @@
         <p>Ups, Sepertinya Belum Ada Kuliner Disini</p>
     </div>
     
-        <div class="list card" ng-repeat="restoran in restorans track by $index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
+        <div class="list card" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
             <div class="mangan-list-header">
                 <div class="row mangan-nama-resto">
                     <span class="col col-75">{{restoran.namaResto}}</span>
@@ -35,7 +35,7 @@
                     <a ui-sref="tabsController.restoran({index: restoran.index})" id="tersimpan-button18" class="button button-positive button-small">SELENGKAPNYA</a>
                 </span>
                 <span class="col" style="padding:0;">
-                    <button class="mangan-tombol-aksi" ng-click="shareRestoran($index)">
+                    <button class="mangan-tombol-aksi" ng-click="shareRestoran(restoran.index)">
                         <i class="mangan-icon icon ion-android-share-alt"></i>
                     </button>
                 </span>

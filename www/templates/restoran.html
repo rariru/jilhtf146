@@ -35,7 +35,7 @@
             
 
             <ion-list class="mangan-menu-list">
-                <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus">
+                <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus" ng-show="menu.priority">
                     <!-- <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50" ng-hide="menu.review && menu.review != 'null'"> -->
                     <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50" ng-click="openMenuGambar( {{ $index }} )">
                     <h2>{{menu.namaMenu}}</h2>
@@ -75,10 +75,10 @@
                 <a ui-sref="tabsController.peta({ index: restoran.index })" id="selatViens-button21" class="button button-positive button-small">LIHAT PETA</a>
             </div>
             <div class="mangan-spacer"></div>
-            <div class="mangan-kontak-header">
+            <div class="mangan-kontak-header" ng-hide="true">
                 <p>Ulasan Pengunjung</p>
             </div>
-            <div class="mangan-menu-list list">
+            <div class="mangan-menu-list list" ng-hide="true">
                 <div ng-hide="reviews" class="item item-text-wrap">
                     <p>Tulis Ulasan Pertama</p>
                 </div>
@@ -91,7 +91,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mangan-menu-selengkapnya">
+            <div class="mangan-menu-selengkapnya" ng-hide="true">
                 <button class="button button-positive button-small" ng-click="openRating()">TULIS ULASAN</button>
             </div>
         </div>
