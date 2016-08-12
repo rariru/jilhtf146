@@ -64,7 +64,7 @@ angular.module('app.services', [])
 
 	this.getRestoranReviews = function(id) {
 		return promiseValue(
-			firebase.database().ref('reviewRating/'+ id).orderByPriority()
+			firebase.database().ref('reviewRating/'+ id).orderByChild('tglReview')
 			);
 	}
 
@@ -194,12 +194,12 @@ angular.module('app.services', [])
 
 		var promise = $q.defer();
 
-		review.child(resto +'/'+ user).setWithPriority({
+		review.child(resto +'/'+ user).set({
 			'rating': userRating,
 			'review' : userReview || null,
 			'reviewer': user,
 			'tglReview': firebase.database.ServerValue.TIMESTAMP
-		}, firebase.database.ServerValue.TIMESTAMP, function() {
+		}).then(function() {
 			promise.resolve(true);
 		});
 

@@ -3,17 +3,16 @@
         <ion-list>
 
             <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus">
-                <img ng-src="{{menu.gambar}}" style="margin-top: -5px;" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50">
-                    <!-- <span class="mangan-label-menumakanan">Rp 15000</span> -->
-                <h2>{{menu.namaMenu}}</h2>
-                <h3>{{menu.harga | currency:'Rp ':2}}</h3>
+                <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50" ng-click="openMenuGambar( {{ $index }} )">
+                    <h2>{{menu.namaMenu}}</h2>
+                    <h3>{{menu.harga | currency:'Rp ':2}}</h3>
                 <!-- <span class="mangan-tag-menumakanan">Khas</span> -->
 
-                <span style="float:right;padding-right:5px;margin-top:-25px;">
-                    <button class="mangan-button-menumakanan" ng-click="openMenu( {{ $index }} )">
-                        <i class="icon ion-eye assertive" style="font-size: 20px;"></i>
-                    </button>
-                </span>
+                    <span class="mangan-menu-review" ng-show="menu.review && menu.review != 'null'">
+                        <button class="mangan-button-menumakanan" ng-click="openMenu( {{ $index }} )">
+                            <i class="icon ion-eye assertive" style="font-size: 20px;"></i>
+                        </button>
+                    </span>
                     <!-- <p style="font-size: 12px; white-space:normal;">Rp 10000</p> -->
                   <!--   <label class="item item-input" style="height: 30px; width: 100px;">
                         <span class="input-label" style="font-size: 12px;">Jumlah</span>
@@ -23,8 +22,8 @@
             
         </ion-list>
 
-        <div class="mangan-menu-selengkapnya" ng-hide="true">
-            <button class="button button-positive button-small">PESAN</button>
+        <div class="mangan-menu-selengkapnya">
+            <button class="button button-positive button-small" ng-click="pesan()">PESAN</button>
         </div>
     </ion-content>
 </ion-view>

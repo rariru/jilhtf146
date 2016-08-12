@@ -68,14 +68,25 @@ p {
 	padding: 5px;
 	padding-right: 20px;
 	display: inline-block;
+    overflow: hidden;
+    white-space: nowrap;
 }
 
 .mangan-image-4_3 {
 	background: url('../img/preload.jpg');
 	background-position:center;
+	background-size:cover;
 	width: 100%;
 	height: auto;
 	min-height: 200px;
+	margin: 0;
+	padding: 0;
+	display: block;
+}
+
+.mangan-image-review {
+	width: 100%;
+	height: auto;
 	margin: 0;
 	padding: 0;
 	display: block;
@@ -490,4 +501,20 @@ p {
 
 .tabs-striped.tabs-balanced .tabs {
 	border-bottom: 0;
+}
+
+.button-small {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.mangan-disclaimer {
+	width: 100%;
+	height: auto;
+	// background-color: rgba(255, 255, 0, 0.4);
+	// margin-bottom: 5px;
+	margin-left: 4px;
+	padding: 2px;
+	color: orangered;
+	font-weight: bold;
 }
