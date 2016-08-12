@@ -1,8 +1,9 @@
 angular.module('app.controllers', [])
 
-.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate) {
+.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing) {
 	$ionicLoading.show({
-      template: '<ion-spinner icon="android"></ion-spinner>'
+      template: '<ion-spinner icon="android"></ion-spinner>',
+      duration: 5000
     });
 
 	$scope.category = $stateParams.name;
@@ -11,6 +12,19 @@ angular.module('app.controllers', [])
 	
 	var category = $stateParams.category;
 	switch(category) {
+		case 'all' : {
+			// console.log('halo');
+			Services.getAllRestorans().then(function(restorans) {
+				if(restorans) {
+					$scope.restorans = restorans;
+				}
+				
+				$ionicLoading.hide();
+			}, function(reason) {
+				console.log('error fetch data');
+				$ionicLoading.hide();
+			});
+		} break;
 		default: {
 			// console.log(category);
 			Services.getRestoranCategory(category).then(function(restorans) {
@@ -38,6 +52,9 @@ angular.module('app.controllers', [])
 					// console.log($scope.restorans);
 
 				}
+			}, function(reason) {
+				console.log('error fetch data');
+				$ionicLoading.hide();
 			});
 		} break;
 	}
@@ -66,8 +83,20 @@ angular.module('app.controllers', [])
 		// var storage = firebase.storage();
 		// var storageRef = storage.ref();
 
-		// // get data resto
-		var resto = $scope.restorans[index];
+		/////////////////////////////////////////////////////////////////////
+		//
+		// get data resto
+		//
+		//////////////////////////////////////////////////////////////////////
+		var resto = null;
+		for(var id in $scope.restorans) {
+			// console.log($scope.restorans[id].index +" | "+ index)
+			if($scope.restorans[id].index == index) {
+				resto = $scope.restorans[id];
+				break;
+			}
+		}
+		// var resto = $scope.restorans[index];
 
 		// // firebase get url
 		// var starsRef = storageRef.child(resto.gambar[2]);
@@ -216,12 +245,14 @@ angular.module('app.controllers', [])
 .controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $ionicModal, $state) {
     
 	$ionicLoading.show({
-      template: '<ion-spinner icon="android"></ion-spinner>'
+      template: '<ion-spinner icon="android"></ion-spinner>',
+      duration: 5000
     });
 	// console.log("index:'"+ $stateParams.index +"'");
 
 	$scope.restoran = null;
 	$scope.menus = null;
+	$scope.reviews = [];
 	$scope.user = {
 		rating: 5
 	};
@@ -235,24 +266,40 @@ angular.module('app.controllers', [])
 			Services.getRestoranMenus($stateParams.index).then(function(menus) {
 				if(menus) {
 					$scope.menus = menus;
+					// console.log('ada menu');
+					/////////////////////////////////////////////////////////
+					//
+					// for nexxt development, authentification -> review-rating
+					//
+					////////////////////////////////////////////////////////
 
-					Services.getRestoranReviews($stateParams.index).then(function(reviews) {
-						if(reviews) {
-							for(var r in reviews) {
-								if(reviews[r].review == undefined || reviews[r].review == null) {
-									delete reviews[r];
-								}
-							}
-							$scope.reviews = reviews;
+					// Services.getRestoranReviews($stateParams.index).then(function(reviews) {
+					// 	if(reviews) {
+					// 		for(var r in reviews) {
+					// 			if(reviews[r].review == undefined || reviews[r].review == null) {
+					// 				delete reviews[r];
+					// 			}
+					// 		}
+					// 		$scope.reviews = reviews;
 
-							// console.log('success');
-						}
-					});
-
-					$ionicLoading.hide();
+					// 		// console.log('success');
+					// 	}
+					// });
+				} else {
+					console.log('gaada menu');
 				}
+
+				$ionicLoading.hide();
+			}, function(reason) {
+				console.log('error fetching data');
+				$ionicLoading.hide();
 			});
+		} else {
+			$ionicLoading.hide();
 		}
+	}, function(reason) {
+		console.log('gabisa ambil resto');
+		$ionicLoading.hide();
 	});
 
 	
@@ -286,9 +333,9 @@ angular.module('app.controllers', [])
 		Services.updateRatingReview($scope.restoran.index, $scope.user.reviewer, $scope.user.rating, $scope.user.review);
 		$scope.modalRating.hide();
 
-		if(!$scope.reviews) {
-			$scope.reviews = [];
-		}
+		// if(!$scope.reviews) {
+		// 	$scope.reviews = [];
+		// }
 
 		$scope.reviews[$scope.user.reviewer] = {
 			reviewer: $scope.user.reviewer,
@@ -395,7 +442,8 @@ angular.module('app.controllers', [])
   
 .controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaGoogleAnalytics) {
 	$ionicLoading.show({
-      template: '<ion-spinner icon="android"></ion-spinner>'
+      template: '<ion-spinner icon="android"></ion-spinner>',
+      duration: 5000
     });
 
     function _waitForAnalytics(){
@@ -442,17 +490,25 @@ angular.module('app.controllers', [])
 		delete $scope.user.query;
 	};
 
-	Services.getCategories().then(function(categories) {
-		if(categories) {
-			// for(var category in categories) {
-			// 	// categories[category].namaUp = categories[category].nama.toUpperCase();
-			// 	console.log(categories[category]);
-			// }
-			$scope.categories = categories;
-		}
+	$ionicLoading.hide();
 
-		$ionicLoading.hide();
-	});
+	///////////////////////////////////////////////////////////////////
+	//
+	// USED FOR DYNAMIC CATEGORIES
+	//
+	///////////////////////////////////////////////////////////////////
+
+	// Services.getCategories().then(function(categories) {
+	// 	if(categories) {
+	// 		// for(var category in categories) {
+	// 		// 	// categories[category].namaUp = categories[category].nama.toUpperCase();
+	// 		// 	console.log(categories[category]);
+	// 		// }
+	// 		$scope.categories = categories;
+	// 	}
+
+	// 	$ionicLoading.hide();
+	// });
 })
 
 .controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services, $cordovaToast, $cordovaSocialSharing) {
@@ -466,7 +522,8 @@ angular.module('app.controllers', [])
 	
     $scope.searchQuery = function() {
     	$ionicLoading.show({
-	      template: '<ion-spinner icon="android"></ion-spinner>'
+	      template: '<ion-spinner icon="android"></ion-spinner>',
+	      duration: 5000
 	    });
 
 		Services.searchQuery($scope.user.query).then(function(inputQuery) {
@@ -476,23 +533,48 @@ angular.module('app.controllers', [])
 
 				Services.getRestoranKeyword().then(function(result) {
 					if(result) {
+						// using filter
 						$scope.restorans = [];
+
+						var restoransNSorted = [];
 						var isFound = false;
 						// console.log('mulai cari');
 
+						var ta = 0;
+						for(var id in result) {
+							ta++;
+						}
+
+						// console.log('ta: '+ ta);
+
+						var ia = 0,
+							ir = 0,
+							tr = 0;
 						for(var id in result) {
 							// console.log(result[id].keyword);
 							if(result[id].keyword.indexOf($scope.user.query) >= 0) {
 								// console.log('HASIL:\t'+ id);
 								isFound = true;
 								// resultList.push(id);
+								tr++;
 								Services.getRestoranDetails(id).then(function(result) {
 									// console.log(result.namaResto);
-									$scope.restorans.push(result);
 
+									//using filter
+									$scope.restorans.push(result);
 									$ionicLoading.hide();
+
+									// restoransNSorted.push(result);
+
+									// ir++;
+									// if((ir >= tr) && (ia >= ta)) {
+									// 	$ionicLoading.hide();
+									// 	sortRestorans(restoransNSorted);
+									// }
 								});
 							}
+
+							ia++;
 						}
 						// console.log('isFound: '+ isFound);
 						if(!isFound) {
@@ -503,6 +585,32 @@ angular.module('app.controllers', [])
 				});
 			}
 		});
+	}
+
+	function sortRestorans(rs) {
+		$scope.restorans = [];
+
+		var i = 0;
+		var nrs = [];
+
+		for(var id in rs) {
+			nrs[i++] = rs[id];
+			// console.log(nrs[i-1].namaResto);
+		}
+
+		nrs.sort(function(x,y) {
+			return x.tglInput < y.tglInput;
+		});
+
+		for(var i = 0; i < nrs.length; i++) {
+			$scope.restorans.push(nrs[i]);
+		}
+		// $scope.restoran = nrs;
+		// setTimeout(function() {
+		// 	// for(var i = 0; i < nrs.length; i++) {
+		// 	// 	$scope.restorans = nrs;
+		// 	// }
+		// }, 1000);
 	}
 
 	$scope.checkSavedRestoran = function(index) {
@@ -531,7 +639,16 @@ angular.module('app.controllers', [])
 	$scope.shareRestoran = function(index) {
 		// console.log('share: '+ index);
 
-		var resto = $scope.restorans[index];
+		var resto = null;
+		for(var id in $scope.restorans) {
+			console.log($scope.restorans[id].index +" | "+ index)
+			if($scope.restorans[id].index == index) {
+				resto = $scope.restorans[id];
+				break;
+			}
+		}
+		// var resto = $scope.restorans[index];
+
 		var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
 		var gambar = null;
 		var textshared = resto.namaResto+" - "+resto.keteranganResto;
@@ -569,7 +686,8 @@ angular.module('app.controllers', [])
 
 	$scope.$on('$ionicView.enter', function() {
 		$ionicLoading.show({
-	      template: '<ion-spinner icon="android"></ion-spinner>'
+	      template: '<ion-spinner icon="android"></ion-spinner>',
+	      duration: 5000
 	    });
 
 		var temp = Services.getSavedRestorans();
@@ -611,7 +729,16 @@ angular.module('app.controllers', [])
 	$scope.shareRestoran = function(index) {
 		// console.log('share: '+ index);
 
-		var resto = $scope.restorans[index];
+		var resto = null;
+		for(var id in $scope.restorans) {
+			console.log($scope.restorans[id].index +" | "+ index)
+			if($scope.restorans[id].index == index) {
+				resto = $scope.restorans[id];
+				break;
+			}
+		}
+		// var resto = $scope.restorans[index];
+
 		var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
 		var gambar = null;
 		var textshared = resto.namaResto+" - "+resto.keteranganResto;
