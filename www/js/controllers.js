@@ -242,7 +242,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $ionicModal, $state) {
+.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $ionicModal, $state, $ionicPopup) {
     
 	$ionicLoading.show({
       template: '<ion-spinner icon="android"></ion-spinner>',
@@ -412,11 +412,29 @@ angular.module('app.controllers', [])
 		// 	$scope.modalRating.show();
 		// });
 		
-		$scope.modalRating.show();
+		// Kode asli
+		// $scope.modalRating.show();
+
+		// Coming Soon
+		$ionicPopup.alert({
+			title: 'Coming Soon',
+			template: '<center>Layanan ini akan segera hadir</center>',
+			okText: 'OK',
+			okType: 'button-balanced'
+		});
 	};
+
+	$scope.pesan = function() {
+		$ionicPopup.alert({
+			title: 'Coming Soon',
+			template: '<center>Layanan ini akan segera hadir</center>',
+			okText: 'OK',
+			okType: 'button-balanced'
+		});
+	}
 })
 
-.controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal) {
+.controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicPopup) {
 
     // $cordovaGoogleAnalytics.trackView('Informasi Menu Restoran '+$stateParams.index);
     analytics.trackView('Menu Kuliner '+$stateParams.index);
@@ -433,10 +451,34 @@ angular.module('app.controllers', [])
 		animation: 'slide-in-up'
 	}).then(function(modal) { $scope.modalMenu = modal; });
 
+	$ionicModal.fromTemplateUrl('templates/gambarMenu.html', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal) { $scope.modalMenuGambar = modal; });
+
 	$scope.openMenu = function(index) {
 		$scope.selectedMenu = $scope.menus[index];
 		// console.log($scope.selectedMenu);
 		$scope.modalMenu.show();
+	};
+
+	$scope.pesan = function() {
+		$ionicPopup.alert({
+			title: 'Coming Soon',
+			template: '<center>Layanan ini akan segera hadir</center>',
+			okText: 'OK',
+			okType: 'button-balanced'
+		});
+	}
+
+	$scope.openMenuGambar = function(index) {
+		$scope.selectedMenu = $scope.menus[index];
+		// console.log($scope.selectedMenu);
+		$scope.modalMenuGambar.show();
+	};
+
+	$scope.closeMenuGambar = function() {
+		$scope.modalMenuGambar.hide();
 	};
 })
   
