@@ -252,8 +252,8 @@ p {
 }
 
 .mangan-kontak {
-	background-color: rgb(230,231,232);
-	padding: 5px;
+	background-color: rgb(1, 178, 177);
+	// padding: 5px;
 	padding-bottom: 0;
 }
 
@@ -273,7 +273,7 @@ p {
 	padding: 10px;
 }
 
-.mangan-kontak-konten > a {
+.mangan-kontak > a {
 	text-decoration: none;
 }
 
@@ -318,6 +318,10 @@ p {
 
 .mangan-menu > h3 {
 	color: rgb(1,178,177);
+}
+
+.mangan-menu > a {
+	text-decoration: none;
 }
 
 .mangan-kategori{
@@ -484,6 +488,7 @@ p {
 }
 
 .gallery {
+	padding-bottom: 0;
     -webkit-flex-wrap: wrap;
     flex-wrap: wrap;
     display: -webkit-flex; /* Safari */
