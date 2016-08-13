@@ -9908,8 +9908,7 @@ p {
   background-color: #e6e7e8; }
 
 .mangan-kontak {
-  background-color: #e6e7e8;
-  padding: 5px;
+  background-color: #01b2b1;
   padding-bottom: 0; }
 
 .mangan-kontak-header {
@@ -9925,7 +9924,7 @@ p {
   background-color: white;
   padding: 10px; }
 
-.mangan-kontak-konten > a {
+.mangan-kontak > a {
   text-decoration: none; }
 
 .mangan-kontak-icon {
@@ -9967,6 +9966,9 @@ p {
 
 .mangan-menu > h3 {
   color: #01b2b1; }
+
+.mangan-menu > a {
+  text-decoration: none; }
 
 .mangan-kategori {
   font-size: 12px;
@@ -10103,6 +10105,7 @@ p {
   display: flex; }
 
 .gallery {
+  padding-bottom: 0;
   -webkit-flex-wrap: wrap;
   flex-wrap: wrap;
   display: -webkit-flex;
