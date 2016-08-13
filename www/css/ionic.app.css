@@ -9968,6 +9968,9 @@ p {
 .mangan-menu > h3 {
   color: #01b2b1; }
 
+.mangan-menu > h3 > a {
+  text-decoration: none; }
+
 .mangan-kategori {
   font-size: 12px;
   color: white;
@@ -10131,3 +10134,12 @@ p {
   padding: 2px;
   color: orangered;
   font-weight: bold; }
+
+.spinner svg {
+  width: 45px;
+  height: 45px;
+  stroke: rgba(255, 255, 255, 0.7);
+  fill: rgba(255, 255, 255, 0.7); }
+
+.loading-container .loading {
+  background-color: transparent !important; }
