@@ -40,7 +40,8 @@
                     <!-- <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50" ng-hide="menu.review && menu.review != 'null'"> -->
                     <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50" ng-click="openMenuGambar( {{ $index }} )">
                     <h2>{{menu.namaMenu}}</h2>
-                    <h3>{{menu.harga | currency:'Rp ':2}}</h3>
+                    <h3 ng-show="(menu.harga % 1) == 0">{{menu.harga | currency:'Rp ':2}}</h3>
+                    <h3 ng-hide="(menu.harga % 1) == 0">{{menu.harga}}</h3>
                     <!-- <span class="mangan-tag-menumakanan">Khas</span> -->
 
                     <span class="mangan-menu-review" ng-show="menu.review && menu.review != 'null'">

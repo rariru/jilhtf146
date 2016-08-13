@@ -320,7 +320,7 @@ p {
 	color: rgb(1,178,177);
 }
 
-.mangan-menu > a {
+.mangan-menu > h3 > a {
 	text-decoration: none;
 }
 
@@ -522,4 +522,15 @@ p {
 	padding: 2px;
 	color: orangered;
 	font-weight: bold;
+}
+
+.spinner svg {
+	width: 45px;
+	height: 45px;
+	stroke: rgba(255,255,255,0.7);
+	fill: rgba(255,255,255,0.7);
+}
+
+.loading-container .loading {
+	background-color: rgba(0,0,0,0) !important;
 }
