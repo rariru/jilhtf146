@@ -2,7 +2,7 @@ angular.module('app.controllers', [])
 
 .controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing) {
 	$ionicLoading.show({
-      template: '<ion-spinner icon="android"></ion-spinner>',
+      template: '<ion-spinner icon="spiral"></ion-spinner>',
       duration: 5000
     });
 
@@ -245,7 +245,7 @@ angular.module('app.controllers', [])
 .controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $ionicModal, $state, $ionicPopup) {
     
 	$ionicLoading.show({
-      template: '<ion-spinner icon="android"></ion-spinner>',
+      template: '<ion-spinner icon="spiral"></ion-spinner>',
       duration: 5000
     });
 	// console.log("index:'"+ $stateParams.index +"'");
@@ -482,7 +482,7 @@ angular.module('app.controllers', [])
   
 .controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaGoogleAnalytics) {
 	$ionicLoading.show({
-      template: '<ion-spinner icon="android"></ion-spinner>',
+      template: '<ion-spinner icon="spiral"></ion-spinner>',
       duration: 5000
     });
 
@@ -555,7 +555,7 @@ angular.module('app.controllers', [])
 	
     $scope.searchQuery = function() {
     	$ionicLoading.show({
-	      template: '<ion-spinner icon="android"></ion-spinner>',
+	      template: '<ion-spinner icon="spiral"></ion-spinner>',
 	      duration: 5000
 	    });
 
@@ -719,7 +719,7 @@ angular.module('app.controllers', [])
 
 	$scope.$on('$ionicView.enter', function() {
 		$ionicLoading.show({
-	      template: '<ion-spinner icon="android"></ion-spinner>',
+	      template: '<ion-spinner icon="spiral"></ion-spinner>',
 	      duration: 5000
 	    });
 
