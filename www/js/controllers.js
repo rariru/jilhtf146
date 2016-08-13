@@ -435,8 +435,6 @@ angular.module('app.controllers', [])
 })
 
 .controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicPopup) {
-
-    // $cordovaGoogleAnalytics.trackView('Informasi Menu Restoran '+$stateParams.index);
     analytics.trackView('Menu Kuliner '+$stateParams.index);
     console.log('Menu Menu Kuliner '+$stateParams.index);
 
@@ -491,7 +489,6 @@ angular.module('app.controllers', [])
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
             analytics.startTrackerWithId('UA-81887762-1');
-            // $cordovaGoogleAnalytics.trackView('Jelajah');
 		    analytics.trackView('Jelajah');
         }
         else{
@@ -502,9 +499,6 @@ angular.module('app.controllers', [])
     };
     _waitForAnalytics();
     console.log('Jelajah');
-
-    // $cordovaGoogleAnalytics.trackView('Jelajah');
-    // analytics.trackView('Home');
 
 	$scope.options = {
 		loop: true,
@@ -518,7 +512,6 @@ angular.module('app.controllers', [])
 		function _waitForAnalytics(){
 	        if(typeof analytics !== 'undefined'){
 	            analytics.startTrackerWithId('UA-81887762-1');
-	            // $cordovaGoogleAnalytics.trackView('Jelajah');
 				analytics.trackEvent('Pencarian', $scope.user.query);
 	        }
 	        else{
@@ -557,10 +550,8 @@ angular.module('app.controllers', [])
 	$scope.category = 'Pencarian';
 	$scope.user = {};
 	$scope.user.query = $stateParams.query;
-
-    // $cordovaGoogleAnalytics.trackView('Pencarian pengguna '+$scope.user.query);
+	
     analytics.trackView('Pencarian');
-    // console.log('Keyword '+$scope.user.query);
 	
     $scope.searchQuery = function() {
     	$ionicLoading.show({

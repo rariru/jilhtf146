@@ -18,7 +18,7 @@
         </div>
             <div class="mangan-detail-review">
                 <div class="mangan-detail-keterangan" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'" ><strong>{{restoran.keteranganBuka}}</strong></div>
-                <div class="mangan-disclaimer">Jam dan hari buka bisa berubah setiap saat</div>
+                <!-- <div class="mangan-disclaimer">Jam dan hari buka bisa berubah setiap saat</div> -->
                 <div class="mangan-detail-review-col-1">
                     <!-- <p>{{restoran.reviewTim | limitTo: 70}}{{restoran.reviewTim.length > 70 ? '...' : ''}}</p> -->
                     <!-- <div ng-bind-html="((restoran.reviewTim && restoran.reviewTim != 'null') ? 
@@ -60,27 +60,34 @@
             </div>
 
 
-            <div class="mangan-spacer"></div>
-            <div class="mangan-kontak-header" ng-show="(restoran.noTelp && restoran.noTelp != 'null') ||
+            <!-- <div class="mangan-spacer"></div> -->
+<!--             <div class="mangan-kontak-header" ng-show="(restoran.noTelp && restoran.noTelp != 'null') ||
                                                         (restoran.email && restoran.email != 'null') ||
                                                         (restoran.alamat && restoran.alamat != 'null')">
                 <p>Kontak</p>
-            </div>
+            </div> -->
             <div class="mangan-kontak" ng-show="(restoran.noTelp && restoran.noTelp != 'null') ||
                                                         (restoran.email && restoran.email != 'null') ||
                                                         (restoran.alamat && restoran.alamat != 'null')">
                 <!-- <div class="mangan-kontak-konten"> -->
-                    <ion-item class="mangan-menu item-thumbnail-left assertive item-text-wrap" style="margin: 0px">
-                        <img ui-sref="tabsController.peta({ index: restoran.index })" image-lazy-src="img/map-resto.jpg" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-loac="50">
-                        <h2>
-                            <p href="" ng-show="restoran.alamat && restoran.alamat != 'null'"><i class="mangan-kontak-icon icon ion-map"></i>{{restoran.alamat}}</p>
+                    <ion-item class="item-thumbnail-left assertive item-text-wrap" style="margin: 0px; border: 0; background-color: rgb(1, 178, 177); border-top: 2px solid white; border-bottom: 2px solid white;">
+                        <img ui-sref="tabsController.peta({ index: restoran.index })" ng-src="img/map-resto.jpg" style="max-width: 100px; max-height: 100px; top: 0; left: 0;">
+                        <h2 style="margin-left: 10px; border:">
+                            <p ng-show="restoran.alamat && restoran.alamat != 'null'" style="color: white">
+                                {{restoran.alamat}}
+                            </p>
                         </h2>
-                        <h3>
-                            <a href="mailto:{{restoran.email}}" ng-show="restoran.email && restoran.email != 'null'"><i class="mangan-kontak-icon icon ion-email"></i>{{restoran.email}}</a>
+                        <h3 style="margin-left: 10px;">
+                            <a href="mailto:{{restoran.email}}" ng-show="restoran.email && restoran.email != 'null'" style="text-decoration: none; color: yellow;">
+                                <i class="mangan-kontak-icon icon ion-email" style="color: yellow;""></i>
+                                <!-- {{restoran.email}} -->
+                            </a>
                         </h3>
-                        <h3>
-                            <a href="tel:{{restoran.noTelp}}" ng-show="restoran.noTelp && restoran.noTelp != 'null'"><i class="mangan-kontak-icon icon ion-ios-telephone"></i>{{restoran.noTelp}}
-                            </br></a>
+                        <h3 style="margin-left: 10px;">
+                            <a href="tel:{{restoran.noTelp}}" ng-show="restoran.noTelp && restoran.noTelp != 'null'" style="text-decoration: none; color: yellow;">
+                                <i class="mangan-kontak-icon icon ion-ios-telephone" style="color: yellow;""></i>
+                                {{restoran.noTelp}}
+                            </a>
                         </h3>
                     </ion-item>
                     <!-- <a href="tel:{{restoran.noTelp}}" ng-show="restoran.noTelp && restoran.noTelp != 'null'"><i class="mangan-kontak-icon icon ion-ios-telephone"></i>{{restoran.noTelp}}
@@ -89,17 +96,17 @@
                     <p href="" ng-show="restoran.alamat && restoran.alamat != 'null'"><i class="mangan-kontak-icon icon ion-map"></i>{{restoran.alamat}}</p> -->
                 <!-- </div> -->
             </div>
-            <div class="mangan-spacer"></div>
+            <!-- <div class="mangan-spacer"></div> -->
             <!-- <div class="mangan-menu-selengkapnya" ng-show="restoran.map.lat && restoran.map.lat != 'null'">
                 <a ui-sref="tabsController.peta({ index: restoran.index })" id="selatViens-button21" class="button button-positive button-small">LIHAT PETA</a>
             </div> -->
-            <div class="mangan-spacer"></div>
+            <!-- <div class="mangan-spacer"></div> -->
             <div class="mangan-kontak-header">
                 <p>Ulasan Pengunjung</p>
             </div>
             <div class="mangan-menu-list list">
-                <div ng-hide="reviews" class="item item-text-wrap">
-                    <p>Tulis Ulasan Pertama</p>
+                <div class="item item-text-wrap">
+                    <center><p style="font-weight: bold;">Tulis Ulasan Pertama</p></center>
                 </div>
 
                 <div ng-repeat="review in reviews" ng-hide="true">
