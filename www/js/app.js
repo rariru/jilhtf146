@@ -21,14 +21,14 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     }
     // $cordovaGoogleAnalytics.debugMode();
     // if(typeof analytics !== undefined) {
-    //   analytics.startTrackerWithId('UA-81887762-1');
+    //   analytics.startTrackerWithId('UA-XXXXXXXX-X');
     // } else {
     //   console.log("Google Analytics Unavailable");
     // }
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
             // analytics.debugMode();
-            analytics.startTrackerWithId('UA-81887762-1');
+            analytics.startTrackerWithId('UA-XXXXXXXX-X');
         }
         else{
             setTimeout(function(){
