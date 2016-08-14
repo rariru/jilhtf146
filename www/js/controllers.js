@@ -9,6 +9,9 @@ angular.module('app.controllers', [])
 	$scope.category = $stateParams.name;
 
 	analytics.trackView('Kategori '+$scope.category);
+	console.log('trackView, Kategori, '+$scope.category);
+	analytics.trackEvent('Kategori', 'Kategori Kuliner', $scope.category, 5);
+	console.log('trackEvent, Kategori Kuliner, '+$scope.category);
 	
 	var category = $stateParams.category;
 	switch(category) {
@@ -62,17 +65,23 @@ angular.module('app.controllers', [])
 	$scope.saveRestoran = function(index) {
 		if(Services.checkSavedRestoran(index)) {
 			Services.deleteRestoran(index).then(function() {
+				analytics.trackEvent('Simpan Kuliner', 'Hapus Simpan', index, 5);
+				console.log('trackEvent, Hapus Simpan, '+index);
 				makeToast('Restoran telah dihapus', 1500, 'bottom');
 			});
 		} else {
 			Services.saveRestoran(index).then(function(result) {
 				if(result) {
+					analytics.trackEvent('Simpan Kuliner', 'Simpan', index, 5);
+					console.log('trackEvent, Simpan, '+index);
 					makeToast('Restoran berhasil disimpan', 1500, 'bottom');
 				} else {
 					makeToast('Restoran gagal disimpan', 1500, 'bottom');
 					console.log('this should not ever happen.');
 				}
 			}, function(reason) {
+				analytics.trackEvent('Simpan Kuliner', 'Simpan Penuh');
+				console.log('trackEvent, Simpan Penuh');
 				makeToast('Penyimpanan restoran penuh (max. 5)', 1500, 'bottom');
 			});
 		}
@@ -209,7 +218,8 @@ angular.module('app.controllers', [])
 
 			$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
 			.then(function(result) {
-				console.log('shared');
+				analytics.trackEvent('Share', 'Share Kuliner', index);
+				console.log('trackEvent, Share, '+index);
 			}, function(err) {
 				console.log('error');
 			});
@@ -260,8 +270,10 @@ angular.module('app.controllers', [])
 	Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 		if(restoran) {
 			$scope.restoran = restoran;
-			console.log('Kuliner '+restoran.namaResto);
-			analytics.trackView('Kuliner '+restoran.namaResto);
+			analytics.trackView('Kuliner');
+			console.log('trackView, Kuliner');
+			analytics.trackEvent('Kuliner', 'Informasi', $stateParams.index, 5);
+			console.log('trackEvent, Kuliner, Informasi, '+$stateParams.index);
 
 			Services.getRestoranMenus($stateParams.index).then(function(menus) {
 				if(menus) {
@@ -370,6 +382,10 @@ angular.module('app.controllers', [])
 	}).then(function(modal) { $scope.modalRating = modal; });
 
 	$scope.openReview = function() {
+		analytics.trackView('Ulasan Kuliner');
+		console.log('trackView, Ulasan Kuliner');
+		analytics.trackEvent('Ulasan', 'Ulasan Kuliner', $stateParams.index, 5);
+		console.log('trackEvent, Ulasan, Ulasan Kuliner, '+$stateParams.index);
 		$scope.modalReview.show();
 	};
 
@@ -378,6 +394,10 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.openMenu = function(index) {
+		analytics.trackView('Ulasan Menu Kuliner');
+		console.log('trackView, Ulasan Menu Kuliner');
+		analytics.trackEvent('Ulasan', 'Ulasan Menu Kuliner '+$stateParams.index , index, 5);
+		console.log('trackEvent, Ulasan, Ulasan Menu Kuliner '+$stateParams.index+', '+index);
 		$scope.selectedMenu = $scope.menus[index];
 		// console.log($scope.selectedMenu);
 		$scope.modalMenu.show();
@@ -388,6 +408,10 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.openMenuGambar = function(index) {
+		analytics.trackView('Gambar Ulasan Menu Kuliner');
+		console.log('trackView, Gambar Ulasan Menu Kuliner');
+		analytics.trackEvent('Ulasan', 'Gambar Ulasan Menu Kuliner '+$stateParams.index, index, 5);
+		console.log('trackEvent, Ulasan, Gambar Ulasan Menu Kuliner '+$stateParams.index+', '+index);
 		$scope.selectedMenu = $scope.menus[index];
 		// console.log($scope.selectedMenu);
 		$scope.modalMenuGambar.show();
@@ -416,6 +440,8 @@ angular.module('app.controllers', [])
 		// $scope.modalRating.show();
 
 		// Coming Soon
+		analytics.trackEvent('Coming Soon', 'Ulasan Pengguna', 'Tombol Ulasan', 10);
+		console.log('trackEvent, Coming Soon, Ulasan Pengguna, Tombol Ulasan');
 		$ionicPopup.alert({
 			title: 'Coming Soon',
 			template: '<center>Layanan ini akan segera hadir</center>',
@@ -425,6 +451,8 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.pesan = function() {
+		analytics.trackEvent('Coming Soon', 'Pesan', 'Tombol Pesan', 5);
+		console.log('trackEvent, Coming Soon, Pesan, Tombol Pesan');
 		$ionicPopup.alert({
 			title: 'Coming Soon',
 			template: '<center>Layanan ini akan segera hadir</center>',
@@ -435,8 +463,10 @@ angular.module('app.controllers', [])
 })
 
 .controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicPopup) {
-    analytics.trackView('Menu Kuliner '+$stateParams.index);
-    console.log('Menu Menu Kuliner '+$stateParams.index);
+    analytics.trackView('Menu Kuliner');
+    console.log('trackView, Menu Kuliner');
+    analytics.trackEvent('Menu', 'Lihat Menu', $stateParams.index, 5);
+    console.log('trackEvent, Menu, Lihat Menu, '+$stateParams.index);
 
 	Services.getRestoranMenus($stateParams.index).then(function(menus) {
 		if(menus) {
@@ -455,21 +485,21 @@ angular.module('app.controllers', [])
 	}).then(function(modal) { $scope.modalMenuGambar = modal; });
 
 	$scope.openMenu = function(index) {
+		analytics.trackView('Ulasan Menu Kuliner');
+		console.log('trackView, Ulasan Menu Kuliner');
+		analytics.trackEvent('Ulasan', 'Ulasan Menu Kuliner '+$stateParams.index , index, 5);
+		console.log('trackEvent, Ulasan, Ulasan Menu Kuliner '+$stateParams.index+', '+index);
 		$scope.selectedMenu = $scope.menus[index];
 		// console.log($scope.selectedMenu);
 		$scope.modalMenu.show();
 	};
 
-	$scope.pesan = function() {
-		$ionicPopup.alert({
-			title: 'Coming Soon',
-			template: '<center>Layanan ini akan segera hadir</center>',
-			okText: 'OK',
-			okType: 'button-balanced'
-		});
-	}
-
 	$scope.openMenuGambar = function(index) {
+		analytics.trackView('Gambar Ulasan Menu Kuliner');
+		console.log('trackView, Gambar Ulasan Menu Kuliner');
+		analytics.trackEvent('Ulasan', 'Gambar Ulasan Menu Kuliner '+$stateParams.index, index, 5);
+		console.log('trackEvent, Ulasan, Gambar Ulasan Menu Kuliner '+$stateParams.index+', '+index);
+		$scope.selectedMenu = $scope.menus[index];
 		$scope.selectedMenu = $scope.menus[index];
 		// console.log($scope.selectedMenu);
 		$scope.modalMenuGambar.show();
@@ -478,6 +508,17 @@ angular.module('app.controllers', [])
 	$scope.closeMenuGambar = function() {
 		$scope.modalMenuGambar.hide();
 	};
+
+	$scope.pesan = function() {
+		analytics.trackEvent('Coming Soon', 'Pesan', 'Tombol Pesan', 5);
+		console.log('trackEvent, Coming Soon, Pesan, Tombol Pesan');
+		$ionicPopup.alert({
+			title: 'Coming Soon',
+			template: '<center>Layanan ini akan segera hadir</center>',
+			okText: 'OK',
+			okType: 'button-balanced'
+		});
+	}
 })
   
 .controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaGoogleAnalytics) {
@@ -488,7 +529,7 @@ angular.module('app.controllers', [])
 
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
-            analytics.startTrackerWithId('UA-81887762-1');
+            analytics.startTrackerWithId('UA-XXXXXXXX-X');
 		    analytics.trackView('Jelajah');
         }
         else{
@@ -498,7 +539,7 @@ angular.module('app.controllers', [])
         }
     };
     _waitForAnalytics();
-    console.log('Jelajah');
+    console.log('trackView, Jelajah');
 
 	$scope.options = {
 		loop: true,
@@ -511,8 +552,9 @@ angular.module('app.controllers', [])
 	$scope.searchQuery = function() {
 		function _waitForAnalytics(){
 	        if(typeof analytics !== 'undefined'){
-	            analytics.startTrackerWithId('UA-81887762-1');
-				analytics.trackEvent('Pencarian', $scope.user.query);
+	            analytics.startTrackerWithId('UA-XXXXXXXX-X');
+				analytics.trackEvent('Pencarian', 'Cari', $scope.user.query, 5);
+				console.log('trackEvent, Pencarian, Cari, '+$scope.user.query);
 	        }
 	        else{
 	            setTimeout(function(){
@@ -526,6 +568,13 @@ angular.module('app.controllers', [])
 	};
 
 	$ionicLoading.hide();
+
+	$scope.rekomendasikan = function() {
+		analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
+		console.log('trackEvent, Rekomendasikan, Buka Rekomendasikan');
+		window.open('https://mobilepangan.com/mangan/rekomendasi', '_system', 'location=yes'); 
+		return false;
+	}
 
 	///////////////////////////////////////////////////////////////////
 	//
@@ -552,6 +601,7 @@ angular.module('app.controllers', [])
 	$scope.user.query = $stateParams.query;
 	
     analytics.trackView('Pencarian');
+    console.log('trackView, Pencarian');
 	
     $scope.searchQuery = function() {
     	$ionicLoading.show({
@@ -653,17 +703,23 @@ angular.module('app.controllers', [])
 	$scope.saveRestoran = function(index) {
 		if(Services.checkSavedRestoran(index)) {
 			Services.deleteRestoran(index).then(function() {
+				analytics.trackEvent('Simpan Kuliner', 'Hapus Simpan', index, 5);
+				console.log('trackEvent, Hapus Simpan, '+index);
 				makeToast('Restoran telah dihapus', 1500, 'bottom');
 			});
 		} else {
 			Services.saveRestoran(index).then(function(result) {
 				if(result) {
+					analytics.trackEvent('Simpan Kuliner', 'Simpan', index, 5);
+					console.log('trackEvent, Simpan, '+index);
 					makeToast('Restoran berhasil disimpan', 1500, 'bottom');
 				} else {
 					makeToast('Restoran gagal disimpan', 1500, 'bottom');
 					console.log('this should not be done.');
 				}
 			}, function(reason) {
+				analytics.trackEvent('Simpan Kuliner', 'Simpan Penuh');
+				console.log('trackEvent, Simpan Penuh');
 				makeToast('Penyimpanan restoran penuh (max. 5)', 1500, 'bottom');
 			});
 		}
@@ -692,7 +748,8 @@ angular.module('app.controllers', [])
 
 		$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
 		.then(function(result) {
-			console.log('shared');
+			analytics.trackEvent('Share', 'Share Kuliner', index);
+			console.log('trackEvent, Share, '+index);
 		}, function(err) {
 			console.log('error');
 		});
@@ -713,6 +770,7 @@ angular.module('app.controllers', [])
 .controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading) {
 	$scope.category = 'Tersimpan';
 	analytics.trackView('Tersimpan');
+	console.log('trackView, Tersimpan');
 
 	var savedRestorans = [];
 	$scope.restorans = [];
@@ -749,6 +807,8 @@ angular.module('app.controllers', [])
 
 	$scope.saveRestoran = function(index) {
 		Services.deleteRestoran(index).then(function() {
+			analytics.trackEvent('Simpan Kuliner', 'Hapus Simpan', index, 5);
+			console.log('trackEvent, Hapus Simpan, '+index);
 			window.plugins.toast.showWithOptions({
 				message: 'Restoran berhasil dihapus',
 				duration: 1500,
@@ -782,7 +842,8 @@ angular.module('app.controllers', [])
 
 		$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
 		.then(function(result) {
-			console.log('shared');
+			analytics.trackEvent('Share', 'Share Kuliner', index);
+			console.log('trackEvent, Share, '+index);
 		}, function(err) {
 			console.log('error');
 		});
@@ -852,6 +913,10 @@ angular.module('app.controllers', [])
 	// console.log($stateParams.index);
 
 	analytics.trackView('Peta');
+	console.log('trackView, Peta');
+	analytics.trackEvent('Peta', 'Lihat Peta', $stateParams.index, 5);
+	console.log('trackEvent, Peta, Lihat Peta, '+$stateParams.index);
+
 	var options = {timeout: 1000, enableHighAccuracy: true};
 	// $cordovaGeolocation.getCurrentPosition(options).then(function(position){
 	// navigator.geolocation.getCurrentPosition(options).then(function(position){
@@ -896,6 +961,8 @@ angular.module('app.controllers', [])
 				});
 
 				$scope.openUrl = function() {
+					analytics.trackEvent('Peta', 'Navigasikan', $stateParams.index, 5);
+					console.log('trackEvent, Peta, Navigasikan, '+$stateParams.index);
 					$cordovaGeolocation.getCurrentPosition(options).then(function(position){
 						var lat = position.coords.latitude;
 						var lng = position.coords.longitude;
