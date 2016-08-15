@@ -8,10 +8,12 @@ angular.module('app.controllers', [])
 
 	$scope.category = $stateParams.name;
 
-	analytics.trackView('Kategori '+$scope.category);
-	console.log('trackView, Kategori, '+$scope.category);
-	analytics.trackEvent('Kategori', 'Kategori Kuliner', $scope.category, 5);
-	console.log('trackEvent, Kategori Kuliner, '+$scope.category);
+	$scope.$on('$ionicView.enter', function() {
+		analytics.trackView('Kategori '+$scope.category);
+		console.log('trackView, Kategori, '+$scope.category);
+		analytics.trackEvent('Kategori', 'Kategori Kuliner', $scope.category, 5);
+		console.log('trackEvent, Kategori Kuliner, '+$scope.category);
+	});
 	
 	var category = $stateParams.category;
 	switch(category) {
@@ -260,6 +262,13 @@ angular.module('app.controllers', [])
     });
 	// console.log("index:'"+ $stateParams.index +"'");
 
+	$scope.$on('$ionicView.enter', function() {
+		analytics.trackView('Kuliner');
+		console.log('trackView, Kuliner');
+		analytics.trackEvent('Kuliner', 'Informasi', $stateParams.index, 5);
+		console.log('trackEvent, Kuliner, Informasi, '+$stateParams.index);
+	});
+
 	$scope.restoran = null;
 	$scope.menus = null;
 	$scope.reviews = [];
@@ -270,10 +279,13 @@ angular.module('app.controllers', [])
 	Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 		if(restoran) {
 			$scope.restoran = restoran;
-			analytics.trackView('Kuliner');
-			console.log('trackView, Kuliner');
-			analytics.trackEvent('Kuliner', 'Informasi', $stateParams.index, 5);
-			console.log('trackEvent, Kuliner, Informasi, '+$stateParams.index);
+
+			// pindah di on enter
+			//
+			// analytics.trackView('Kuliner');
+			// console.log('trackView, Kuliner');
+			// analytics.trackEvent('Kuliner', 'Informasi', $stateParams.index, 5);
+			// console.log('trackEvent, Kuliner, Informasi, '+$stateParams.index);
 
 			Services.getRestoranMenus($stateParams.index).then(function(menus) {
 				if(menus) {
@@ -463,10 +475,19 @@ angular.module('app.controllers', [])
 })
 
 .controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicPopup) {
-    analytics.trackView('Menu Kuliner');
-    console.log('trackView, Menu Kuliner');
-    analytics.trackEvent('Menu', 'Lihat Menu', $stateParams.index, 5);
-    console.log('trackEvent, Menu, Lihat Menu, '+$stateParams.index);
+	// pindah di on enter
+	//
+    // analytics.trackView('Menu Kuliner');
+    // console.log('trackView, Menu Kuliner');
+    // analytics.trackEvent('Menu', 'Lihat Menu', $stateParams.index, 5);
+    // console.log('trackEvent, Menu, Lihat Menu, '+$stateParams.index);
+
+    $scope.$on('$ionicView.enter', function() {
+    	analytics.trackView('Menu Kuliner');
+	    console.log('trackView, Menu Kuliner');
+	    analytics.trackEvent('Menu', 'Lihat Menu', $stateParams.index, 5);
+	    console.log('trackEvent, Menu, Lihat Menu, '+$stateParams.index);
+    });
 
 	Services.getRestoranMenus($stateParams.index).then(function(menus) {
 		if(menus) {
@@ -529,8 +550,11 @@ angular.module('app.controllers', [])
 
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
-            analytics.startTrackerWithId('UA-XXXXXXXX-X');
-		    analytics.trackView('Jelajah');
+            analytics.startTrackerWithId('XX-XXXXXXXX-X');
+
+            // pindah di on enter
+            //
+		    // analytics.trackView('Jelajah');
         }
         else{
             setTimeout(function(){
@@ -539,7 +563,11 @@ angular.module('app.controllers', [])
         }
     };
     _waitForAnalytics();
-    console.log('trackView, Jelajah');
+
+    $scope.$on('$ionicView.enter', function() {
+    	analytics.trackView('Jelajah');
+    	console.log('trackView, Jelajah');
+    });
 
 	$scope.options = {
 		loop: true,
@@ -550,19 +578,6 @@ angular.module('app.controllers', [])
 	$scope.user = {};
 
 	$scope.searchQuery = function() {
-		function _waitForAnalytics(){
-	        if(typeof analytics !== 'undefined'){
-	            analytics.startTrackerWithId('UA-XXXXXXXX-X');
-				analytics.trackEvent('Pencarian', 'Cari', $scope.user.query, 5);
-				console.log('trackEvent, Pencarian, Cari, '+$scope.user.query);
-	        }
-	        else{
-	            setTimeout(function(){
-	                _waitForAnalytics();
-	            },10000);
-	        }
-	    };
-	    _waitForAnalytics();
 		$state.go('tabsController.pencarian', {'query': $scope.user.query});
 		delete $scope.user.query;
 	};
@@ -600,14 +615,34 @@ angular.module('app.controllers', [])
 	$scope.user = {};
 	$scope.user.query = $stateParams.query;
 	
-    analytics.trackView('Pencarian');
-    console.log('trackView, Pencarian');
+	// pindah di on enter
+    // analytics.trackView('Pencarian');
+    // console.log('trackView, Pencarian');
+
+    $scope.$on('$ionicView.enter', function() {
+    	analytics.trackView('Pencarian');
+    	console.log('trackView, Pencarian');
+    });
 	
     $scope.searchQuery = function() {
     	$ionicLoading.show({
 	      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
 	      duration: 5000
 	    });
+
+		function _waitForAnalytics(){
+	        if(typeof analytics !== 'undefined'){
+	            analytics.startTrackerWithId('XX-XXXXXXXX-X');
+				analytics.trackEvent('Pencarian', 'Cari', $scope.user.query, 5);
+				console.log('trackEvent, Pencarian, Cari, '+$scope.user.query);
+	        }
+	        else{
+	            setTimeout(function(){
+	                _waitForAnalytics();
+	            },10000);
+	        }
+	    };
+	    _waitForAnalytics();
 
 		Services.searchQuery($scope.user.query).then(function(inputQuery) {
 			// console.log($scope.user.query);
@@ -769,8 +804,11 @@ angular.module('app.controllers', [])
    
 .controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading) {
 	$scope.category = 'Tersimpan';
-	analytics.trackView('Tersimpan');
-	console.log('trackView, Tersimpan');
+
+	// pindah di on enter
+	//
+	// analytics.trackView('Tersimpan');
+	// console.log('trackView, Tersimpan');
 
 	var savedRestorans = [];
 	$scope.restorans = [];
@@ -780,6 +818,9 @@ angular.module('app.controllers', [])
 	      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
 	      duration: 5000
 	    });
+
+	 	analytics.trackView('Tersimpan');
+		console.log('trackView, Tersimpan');
 
 		var temp = Services.getSavedRestorans();
 		savedRestorans = temp.slice(0);
@@ -912,10 +953,19 @@ angular.module('app.controllers', [])
 
 	// console.log($stateParams.index);
 
-	analytics.trackView('Peta');
-	console.log('trackView, Peta');
-	analytics.trackEvent('Peta', 'Lihat Peta', $stateParams.index, 5);
-	console.log('trackEvent, Peta, Lihat Peta, '+$stateParams.index);
+	// pindah di on enter
+	//
+	// analytics.trackView('Peta');
+	// console.log('trackView, Peta');
+	// analytics.trackEvent('Peta', 'Lihat Peta', $stateParams.index, 5);
+	// console.log('trackEvent, Peta, Lihat Peta, '+$stateParams.index);
+
+	$scope.$on('$ionicView.enter', function() {
+		analytics.trackView('Peta');
+		console.log('trackView, Peta');
+		analytics.trackEvent('Peta', 'Lihat Peta', $stateParams.index, 5);
+		console.log('trackEvent, Peta, Lihat Peta, '+$stateParams.index);
+	});
 
 	var options = {timeout: 1000, enableHighAccuracy: true};
 	// $cordovaGeolocation.getCurrentPosition(options).then(function(position){

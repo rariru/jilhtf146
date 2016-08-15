@@ -28,7 +28,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
             // analytics.debugMode();
-            analytics.startTrackerWithId('UA-XXXXXXXX-X');
+            analytics.startTrackerWithId('XX-XXXXXXXX-X');
         }
         else{
             setTimeout(function(){
