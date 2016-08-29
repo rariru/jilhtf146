@@ -7,7 +7,11 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ngStorage', 'ionic-ratings', 'ionicLazyLoad'])
 
-.run(function($ionicPlatform) {
+.constant('config', {
+  analytics: 'UA-82447017-1'
+})
+
+.run(function($ionicPlatform, config) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -28,7 +32,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
             // analytics.debugMode();
-            analytics.startTrackerWithId('XX-XXXXXXXX-X');
+            analytics.startTrackerWithId(config.analytics);
         }
         else{
             setTimeout(function(){
