@@ -24,7 +24,7 @@ angular.module('app.services', [])
 			);
 	}
 
-	this.getRestoranKeyword = function(key) {
+	this.getRestoranKeyword = function() {
 		return promiseValue(keyword);
 	}
 
@@ -44,9 +44,9 @@ angular.module('app.services', [])
 			);
 	}
 
-	this.getAllRestorans = function() {
+	this.getAllRestorans = function(startDate) {
 		return promiseValue(
-			restoran.orderByChild('tglInput').limitToLast(10)
+			restoran.orderByChild('tglInput').endAt(startDate).limitToLast(5)
 			);
 	}
 
