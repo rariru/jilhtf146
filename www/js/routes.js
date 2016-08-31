@@ -171,6 +171,37 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+  .state('tabsController.ulasanMenu', {
+    url: '/ulasanMenu',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/menu.html',
+        controller: 'ulasanMenuCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/menu.html',
+        controller: 'ulasanMenuCtrl'
+      }
+    },
+    params: {
+      selectedMenu: null
+    }
+  })
+
+  .state('tabsController.promo', {
+    url: '/promo',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/promo.html',
+        controller: 'promoCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/promo.html',
+        controller: 'promoCtrl'
+      }
+    }
+  })
+
 $urlRouterProvider.otherwise('/page1/page2')
 
 });
