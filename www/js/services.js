@@ -9,6 +9,7 @@ var menu = firebase.database().ref('dataMenu');
 var review = firebase.database().ref('reviewRating');
 var search = firebase.database().ref('searching');
 var keyword = firebase.database().ref('keywordResto');
+var slider = firebase.database().ref('slider');
 
 angular.module('app.services', [])
 
@@ -24,7 +25,7 @@ angular.module('app.services', [])
 			);
 	}
 
-	this.getRestoranKeyword = function(key) {
+	this.getRestoranKeyword = function() {
 		return promiseValue(keyword);
 	}
 
@@ -44,9 +45,9 @@ angular.module('app.services', [])
 			);
 	}
 
-	this.getAllRestorans = function() {
+	this.getAllRestorans = function(startDate) {
 		return promiseValue(
-			restoran.orderByChild('tglInput').limitToLast(10)
+			restoran.orderByChild('tglInput').endAt(startDate).limitToLast(5)
 			);
 	}
 
@@ -223,6 +224,12 @@ angular.module('app.services', [])
 		return promiseValue(
 			restoran.orderByChild('keyword').startAt(keyword)//.endAt(keyword)
 			);
+	}
+
+	this.getSliders = function() {
+		return promiseValue(
+			slider
+		);
 	}
 
 	function promiseAdded(obj) {

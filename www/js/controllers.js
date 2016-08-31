@@ -8,61 +8,22 @@ angular.module('app.controllers', [])
 
 	$scope.category = $stateParams.name;
 
+	var category = $stateParams.category;
+	var flag = new Date().getTime();
+	var flag2 = flag;
+	var failCounter = 0;
+	// $scope.restorans = [];
+
 	$scope.$on('$ionicView.enter', function() {
 		analytics.trackView('Kategori '+$scope.category);
 		console.log('trackView, Kategori, '+$scope.category);
 		analytics.trackEvent('Kategori', 'Kategori Kuliner', $scope.category, 5);
 		console.log('trackEvent, Kategori Kuliner, '+$scope.category);
+
+		failCounter = 0;
 	});
-	
-	var category = $stateParams.category;
-	switch(category) {
-		case 'all' : {
-			// console.log('halo');
-			Services.getAllRestorans().then(function(restorans) {
-				if(restorans) {
-					$scope.restorans = restorans;
-				}
-				
-				$ionicLoading.hide();
-			}, function(reason) {
-				console.log('error fetch data');
-				$ionicLoading.hide();
-			});
-		} break;
-		default: {
-			// console.log(category);
-			Services.getRestoranCategory(category).then(function(restorans) {
-				if(restorans) {
-					$scope.restorans = [];
 
-					for(var r in restorans) {
-						// console.log(r);
-						Services.getRestoranDetails(r).then(function(restoran) {
-							$scope.restorans.push(restoran);
-
-							$ionicLoading.hide();
-						});
-					}
-
-					// $scope.restorans = listRestorans;
-
-					// for (var i = 0; i < restorans.length; i++) {
-					// 	console.log(restorans[i].index);
-					// 	Services.getRestoranDetails(restorans[i].index).then(function(restoran) {
-					// 		$scope.restorans.push(restoran);
-					// 	});
-					// }
-					// console.log('success');
-					// console.log($scope.restorans);
-
-				}
-			}, function(reason) {
-				console.log('error fetch data');
-				$ionicLoading.hide();
-			});
-		} break;
-	}
+	loadResto();
 
 	$scope.saveRestoran = function(index) {
 		if(Services.checkSavedRestoran(index)) {
@@ -90,10 +51,6 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.shareRestoran = function(index) {
-		// create storage ref
-		// var storage = firebase.storage();
-		// var storageRef = storage.ref();
-
 		/////////////////////////////////////////////////////////////////////
 		//
 		// get data resto
@@ -107,132 +64,22 @@ angular.module('app.controllers', [])
 				break;
 			}
 		}
-		// var resto = $scope.restorans[index];
 
-		// // firebase get url
-		// var starsRef = storageRef.child(resto.gambar[2]);
-		// var refUrl = storage.refFromURL(resto.gambar[0]);
+		var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
+		var gambar = null;
+		var textshared = resto.namaResto+" - "+resto.keteranganResto;
 
-		// // get Data URI
-		// function getDataUri(url, callback) {
-		//     var image = new Image();
-		//     image.setAttribute('crossOrigin', 'anonymous');
-		//     image.onload = function () {
-		//         var canvas = document.createElement('canvas');
-		//         canvas.width = this.naturalWidth; // or 'width' if you want a special/scaled size
-		//         canvas.height = this.naturalHeight; // or 'height' if you want a special/scaled size
-		//         canvas.getContext('2d').drawImage(this, 0, 0);
-		//         // Get raw image data
-		//         // callback(canvas.toDataURL('image/png').replace(/^data:image\/(png|jpg);base64,/, ''));
-		//         // ... or get as Data URI
-		//         callback(canvas.toDataURL('image/png'));
-		//     };
+		if(resto.gambar[3]) {
+			gambar = resto.gambar[3];
+		}
 
-		//     image.src = url;
-		// }
-
-		// // get firebase download URL
-		// refUrl.getDownloadURL().then(function(url) {
-		// 	// Insert url into an <img> tag to "download"
-		// 	console.log(url);
-		// 		// getDataUri(url, function(dataUri) {
-		// 		// // Do whatever you'd like with the Data URI!
-		// 		// // console.log(dataUri);
-		// 		// 	console.log('sukses')
-		// 		// 	var link = 'www.mobilepangan.com/downloads';
-		// 		// 	$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, dataUri, link)
-		// 		// 	.then(function(result) {
-		// 		// 		console.log('shared');
-		// 		// 	}, function(err) {
-		// 		// 		console.log('error');
-		// 		// 	});;
-		// 		// });
-		// }).catch(function(error) {
-		//   switch (error.code) {
-		//     case 'storage/object_not_found':
-		//       // File doesn't exist
-		//       console.log('not found');
-		//       break;
-
-		//     case 'storage/unauthorized':
-		//       // User doesn't have permission to access the object
-		//       console.log('unauthorized');
-		//       break;
-
-		//     case 'storage/canceled':
-		//       // User canceled the upload
-		//       console.log('cancel');
-		//       break;
-		//     case 'storage/unknown':
-		//       // Unknown error occurred, inspect the server response
-		//       console.log('unknown');
-		//       break;
-		//   }
-		// });
-
-
-		// var imagesrc = storage.refFromURL(resto.gambar[1]);
-		// imagesrc.getDownloadURL().then(function(urlgambar) {
-		// 	getDataUri(urlgambar, function(dataUri) {
-		// 	    // Do whatever you'd like with the Data URI!
-		// 	    // console.log(dataUri);
-		// 	    console.log('sukses')
-		// 	    var link = 'www.mobilepangan.com/downloads';
-		// 		$cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, dataUri, link)
-		// 		.then(function(result) {
-		// 			console.log('shared');
-		// 		}, function(err) {
-		// 			console.log('error');
-		// 		});;
-		// 	});
-			
-		// });
-
-		// var urlImg = resto.gambar[0];
-		// var targetPath = "www/img/"+ resto.namaResto;
-		// var trustHost = true;
-		// var options = {};
-
-		// $cordovaFileTransfer.download(urlImg, targetPath, options, trustHosts)
-		// .then(function(result) {
-			// var optionShare = {
-			// 	message: resto.keteranganResto,
-			// 	subject: resto.namaResto,
-			// 	files: [resto.gambar[0]],
-			// 	url: 'www.mobilepangan.com/downloads',
-			// 	chooserTitle: 'Bagikan restoran'
-			// };
-
-			// window.plugins.socialsharing.shareWithOptions(options, function() {
-			// 	console.log('shared');
-			// }, function() {
-			// 	console.log('error');
-			// });
-	// usable
-			// var link = 'www.mobilepangan.com/downloads';
-			var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
-			var gambar = null;
-			var textshared = resto.namaResto+" - "+resto.keteranganResto;
-
-			if(resto.gambar[3]) {
-				gambar = resto.gambar[3];
-			}
-
-			$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
-			.then(function(result) {
-				analytics.trackEvent('Share', 'Share Kuliner', index);
-				console.log('trackEvent, Share, '+index);
-			}, function(err) {
-				console.log('error');
-			});
-	// end usable
-		// });
-		// $cordovaSocialSharing.share(resto.keteranganResto, resto.namaResto, resto.gambar[0], link)
-		// .then(function(result) {
-		// 	console.log('shared');
-		// }, function(err) {
-		// 	console.log('error');
-		// });
+		$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
+		.then(function(result) {
+			analytics.trackEvent('Share', 'Share Kuliner', index);
+			console.log('trackEvent, Share, '+index);
+		}, function(err) {
+			console.log('error');
+		});
 	}
 
 	$scope.checkSavedRestoran = function(index) {
@@ -242,6 +89,90 @@ angular.module('app.controllers', [])
 		// 	return false;
 		// }
 		return Services.checkSavedRestoran(index);
+	}
+
+	$scope.loadMoreResto = function() {
+		// console.log("nyanyaa");
+		loadResto();
+	}
+
+	$scope.canLoadResto = function() {
+		return (failCounter < 3);
+	}
+
+
+
+	function loadResto() {
+		switch(category) {
+			case 'all' : {
+				// console.log('halo');
+				Services.getAllRestorans(flag).then(function(restorans) {
+					if(!$scope.restorans) {
+						$scope.restorans = [];
+					}
+
+					if(restorans) {
+						var n = 0;
+						for(var id in restorans) {
+							n++;
+						}
+
+						var i=0;
+						for(var id in restorans) {
+							$scope.restorans[id] = restorans[id];
+
+							// console.log(restorans[id].tglInput);
+							if(restorans[id].tglInput < flag) {
+								flag = restorans[id].tglInput;
+								// console.log('flag: '+ restorans[id].tglInput);
+							}
+						}
+						// $scope.restorans.push.apply($scope.restorans, restorans);
+					}
+					
+					$ionicLoading.hide();
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+
+					// console.log(flag +" | "+ flag2);
+					if(flag >= flag2) {
+						flag--;
+						failCounter++;
+					} else {
+						failCounter = 0;
+					}
+					flag2 = flag;
+				}, function(reason) {
+					console.log('error fetch data');
+					$ionicLoading.hide();
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+				});
+			} break;
+			default: {
+				// console.log(category);
+				Services.getRestoranCategory(category).then(function(restorans) {
+					if(restorans) {
+						$scope.restorans = [];
+
+						for(var r in restorans) {
+							// console.log(r);
+							Services.getRestoranDetails(r).then(function(restoran) {
+								$scope.restorans.push(restoran);
+
+								$ionicLoading.hide();
+							});
+						}
+
+					}
+				}, function(reason) {
+					console.log('error fetch data');
+					$ionicLoading.hide();
+				});
+
+				failCounter = 3;
+			} break;
+		}
+
+		// console.log(flag);
 	}
 
 	function makeToast(_message) {
@@ -558,7 +489,7 @@ angular.module('app.controllers', [])
 	}
 })
   
-.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaGoogleAnalytics) {
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaGoogleAnalytics, config) {
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
       duration: 5000
@@ -566,7 +497,7 @@ angular.module('app.controllers', [])
 
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
-        	analytics.startTrackerWithId('XX-XXXXXXXX-X');
+            analytics.startTrackerWithId(config.analytics);
             // pindah di on enter
 		    // analytics.trackView('Jelajah');
         }
@@ -605,6 +536,16 @@ angular.module('app.controllers', [])
 		return false;
 	}
 
+	Services.getSliders().then(function(sliders) {
+		if (sliders) {
+			$scope.sliders = sliders;
+		} else {
+			console.log('Error fetch data');
+		}
+	}, function(err) {
+		console.log(err);
+	});
+
 	///////////////////////////////////////////////////////////////////
 	//
 	// USED FOR DYNAMIC CATEGORIES
@@ -624,7 +565,7 @@ angular.module('app.controllers', [])
 	// });
 })
 
-.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services, $cordovaToast, $cordovaSocialSharing) {
+.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services, $cordovaToast, $cordovaSocialSharing, config) {
 	$scope.category = 'Pencarian';
 	$scope.user = {};
 	$scope.user.query = $stateParams.query;
@@ -646,7 +587,7 @@ angular.module('app.controllers', [])
 
 		function _waitForAnalytics(){
 	        if(typeof analytics !== 'undefined'){
-	        	analytics.startTrackerWithId('XX-XXXXXXXX-X');
+	            analytics.startTrackerWithId(config.analytics);
 				analytics.trackEvent('Pencarian', 'Cari', $scope.user.query, 5);
 				console.log('trackEvent, Pencarian, Cari, '+$scope.user.query);
 	        }
@@ -1065,4 +1006,8 @@ angular.module('app.controllers', [])
 .controller('ulasanMenuCtrl', function($scope, $state, $stateParams, Services) {
 	$scope.selectedMenu = $stateParams.selectedMenu;
 	console.log('ulasanMenu')
+})
+
+.controller('promoCtrl', function($scope, $state) {
+	
 })

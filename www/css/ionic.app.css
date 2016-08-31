@@ -9752,13 +9752,19 @@ p {
   width: 100%;
   height: auto;
   padding: 10px;
-  background-color: #01b2b1; }
+  background-color: #01b2b1;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px; }
 
 .mangan-detail-review {
   background-color: #01b2b1;
   color: white;
-  padding-top: 5px;
-  min-height: 100px; }
+  padding: 5px;
+  padding-left: 10px;
+  min-height: 100px;
+  -webkit-box-shadow: inset 0px 0px 10px 0px #888888;
+  -moz-box-shadow: inset 0px 0px 10px 0px #888888;
+  box-shadow: inset 0px 0px 10px 0px #888888; }
 
 .mangan-detail-keterangan {
   background-color: #e6e7e8;
@@ -9779,7 +9785,9 @@ p {
   min-height: 200px;
   margin: 0;
   padding: 0;
-  display: block; }
+  display: block;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px; }
 
 .mangan-image-review {
   width: 100%;
@@ -9884,12 +9892,23 @@ p {
   text-align: right; }
 
 .mangan-keterangan {
-  border: 5px solid #e6e7e8; }
+  padding: 15px;
+  -webkit-box-shadow: inset 0px 0px 5px 0px #888888;
+  -moz-box-shadow: inset 0px 0px 5px 0px #888888;
+  box-shadow: inset 0px 0px 5px 0px #888888; }
 
 .mangan-keterangan-buka {
-  color: red;
+  color: white;
   font-weight: bold;
-  font-size: 14px; }
+  font-size: 16px;
+  width: 100%;
+  height: auto;
+  padding: 10px;
+  padding-left: 15px;
+  background-color: orange; }
+
+.mangan-keterangan-buka > i {
+  color: white; }
 
 .mangan-keterangan-teks {
   font-size: 14px;
@@ -9959,9 +9978,6 @@ p {
   border: 1px solid #01b2b1;
   border-radius: 4px;
   padding: 2px; }
-
-.mangan-menu {
-  border: 5px solid #e6e7e8; }
 
 .mangan-menu > img {
   margin-top: -5px; }
@@ -10130,7 +10146,11 @@ p {
 
 .button-small {
   overflow: hidden;
-  white-space: nowrap; }
+  white-space: nowrap;
+  border-radius: 2px;
+  -webkit-box-shadow: 0px 0px 10px 2px #888888;
+  -moz-box-shadow: 0px 0px 10px 2px #888888;
+  box-shadow: 0px 0px 10px 2px #888888; }
 
 .mangan-disclaimer {
   width: 100%;
@@ -10148,3 +10168,13 @@ p {
 
 .loading-container .loading {
   background-color: transparent !important; }
+
+.mangan-keterangan-buka-info {
+  color: white;
+  float: right;
+  font-size: 16px; }
+
+.tab-nav {
+  -webkit-box-shadow: 0px 0px 10px 2px #888888;
+  -moz-box-shadow: 0px 0px 10px 2px #888888;
+  box-shadow: 0px 0px 10px 2px #888888; }
