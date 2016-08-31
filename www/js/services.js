@@ -12,6 +12,7 @@ var menu = firebase.database().ref('dataMenu');
 var review = firebase.database().ref('reviewRating');
 var search = firebase.database().ref('searching');
 var keyword = firebase.database().ref('keywordResto');
+var slider = firebase.database().ref('slider');
 
 angular.module('app.services', [])
 
@@ -233,6 +234,12 @@ angular.module('app.services', [])
 		return promiseValue(
 			restoran.orderByChild('keyword').startAt(keyword)//.endAt(keyword)
 			);
+	}
+
+	this.getSliders = function() {
+		return promiseValue(
+			slider
+		);
 	}
 
 	function promiseAdded(obj) {
