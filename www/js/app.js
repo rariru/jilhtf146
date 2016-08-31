@@ -25,10 +25,11 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     // } else {
     //   console.log("Google Analytics Unavailable");
     // }
+
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
             // analytics.debugMode();
-            analytics.startTrackerWithId('XX-XXXXXXXX-X');
+            analytics.startTrackerWithId('UA-82447017-1');
         }
         else{
             setTimeout(function(){
@@ -37,6 +38,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
         }
     };
     _waitForAnalytics();
+    
   });
 })
 
