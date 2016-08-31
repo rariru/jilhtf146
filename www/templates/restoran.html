@@ -16,8 +16,8 @@
             </ion-slides> -->
             <img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50">
         </div>
+                <div class="mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'" ><strong>{{restoran.keteranganBuka}}<button class="mangan-tombol-aksi mangan-keterangan-buka-info "><i class="ion-ios-information"></i></button></strong></div>
             <div class="mangan-detail-review">
-                <div class="mangan-detail-keterangan" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'" ><strong>{{restoran.keteranganBuka}}</strong></div>
                 <!-- <div class="mangan-disclaimer">Jam dan hari buka bisa berubah setiap saat</div> -->
                 <div class="mangan-detail-review-col-1">
                     <!-- <p>{{restoran.reviewTim | limitTo: 70}}{{restoran.reviewTim.length > 70 ? '...' : ''}}</p> -->
@@ -117,7 +117,7 @@
                     </div>
                 </div>
             </div>
-            <div class="mangan-menu-selengkapnya">
+            <div class="mangan-menu-selengkapnya" style="border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">
                 <button class="button button-positive button-small" ng-click="openRating()">TULIS ULASAN</button>
             </div>
         </div>

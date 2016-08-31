@@ -522,6 +522,16 @@ angular.module('app.controllers', [])
 		return false;
 	}
 
+	Services.getSliders().then(function(sliders) {
+		if (sliders) {
+			$scope.sliders = sliders;
+		} else {
+			console.log('Error fetch data');
+		}
+	}, function(err) {
+		console.log(err);
+	});
+
 	///////////////////////////////////////////////////////////////////
 	//
 	// USED FOR DYNAMIC CATEGORIES
