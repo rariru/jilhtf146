@@ -1007,3 +1007,7 @@ angular.module('app.controllers', [])
 	$scope.selectedMenu = $stateParams.selectedMenu;
 	console.log('ulasanMenu')
 })
+
+.controller('promoCtrl', function($scope, $state) {
+	
+})

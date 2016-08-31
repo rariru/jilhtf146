@@ -25,7 +25,7 @@
                 </div>
                 <a ui-sref="tabsController.restoran({index: restoran.index})"><img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50"></a>
             </div>
-                <a ui-sref="tabsController.restoran({index: restoran.index})"><div class="mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'">{{restoran.keteranganBuka}}<button class="mangan-tombol-aksi mangan-keterangan-buka-info "><i class="ion-ios-information"></i></button></div></a>
+                <a ui-sref="tabsController.restoran({index: restoran.index})"><div class="mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'">{{restoran.keteranganBuka}}</div></a>
             <div class="mangan-keterangan item-body">
                 <div class="mangan-keterangan-teks" ng-bind-html="restoran.keteranganResto"></div>
             </div>

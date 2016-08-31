@@ -188,6 +188,20 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+  .state('tabsController.promo', {
+    url: '/promo',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/promo.html',
+        controller: 'promoCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/promo.html',
+        controller: 'promoCtrl'
+      }
+    }
+  })
+
 $urlRouterProvider.otherwise('/page1/page2')
 
 });
