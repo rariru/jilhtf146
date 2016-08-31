@@ -94,7 +94,7 @@ angular.module('app.routes', ['ionicUIRouter'])
 
 
   .state('tabsController.restoran', {
-    url: '/restoran',
+    url: '/restoran/:index',
     views: {
       'tab1': {
         templateUrl: 'templates/restoran.html',
@@ -168,6 +168,20 @@ angular.module('app.routes', ['ionicUIRouter'])
     },
     params: {
       index: null
+    }
+  })
+
+  .state('tabsController.terdekat', {
+    url: '/terdekat',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/peta.html',
+        controller: 'terdekatCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/peta.html',
+        controller: 'terdekatCtrl'
+      }
     }
   })
 

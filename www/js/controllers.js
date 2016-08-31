@@ -881,7 +881,7 @@ angular.module('app.controllers', [])
 })
 
 .controller('petaCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup) {
-
+	$scope.category = 'Peta';
 	// console.log($stateParams.index);
 
 	// pindah di on enter
@@ -977,5 +977,159 @@ angular.module('app.controllers', [])
 	// 		okType: 'button-balanced'
 	// 	});
 	// });
+})
+
+.controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading) {
+	$scope.category = 'Terdekat';
+
+	$scope.$on('$ionicView.enter', function() {
+		// $ionicLoading.show({
+	 //      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+	 //      duration: 5000
+	 //    });
+
+		analytics.trackView('Terdekat');
+		console.log('trackView, Terdekat');
+		analytics.trackEvent('Terdekat', 'Kuliner Terdekat', $scope.category, 5);
+		console.log('trackEvent, Terdekat, Kuliner Terdekat, '+$scope.category);
+	});
+
+	//////////////////////////////////////////////////////////////////
+	//
+	// load map, use current location, if not available, use default
+	//
+	//////////////////////////////////////////////////////////////////
+	var coords = {
+		latitude: -7.569527,
+		longitude: 110.830289
+	};
+
+	var options = {
+		timeout: 2000,
+		enableHighAccuracy: true
+	};
+
+	$cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+
+		if(position) {
+			console.log('position aru');
+			coords = position.coords;
+		}
+
+		showMap();
+	}, function(error) {
+		console.log("could not get location");
+
+		$ionicPopup.alert({
+			title: 'Error',
+			template: 'Tidak dapat menemukan sinyal GPS!',
+			okText: 'OK',
+			okType: 'button-balanced'
+		});
+
+		showMap();
+	});
+
+
+	function showMap() {
+
+		console.log('pusat: '+ coords.latitude, coords.longitude);
+		var latlon = new google.maps.LatLng(coords.latitude, coords.longitude);
+
+		var mapOptions = {
+			center: latlon,
+			zoom: 16,
+			mapTypeId: google.maps.MapTypeId.ROADMAP
+		};
+
+		$scope.map = new google.maps.Map(document.getElementById('mangan-peta'), mapOptions);
+
+		// wait till map loaded
+		google.maps.event.addListener($scope.map, 'idle', function() {
+			addMarkers();
+		});
+	}
+
+	function addMarkers() {
+
+		$ionicLoading.show({
+			template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+			duration: 5000
+		});
+
+		var bounds = $scope.map.getBounds();
+		var ne = bounds.getNorthEast();
+		var sw = bounds.getSouthWest();
+		console.log(ne.lat() +' | '+ ne.lng());
+		console.log(sw.lat() +' | '+ sw.lng());
+
+		// console.log('markers');
+		Services.getRestoransByLocation(sw.lng(), ne.lng()).then(function(restorans) {
+
+			if(restorans) {
+				$scope.restorans = restorans;
+
+				var i = 0, j = 0;
+				// var marker = [];
+				for(var r in restorans) {
+					i++;
+					if(restorans[r].map) {
+						var lat = restorans[r].map.lat;
+						var lon = restorans[r].map.long;
+
+						if(lat && lon) {
+							var rLatlon = new google.maps.LatLng(lat, lon);
+							console.log(lat+' | '+lon);
+
+							var marker = new google.maps.Marker({
+								map: $scope.map,
+								animation: google.maps.Animation.DROP,
+								position: rLatlon,
+								icon: 'img/marker.png'
+							});
+
+							var contentString = restorans[r].namaResto +'</br>'+ lat +' | '+ lon;
+							addInfoWindow(marker, contentString, restorans[r].index);
+
+							j++;
+						} else {
+							console.log('...');
+						}
+					}
+				}
+				console.log(i +"/"+ j);
+			} else {
+				console.log('no resto');
+			}
+
+			$ionicLoading.hide();
+		}, function(reason) {
+			console.log('error');
+			console.log(reason);
+
+			$ionicLoading.hide();
+		});
+	}
+
+	function addInfoWindow(marker, message, index) {
+		// console.log('waaaahaa');
+		var infoWindow = new google.maps.InfoWindow({
+			content: '<a href="#/page1/tab1/restoran/'+ index +'">'+ message +'</a>',
+			maxWidth: 500
+		});
+
+		google.maps.event.addListener(marker, 'click', function () {
+			infoWindow.open($scope.map, marker);
+		});
+
+		addInfoListener(infoWindow, message);
+	}
+
+	function addInfoListener(infoWindow, message) {
+
+		google.maps.event.addDomListener(infoWindow, 'click', function() {
+			console.log(message);
+		});
+	}
 })
  
