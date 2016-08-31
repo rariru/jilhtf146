@@ -483,9 +483,9 @@ angular.module('app.controllers', [])
 .controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicPopup, $state) {
 	// pindah di on enter
 	//
-    analytics.trackView('Menu Kuliner');
+    // analytics.trackView('Menu Kuliner');
     // console.log('trackView, Menu Kuliner');
-    analytics.trackEvent('Menu', 'Lihat Menu', $stateParams.index, 5);
+    // analytics.trackEvent('Menu', 'Lihat Menu', $stateParams.index, 5);
     // console.log('trackEvent, Menu, Lihat Menu, '+$stateParams.index);
 
     $scope.$on('$ionicView.enter', function() {
