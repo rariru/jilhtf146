@@ -8,7 +8,7 @@
 angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ngStorage', 'ionic-ratings', 'ionicLazyLoad'])
 
 .constant('config', {
-  analytics: 'UA-XXXXXXXX-X'
+  analytics: 'UA-82447017-1'
 })
 
 .run(function($ionicPlatform, config) {
@@ -29,6 +29,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     // } else {
     //   console.log("Google Analytics Unavailable");
     // }
+
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
             // analytics.debugMode();
@@ -41,6 +42,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
         }
     };
     _waitForAnalytics();
+    
   });
 })
 

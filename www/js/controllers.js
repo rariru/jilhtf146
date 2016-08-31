@@ -342,8 +342,14 @@ angular.module('app.controllers', [])
 		analytics.trackEvent('Ulasan', 'Ulasan Menu Kuliner '+$stateParams.index , index, 5);
 		console.log('trackEvent, Ulasan, Ulasan Menu Kuliner '+$stateParams.index+', '+index);
 		$scope.selectedMenu = $scope.menus[index];
-		// console.log($scope.selectedMenu);
-		$scope.modalMenu.show();
+		console.log($scope.selectedMenu);
+		if (!$scope.selectedMenu.review) {
+			$scope.modalMenuGambar.show();
+		}else{
+			// $scope.modalMenu.show();
+			$state.go('tabsController.ulasanMenu', {'selectedMenu': $scope.selectedMenu});
+		}
+		// console.log($scope.menu[index]);
 	};
 
 	$scope.closeMenu = function() {
@@ -405,7 +411,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicPopup) {
+.controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicPopup, $state) {
 	// pindah di on enter
 	//
     // analytics.trackView('Menu Kuliner');
@@ -442,8 +448,18 @@ angular.module('app.controllers', [])
 		analytics.trackEvent('Ulasan', 'Ulasan Menu Kuliner '+$stateParams.index , index, 5);
 		console.log('trackEvent, Ulasan, Ulasan Menu Kuliner '+$stateParams.index+', '+index);
 		$scope.selectedMenu = $scope.menus[index];
-		// console.log($scope.selectedMenu);
-		$scope.modalMenu.show();
+		console.log($scope.selectedMenu);
+		if (!$scope.selectedMenu.review) {
+			$scope.modalMenuGambar.show();
+		}else{
+			// $scope.modalMenu.show();
+			$state.go('tabsController.ulasanMenu', {'selectedMenu': $scope.selectedMenu});
+		}
+		// console.log($scope.menu[index]);
+	};
+
+	$scope.closeMenu = function() {
+		$scope.modalMenu.hide();
 	};
 
 	$scope.openMenuGambar = function(index) {
@@ -482,9 +498,7 @@ angular.module('app.controllers', [])
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
             analytics.startTrackerWithId(config.analytics);
-
             // pindah di on enter
-            //
 		    // analytics.trackView('Jelajah');
         }
         else{
@@ -521,6 +535,16 @@ angular.module('app.controllers', [])
 		window.open('https://mobilepangan.com/mangan/rekomendasi', '_system', 'location=yes'); 
 		return false;
 	}
+
+	Services.getSliders().then(function(sliders) {
+		if (sliders) {
+			$scope.sliders = sliders;
+		} else {
+			console.log('Error fetch data');
+		}
+	}, function(err) {
+		console.log(err);
+	});
 
 	///////////////////////////////////////////////////////////////////
 	//
@@ -978,4 +1002,8 @@ angular.module('app.controllers', [])
 	// 	});
 	// });
 })
- 
+
+.controller('ulasanMenuCtrl', function($scope, $state, $stateParams, Services) {
+	$scope.selectedMenu = $stateParams.selectedMenu;
+	console.log('ulasanMenu')
+})
