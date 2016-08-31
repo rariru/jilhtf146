@@ -8,12 +8,12 @@ angular.module('app.controllers', [])
 
 	$scope.category = $stateParams.name;
 
-	// $scope.$on('$ionicView.enter', function() {
-	// 	analytics.trackView('Kategori '+$scope.category);
-	// 	console.log('trackView, Kategori, '+$scope.category);
-	// 	analytics.trackEvent('Kategori', 'Kategori Kuliner', $scope.category, 5);
-	// 	console.log('trackEvent, Kategori Kuliner, '+$scope.category);
-	// });
+	$scope.$on('$ionicView.enter', function() {
+		analytics.trackView('Kategori '+$scope.category);
+		console.log('trackView, Kategori, '+$scope.category);
+		analytics.trackEvent('Kategori', 'Kategori Kuliner', $scope.category, 5);
+		console.log('trackEvent, Kategori Kuliner, '+$scope.category);
+	});
 	
 	var category = $stateParams.category;
 	switch(category) {
@@ -68,14 +68,14 @@ angular.module('app.controllers', [])
 		if(Services.checkSavedRestoran(index)) {
 			Services.deleteRestoran(index).then(function() {
 				analytics.trackEvent('Simpan Kuliner', 'Hapus Simpan', index, 5);
-				// console.log('trackEvent, Hapus Simpan, '+index);
+				console.log('trackEvent, Hapus Simpan, '+index);
 				makeToast('Restoran telah dihapus', 1500, 'bottom');
 			});
 		} else {
 			Services.saveRestoran(index).then(function(result) {
 				if(result) {
 					analytics.trackEvent('Simpan Kuliner', 'Simpan', index, 5);
-					// console.log('trackEvent, Simpan, '+index);
+					console.log('trackEvent, Simpan, '+index);
 					makeToast('Restoran berhasil disimpan', 1500, 'bottom');
 				} else {
 					makeToast('Restoran gagal disimpan', 1500, 'bottom');
@@ -282,9 +282,9 @@ angular.module('app.controllers', [])
 
 			// pindah di on enter
 			//
-			analytics.trackView('Kuliner');
+			// analytics.trackView('Kuliner');
 			// console.log('trackView, Kuliner');
-			analytics.trackEvent('Kuliner', 'Informasi', $stateParams.index, 5);
+			// analytics.trackEvent('Kuliner', 'Informasi', $stateParams.index, 5);
 			// console.log('trackEvent, Kuliner, Informasi, '+$stateParams.index);
 
 			Services.getRestoranMenus($stateParams.index).then(function(menus) {
@@ -566,9 +566,9 @@ angular.module('app.controllers', [])
 
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
-            analytics.startTrackerWithId('UA-82447017-1');
+        	analytics.startTrackerWithId('XX-XXXXXXXX-X');
             // pindah di on enter
-		    analytics.trackView('Jelajah');
+		    // analytics.trackView('Jelajah');
         }
         else{
             setTimeout(function(){
@@ -630,13 +630,13 @@ angular.module('app.controllers', [])
 	$scope.user.query = $stateParams.query;
 	
 	// pindah di on enter
-    analytics.trackView('Pencarian');
+    // analytics.trackView('Pencarian');
     // console.log('trackView, Pencarian');
 
-    // $scope.$on('$ionicView.enter', function() {
-    // 	analytics.trackView('Pencarian');
-    // 	console.log('trackView, Pencarian');
-    // });
+    $scope.$on('$ionicView.enter', function() {
+    	analytics.trackView('Pencarian');
+    	console.log('trackView, Pencarian');
+    });
 	
     $scope.searchQuery = function() {
     	$ionicLoading.show({
@@ -646,7 +646,7 @@ angular.module('app.controllers', [])
 
 		function _waitForAnalytics(){
 	        if(typeof analytics !== 'undefined'){
-	            analytics.startTrackerWithId('UA-82447017-1');
+	        	analytics.startTrackerWithId('XX-XXXXXXXX-X');
 				analytics.trackEvent('Pencarian', 'Cari', $scope.user.query, 5);
 				console.log('trackEvent, Pencarian, Cari, '+$scope.user.query);
 	        }
@@ -821,7 +821,7 @@ angular.module('app.controllers', [])
 
 	// pindah di on enter
 	//
-	analytics.trackView('Tersimpan');
+	// analytics.trackView('Tersimpan');
 	// console.log('trackView, Tersimpan');
 
 	var savedRestorans = [];
@@ -969,9 +969,9 @@ angular.module('app.controllers', [])
 
 	// pindah di on enter
 	//
-	analytics.trackView('Peta');
+	// analytics.trackView('Peta');
 	// console.log('trackView, Peta');
-	analytics.trackEvent('Peta', 'Lihat Peta', $stateParams.index, 5);
+	// analytics.trackEvent('Peta', 'Lihat Peta', $stateParams.index, 5);
 	// console.log('trackEvent, Peta, Lihat Peta, '+$stateParams.index);
 
 	$scope.$on('$ionicView.enter', function() {
