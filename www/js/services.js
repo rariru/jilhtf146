@@ -10,6 +10,7 @@ var review = firebase.database().ref('reviewRating');
 var search = firebase.database().ref('searching');
 var keyword = firebase.database().ref('keywordResto');
 var slider = firebase.database().ref('slider');
+var promo = firebase.database().ref('promo');
 
 angular.module('app.services', [])
 
@@ -229,6 +230,12 @@ angular.module('app.services', [])
 	this.getSliders = function() {
 		return promiseValue(
 			slider
+		);
+	}
+
+	this.getPromos = function() {
+		return promiseValue(
+			promo
 		);
 	}
 
