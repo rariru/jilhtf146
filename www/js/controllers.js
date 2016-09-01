@@ -1162,6 +1162,26 @@ angular.module('app.controllers', [])
 	console.log('ulasanMenu')
 })
 
-.controller('promoCtrl', function($scope, $state) {
-	
+.controller('promoCtrl', function($scope, $state, $ionicLoading, Services) {
+	$ionicLoading.show({
+      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+      duration: 5000
+    });
+
+	$scope.$on('$ionicView.enter', function() {
+		analytics.trackView('Promo');
+		console.log('trackView, Promo');
+	});
+
+    Services.getPromos().then(function(promos) {
+    	if (promos) {
+	    	$scope.promos = promos;
+	    	$ionicLoading.hide();
+    	} else {
+    		console.log('Error fetch data');
+    		$ionicLoading.hide();
+    	}
+    }, function(err) {
+    	console.log(err);
+    });
 })
