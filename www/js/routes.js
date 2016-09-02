@@ -181,6 +181,9 @@ angular.module('app.routes', ['ionicUIRouter'])
       'tab3': {
         templateUrl: 'templates/peta.html',
         controller: 'terdekatCtrl'
+      }
+    }
+  })
 
   .state('tabsController.ulasanMenu', {
     url: '/ulasanMenu',
@@ -211,8 +214,8 @@ angular.module('app.routes', ['ionicUIRouter'])
         controller: 'promoCtrl'
       }
     }
-  })
+  });
 
-$urlRouterProvider.otherwise('/page1/page2')
+  $urlRouterProvider.otherwise('/page1/page2');
 
 });

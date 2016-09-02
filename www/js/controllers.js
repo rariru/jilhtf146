@@ -1076,10 +1076,10 @@ angular.module('app.controllers', [])
 
 	function addMarkers() {
 
-		$ionicLoading.show({
-			template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
-			duration: 5000
-		});
+		// $ionicLoading.show({
+		// 	template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+		// 	duration: 5000
+		// });
 
 		var bounds = $scope.map.getBounds();
 		var ne = bounds.getNorthEast();
@@ -1107,12 +1107,12 @@ angular.module('app.controllers', [])
 
 							var marker = new google.maps.Marker({
 								map: $scope.map,
-								animation: google.maps.Animation.DROP,
+								// animation: google.maps.Animation.DROP,
 								position: rLatlon,
 								icon: 'img/marker.png'
 							});
 
-							var contentString = restorans[r].namaResto +'</br>'+ lat +' | '+ lon;
+							var contentString = restorans[r].namaResto;
 							addInfoWindow(marker, contentString, restorans[r].index);
 
 							j++;
@@ -1126,12 +1126,12 @@ angular.module('app.controllers', [])
 				console.log('no resto');
 			}
 
-			$ionicLoading.hide();
+			// $ionicLoading.hide();
 		}, function(reason) {
 			console.log('error');
 			console.log(reason);
 
-			$ionicLoading.hide();
+			// $ionicLoading.hide();
 		});
 	}
 
@@ -1139,7 +1139,7 @@ angular.module('app.controllers', [])
 		// console.log('waaaahaa');
 		var infoWindow = new google.maps.InfoWindow({
 			content: '<a href="#/page1/tab1/restoran/'+ index +'">'+ message +'</a>',
-			maxWidth: 500
+			maxWidth: 100
 		});
 
 		google.maps.event.addListener(marker, 'click', function () {
