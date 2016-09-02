@@ -94,7 +94,7 @@ angular.module('app.routes', ['ionicUIRouter'])
 
 
   .state('tabsController.restoran', {
-    url: '/restoran',
+    url: '/restoran/:index',
     views: {
       'tab1': {
         templateUrl: 'templates/restoran.html',
@@ -171,6 +171,20 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+  .state('tabsController.terdekat', {
+    url: '/terdekat',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/peta.html',
+        controller: 'terdekatCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/peta.html',
+        controller: 'terdekatCtrl'
+      }
+    }
+  })
+
   .state('tabsController.ulasanMenu', {
     url: '/ulasanMenu',
     views: {
@@ -200,8 +214,8 @@ angular.module('app.routes', ['ionicUIRouter'])
         controller: 'promoCtrl'
       }
     }
-  })
+  });
 
-$urlRouterProvider.otherwise('/page1/page2')
+  $urlRouterProvider.otherwise('/page1/page2');
 
 });
