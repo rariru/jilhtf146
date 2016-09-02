@@ -526,10 +526,33 @@ angular.module('app.controllers', [])
 	}
 })
   
-.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config) {
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup) {
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
       duration: 5000
+    });
+
+    Services.getVersion().then(function(version) {
+    	if (version) {
+    		if (config.version < version) {
+		    	$ionicPopup.alert({
+					title: 'Update Aplikasi',
+					template: '<center>Versi baru aplikasi tersedia di play store</center>',
+					okText: 'OK',
+					okType: 'button-balanced'
+				}).then(function(res) {
+					analytics.trackEvent('Update', 'Tombol Update');
+					console.log('button tapped');
+					window.open('https://play.google.com/store/apps/details?id=com.manganindonesia.mangan', '_system', 'location=yes');
+				});
+    		} else {
+    			console.log("version match");
+    		}
+    	} else {
+    		console.log('error get version');
+    	}
+    }, function(err) {
+    	console.log(err);
     });
 
     function _waitForAnalytics(){
@@ -972,7 +995,6 @@ angular.module('app.controllers', [])
 		});
 	}
 })
-
 
 .controller('petaCtrl', function($scope, $state, $stateParams, Services, $cordovaToast, $cordovaGeolocation, $ionicPopup) {
 	$scope.category = 'Peta';

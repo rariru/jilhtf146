@@ -1,10 +1,5 @@
 // Initialize Firebase
-var config = {
-	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
-	authDomain: "project-1449647215698534337.firebaseapp.com",
-	databaseURL: "https://project-1449647215698534337.firebaseio.com",
-	storageBucket: "project-1449647215698534337.appspot.com"
-};
+var config = {};
 
 firebase.initializeApp(config);
 
@@ -16,6 +11,7 @@ var search = firebase.database().ref('searching');
 var keyword = firebase.database().ref('keywordResto');
 var slider = firebase.database().ref('slider');
 var promo = firebase.database().ref('promo');
+var version = firebase.database().ref('version');
 
 angular.module('app.services', [])
 
@@ -24,6 +20,12 @@ angular.module('app.services', [])
 		indexes: [],
 		maxSaved: 5
 	});
+
+	this.getVersion = function() {
+		return promiseAdded(
+			version
+		);
+	}
 
 	this.getCategories = function() {
 		return promiseValue(
