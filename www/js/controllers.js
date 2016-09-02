@@ -1033,6 +1033,8 @@ angular.module('app.controllers', [])
 		enableHighAccuracy: true
 	};
 
+	var openedInfo = null;
+
 	$cordovaGeolocation.getCurrentPosition(options).then(function(position) {
 
 		if(position) {
@@ -1084,8 +1086,8 @@ angular.module('app.controllers', [])
 		var bounds = $scope.map.getBounds();
 		var ne = bounds.getNorthEast();
 		var sw = bounds.getSouthWest();
-		console.log(ne.lat() +' | '+ ne.lng());
-		console.log(sw.lat() +' | '+ sw.lng());
+		// console.log(ne.lat() +' | '+ ne.lng());
+		// console.log(sw.lat() +' | '+ sw.lng());
 
 		// console.log('markers');
 		Services.getRestoransByLocation(sw.lng(), ne.lng()).then(function(restorans) {
@@ -1143,6 +1145,11 @@ angular.module('app.controllers', [])
 		});
 
 		google.maps.event.addListener(marker, 'click', function () {
+			if(openedInfo) {
+				openedInfo.close();
+			}
+			openedInfo = infoWindow;
+			
 			infoWindow.open($scope.map, marker);
 		});
 
