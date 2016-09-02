@@ -16,8 +16,9 @@
             </ion-slides> -->
             <img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50">
         </div>
-                <div class="mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'" ><strong>{{restoran.keteranganBuka}}</div>
-            <div class="mangan-detail-review">
+
+            <div class="mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'" ><strong>{{restoran.keteranganBuka}}</strong></div>
+            <div class="mangan-detail-review" ng-click="openReview()">
                 <!-- <div class="mangan-disclaimer">Jam dan hari buka bisa berubah setiap saat</div> -->
                 <div class="mangan-detail-review-col-1">
                     <!-- <p>{{restoran.reviewTim | limitTo: 70}}{{restoran.reviewTim.length > 70 ? '...' : ''}}</p> -->
@@ -34,8 +35,6 @@
                 </div>
                 <div class="clear"></div>
             </div>
-            
-
             <ion-list class="mangan-menu-list">
                 <ion-item class="mangan-menu item-thumbnail-left item-icon-right" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus" ng-show="menu.priority" ng-click="openMenu( {{ $index }} )">
                     <!-- <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50" ng-click="openMenuGambar( {{ $index }} )"> -->
@@ -60,8 +59,6 @@
                 <a ui-sref="tabsController.menus({ index: restoran.index })" id="selatViens-button20" class="button button-positive button-small">MENU LAINNYA</a>
                 <button id="mangan-button-pesan" class="button button-positive button-small" ng-click="pesan()">PESAN</button>
             </div>
-
-
             <!-- <div class="mangan-spacer"></div> -->
 <!--             <div class="mangan-kontak-header" ng-show="(restoran.noTelp && restoran.noTelp != 'null') ||
                                                         (restoran.email && restoran.email != 'null') ||

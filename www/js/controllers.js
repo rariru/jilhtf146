@@ -1173,6 +1173,12 @@ angular.module('app.controllers', [])
 		console.log('trackView, Promo');
 	});
 
+	$scope.openPromo = function(index) {
+		analytics.trackEvent('Promo', 'Click', index, 5);
+		console.log('Promo, Click, '+index);
+		$state.go('tabsController.restoran', {'index': index});
+	}
+
     Services.getPromos().then(function(promos) {
     	if (promos) {
 	    	$scope.promos = promos;
