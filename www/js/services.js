@@ -48,7 +48,7 @@ angular.module('app.services', [])
 
 	this.getAllRestorans = function(startDate) {
 		return promiseValue(
-			restoran.orderByChild('tglInput').endAt(startDate).limitToLast(5)
+			restoran.orderByChild('tglInput').endAt(startDate)//.limitToLast(10)
 			);
 	}
 
@@ -67,6 +67,13 @@ angular.module('app.services', [])
 	this.getRestoranReviews = function(id) {
 		return promiseValue(
 			firebase.database().ref('reviewRating/'+ id).orderByChild('tglReview')
+			);
+	}
+
+	this.getRestoransByLocation = function(lon1, lon2) {
+		// console.log(lon1 +' | '+ lon2);
+		return promiseValue(
+			restoran.orderByChild('map/long').startAt(lon1).endAt(lon2)
 			);
 	}
 
