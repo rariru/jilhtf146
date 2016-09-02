@@ -8,7 +8,7 @@
 angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ngStorage', 'ionic-ratings', 'ionicLazyLoad'])
 
 .constant('config', {
-  analytics: 'UA-82447017-1'
+  analytics: 'UA-XXXXXXXX-X'
 })
 
 .run(function($ionicPlatform, config) {
