@@ -11,6 +11,7 @@ var search = firebase.database().ref('searching');
 var keyword = firebase.database().ref('keywordResto');
 var slider = firebase.database().ref('slider');
 var promo = firebase.database().ref('promo');
+var version = firebase.database().ref('version');
 
 angular.module('app.services', [])
 
@@ -19,6 +20,12 @@ angular.module('app.services', [])
 		indexes: [],
 		maxSaved: 5
 	});
+
+	this.getVersion = function() {
+		return promiseAdded(
+			version
+		);
+	}
 
 	this.getCategories = function() {
 		return promiseValue(
