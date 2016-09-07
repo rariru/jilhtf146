@@ -526,7 +526,7 @@ angular.module('app.controllers', [])
 	}
 })
   
-.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup) {
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup, $cordovaAppVersion) {
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
       duration: 5000
@@ -534,20 +534,34 @@ angular.module('app.controllers', [])
 
     Services.getVersion().then(function(version) {
     	if (version) {
-    		if (config.version < version) {
-		    	$ionicPopup.alert({
-					title: 'Update Aplikasi',
-					template: '<center>Versi baru aplikasi tersedia di play store</center>',
-					okText: 'OK',
-					okType: 'button-balanced'
-				}).then(function(res) {
-					analytics.trackEvent('Update', 'Tombol Update');
-					console.log('button tapped');
-					window.open('https://play.google.com/store/apps/details?id=com.manganindonesia.mangan', '_system', 'location=yes');
-				});
-    		} else {
-    			console.log("version match");
-    		}
+    		// if (config.version < version) {
+    		$cordovaAppVersion.getVersionCode().then(function(currentVersion) {
+    			if (parseInt(currentVersion) < version) {
+			    	$ionicPopup.confirm({
+						title: 'Update Aplikasi',
+						template: '<center>Versi baru aplikasi tersedia di play store</center>',
+						okText: 'OK',
+						cancelText: 'Nanti',
+						okType: 'button-balanced',
+						cancelType: 'button-clear'
+					}).then(function(res) {
+						console.log('button tapped');
+
+						if(res) {
+							analytics.trackEvent('Update', 'Tombol Update');
+							window.open('https://play.google.com/store/apps/details?id=com.manganindonesia.mangan', '_system', 'location=yes');
+						} else {
+							analytics.trackEvent('Update', 'Tombol Nanti');
+						}
+					});
+	    		} else {
+	    			console.log("version match");
+	    		}
+    		}, function(error) {
+    			console.log('error get version: '+ error);
+    		});
+
+    		
     	} else {
     		console.log('error get version');
     	}

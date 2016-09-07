@@ -175,11 +175,11 @@ angular.module('app.routes', ['ionicUIRouter'])
     url: '/terdekat',
     views: {
       'tab1': {
-        templateUrl: 'templates/peta.html',
+        templateUrl: 'templates/terdekat.html',
         controller: 'terdekatCtrl'
       },
       'tab3': {
-        templateUrl: 'templates/peta.html',
+        templateUrl: 'templates/terdekat.html',
         controller: 'terdekatCtrl'
       }
     }
