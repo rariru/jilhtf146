@@ -9,6 +9,9 @@ var menu = firebase.database().ref('dataMenu');
 var review = firebase.database().ref('reviewRating');
 var search = firebase.database().ref('searching');
 var keyword = firebase.database().ref('keywordResto');
+var slider = firebase.database().ref('slider');
+var promo = firebase.database().ref('promo');
+var version = firebase.database().ref('version');
 
 angular.module('app.services', [])
 
@@ -18,13 +21,19 @@ angular.module('app.services', [])
 		maxSaved: 5
 	});
 
+	this.getVersion = function() {
+		return promiseAdded(
+			version
+		);
+	}
+
 	this.getCategories = function() {
 		return promiseValue(
 			kategori.child('jenis')
 			);
 	}
 
-	this.getRestoranKeyword = function(key) {
+	this.getRestoranKeyword = function() {
 		return promiseValue(keyword);
 	}
 
@@ -44,9 +53,9 @@ angular.module('app.services', [])
 			);
 	}
 
-	this.getAllRestorans = function() {
+	this.getAllRestorans = function(startDate) {
 		return promiseValue(
-			restoran.orderByChild('tglInput').limitToLast(10)
+			restoran.orderByChild('tglInput').endAt(startDate)//.limitToLast(10)
 			);
 	}
 
@@ -65,6 +74,13 @@ angular.module('app.services', [])
 	this.getRestoranReviews = function(id) {
 		return promiseValue(
 			firebase.database().ref('reviewRating/'+ id).orderByChild('tglReview')
+			);
+	}
+
+	this.getRestoransByLocation = function(lon1, lon2) {
+		// console.log(lon1 +' | '+ lon2);
+		return promiseValue(
+			restoran.orderByChild('map/long').startAt(lon1).endAt(lon2)
 			);
 	}
 
@@ -223,6 +239,18 @@ angular.module('app.services', [])
 		return promiseValue(
 			restoran.orderByChild('keyword').startAt(keyword)//.endAt(keyword)
 			);
+	}
+
+	this.getSliders = function() {
+		return promiseValue(
+			slider
+		);
+	}
+
+	this.getPromos = function() {
+		return promiseValue(
+			promo
+		);
 	}
 
 	function promiseAdded(obj) {

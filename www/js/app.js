@@ -7,7 +7,12 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ngStorage', 'ionic-ratings', 'ionicLazyLoad'])
 
-.run(function($ionicPlatform) {
+.constant('config', {
+  analytics: '',
+  version: 100018
+})
+
+.run(function($ionicPlatform, config) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -25,10 +30,11 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     // } else {
     //   console.log("Google Analytics Unavailable");
     // }
+
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
             // analytics.debugMode();
-            analytics.startTrackerWithId('XX-XXXXXXXX-X');
+            analytics.startTrackerWithId(config.analytics);
         }
         else{
             setTimeout(function(){
@@ -37,6 +43,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
         }
     };
     _waitForAnalytics();
+    
   });
 })
 
