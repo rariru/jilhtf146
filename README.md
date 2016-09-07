@@ -6,6 +6,7 @@ HAIL HYDRA
 * cordova-plugin-console 1.0.3 "Console"
 * cordova-plugin-device 1.1.2 "Device"
 * cordova-plugin-geolocation 2.2.0 "Geolocation"
+
 	`cordova plugin add cordova-plugin-geolocation`
 
 * cordova-plugin-google-analytics 0.7.1 "Google Universal Analytics Plugin"
