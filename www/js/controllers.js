@@ -1208,9 +1208,20 @@ angular.module('app.controllers', [])
 		// console.log(sw.lat() +' | '+ sw.lng());
 
 		// console.log('markers');
+
+		// longitude filter from firebase
 		Services.getRestoransByLocation(sw.lng(), ne.lng()).then(function(restorans) {
 
 			if(restorans) {
+
+				// latitude filter from these
+				for(var r in restorans) {
+					var location = restorans[r].map;
+					if(location.lat < sw.lat() || location.long > ne.lat()) {
+						delete restorans[r];
+					}
+				}
+
 				$scope.restorans = restorans;
 
 				var i = 0, j = 0;
