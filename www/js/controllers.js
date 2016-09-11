@@ -1,10 +1,22 @@
 angular.module('app.controllers', [])
 
-.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing) {
-	$ionicLoading.show({
-      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
-      duration: 5000
+.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing, $timeout) {
+	var loadFlag = false;
+	var loadingIndicator = $ionicLoading.show({
+      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
     });
+
+    $timeout(function() {
+    	loadingIndicator.hide();
+    	if(!loadFlag) {
+    		makeToast('Koneksi tidak stabil');
+    	}
+    }, 10000);
+
+	// $ionicLoading.show({
+ //      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+ //      duration: 10000
+ //    });
 
 	$scope.category = $stateParams.name;
 
@@ -113,6 +125,8 @@ angular.module('app.controllers', [])
 					}
 
 					if(restorans) {
+						loadFlag = true;
+
 						var n = 0;
 						for(var id in restorans) {
 							n++;
@@ -153,6 +167,8 @@ angular.module('app.controllers', [])
 				// console.log(category);
 				Services.getRestoranCategory(category).then(function(restorans) {
 					if(restorans) {
+						loadFlag = true;
+
 						$scope.restorans = [];
 
 						for(var r in restorans) {
@@ -1169,9 +1185,9 @@ angular.module('app.controllers', [])
 			template: 'Tidak dapat menemukan sinyal GPS!',
 			okText: 'OK',
 			okType: 'button-balanced'
+		}).then(function(res) {
+			showMap();
 		});
-
-		showMap();
 	});
 
 
@@ -1207,6 +1223,8 @@ angular.module('app.controllers', [])
 		// console.log(ne.lat() +' | '+ ne.lng());
 		// console.log(sw.lat() +' | '+ sw.lng());
 
+		// 1210 reserved for RIO
+
 		// console.log('markers');
 
 		// longitude filter from firebase
@@ -1217,7 +1235,8 @@ angular.module('app.controllers', [])
 				// latitude filter from these
 				for(var r in restorans) {
 					var location = restorans[r].map;
-					if(location.lat < sw.lat() || location.long > ne.lat()) {
+					if(location.lat < sw.lat() || location.lat > ne.lat()) {
+						console.log(sw.lat() +' | '+ location.lat +' | '+ ne.lat());
 						delete restorans[r];
 					}
 				}
