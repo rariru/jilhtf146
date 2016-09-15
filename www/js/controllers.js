@@ -612,6 +612,8 @@ angular.module('app.controllers', [])
     		
     	} else {
     		console.log('error get version');
+
+    		$ionicLoading.hide();
     	}
     }, function(err) {
     	console.log(err);
