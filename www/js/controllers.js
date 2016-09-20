@@ -1,10 +1,22 @@
 angular.module('app.controllers', [])
 
-.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing) {
-	$ionicLoading.show({
-      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
-      duration: 10000
+.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing, $timeout) {
+	var loadFlag = false;
+	var loadingIndicator = $ionicLoading.show({
+      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
     });
+
+    $timeout(function() {
+    	loadingIndicator.hide();
+    	if(!loadFlag) {
+    		makeToast('Koneksi tidak stabil');
+    	}
+    }, 10000);
+
+	// $ionicLoading.show({
+ //      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+ //      duration: 10000
+ //    });
 
 	$scope.category = $stateParams.name;
 
@@ -118,6 +130,8 @@ angular.module('app.controllers', [])
 					}
 
 					if(restorans) {
+						loadFlag = true;
+
 						var n = 0;
 						for(var id in restorans) {
 							n++;
@@ -160,6 +174,8 @@ angular.module('app.controllers', [])
 				// console.log(category);
 				Services.getRestoranCategory(category).then(function(restorans) {
 					if(restorans) {
+						loadFlag = true;
+
 						$scope.restorans = [];
 
 						for(var r in restorans) {
@@ -201,13 +217,24 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup) {
+.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup, $timeout) {
     
-	$ionicLoading.show({
-      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
-      duration: 5000
-    });
+	// $ionicLoading.show({
+ //      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+ //      duration: 5000
+ //    });
 	// console.log("index:'"+ $stateParams.index +"'");
+	var loadFlag = false;
+	var loadingIndicator = $ionicLoading.show({
+      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
+    });
+
+    $timeout(function() {
+    	loadingIndicator.hide();
+    	if(!loadFlag) {
+    		makeToast('Koneksi tidak stabil');
+    	}
+    }, 10000);
 
 	$scope.$on('$ionicView.enter', function() {
 		analytics.trackView('Kuliner');
@@ -223,11 +250,11 @@ angular.module('app.controllers', [])
 		rating: 5
 	};
 
+
 	$scope.getRestoran = function() {
 		Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 			if(restoran) {
 				$scope.restoran = restoran;
-
 				// pindah di on enter
 				//
 				// analytics.trackView('Kuliner');
@@ -445,17 +472,30 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state) {
+.controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout) {
 	// pindah di on enter
 	//
     // analytics.trackView('Menu Kuliner');
     // console.log('trackView, Menu Kuliner');
     // analytics.trackEvent('Menu', 'Lihat Menu', $stateParams.index, 5);
     // console.log('trackEvent, Menu, Lihat Menu, '+$stateParams.index);
-    $ionicLoading.show({
-      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
-      duration: 5000
+
+    // $ionicLoading.show({
+    //   template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+    //   duration: 5000
+    // });
+
+	var loadFlag = false;
+	var loadingIndicator = $ionicLoading.show({
+      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
     });
+
+    $timeout(function() {
+    	loadingIndicator.hide();
+    	if(!loadFlag) {
+    		makeToast('Koneksi tidak stabil');
+    	}
+    }, 10000);
 
     $scope.$on('$ionicView.enter', function() {
     	analytics.trackView('Menu Kuliner');
@@ -548,7 +588,7 @@ angular.module('app.controllers', [])
 	}
 })
   
-.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup) {
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup, $cordovaAppVersion) {
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
       duration: 5000
@@ -556,22 +596,40 @@ angular.module('app.controllers', [])
 
     Services.getVersion().then(function(version) {
     	if (version) {
-    		if (config.version < version) {
-		    	$ionicPopup.alert({
-					title: 'Update Aplikasi',
-					template: '<center>Versi baru aplikasi tersedia di play store</center>',
-					okText: 'OK',
-					okType: 'button-balanced'
-				}).then(function(res) {
-					analytics.trackEvent('Update', 'Tombol Update');
-					console.log('button tapped');
-					window.open('https://play.google.com/store/apps/details?id=com.manganindonesia.mangan', '_system', 'location=yes');
-				});
-    		} else {
-    			console.log("version match");
-    		}
+    		// if (config.version < version) {
+    		$cordovaAppVersion.getVersionCode().then(function(currentVersion) {
+				$ionicLoading.hide();
+
+    			if (parseInt(currentVersion) < version) {
+			    	$ionicPopup.confirm({
+						title: 'Update Aplikasi',
+						template: '<center>Versi baru aplikasi tersedia di play store</center>',
+						okText: 'OK',
+						cancelText: 'Nanti',
+						okType: 'button-balanced',
+						cancelType: 'button-clear'
+					}).then(function(res) {
+						console.log('button tapped');
+
+						if(res) {
+							analytics.trackEvent('Update', 'Tombol Update');
+							window.open('https://play.google.com/store/apps/details?id=com.manganindonesia.mangan', '_system', 'location=yes');
+						} else {
+							analytics.trackEvent('Update', 'Tombol Nanti');
+						}
+					});
+	    		} else {
+	    			console.log("version match");
+	    		}
+    		}, function(error) {
+    			console.log('error get version: '+ error);
+    		});
+
+    		
     	} else {
     		console.log('error get version');
+
+    		$ionicLoading.hide();
     	}
     }, function(err) {
     	console.log(err);
@@ -613,8 +671,6 @@ angular.module('app.controllers', [])
 		$state.go('tabsController.pencarian', {'query': $scope.user.query});
 		delete $scope.user.query;
 	};
-
-	$ionicLoading.hide();
 
 	$scope.rekomendasikan = function() {
 		analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
@@ -663,7 +719,7 @@ angular.module('app.controllers', [])
 	// });
 })
 
-.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services, $cordovaToast, $cordovaSocialSharing, config) {
+.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services, $cordovaToast, $cordovaSocialSharing, config, $timeout) {
 	$scope.category = 'Pencarian';
 	$scope.user = {};
 	$scope.user.query = $stateParams.query;
@@ -678,10 +734,22 @@ angular.module('app.controllers', [])
     });
 	
     $scope.searchQuery = function() {
-    	$ionicLoading.show({
-	      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
-	      duration: 5000
+    	// $ionicLoading.show({
+	    //   template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+	    //   duration: 5000
+	    // });
+
+		var loadFlag = false;
+		var loadingIndicator = $ionicLoading.show({
+	      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
 	    });
+
+	    $timeout(function() {
+	    	loadingIndicator.hide();
+	    	if(!loadFlag) {
+	    		makeToast('Koneksi tidak stabil');
+	    	}
+	    }, 10000);
 
 		function _waitForAnalytics(){
 	        if(typeof analytics !== 'undefined'){
@@ -704,6 +772,7 @@ angular.module('app.controllers', [])
 
 				Services.getRestoranKeyword().then(function(result) {
 					if(result) {
+						loadFlag = true;
 						// using filter
 						$scope.restorans = [];
 
@@ -860,7 +929,7 @@ angular.module('app.controllers', [])
 	}
 })
    
-.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading) {
+.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading, $timeout) {
 	$scope.category = 'Tersimpan';
 
 	// pindah di on enter
@@ -872,10 +941,17 @@ angular.module('app.controllers', [])
 	$scope.restorans = [];
 
 	$scope.$on('$ionicView.enter', function() {
-		$ionicLoading.show({
-	      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
-	      duration: 5000
+		var loadFlag = false;
+		var loadingIndicator = $ionicLoading.show({
+	      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
 	    });
+
+	    $timeout(function() {
+	    	loadingIndicator.hide();
+	    	if(!loadFlag) {
+	    		makeToast('Koneksi tidak stabil');
+	    	}
+	    }, 10000);
 
 	 	analytics.trackView('Tersimpan');
 		console.log('trackView, Tersimpan');
@@ -994,6 +1070,8 @@ angular.module('app.controllers', [])
 	}
 
 	function updateSavedRestorans(news) {
+		loadFlag = true;
+
 		console.log('update');
 		savedRestorans = news;
 		$scope.restorans = [];
@@ -1186,9 +1264,9 @@ angular.module('app.controllers', [])
 			template: 'Tidak dapat menemukan sinyal GPS!',
 			okText: 'OK',
 			okType: 'button-balanced'
+		}).then(function(res) {
+			showMap();
 		});
-
-		showMap();
 	});
 
 
@@ -1224,10 +1302,24 @@ angular.module('app.controllers', [])
 		// console.log(ne.lat() +' | '+ ne.lng());
 		// console.log(sw.lat() +' | '+ sw.lng());
 
+		// 1210 reserved for RIO
+
 		// console.log('markers');
+
+		// longitude filter from firebase
 		Services.getRestoransByLocation(sw.lng(), ne.lng()).then(function(restorans) {
 
 			if(restorans) {
+
+				// latitude filter from these
+				for(var r in restorans) {
+					var location = restorans[r].map;
+					if(location.lat < sw.lat() || location.lat > ne.lat()) {
+						console.log(sw.lat() +' | '+ location.lat +' | '+ ne.lat());
+						delete restorans[r];
+					}
+				}
+
 				$scope.restorans = restorans;
 
 				var i = 0, j = 0;
@@ -1309,11 +1401,23 @@ angular.module('app.controllers', [])
 	$scope.getMenu();
 })
 
-.controller('promoCtrl', function($scope, $state, $ionicLoading, $cordovaToast, Services) {
-	$ionicLoading.show({
-      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
-      duration: 5000
+.controller('promoCtrl', function($scope, $state, $ionicLoading, $cordovaToast, Services, $timeout) {
+	// $ionicLoading.show({
+ //      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+ //      duration: 5000
+ //    });
+
+	var loadFlag = false;
+	var loadingIndicator = $ionicLoading.show({
+      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
     });
+
+    $timeout(function() {
+    	loadingIndicator.hide();
+    	if(!loadFlag) {
+    		makeToast('Koneksi tidak stabil');
+    	}
+    }, 10000);
 
 	$scope.$on('$ionicView.enter', function() {
 		analytics.trackView('Promo');
