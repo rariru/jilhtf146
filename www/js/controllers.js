@@ -255,6 +255,7 @@ angular.module('app.controllers', [])
 		Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 			if(restoran) {
 				$scope.restoran = restoran;
+				loadFlag = true;
 				// pindah di on enter
 				//
 				// analytics.trackView('Kuliner');
@@ -507,6 +508,7 @@ angular.module('app.controllers', [])
     $scope.getMenus = function() {
 		Services.getRestoranMenus($stateParams.index).then(function(menus) {
 			if(menus) {
+				loadFlag = true;
 				$scope.menus = menus;
 			} else {
 				makeToast('Error, tidak ada menu', 1500, 'bottom');
@@ -1432,6 +1434,7 @@ angular.module('app.controllers', [])
 
 	$scope.getPromos = function() {
 	    Services.getPromos().then(function(promos) {
+	    	loadFlag = true;
 	    	if (promos) {
 		    	$scope.promos = promos;
 		    	$ionicLoading.hide();
