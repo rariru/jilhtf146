@@ -1,6 +1,11 @@
 <ion-view id="page10">
     <ion-nav-title>{{restoran.namaResto}}</ion-nav-title>
     <ion-content lazy-scroll padding="true" class="has-header">
+        <ion-refresher
+            pulling-text="Lepas untuk memperbarui"
+            on-refresh="getRestoran()"
+            spinner = "ripple" >
+        </ion-refresher>
         <div class="list card">
         <div class="mangan-list-header">
             <div class="row mangan-nama-resto" style="z-index: 9999;">

@@ -3,6 +3,11 @@
     <button class="button button-clear button-positive">Edit</button>
     <ion-content lazy-scroll padding="true" class="has-header">
     <!-- {{restorans.length}} -->
+        <ion-refresher
+            pulling-text="Lepas untuk memperbarui"
+            on-refresh="getRestorans()"
+            spinner = "ripple" >
+        </ion-refresher>
         <div ng-hide="restorans || restorans.length > 0" class="mangan-nodata">
             <center><i class="ion-sad-outline"></i></center>
             <p>Ups, Sepertinya Belum Ada Kuliner Disini</p>
