@@ -51,6 +51,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         templateUrl: 'templates/restorans.html',
         controller: 'tersimpanCtrl'
       },
+      'tab2': {
+        templateUrl: 'templates/restorans.html',
+        controller: 'tersimpanCtrl'
+      },
       'tab3': {
         templateUrl: 'templates/restorans.html',
         controller: 'tersimpanCtrl'
@@ -100,6 +104,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         templateUrl: 'templates/restoran.html',
         controller: 'restoranCtrl'
       },
+      'tab2': {
+        templateUrl: 'templates/restoran.html',
+        controller: 'restoranCtrl'
+      },
       'tab3': {
         templateUrl: 'templates/restoran.html',
         controller: 'restoranCtrl'
@@ -130,6 +138,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         templateUrl: 'templates/menus.html',
         controller: 'menusCtrl'
       },
+      'tab2': {
+        templateUrl: 'templates/menus.html',
+        controller: 'menusCtrl'
+      }, 
       'tab3': {
         templateUrl: 'templates/menus.html',
         controller: 'menusCtrl'
@@ -161,6 +173,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         templateUrl: 'templates/peta.html',
         controller: 'petaCtrl'
       },
+      'tab2': {
+        templateUrl: 'templates/peta.html',
+        controller: 'petaCtrl'
+      },
       'tab3': {
         templateUrl: 'templates/peta.html',
         controller: 'petaCtrl'
@@ -172,9 +188,13 @@ angular.module('app.routes', ['ionicUIRouter'])
   })
 
   .state('tabsController.terdekat', {
-    url: '/terdekat',
+    url: '/page11',
     views: {
       'tab1': {
+        templateUrl: 'templates/terdekat.html',
+        controller: 'terdekatCtrl'
+      },
+      'tab2': {
         templateUrl: 'templates/terdekat.html',
         controller: 'terdekatCtrl'
       },
@@ -192,6 +212,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         templateUrl: 'templates/menu.html',
         controller: 'ulasanMenuCtrl'
       },
+      'tab2': {
+        templateUrl: 'templates/menu.html',
+        controller: 'ulasanMenuCtrl'
+      },
       'tab3': {
         templateUrl: 'templates/menu.html',
         controller: 'ulasanMenuCtrl'
@@ -206,6 +230,10 @@ angular.module('app.routes', ['ionicUIRouter'])
     url: '/promo',
     views: {
       'tab1': {
+        templateUrl: 'templates/promo.html',
+        controller: 'promoCtrl'
+      },
+      'tab2': {
         templateUrl: 'templates/promo.html',
         controller: 'promoCtrl'
       },

@@ -1244,7 +1244,7 @@ angular.module('app.controllers', [])
 	};
 
 	var options = {
-		timeout: 2000,
+		timeout: 5000,
 		enableHighAccuracy: true
 	};
 
@@ -1279,7 +1279,7 @@ angular.module('app.controllers', [])
 
 		var mapOptions = {
 			center: latlon,
-			zoom: 16,
+			zoom: 15,
 			mapTypeId: google.maps.MapTypeId.ROADMAP
 		};
 
@@ -1287,6 +1287,16 @@ angular.module('app.controllers', [])
 
 		// wait till map loaded
 		google.maps.event.addListener($scope.map, 'idle', function() {
+			var userMarker = new google.maps.Marker({
+				map: $scope.map,
+				icon: '',
+				position: latlon
+			});
+
+			// var userInfo = new google.maps.InfoWindow({
+			// 	content: "Lokasimu"
+			// }).open($scope.map, userMarker);
+
 			addMarkers();
 		});
 	}
