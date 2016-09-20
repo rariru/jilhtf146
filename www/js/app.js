@@ -9,7 +9,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 
 .constant('config', {
   analytics: 'UA-XXXXXXXX-X',
-  version: 1
+  version: 100018
 })
 
 .run(function($ionicPlatform, config) {
