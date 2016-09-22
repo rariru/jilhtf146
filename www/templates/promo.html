@@ -1,5 +1,10 @@
 <ion-view title="Promo" id="promo">
     <ion-content lazy-scroll padding="true" class="has-header">
+        <ion-refresher
+            pulling-text="Lepas untuk memperbarui"
+            on-refresh="getPromos()"
+            spinner = "ripple" >
+        </ion-refresher>
         <div class="mangan-nodata" ng-hide="promos || promos.length > 0">
             <center><i class="ion-android-notifications-none"></i></center>
             <p>Tunggu promo menarik dari Kuliner favorit anda</p>
