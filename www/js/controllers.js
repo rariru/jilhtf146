@@ -36,8 +36,26 @@ angular.module('app.controllers', [])
 	});
 
 	$scope.getRestorans = function() {
+		var loadFlag = false;
+		var loadingIndicator = $ionicLoading.show({
+	      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
+	    });
+
+	    $timeout(function() {
+	    	loadingIndicator.hide();
+	    	if(!loadFlag) {
+	    		makeToast('Koneksi tidak stabil');
+	    	}
+	    }, 10000);
+
+		$scope.category = $stateParams.name;
+
+		var category = $stateParams.category;
+		var flag = new Date().getTime();
+		var flag2 = flag;
+		var failCounter = 0;
+	    
 		loadResto();
-		$scope.$broadcast('scroll.refreshComplete');
 	}
 
 	loadResto();
