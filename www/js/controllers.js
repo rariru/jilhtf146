@@ -170,6 +170,7 @@ angular.module('app.controllers', [])
 					
 					$ionicLoading.hide();
 					$scope.$broadcast('scroll.infiniteScrollComplete');
+					$scope.$broadcast('scroll.refreshComplete');
 
 					// console.log(flag +" | "+ flag2);
 					if(flag >= flag2) {
@@ -184,6 +185,7 @@ angular.module('app.controllers', [])
 					makeToast('Koneksi tidak stabil', 1500, 'bottom');
 					$ionicLoading.hide();
 					$scope.$broadcast('scroll.infiniteScrollComplete');
+					$scope.$broadcast('scroll.refreshComplete');
 				}).finally(function() {
 					$scope.$broadcast('scroll.refreshComplete');
 				});
@@ -206,6 +208,7 @@ angular.module('app.controllers', [])
 							}, function(reason) {
 								console.log('error fetch data');
 								makeToast('Koneksi tidak stabil', 1500, 'bottom');
+								$scope.$broadcast('scroll.refreshComplete');
 							});
 						}
 
@@ -214,6 +217,7 @@ angular.module('app.controllers', [])
 					console.log('error fetch data');
 					makeToast('Koneksi tidak stabil', 1500, 'bottom');
 					$ionicLoading.hide();
+					$scope.$broadcast('scroll.refreshComplete');
 				}).finally(function() {
 					$scope.$broadcast('scroll.refreshComplete');
 				});
@@ -670,8 +674,21 @@ angular.module('app.controllers', [])
     _waitForAnalytics();
 
     $scope.$on('$ionicView.enter', function() {
-    	analytics.trackView('Jelajah');
-    	console.log('trackView, Jelajah');
+    	// analytics.trackView('Jelajah');
+    	// console.log('trackView, Jelajah');
+	    function _waitForAnalytics(){
+	        if(typeof analytics !== 'undefined'){
+	            analytics.startTrackerWithId(config.analytics);
+	            // pindah di on enter
+			    analytics.trackView('Jelajah');
+	        }
+	        else{
+	            setTimeout(function(){
+	                _waitForAnalytics();
+	            },10000);
+	        }
+	    };
+	    _waitForAnalytics();
     });
 
 	$scope.options = {
@@ -1424,7 +1441,7 @@ angular.module('app.controllers', [])
 .controller('ulasanMenuCtrl', function($scope, $state, $stateParams, Services) {
 	$scope.getMenu = function() {
 		$scope.selectedMenu = $stateParams.selectedMenu;
-		console.log('ulasanMenu')
+		console.log('ulasanMenu');
 		$scope.$broadcast('scroll.refreshComplete');
 	}
 
