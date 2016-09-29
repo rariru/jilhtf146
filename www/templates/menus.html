@@ -1,5 +1,10 @@
 <ion-view title="Menu" id="page4">
     <ion-content lazy-scroll padding="true" class="has-header">
+        <ion-refresher
+            pulling-text="Lepas untuk memperbarui"
+            on-refresh="getMenus()"
+            spinner = "ripple" >
+        </ion-refresher>
         <ion-list>
 
             <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus" ng-click="openMenu( {{ $index }} )">
@@ -12,7 +17,7 @@
                         <!-- <button class="mangan-button-menumakanan" ng-click="openMenu( {{ $index }} )"> -->
                             <!-- <i class="icon ion-eye assertive" style="font-size: 20px;"></i> -->
                             <i class="icon ion-ios-arrow-right" style="font-size: 40px; color: rgb(1,177,178); opacity: 0.5; "></i>
-                        </button>
+                        <!-- </button> -->
                     </span>
                     <!-- <p style="font-size: 12px; white-space:normal;">Rp 10000</p> -->
                   <!--   <label class="item item-input" style="height: 30px; width: 100px;">

@@ -51,6 +51,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         templateUrl: 'templates/restorans.html',
         controller: 'tersimpanCtrl'
       },
+      'tab2': {
+        templateUrl: 'templates/restorans.html',
+        controller: 'tersimpanCtrl'
+      },
       'tab3': {
         templateUrl: 'templates/restorans.html',
         controller: 'tersimpanCtrl'
@@ -94,9 +98,13 @@ angular.module('app.routes', ['ionicUIRouter'])
 
 
   .state('tabsController.restoran', {
-    url: '/restoran',
+    url: '/restoran/:index',
     views: {
       'tab1': {
+        templateUrl: 'templates/restoran.html',
+        controller: 'restoranCtrl'
+      },
+      'tab2': {
         templateUrl: 'templates/restoran.html',
         controller: 'restoranCtrl'
       },
@@ -130,6 +138,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         templateUrl: 'templates/menus.html',
         controller: 'menusCtrl'
       },
+      'tab2': {
+        templateUrl: 'templates/menus.html',
+        controller: 'menusCtrl'
+      }, 
       'tab3': {
         templateUrl: 'templates/menus.html',
         controller: 'menusCtrl'
@@ -161,6 +173,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         templateUrl: 'templates/peta.html',
         controller: 'petaCtrl'
       },
+      'tab2': {
+        templateUrl: 'templates/peta.html',
+        controller: 'petaCtrl'
+      },
       'tab3': {
         templateUrl: 'templates/peta.html',
         controller: 'petaCtrl'
@@ -171,10 +187,32 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+  .state('tabsController.terdekat', {
+    url: '/page11',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/terdekat.html',
+        controller: 'terdekatCtrl'
+      },
+      'tab2': {
+        templateUrl: 'templates/terdekat.html',
+        controller: 'terdekatCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/terdekat.html',
+        controller: 'terdekatCtrl'
+      }
+    }
+  })
+
   .state('tabsController.ulasanMenu', {
     url: '/ulasanMenu',
     views: {
       'tab1': {
+        templateUrl: 'templates/menu.html',
+        controller: 'ulasanMenuCtrl'
+      },
+      'tab2': {
         templateUrl: 'templates/menu.html',
         controller: 'ulasanMenuCtrl'
       },
@@ -195,13 +233,17 @@ angular.module('app.routes', ['ionicUIRouter'])
         templateUrl: 'templates/promo.html',
         controller: 'promoCtrl'
       },
+      'tab2': {
+        templateUrl: 'templates/promo.html',
+        controller: 'promoCtrl'
+      },
       'tab3': {
         templateUrl: 'templates/promo.html',
         controller: 'promoCtrl'
       }
     }
-  })
+  });
 
-$urlRouterProvider.otherwise('/page1/page2')
+  $urlRouterProvider.otherwise('/page1/page2');
 
 });
