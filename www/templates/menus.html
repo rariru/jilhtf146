@@ -1,5 +1,10 @@
 <ion-view title="Menu" id="page4">
     <ion-content lazy-scroll padding="true" class="has-header">
+        <ion-refresher
+            pulling-text="Lepas untuk memperbarui"
+            on-refresh="getMenus()"
+            spinner = "ripple" >
+        </ion-refresher>
         <ion-list>
 
             <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus" ng-click="openMenu( {{ $index }} )">

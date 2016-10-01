@@ -1,5 +1,10 @@
 <ion-view title="Ulasan Menu" id="ulasanMenu">
     <ion-content lazy-scroll padding="true" class="has-header">
+        <ion-refresher
+            pulling-text="Lepas untuk memperbarui"
+            on-refresh="getMenu()"
+            spinner = "ripple" >
+        </ion-refresher>
         <!-- content -->
             <img ng-src="{{selectedMenu.reviewGambar}}" class="mangan-image-4_3">
             <div class="list" ng-show="selectedMenu.review">

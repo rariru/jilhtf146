@@ -3,9 +3,17 @@
     <button class="button button-clear button-positive">Edit</button>
     <ion-content lazy-scroll padding="true" class="has-header">
     <!-- {{restorans.length}} -->
+            <!-- ng-show= "category === 'Tersimpan'" -->
+        <ion-refresher
+            pulling-text="Lepas untuk memperbarui"
+            on-refresh="getRestorans()"
+            spinner = "ripple" >
+        </ion-refresher>
+        
         <div ng-hide="restorans || restorans.length > 0" class="mangan-nodata">
             <center><i class="ion-sad-outline"></i></center>
-            <p>Ups, Sepertinya Belum Ada Kuliner Disini</p>
+            <p style="margin-bottom: 10px;">Ups, Sepertinya Belum Ada Kuliner Disini</p>
+            <center><button class="button button-positive button-small" ng-click="getRestorans()">MUAT ULANG</button></center>
         </div>
 
         <div ng-show="restorans.length == 0 && category === 'Tersimpan'" class="mangan-nodata">
