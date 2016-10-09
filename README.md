@@ -1,6 +1,9 @@
 # jilhtf146
 HAIL HYDRA
 
+want fast?
+`bower install && npm install`
+
 # plugin
 * cordova-plugin-compat 1.0.0 "Compat"
 * cordova-plugin-console 1.0.3 "Console"
