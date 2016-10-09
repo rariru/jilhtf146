@@ -1,8 +1,5 @@
 // Initialize Firebase
-var config = {apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
-authDomain: "project-1449647215698534337.firebaseapp.com",
-databaseURL: "https://project-1449647215698534337.firebaseio.com",
-storageBucket: "project-1449647215698534337.appspot.com",};
+var config = {};
 
 firebase.initializeApp(config);
 
@@ -58,7 +55,7 @@ angular.module('app.services', [])
 
 	this.getNewRestorans = function(startDate) {
 		return promiseValue(
-			restoran.orderByChild('tglInput').limitToLast(5)
+			restoran.orderByChild('tglInput').limitToLast(12)
 			);
 	}
 

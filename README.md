@@ -45,6 +45,11 @@ HAIL HYDRA
 
 	`cordova plugin add ionic-plugin-keyboard`
 
+* ion-ripple (https://market.ionic.io/plugins/ion-ripple)
+
+	`bower install ion-ripple`
+
+
 # version
 ## 1.0.0
 * first
