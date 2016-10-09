@@ -147,6 +147,29 @@ angular.module('app.controllers', [])
 
 	function loadResto() {
 		switch(category) {
+			case 'terbaru': {
+				// console.log(category);
+				Services.getNewRestorans(flag).then(function(restorans) {
+					if(restorans) {
+						loadFlag = true;
+
+						$scope.restorans = restorans;
+
+						$ionicLoading.hide();
+						$scope.$broadcast('scroll.refreshComplete');
+
+					}
+				}, function(reason) {
+					console.log('error fetch data');
+					makeToast('Koneksi tidak stabil', 1500, 'bottom');
+					$ionicLoading.hide();
+					$scope.$broadcast('scroll.refreshComplete');
+				}).finally(function() {
+					$scope.$broadcast('scroll.refreshComplete');
+				});
+
+				failCounter = 3;
+			} break;
 			case 'all' : {
 				// console.log('halo');
 				Services.getAllRestorans(flag).then(function(restorans) {
@@ -1313,11 +1336,12 @@ angular.module('app.controllers', [])
 .controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading) {
 	$scope.category = 'Terdekat';
 
+	$ionicLoading.show({
+		template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
+	});
+
 	$scope.$on('$ionicView.enter', function() {
-		// $ionicLoading.show({
-	 //      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
-	 //      duration: 5000
-	 //    });
+		
 
 		analytics.trackView('Terdekat');
 		console.log('trackView, Terdekat');
@@ -1459,12 +1483,12 @@ angular.module('app.controllers', [])
 				console.log('no resto');
 			}
 
-			// $ionicLoading.hide();
+			$ionicLoading.hide();
 		}, function(reason) {
 			console.log('error');
 			console.log(reason);
 
-			// $ionicLoading.hide();
+			$ionicLoading.hide();
 		});
 	}
 
