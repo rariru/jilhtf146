@@ -41,13 +41,13 @@
                 <div class="clear"></div>
             </div>
             <ion-list class="mangan-menu-list">
-                <ion-item class="mangan-menu item-thumbnail-left item-icon-right" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus" ng-show="menu.priority" ng-click="openMenu( {{ $index }} )" ion-ripple>
+                <ion-item class="mangan-menu item-thumbnail-left item-icon-right" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus" ng-show="menu.priority" ng-click="openMenu( {{ $index }} )">
                     <!-- <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50" ng-click="openMenuGambar( {{ $index }} )"> -->
                     <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50">
                     <h2>{{menu.namaMenu}}</h2>
                     <h3 ng-show="(menu.harga % 1) == 0">{{menu.harga | currency:'Rp ':2}}</h3>
                     <h3 ng-hide="(menu.harga % 1) == 0">{{menu.harga}}</h3>
-                    <!-- <span class="mangan-tag-menumakanan">Khas</span> -->
+                    <span ng-show="menu.tag" class="mangan-tag-menumakanan">{{menu.tag}}</span>
 
                     <span class="mangan-menu-review" ng-show="menu.review && menu.review != 'null'">
                         <!-- <button class="mangan-button-menumakanan" ng-click="openMenu( {{ $index }} )"> -->

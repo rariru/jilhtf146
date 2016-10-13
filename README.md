@@ -52,6 +52,10 @@ want fast?
 
 	`bower install ion-ripple`
 
+* ngStorage (https://github.com/gsklee/ngStorage)
+	
+	`bower install ngstorage`
+
 
 # version
 ## 1.0.0
