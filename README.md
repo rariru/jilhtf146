@@ -1,6 +1,9 @@
 # jilhtf146
 HAIL HYDRA
 
+want fast?
+`bower install && npm install`
+
 # plugin
 * cordova-plugin-compat 1.0.0 "Compat"
 * cordova-plugin-console 1.0.3 "Console"
@@ -44,6 +47,11 @@ HAIL HYDRA
 * ionic-plugin-keyboard 2.2.1 "Keyboard"
 
 	`cordova plugin add ionic-plugin-keyboard`
+
+* ion-ripple (https://market.ionic.io/plugins/ion-ripple)
+
+	`bower install ion-ripple`
+
 
 # version
 ## 1.0.0

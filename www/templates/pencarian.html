@@ -10,12 +10,13 @@
             </label>
         </form>
     <!-- {{restorans.length}} -->
-    <div ng-hide="restorans || restorans.length > 0" class="mangan-nodata">
+    <div ng-show="notfound" class="mangan-nodata">
         <center><i class="ion-sad-outline"></i></center>
         <p>Ups, Sepertinya Belum Ada Kuliner Disini</p>
+        <center><button class="button button-positive button-small" ng-click="rekomendasikan()" ion-ripple>REKOMENDASIKAN</button></center>
     </div>
     
-        <div class="list card" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
+        <div class="list card" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'" ion-ripple>
             <div class="mangan-list-header">
                 <div class="row mangan-nama-resto">
                     <span class="col col-75">{{restoran.namaResto}}</span>
