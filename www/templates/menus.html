@@ -7,7 +7,7 @@
         </ion-refresher>
         <ion-list>
 
-            <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus" ng-click="openMenu( {{ $index }} )">
+            <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus" ng-click="openMenu( {{ $index }} )" ion-ripple>
                 <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50">
                     <h2>{{menu.namaMenu}}</h2>
                     <h3>{{menu.harga | currency:'Rp ':2}}</h3>
@@ -29,7 +29,7 @@
         </ion-list>
 
         <div class="mangan-menu-selengkapnya">
-            <button class="button button-positive button-small" ng-click="pesan()">PESAN</button>
+            <button class="button button-positive button-small" ng-click="pesan()" ion-ripple>PESAN</button>
         </div>
     </ion-content>
 </ion-view>
