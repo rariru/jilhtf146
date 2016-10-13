@@ -53,6 +53,12 @@ angular.module('app.services', [])
 			);
 	}
 
+	this.getNewRestorans = function(startDate) {
+		return promiseValue(
+			restoran.orderByChild('tglInput').limitToLast(12)
+			);
+	}
+
 	this.getAllRestorans = function(startDate) {
 		return promiseValue(
 			restoran.orderByChild('tglInput').endAt(startDate)//.limitToLast(10)
