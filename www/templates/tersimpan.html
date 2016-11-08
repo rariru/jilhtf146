@@ -1,0 +1,78 @@
+<ion-view id="page3">
+    <ion-nav-title>{{category}}</ion-nav-title>
+    <button class="button button-clear button-positive">Edit</button>
+    <ion-content lazy-scroll padding="true" class="has-header">
+    <!-- {{restorans.length}} -->
+            <!-- ng-show= "category === 'Tersimpan'" -->
+        <ion-refresher
+            pulling-text="Lepas untuk memperbarui"
+            on-refresh="getRestorans()"
+            spinner = "ripple" >
+        </ion-refresher>
+
+        <div ng-show="dataUser" style="border-bottom: 1px solid gray" ng-click="openProfile()" ion-ripple>
+            <img ng-src="{{dataUser.picture.data.url}}" width="20%" height="auto" style="border-radius:50%; border:1px solid gray; display: block; margin-left: auto; margin-right: auto; margin-top: 10px; margin-bottom: 10px;">
+            <center><h2>{{dataUser.name}}</h2></center>
+        </div>
+
+<!--         <div ng-show="!dataUser">
+            <center><p style="margin-bottom: 10px;">Login untuk memesan, berkomentar dan memberikan ulasan untuk kamu bagikan kepada orang lain</p></center>
+            <center><button class="button button-positive button-small" ng-click="login()" ion-ripple>Login</button></center>
+        </div> -->
+        
+        <div ng-show="nodata && !notersimpan" class="mangan-nodata">
+            <center><i class="ion-sad-outline"></i></center>
+            <p style="margin-bottom: 10px;">Ups, Periksa jaringan internet Anda</p>
+            <center><button class="button button-positive button-small" ng-click="getRestorans()" ion-ripple>MUAT ULANG</button></center>
+        </div>
+
+        <div ng-show="notersimpan" class="mangan-nodata">
+            <center><i class="ion-android-favorite-outline"></i></center>
+            <p style="margin-bottom: 10px;">Ups, Sepertinya Anda belum menyimpan apapun</p>
+            <center><a ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" class="button button-positive button-small" ion-ripple>JELAJAHI</a></center>
+        </div>
+
+        <div class="list card mangan-restorans" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true track by restoran.index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'" ion-ripple>
+        <!-- <div class="list card" ng-repeat="restoran in restorans" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'"> -->
+            <div class="mangan-list-header">
+                <div class="row mangan-nama-resto">
+                    <span class="col col-75">{{restoran.namaResto}}</span>
+                    <span class="col mangan-rating-nilai" ng-show="restoran.rating && restoran.rating != 'null'">{{restoran.rating}}
+                        <i class="mangan-rating-icon icon ion-star" style="color:yellow; font-size: 20px;"></i>
+                    </span>
+                </div>
+                <a ui-sref="tabsController.restoran({index: restoran.index})"><img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50"></a>
+            </div>
+                <a ui-sref="tabsController.restoran({index: restoran.index})"><div class="mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'">{{restoran.keteranganBuka}}</div></a>
+            <div class="mangan-keterangan item-body">
+                <div class="mangan-keterangan-teks" ng-bind-html="restoran.keteranganResto"></div>
+            </div>
+            
+            <div class="row mangan-selengkapnya">
+                <span class="col col-75" style="padding:0;margin-top: 3px;">
+                    <a ui-sref="tabsController.restoran({index: restoran.index})" id="tersimpan-button18" class="button button-positive button-small">SELENGKAPNYA</a>
+                </span>
+                <span class="col" style="padding:0;">
+                    <button class="mangan-tombol-aksi" ng-click="shareRestoran(restoran.index)">
+                        <i class="mangan-icon icon ion-android-share-alt"></i>
+                    </button>
+                </span>
+                <span ng-if="checkSavedRestoran(restoran.index) == true" class="col" style="padding:0;">
+                    <button class="mangan-tombol-aksi" ng-click="saveRestoran(restoran.index)">
+                        <i class="mangan-icon icon ion-heart" style="color:red;"></i>
+                    </button>
+                </span>
+                <span ng-if="checkSavedRestoran(restoran.index) == false" class="col" style="padding:0;">
+                    <button class="mangan-tombol-aksi" ng-click="saveRestoran(restoran.index)">
+                        <i class="mangan-icon icon ion-heart" style="color:white;"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+
+        <ion-infinite-scroll on-infinite="loadMoreResto()" distance="5%" immediate-check="false" spinner="spiral" ng-if="canLoadResto()">
+        </ion-infinite-scroll>
+
+
+    </ion-content>
+</ion-view>

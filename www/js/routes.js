@@ -48,15 +48,15 @@ angular.module('app.routes', ['ionicUIRouter'])
     url: '/page3',
     views: {
       'tab1': {
-        templateUrl: 'templates/restorans.html',
+        templateUrl: 'templates/tersimpan.html',
         controller: 'tersimpanCtrl'
       },
       'tab2': {
-        templateUrl: 'templates/restorans.html',
+        templateUrl: 'templates/tersimpan.html',
         controller: 'tersimpanCtrl'
       },
       'tab3': {
-        templateUrl: 'templates/restorans.html',
+        templateUrl: 'templates/tersimpan.html',
         controller: 'tersimpanCtrl'
       }
     }
@@ -248,6 +248,16 @@ angular.module('app.routes', ['ionicUIRouter'])
     url: '/login-page',
     templateUrl: 'templates/login.html',
     controller: 'loginCtrl'
+  })
+
+  .state('tabsController.profil', {
+    url: '/profil',
+    views: {
+      'tab3': {
+        templateUrl: 'templates/profil.html',
+        controller: 'profilCtrl'
+      }
+    }
   });
 
   $urlRouterProvider.otherwise('/page1/page2');
