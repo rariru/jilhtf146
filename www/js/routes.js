@@ -226,6 +226,7 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+
   .state('tabsController.promo', {
     url: '/promo',
     views: {
