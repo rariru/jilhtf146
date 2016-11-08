@@ -243,6 +243,12 @@ angular.module('app.routes', ['ionicUIRouter'])
         controller: 'promoCtrl'
       }
     }
+  })
+
+  .state('login', {
+    url: '/login-page',
+    templateUrl: 'templates/login.html',
+    controller: 'loginCtrl'
   });
 
   $urlRouterProvider.otherwise('/page1/page2');
