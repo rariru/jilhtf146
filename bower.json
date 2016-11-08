@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "ionic-image-lazy-load": "ion-image-lazy-load#*",
-    "ion-ripple": "^1.0.8"
+    "ion-ripple": "^1.0.8",
+    "ng-cordova-oauth": "^0.2.10"
   }
 }

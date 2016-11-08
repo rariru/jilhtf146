@@ -1582,9 +1582,28 @@ angular.module('app.controllers', [])
 	$scope.getPromos();
 })
 
-.controller('loginCtrl', function($scope, $state, $ionicLoading, Services) {
+.controller('loginCtrl', function($scope, $state, $ionicLoading, Services, $ionicHistory, $cordovaOauth, $localStorage) {
 	// login code here
 	$scope.fblogin = function() {
-		$state.go('tabsController.jelajah');
+		// $state.go('tabsController.jelajah');
+		$cordovaOauth.facebook(1764800933732733, ["email"]).then(function(result) {
+			console.log(result.access_token);
+
+			$localStorage.fbaccesstoken = result.access_token;
+
+			var credential = firebase.auth.FacebookAuthProvider.credential($localStorage.fbaccesstoken);
+
+			firebase.auth().signInWithCredential(credential).catch(function(error) {
+				console.log('Error : '+JSON.stringify(error));
+			});
+
+			if (firebase.User != null) {
+				// check if logged in
+				console.log('logged in');
+				$ionicHistory.goBack();
+			}
+		}, function(err) {
+			console.log('Error : '+err);
+		})
 	}
 })
