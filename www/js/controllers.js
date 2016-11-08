@@ -519,6 +519,8 @@ angular.module('app.controllers', [])
 			okText: 'OK',
 			okType: 'button-balanced'
 		});
+
+		$state.go('login');
 	}
 
 	function makeToast(_message) {
@@ -1578,4 +1580,11 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.getPromos();
+})
+
+.controller('loginCtrl', function($scope, $state, $ionicLoading, Services) {
+	// login code here
+	$scope.fblogin = function() {
+		$state.go('tabsController.jelajah');
+	}
 })

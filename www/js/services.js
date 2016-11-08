@@ -3,7 +3,7 @@ var config = {
 	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
 	authDomain: "project-1449647215698534337.firebaseapp.com",
 	databaseURL: "https://project-1449647215698534337.firebaseio.com",
-	storageBucket: "project-1449647215698534337.appspot.com",
+	storageBucket: "project-1449647215698534337.appspot.com"
 };
 
 firebase.initializeApp(config);
