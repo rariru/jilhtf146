@@ -1252,6 +1252,10 @@ angular.module('app.controllers', [])
 	$scope.openProfile = function() {
 		$state.go('tabsController.profil');
 	}
+
+	$scope.login = function() {
+		$state.go('login');
+	}
 })
 
 .controller('petaCtrl', function($scope, $state, $stateParams, Services, $cordovaToast, $cordovaGeolocation, $ionicPopup) {
@@ -1612,11 +1616,11 @@ angular.module('app.controllers', [])
 	$scope.getPromos();
 })
 
-.controller('loginCtrl', function($scope, $state, $ionicLoading, Services, $ionicHistory, $cordovaOauth, $localStorage) {
+.controller('loginCtrl', function($scope, $state, $ionicLoading, Services, $ionicHistory, $cordovaOauth, $localStorage, $http) {
 	// login code here
 	$scope.fblogin = function() {
 		// $state.go('tabsController.jelajah');
-		$cordovaOauth.facebook(1764800933732733, ["email"]).then(function(result) {
+		$cordovaOauth.facebook(1764800933732733, ["email", "user_birthday", "user_location"]).then(function(result) {
 			console.log(result.access_token);
 
 			$localStorage.fbaccesstoken = result.access_token;
@@ -1627,11 +1631,47 @@ angular.module('app.controllers', [])
 				console.log('Error : '+JSON.stringify(error));
 			});
 
-			if (firebase.User != null) {
-				// check if logged in
-				console.log('logged in');
-				$ionicHistory.goBack();
-			}
+			// if (firebase.User != null) {
+			// 	// check if logged in
+			// 	console.log('logged in');
+			// 	$ionicHistory.goBack();
+			// }
+
+			firebase.auth().onAuthStateChanged(function(user) {
+				if (user) {
+					console.log('logged in');
+					console.log(user.email);
+					$ionicHistory.goBack();
+					// add code to save user data on database
+					Services.getUserData(user.email).then(function(user) {
+						if (user) {
+							console.log(JSON.stringify(user));
+							// update user data?
+							// data already added to database
+						} else {
+							// no data here
+							$http.get("https://graph.facebook.com/v2.8/me?fields=name,location,birthday,gender,picture.type(large){url},age_range,email,about", {params :{
+								access_token : $localStorage.fbaccesstoken,
+								format : "json"
+							}}).then(function(result) {
+								$scope.dataUser = result.data;
+								console.log(JSON.stringify(result.data));
+								Services.addUserData($scope.dataUser).then(function(user) {
+									console.log(user);
+								}, function(err) {
+									console.log(err);
+								})
+								console.log(JSON.stringify(result.data));
+								$ionicLoading.hide();
+							})
+							console.log('no data user');
+						}
+					}, function(err) {
+						console.log("error retrieve data user: "+err);
+					})
+				}
+			})
+
 		}, function(err) {
 			console.log('Error : '+err);
 		})
@@ -1645,9 +1685,19 @@ angular.module('app.controllers', [])
       duration: 5000
     });
 
+
 	$scope.$on('$ionicView.enter', function() {
 		var user = firebase.auth().currentUser;
 		if (user) {
+			user.providerData.forEach(function(profile) {
+				if (profile.providerId === "facebook.com") {
+					console.log("  Provider-specific UID: "+profile.uid);
+				}
+				// console.log("Sign in Provider: "+profile.providerId);
+			 //    console.log("  Name: "+profile.displayName);
+			 //    console.log("  Email: "+profile.email);
+			 //    console.log("  Photo URL: "+profile.photoURL);
+			});
 			$scope.getProfile();
 		} else {
 			$state.go('tabsController.tersimpan');

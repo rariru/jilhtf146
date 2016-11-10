@@ -17,6 +17,7 @@ var keyword = firebase.database().ref('keywordResto');
 var slider = firebase.database().ref('slider');
 var promo = firebase.database().ref('promo');
 var version = firebase.database().ref('version');
+var user = firebase.database().ref('user');
 
 angular.module('app.services', [])
 
@@ -262,6 +263,30 @@ angular.module('app.services', [])
 		return promiseValue(
 			promo
 		);
+	}
+
+	this.getUserData = function(email) {
+		return promiseValue(
+			user.orderByChild('email').equalTo(email)
+		)
+	}
+
+	this.addUserData = function(dataUser) {
+		var promise = $q.defer();
+
+		user.child(dataUser.id).set({
+			'index': dataUser.id,
+			'email': dataUser.email,
+			'fb_id': dataUser.id,
+			'name': dataUser.name,
+			'photoUrl': dataUser.picture.data.url,
+			'dateRegister': firebase.database.ServerValue.TIMESTAMP,
+			'dateUpdatedData': firebase.database.ServerValue.TIMESTAMP
+		}).then(function() {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
 	}
 
 	function promiseAdded(obj) {
