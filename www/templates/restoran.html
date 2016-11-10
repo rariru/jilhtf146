@@ -62,7 +62,7 @@
             </div>
             <div class="mangan-menu-selengkapnya" ng-show="menus && menus.length > 3">
                 <a ui-sref="tabsController.menus({ index: restoran.index })" id="selatViens-button20" class="button button-positive button-small" ion-ripple>MENU LAINNYA</a>
-                <button id="mangan-button-pesan" class="button button-positive button-small" ng-click="pesan()" ion-ripple>PESAN</button>
+                <a ui-sref="tabsController.pesan({ index: restoran.index })" id="mangan-button-pesan" class="button button-positive button-small" ng-click="pesan()" ion-ripple>PESAN</a>
             </div>
             <!-- <div class="mangan-spacer"></div> -->
 <!--             <div class="mangan-kontak-header" ng-show="(restoran.noTelp && restoran.noTelp != 'null') ||

@@ -1,0 +1,35 @@
+<ion-view title="Pesan" id="pesan">
+    <ion-content lazy-scroll padding="true" class="has-header">
+        <ion-refresher
+            on-refresh="getMenus()"
+            spinner = "ripple" >
+        </ion-refresher>
+        <ion-list>
+
+            <!-- <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus" ng-click="openMenu( {{ $index }} )"> -->
+            <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus">
+                <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50">
+                    <h2>{{menu.namaMenu}}</h2>
+                    <!-- <h3>{{menu.harga | currency:'Rp ':2}}</h3> -->
+                    <h3 ng-show="(menu.harga % 1) == 0">{{menu.harga | currency:'Rp ':2}}</h3>
+                    <h3 ng-hide="(menu.harga % 1) == 0">{{menu.harga}}</h3>
+
+                    <!-- <span class="mangan-menu-review" ng-show="menu.review && menu.review != 'null'">
+                            <i class="icon ion-ios-arrow-right" style="font-size: 40px; color: rgb(1,177,178); opacity: 0.5; "></i>
+                    </span> -->
+                    
+                    <h3>Jumlah : 
+                        <a class="ion ion-minus" style="padding-left: 5px; padding-right: 10px;"></a>
+                         10
+                        <a class="ion ion-plus" style="padding-left: 10px;"></a>
+                    </h3>
+                    </span> 
+            </ion-item>
+            
+        </ion-list>
+
+        <div class="mangan-menu-selengkapnya">
+            <button class="button button-positive button-small" ng-click="invoice()" ion-ripple>Lanjut</button>
+        </div>
+    </ion-content>
+</ion-view>
