@@ -513,14 +513,12 @@ angular.module('app.controllers', [])
 	$scope.pesan = function() {
 		analytics.trackEvent('Coming Soon', 'Pesan', 'Tombol Pesan', 5);
 		console.log('trackEvent, Coming Soon, Pesan, Tombol Pesan');
-		$ionicPopup.alert({
-			title: 'Coming Soon',
-			template: '<center>Layanan ini akan segera hadir</center>',
-			okText: 'OK',
-			okType: 'button-balanced'
-		});
-
-		$state.go('login');
+		// $ionicPopup.alert({
+		// 	title: 'Coming Soon',
+		// 	template: '<center>Layanan ini akan segera hadir</center>',
+		// 	okText: 'OK',
+		// 	okType: 'button-balanced'
+		// });
 	}
 
 	function makeToast(_message) {
@@ -632,12 +630,19 @@ angular.module('app.controllers', [])
 	$scope.pesan = function() {
 		analytics.trackEvent('Coming Soon', 'Pesan', 'Tombol Pesan', 5);
 		console.log('trackEvent, Coming Soon, Pesan, Tombol Pesan');
-		$ionicPopup.alert({
-			title: 'Coming Soon',
-			template: '<center>Layanan ini akan segera hadir</center>',
-			okText: 'OK',
-			okType: 'button-balanced'
-		});
+		// $ionicPopup.alert({
+		// 	title: 'Coming Soon',
+		// 	template: '<center>Layanan ini akan segera hadir</center>',
+		// 	okText: 'OK',
+		// 	okType: 'button-balanced'
+		// });
+		$state.go('tabsController.pesan');
+		// var user = firebase.auth().currentUser;
+		// if (user) {
+		// 	$state.go('tabsController.pesan');
+		// } else {
+		// 	$state.go('login');
+		// };
 	}
 
 	function makeToast(_message) {
@@ -1606,4 +1611,107 @@ angular.module('app.controllers', [])
 			console.log('Error : '+err);
 		})
 	}
+})
+
+.controller('pesanCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout) {
+	// code pesan here	var loadFlag = false;
+	var loadingIndicator = $ionicLoading.show({
+      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
+    });
+
+    $timeout(function() {
+    	loadingIndicator.hide();
+    	if(!loadFlag) {
+    		makeToast('Koneksi tidak stabil');
+    	}
+    }, 10000);
+
+    $scope.$on('$ionicView.enter', function() {
+    	analytics.trackView('Menu Kuliner');
+	    console.log('trackView, Menu Kuliner');
+	    analytics.trackEvent('Menu', 'Lihat Menu', $stateParams.index, 5);
+	    console.log('trackEvent, Menu, Lihat Menu, '+$stateParams.index);
+    });
+
+    $scope.getMenus = function() {
+		Services.getRestoranMenus($stateParams.index).then(function(menus) {
+			if(menus) {
+				loadFlag = true;
+				$scope.menus = menus;
+			} else {
+				makeToast('Error, tidak ada menu', 1500, 'bottom');
+				console.log('Error menu tidak ada');
+			}
+		}, function(err) {
+			makeToast('Koneksi tidak stabil', 1500, 'bottom');
+			console.log('Error fetch data');
+		}).finally(function() {
+			$scope.$broadcast('scroll.refreshComplete');
+		});
+    }
+
+    $scope.getMenus();
+
+	$ionicModal.fromTemplateUrl('templates/ulasanMenu.html', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal) { $scope.modalMenu = modal; });
+
+	$ionicModal.fromTemplateUrl('templates/gambarMenu.html', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal) { $scope.modalMenuGambar = modal; });
+
+	$scope.openMenu = function(index) {
+		analytics.trackView('Ulasan Menu Kuliner');
+		console.log('trackView, Ulasan Menu Kuliner');
+		analytics.trackEvent('Ulasan', 'Ulasan Menu Kuliner '+$stateParams.index , index, 5);
+		console.log('trackEvent, Ulasan, Ulasan Menu Kuliner '+$stateParams.index+', '+index);
+		$scope.selectedMenu = $scope.menus[index];
+		console.log($scope.selectedMenu);
+		if (!$scope.selectedMenu.review) {
+			$scope.modalMenuGambar.show();
+		}else{
+			// $scope.modalMenu.show();
+			$state.go('tabsController.ulasanMenu', {'selectedMenu': $scope.selectedMenu});
+		}
+		// console.log($scope.menu[index]);
+	};
+
+	$scope.closeMenu = function() {
+		$scope.modalMenu.hide();
+	};
+
+	$scope.openMenuGambar = function(index) {
+		analytics.trackView('Gambar Ulasan Menu Kuliner');
+		console.log('trackView, Gambar Ulasan Menu Kuliner');
+		analytics.trackEvent('Ulasan', 'Gambar Ulasan Menu Kuliner '+$stateParams.index, index, 5);
+		console.log('trackEvent, Ulasan, Gambar Ulasan Menu Kuliner '+$stateParams.index+', '+index);
+		$scope.selectedMenu = $scope.menus[index];
+		$scope.selectedMenu = $scope.menus[index];
+		// console.log($scope.selectedMenu);
+		$scope.modalMenuGambar.show();
+	};
+
+	$scope.closeMenuGambar = function() {
+		$scope.modalMenuGambar.hide();
+	};
+
+	$scope.invoice = function() {
+		$state.go('tabsController.invoice');
+	}
+
+	function makeToast(_message) {
+		window.plugins.toast.showWithOptions({
+			message: _message,
+			duration: 1500,
+			position: 'bottom',
+			addPixelsY: -40
+		});
+	}
+})
+
+.controller('invoiceCtrl',function($scope, $state){
+	//controller invoice
+	console.log('invoice');
 })

@@ -245,6 +245,45 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+  .state('tabsController.pesan', {
+    url: '/pesan',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/pesan.html',
+        controller: 'pesanCtrl'
+      },
+      'tab2': {
+        templateUrl: 'templates/pesan.html',
+        controller: 'pesanCtrl'
+      },
+      'tab3':{
+        templateUrl: 'templates/pesan.html',
+        controller: 'pesanCtrl'
+      }
+    },
+    params: {
+      index: null
+    }
+  })
+
+  .state('tabsController.invoice',{
+    url: '/invoice',
+    views: {
+      'tab1':{
+        templateUrl:'templates/invoice.html',
+        controller:'invoiceCtrl'
+      },
+      'tab2':{
+        templateUrl:'templates/invoice.html',
+        controller:'invoiceCtrl'
+      },
+      'tab3':{
+        templateUrl:'templates/invoice.html',
+        controller:'invoiceCtrl'
+      }
+    }
+  })
+
   .state('login', {
     url: '/login-page',
     templateUrl: 'templates/login.html',
