@@ -2,7 +2,7 @@
   <ion-content>
   	<div id="content" style="position: relative;">
   		<div id="profile-image">
-  			<img ng-src="{{dataUser.picture.data.url}}" style="width:30%; display:block; margin-left: auto; margin-right:auto; margin-top: 20px; border: 1px solid gray">
+  			<img ng-src="{{dataUser.photoUrl}}" style="width:30%; display:block; margin-left: auto; margin-right:auto; margin-top: 20px; border: 1px solid gray">
   			<h4 style="text-align: center;">{{dataUser.name}}</h3>
   		</div>
 
@@ -17,7 +17,7 @@
 	  			</div>
 	  			<div class="row">
             <div class="col"><p>Lokasi</p></div>
-            <div class="col col-50"><p>{{dataUser.location.name}}</p></div>
+            <div class="col col-50"><p>{{dataUser.location}}</p></div>
 	  			</div>
   			</ion-item>
 <!--   			<div class="item item-divider">
@@ -35,6 +35,5 @@
           <button class="button button-block button-balanced" ng-click="signOut()">Log Out</button>
       </label>
   	</div>
-
   </ion-content>
 </ion-view>
