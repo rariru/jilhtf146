@@ -9931,6 +9931,10 @@ p {
   width: auto;
   background-color: #e6e7e8; }
 
+.mangan-line {
+  border-bottom: 1px solid #ddd;
+  width: 100%; }
+
 .mangan-kontak {
   background-color: #01b2b1;
   padding-bottom: 0; }
@@ -9954,6 +9958,12 @@ p {
 .mangan-kontak-icon {
   margin-right: 10px;
   font-size: 15px;
+  color: orangered; }
+
+.mangan-invoice-icon {
+  margin-right: 10px;
+  margin-left: -5px;
+  font-size: 20px;
   color: orangered; }
 
 .mangan-button-menumakanan {
@@ -9986,6 +9996,9 @@ p {
   padding-top: 5px; }
 
 .mangan-menu > h3 {
+  color: #01b2b1; }
+
+.mangan-menu p {
   color: #01b2b1; }
 
 .mangan-menu > h3 > a {
@@ -10152,6 +10165,53 @@ p {
   -moz-box-shadow: 0px 0px 10px 2px #888888;
   box-shadow: 0px 0px 10px 2px #888888; }
 
+.mangan-button-jumlah {
+  padding: 2px 4px 1px;
+  min-width: 20px;
+  min-height: 22px;
+  font-size: 12px;
+  line-height: 18px; }
+
+.mangan-button-jumlah .icon:before, .mangan-button-jumlah.icon:before, .mangan-button-jumlah.icon-left:before, .mangan-button-jumlah.icon-right:before {
+  font-size: 16px;
+  line-height: 19px;
+  margin-top: 3px; }
+
+.button-oren {
+  background-color: #ff6a32;
+  border-color: transparent;
+  color: #fff;
+  overflow: hidden;
+  white-space: nowrap;
+  border-radius: 2px; }
+
+.button.button-oren:hover {
+  color: #fff;
+  text-decoration: none; }
+
+.button.button-oren.active, .button.button-oren.activated {
+  background-color: #ff6a32; }
+
+.button.button-oren.button-clear {
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  color: #ff6a32; }
+
+.button.button-oren.button-icon {
+  border-color: transparent;
+  background: none; }
+
+.button.button-oren.button-outline {
+  border-color: #ff6a32;
+  background: transparent;
+  color: #ff6a32; }
+
+.button.button-oren.button-outline.active, .button.button-oren.button-outline.activated {
+  background-color: #ff6a32;
+  box-shadow: none;
+  color: #fff; }
+
 .mangan-disclaimer {
   width: 100%;
   height: auto;
@@ -10173,6 +10233,9 @@ p {
   color: white;
   float: right;
   font-size: 16px; }
+
+.mangan-card {
+  border-radius: 8px; }
 
 .tab-nav {
   -webkit-box-shadow: 0px 0px 10px 2px #888888;

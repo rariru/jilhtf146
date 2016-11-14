@@ -57,12 +57,17 @@
                     </span>
                 </ion-item>
             </ion-list>
-            <div class="mangan-menu-selengkapnya" ng-hide="menus && menus.length > 3">
-                <button id="mangan-button-pesan" class="button button-positive button-small" ng-click="pesan()" ion-ripple>PESAN</button>
+            <div class="row mangan-menu-selengkapnya" ng-hide="menus && menus.length > 3">
+               
+                    <button id="mangan-button-pesan" class="button button-oren" ng-click="pesan()" ion-ripple>PESAN</button>
+               
             </div>
-            <div class="mangan-menu-selengkapnya" ng-show="menus && menus.length > 3">
-                <a ui-sref="tabsController.menus({ index: restoran.index })" id="selatViens-button20" class="button button-positive button-small" ion-ripple>MENU LAINNYA</a>
-                <a ui-sref="tabsController.pesan({ index: restoran.index })" id="mangan-button-pesan" class="button button-positive button-small" ng-click="pesan()" ion-ripple>PESAN</a>
+            <div class="row mangan-menu-selengkapnya" ng-show="menus && menus.length > 3">
+               
+                    <a ui-sref="tabsController.menus({ index: restoran.index })" id="selatViens-button20" class="button button-oren" style="width: 50%;margin-top:10px; margin-right: 10px;" ion-ripple>MENU LAINNYA</a>
+                
+                    <a ui-sref="tabsController.pesan({ index: restoran.index })" id="mangan-button-pesan" class="button button-double button-oren" ng-click="pesan()" style="width: 50%;margin-top:10px;" ion-ripple>PESAN</a>
+                
             </div>
             <!-- <div class="mangan-spacer"></div> -->
 <!--             <div class="mangan-kontak-header" ng-show="(restoran.noTelp && restoran.noTelp != 'null') ||
