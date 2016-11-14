@@ -5,46 +5,112 @@
             spinner = "ripple" >
         </ion-refresher> -->
 
-        <div class="card">
-        	<div class="item item-divider">ORDER ITEMS</div>
-	        	<div class="item">
-	        		<div class="row">
-	  					<div class="col col-75">Ayam Kucing Kesukaan</div>
-	  					<div class="col">Rp 20.000</div>
-					</div>
-					<div class="row">
-	  					<div class="col col-75"></div>
-	  					<div class="col col-50">
-	  						<h3>Jumlah : 
-		                        <a class="ion ion-plus" style="padding-left: 5px; padding-right: 10px;"></a>
-		                         10
-		                        <a class="ion ion-minus" style="padding-left: 10px;"></a>
-	                    	</h3>
-	  					</div>
-					</div>
+        <div class="card mangan-card">
+        	<div class="mangan-kontak-header">
+        		<p>PESANAN</p>
+        	</div>
+        	
+        	<div class="item item-text-wrap mangan-menu">
+        		<div class="row">
+  					<div class="col col-75"><h3>Ayam Kucing Kesukaan Semua Sejahtera Sehat Sentosa Bahagia</h3></div>
+  					<div class="col"><h3>Rp 20.000</h3></div>
 				</div>
+				<div class="row">
+  					<div class="col col-50">
+  						<p>Jumlah : 
+                            <span>
+                                <button class="button mangan-button-jumlah button-oren button-outline"><i class="ion ion-minus" style=""></i></button>
+                                <span style="font-size: 16px;padding-left: 6px; padding-right: 6px;">10</span>
+                                <button class="button mangan-button-jumlah button-oren button-outline"><i class="ion ion-plus" style=""></i></button>
+                            </span>
+                        </p>
+  					</div>
+				</div>
+				<label class="item-input mangan-menu" style="margin-top:-5px;">
+        			<i class="mangan-invoice-icon icon ion-compose" style="font-size:12px; margin-right:5px;"></i>
+        			<span class=""><input type="text" placeholder="tambah catatan" style="font-size:12px; color:orangered;"></span>
+        		</label>
+        	</div>
+
+        	<div class="item item-text-wrap mangan-menu">
+				<div class="row">
+  					<div class="col col-75"><h3>Ayam Kucing Kesukaan</h3></div>
+  					<div class="col"><h3>Rp 20.000</h3></div>
+				</div>
+				<div class="row">
+  					<div class="col col-50">
+  						<p>Jumlah : 
+                            <span>
+                                <button class="button mangan-button-jumlah button-oren button-outline"><i class="ion ion-minus" style=""></i></button>
+                                <span style="font-size: 16px;padding-left: 6px; padding-right: 6px;">10</span>
+                                <button class="button mangan-button-jumlah button-oren button-outline"><i class="ion ion-plus" style=""></i></button>
+                            </span>
+                        </p>
+  					</div>
+				</div>
+				<label class="item-input mangan-menu" style="margin-top:-5px;">
+        			<i class="mangan-invoice-icon icon ion-compose" style="font-size:12px; margin-right:5px;"></i>
+        			<span class=""><input type="text" placeholder="tambah catatan" style="font-size:12px; color:orangered;"></span>
+        		</label>
+			</div>
+
+            <div class="item mangan-menu" style="margin:0; text-align: center;">
+                    <a href="" class="" style="text-decoration: none; color: rgb(1,177,178); font-size: 14px;" ng-click=""><i class="icon ion-plus"></i> Tambah Pesanan</a>
+            </div>
+		
+        	<div class="mangan-kontak-header">
+        		<p>PENGIRIMAN</p>
+        	</div>
+        	
+        	<div class="item item-text-wrap mangan-menu">
+        		
+        		<label class="item-input mangan-menu">
+        			<i class="mangan-invoice-icon icon ion-ios-person"></i>
+        			<span class="mangan-line"><input type="text" placeholder="Penerima" required></span>
+        		</label>
+        		<label class="item-input mangan-menu">
+        			<i class="mangan-invoice-icon icon ion-ios-location"></i>
+        			<span class="mangan-line"><input type="text" placeholder="Alamat" required></span>
+        		</label>
+        		<label class="item-input mangan-menu" style="margin-left: 18px;"><a href="" style="font-size: 12px; color:rgb(1,175,177); text-decoration:none;">Pilih Lokasi</a></label>
+        		<label class="item-input mangan-menu">
+        			<i class="mangan-invoice-icon icon ion-ios-telephone"></i>
+        			<span class="mangan-line"><input type="number" placeholder="Telepon" required></span>
+        		</label>
+        		<label class="item-input item-select mangan-menu">
+				    <i class="mangan-invoice-icon icon ion-android-bicycle"></i>
+				    <span class=""><p class="input-label" style="color:#a3a3a3;">Kurir</p></span>
+				    <select>
+				      <option>Omas (Ojek Mahasiswa)</option>
+				      <option>Solojek</option>
+				    </select>
+
+				</label>
+			</div>
+
+			<div class="mangan-kontak-header">
+        		<p>BIAYA</p>
+        	</div>
+        	<div class="item item-text-wrap mangan-menu">
+	        	<div class="row">
+					<div class="col col-75"><h3>Total Pesanan</h3></div>
+					<div class="col"><h3>Rp 40.000</h3></div>
+				</div>
+				<div class="row">
+					<div class="col col-75"><h3>Ongkos Kirim</h3></div>
+					<div class="col"><h3>Rp 10.000</h3></div>
+				</div>
+			</div>
+			<div class="item mangan-menu" style="border-bottom: 5px solid rgb(230,231,232); border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;">
+				<div class="row">
+					<div class="col col-75"><h2 style="color:rgb(1,177,178);">TOTAL BAYAR</h2></div>
+					<div class="col"><h2 style="color:rgb(1,177,178);">Rp 50.000</h2></div>
+				</div>
+			</div>
+
+            
+            <button class="button button-block button-outline button-oren" ng-click="invoice()" ion-ripple>Proses Pesanan</button>
+               
 		</div>
-
-		<div class="card">
-        	<div class="item item-divider">PENGIRIMAN</div>
-	        	<div class="list">
-	        		<label class="item item-input">
-	        			<i class="icon ion-person"></i>
-	        			<input type="text">
-	        		</label>
-	        		<label class="item item-input">
-	        			<i class="icon ion-person"></i>
-	        			<input type="text">
-	        		</label>
-	        		<label class="item item-input">
-	        			<i class="icon ion-person"></i>
-	        			<input type="text">
-	        		</label>
-	        	</div>
-		</div>
-	        	
-       
-
-
     </ion-content>
 </ion-view>
