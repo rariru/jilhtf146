@@ -10282,3 +10282,9 @@ p {
       color: #FFF;
       background-color: #294886;
       border-color: #27447e; }
+    .login .bottom-content .google-sign-in {
+      border-radius: 4px;
+      font-weight: 500;
+      color: #FFF;
+      background-color: #DD4B39;
+      border-color: #dc4330; }

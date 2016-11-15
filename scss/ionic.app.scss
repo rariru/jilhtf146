@@ -29,6 +29,7 @@ $background-color: rgb(1, 178, 177);
 $auth-big-btn-bg: #FFF;
 $auth-small-btn-color: #FFF;
 $facebook-blue: #294886;
+$google-red: #DD4B39;
 $welcome-color: #FFFFFF;
 
 // Include all of Ionic
@@ -717,6 +718,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', end
 			color: $auth-small-btn-color;
 			background-color: $facebook-blue;
 			border-color: darken($facebook-blue, 2);
+		}
+
+		.google-sign-in
+		{
+			border-radius: 4px;
+			font-weight: 500;
+			color: $auth-small-btn-color;
+			background-color: $google-red;
+			border-color: darken($google-red, 2);
 		}
 	}
 }

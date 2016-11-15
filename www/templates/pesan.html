@@ -17,14 +17,13 @@
                     <!-- <span class="mangan-menu-review" ng-show="menu.review && menu.review != 'null'">
                             <i class="icon ion-ios-arrow-right" style="font-size: 40px; color: rgb(1,177,178); opacity: 0.5; "></i>
                     </span> -->
-                    
                     <p>Jumlah : 
                         <span>
-                            <button class="button mangan-button-jumlah button-oren button-outline"><i class="ion ion-minus" style=""></i></button>
-                            <span style="font-size: 16px;padding-left: 6px; padding-right: 6px;">10</span>
-                            <button class="button mangan-button-jumlah button-oren button-outline"><i class="ion ion-plus" style=""></i></button>
+                            <button class="button mangan-button-jumlah button-oren button-outline" ng-click="minQuantity($index, menu.quantity)"><i class="ion ion-minus" style=""></i></button>
+                            <span style="font-size: 16px;padding-left: 6px; padding-right: 6px;">{{menu.quantity}}</span>
+                            <button class="button mangan-button-jumlah button-oren button-outline" ng-click="addQuantity($index, menu.quantity)"><i class="ion ion-plus" style="" ></i></button>
                         </span>
-                    </p> 
+                    </p>
             </ion-item>
             
         </ion-list>
