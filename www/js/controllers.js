@@ -1861,7 +1861,7 @@ angular.module('app.controllers', [])
 		if ($scope.selectedMenus == "") {
 			alert('Pesen dulu bos');
 		} else if($scope.selectedMenus !== ""){
-			$state.go('tabsController.invoice', {'selectedMenus': $scope.selectedMenus});
+			$state.go('tabsController.invoice', {'selectedMenus': $scope.selectedMenus, 'index': $stateParams.index});
 		}
 	}
 
@@ -1875,8 +1875,101 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('invoiceCtrl',function($scope, $state, $stateParams){
+.controller('invoiceCtrl',function($scope, $state, $stateParams, Services){
 	//controller invoice
 	console.log('invoice');
 	console.log(JSON.stringify($stateParams.selectedMenus));
+
+	// show menu dipesan
+	$scope.menus = $stateParams.selectedMenus;
+	$scope.transaksi = "";
+
+	// on enter get user data and get restoran detail
+	$scope.invoice = function() {
+		var user = firebase.auth().currentUser;
+		if (user) {
+			user.providerData.forEach(function(profile) {
+				$scope.uid = profile.uid
+			});
+		} else {
+			alert('not logged in');
+		}
+
+		Services.getProfileByUid($scope.uid).then(function(dataUser) {
+			if (dataUser) {
+				Services.getRestoranDetails($stateParams.index).then(function(restoran) {
+					if (restoran) {
+						$scope.transaksi = {
+							'alamat' : restoran.alamat,
+							'alamatUser' : null,
+							'feedelivery' : 5000,
+							'indexResto' : restoran.index,
+							'indexTransaksi' : firebase.database.ServerValue.TIMESTAMP+$scope.uid+restoran.index,
+							'jumlah' : jumlah(),
+							'kurir' : null,
+							'map' : {
+								'lat' : restoran.map.lat,
+								'long' : restoran.map.long
+							},
+							'mapUser' : {
+								'lat' : null,
+								'long' : null
+							},
+							'namaResto' : restoran.namaResto,
+							'namaUser' : dataUser.name,
+							'noTelpUser' : dataUser.noTelpUser,
+							'pesanan' : $scope.menus,
+							'status' : 'queue',
+							'tgl' : firebase.database.ServerValue.TIMESTAMP,
+							'totalHarga' : totalHarga(),
+							'userPhotoUrl' : dataUser.photoUrl,
+							'username' : $scope.uid
+						}
+					}
+				});
+			}
+		});
+	}
+
+	$scope.invoice();
+
+	function jumlah() {
+		var jumlah = 0;
+		var hnq = 0;
+		for(var id in $scope.menus) {
+			hnq = $scope.menus[id].harga*$scope.menus[id].quantity;
+			jumlah += hnq;
+			hnq = 0;
+		}
+		return jumlah;
+	}
+
+	function totalHarga() {
+		var total = 0;
+		var total = jumlah();
+		total += 5000;
+		return total;
+	}
+
+	$scope.minQuantity = function(index, quantity) {
+		console.log(index, quantity);
+		if (quantity > 1) {
+			$scope.menus[index].quantity = quantity - 1;
+		} else {
+			$scope.menus[index].quantity = 1;
+		}
+		$scope.transaksi.jumlah = jumlah();
+		$scope.transaksi.totalHarga = totalHarga();
+	}
+
+	$scope.addQuantity = function(index, quantity) {
+		console.log(index, quantity);
+		if (quantity >= 1) {
+			$scope.menus[index].quantity = quantity + 1;
+		} else {
+			$scope.menus[index].quantity = 1;
+		}
+		$scope.transaksi.jumlah = jumlah();
+		$scope.transaksi.totalHarga = totalHarga();
+	}
 })
