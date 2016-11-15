@@ -1834,6 +1834,7 @@ angular.module('app.controllers', [])
     $scope.getMenus();
 
 	$scope.minQuantity = function(index, quantity) {
+		console.log(index, quantity);
 		if (quantity > 0) {
 			$scope.menus[index].quantity = quantity - 1;
 		} else {
@@ -1842,6 +1843,7 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.addQuantity = function(index, quantity) {
+		console.log(index, quantity);
 		if (quantity >= 0) {
 			$scope.menus[index].quantity = quantity + 1;
 		} else {

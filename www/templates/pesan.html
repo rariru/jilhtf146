@@ -19,9 +19,9 @@
                     </span> -->
                     <p>Jumlah : 
                         <span>
-                            <button class="button mangan-button-jumlah button-oren button-outline"><i class="ion ion-minus" style=""></i></button>
-                            <span style="font-size: 16px;padding-left: 6px; padding-right: 6px;">10</span>
-                            <button class="button mangan-button-jumlah button-oren button-outline"><i class="ion ion-plus" style=""></i></button>
+                            <button class="button mangan-button-jumlah button-oren button-outline" ng-click="minQuantity($index, menu.quantity)"><i class="ion ion-minus" style=""></i></button>
+                            <span style="font-size: 16px;padding-left: 6px; padding-right: 6px;">{{menu.quantity}}</span>
+                            <button class="button mangan-button-jumlah button-oren button-outline" ng-click="addQuantity($index, menu.quantity)"><i class="ion ion-plus" style="" ></i></button>
                         </span>
                     </p>
             </ion-item>
