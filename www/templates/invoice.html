@@ -9,8 +9,7 @@
         	<div class="mangan-kontak-header">
         		<p>PESANAN</p>
         	</div>
-        	
-        	<div class="item item-text-wrap mangan-menu" ng-repeat="menu in menus">
+        	<div class="item item-text-wrap mangan-menu" ng-repeat="menu in transaksi.pesanan">
         		<div class="row">
   					<div class="col col-75"><h3>{{menu.namaMenu}}</h3></div>
   					<div class="col"><h3>Rp {{menu.harga * menu.quantity}}</h3></div>
@@ -33,7 +32,7 @@
         	</div>
 
             <div class="item mangan-menu" style="margin:0; text-align: center;">
-                    <a href="" class="" style="text-decoration: none; color: rgb(1,177,178); font-size: 14px;" ng-click=""><i class="icon ion-plus"></i> Tambah Pesanan</a>
+                    <a class="" style="text-decoration: none; color: rgb(1,177,178); font-size: 14px;" ng-click="addOrder()"><i class="icon ion-plus"></i> Tambah Pesanan</a>
             </div>
 		
         	<div class="mangan-kontak-header">
@@ -48,9 +47,9 @@
         		</label>
         		<label class="item-input mangan-menu">
         			<i class="mangan-invoice-icon icon ion-ios-location"></i>
-        			<span class="mangan-line"><input type="text" placeholder="Alamat" required></span>
+        			<span class="mangan-line"><input type="text" placeholder="Alamat" ng-model="transaksi.alamatUser" required></span>
         		</label>
-        		<label class="item-input mangan-menu" style="margin-left: 18px;"><a href="" style="font-size: 12px; color:rgb(1,175,177); text-decoration:none;">Pilih Lokasi Pengiriman</a></label>
+        		<label class="item-input mangan-menu" style="margin-left: 18px;"><button class="button" style="font-size: 12px; color:rgb(1,175,177); text-decoration:none;" ng-click="pickLocation()">Pilih Lokasi</button></label>
         		<label class="item-input mangan-menu">
         			<i class="mangan-invoice-icon icon ion-ios-telephone"></i>
         			<span class="mangan-line"><input type="number" placeholder="Telepon"></span>
