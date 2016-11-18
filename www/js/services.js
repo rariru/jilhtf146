@@ -18,6 +18,7 @@ var slider = firebase.database().ref('slider');
 var promo = firebase.database().ref('promo');
 var version = firebase.database().ref('version');
 var user = firebase.database().ref('user');
+var transaksi = firebase.database().ref('transaksi');
 
 angular.module('app.services', [])
 
@@ -307,6 +308,44 @@ angular.module('app.services', [])
 			'dateRegister': firebase.database.ServerValue.TIMESTAMP,
 			'dateUpdatedData': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.addTransaction = function(kurir, idTransaksi, dataTransaksi) {
+		var promise = $q.defer();
+
+		transaksi.child(kurir +'/'+ idTransaksi).set({
+			'alamat' : dataTransaksi.alamat,
+			'alamatUser' : dataTransaksi.alamatUser,
+			'feedelivery' : dataTransaksi.feedelivery,
+			'indexResto' : dataTransaksi.indexResto,
+			'indexTransaksi' : dataTransaksi.indexTransaksi,
+			'jumlah' : dataTransaksi.jumlah,
+			'kurir' : dataTransaksi.kurir,
+			'map' : {
+				'lat' : dataTransaksi.map.lat,
+				'long' : dataTransaksi.map.long
+			},
+			'mapUser' : {
+				'lat' : dataTransaksi.mapUser.lat,
+				'long' : dataTransaksi.mapUser.long
+			},
+			'namaResto' : dataTransaksi.namaResto,
+			'namaUser' : dataTransaksi.namaUser,
+			'noTelpUser' : dataTransaksi.noTelpUser,
+			// to not use angular.copy, pleasee use trackby on ng-repeat
+			'pesanan' : angular.copy(dataTransaksi.pesanan),
+			'status' : dataTransaksi.status,
+			'processBy' : dataTransaksi.processBy,
+			'tgl' : dataTransaksi.tgl,
+			'totalHarga' : dataTransaksi.totalHarga,
+			'userPhotoUrl' : dataTransaksi.userPhotoUrl,
+			'username' : dataTransaksi.username
+		}).then(function(result) {
+			console.log(JSON.stringify(result));
 			promise.resolve(true);
 		});
 

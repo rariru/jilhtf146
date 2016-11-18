@@ -1879,32 +1879,36 @@ angular.module('app.controllers', [])
 				if (dataUser) {
 					Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 						if (restoran) {
-							$scope.transaksi = {
-								'alamat' : restoran.alamat,
-								'alamatUser' : null,
-								'feedelivery' : 5000,
-								'indexResto' : restoran.index,
-								'indexTransaksi' : firebase.database.ServerValue.TIMESTAMP+$scope.uid+restoran.index,
-								'jumlah' : null,
-								'kurir' : null,
-								'map' : {
-									'lat' : restoran.map.lat,
-									'long' : restoran.map.long
-								},
-								'mapUser' : {
-									'lat' : null,
-									'long' : null
-								},
-								'namaResto' : restoran.namaResto,
-								'namaUser' : dataUser.name,
-								'noTelpUser' : dataUser.noTelpUser,
-								'pesanan' : $scope.selectedMenus,
-								'status' : 'queue',
-								'processBy' : null,
-								'tgl' : firebase.database.ServerValue.TIMESTAMP,
-								'totalHarga' : null,
-								'userPhotoUrl' : dataUser.photoUrl,
-								'username' : $scope.uid
+							if ($scope.transaksi) {
+								$scope.transaksi.pesanan = $scope.selectedMenus;
+							} else {
+								$scope.transaksi = {
+									'alamat' : restoran.alamat,
+									'alamatUser' : null,
+									'feedelivery' : 5000,
+									'indexResto' : restoran.index,
+									'indexTransaksi' : Date.now()+$scope.uid+restoran.index,
+									'jumlah' : null,
+									'kurir' : null,
+									'map' : {
+										'lat' : restoran.map.lat,
+										'long' : restoran.map.long
+									},
+									'mapUser' : {
+										'lat' : null,
+										'long' : null
+									},
+									'namaResto' : restoran.namaResto,
+									'namaUser' : dataUser.name,
+									'noTelpUser' : dataUser.noTelpUser,
+									'pesanan' : $scope.selectedMenus,
+									'status' : 'queue',
+									'processBy' : null,
+									'tgl' : firebase.database.ServerValue.TIMESTAMP,
+									'totalHarga' : null,
+									'userPhotoUrl' : dataUser.photoUrl,
+									'username' : $scope.uid
+								}
 							}
 							$ionicLoading.hide();
 							$state.go('tabsController.invoice', {'transaksi': $scope.transaksi});
@@ -1928,7 +1932,7 @@ angular.module('app.controllers', [])
 .controller('invoiceCtrl',function($scope, $state, $stateParams, Services, $ionicHistory, $ionicModal, $ionicPopup, $cordovaGeolocation, $http){
 	//controller invoice
 	console.log('invoice');
-	console.log(JSON.stringify($stateParams.selectedMenus));
+	console.log(JSON.stringify(angular.toJson($stateParams.selectedMenus)));
 
 	// // show menu dipesan
 	// $scope.menus = $stateParams.selectedMenus;
@@ -2044,6 +2048,37 @@ angular.module('app.controllers', [])
 				})
 		}
 		$scope.maps.show();
+	}
+
+	$scope.checkout = function() {
+		Services.addTransaction($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, $scope.transaksi).then(function() {
+			// console.log($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, JSON.stringify(angular.toJson($scope.transaksi)));
+			var notificationData = {
+				"notification":{
+					"title":"Order Baru",
+					"body":"Order Baru dari "+$scope.transaksi.namaUser+"!",
+					"sound":"default",
+					"icon":"fcm_push_icon"
+				},
+				"to":"/topics/"+$scope.transaksi.kurir,
+				"priority":"high",
+				"restricted_package_name":"com.manganindonesia.kurma"
+			}
+
+			$http.post('https://fcm.googleapis.com/fcm/send', notificationData, {
+				headers: {
+					"Content-Type" : "application/json",
+					"Authorization" : "key=AIzaSyD7WQ08Da_qVb0Je4V5H-LBjpRsFkGkYBI"
+				}
+			}).then(function(result) {
+				console.log(JSON.stringify(result));
+			}, function(err) {
+				console.log(err);
+			})
+			console.log('sukses');
+		}, function(err) {
+			console.log(err);
+		})
 	}
 
 	$ionicModal.fromTemplateUrl('templates/maps.html', {
