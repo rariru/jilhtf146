@@ -24,6 +24,7 @@
   <preference name="StatusBarBackgroundColor" value="#01B2B1"/>
   <preference name="StatusBarStyle" value="lightcontent"/>
   <preference name="orientation" value="portrait"/>
+  <preference name="loadUrlTimeoutValue" value="700000"/>
   <feature name="StatusBar">
     <param name="ios-package" value="CDVStatusBar" onload="true"/>
   </feature>

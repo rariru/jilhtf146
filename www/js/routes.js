@@ -283,7 +283,7 @@ angular.module('app.routes', ['ionicUIRouter'])
       }
     },
     params: {
-      selectedMenus: null
+      transaksi: null
     }
   })
 
