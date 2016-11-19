@@ -9,53 +9,30 @@
         	<div class="mangan-kontak-header">
         		<p>PESANAN</p>
         	</div>
-        	
-        	<div class="item item-text-wrap mangan-menu">
+        	<div class="item item-text-wrap mangan-menu" ng-repeat="menu in transaksi.pesanan">
         		<div class="row">
-  					<div class="col col-75"><h3>Ayam Kucing Kesukaan Semua Sejahtera Sehat Sentosa Bahagia</h3></div>
-  					<div class="col"><h3>Rp 20.000</h3></div>
+  					<div class="col col-75"><h3>{{menu.namaMenu}}</h3></div>
+  					<div class="col"><h3>Rp {{menu.harga * menu.quantity}}</h3></div>
 				</div>
 				<div class="row">
   					<div class="col col-50">
   						<p>Jumlah : 
                             <span>
-                                <button class="button mangan-button-jumlah button-oren button-outline"><i class="ion ion-minus" style=""></i></button>
-                                <span style="font-size: 16px;padding-left: 6px; padding-right: 6px;">10</span>
-                                <button class="button mangan-button-jumlah button-oren button-outline"><i class="ion ion-plus" style=""></i></button>
+                                <button class="button mangan-button-jumlah button-oren button-outline" ng-click="minQuantity($index, menu.quantity)"><i class="ion ion-minus" style=""></i></button>
+                                <span style="font-size: 16px;padding-left: 6px; padding-right: 6px;">{{menu.quantity}}</span>
+                                <button class="button mangan-button-jumlah button-oren button-outline" ng-click="addQuantity($index, menu.quantity)"><i class="ion ion-plus" style=""></i></button>
                             </span>
                         </p>
   					</div>
 				</div>
 				<label class="item-input mangan-menu" style="margin-top:-5px;">
         			<i class="mangan-invoice-icon icon ion-compose" style="font-size:12px; margin-right:5px;"></i>
-        			<span class=""><input type="text" placeholder="tambah catatan" style="font-size:12px; color:orangered;"></span>
+        			<span class=""><input type="text" placeholder="tambah catatan" style="font-size:12px; color:orangered;" ng-model="menu.note"></span>
         		</label>
         	</div>
 
-        	<div class="item item-text-wrap mangan-menu">
-				<div class="row">
-  					<div class="col col-75"><h3>Ayam Kucing Kesukaan</h3></div>
-  					<div class="col"><h3>Rp 20.000</h3></div>
-				</div>
-				<div class="row">
-  					<div class="col col-50">
-  						<p>Jumlah : 
-                            <span>
-                                <button class="button mangan-button-jumlah button-oren button-outline"><i class="ion ion-minus" style=""></i></button>
-                                <span style="font-size: 16px;padding-left: 6px; padding-right: 6px;">10</span>
-                                <button class="button mangan-button-jumlah button-oren button-outline"><i class="ion ion-plus" style=""></i></button>
-                            </span>
-                        </p>
-  					</div>
-				</div>
-				<label class="item-input mangan-menu" style="margin-top:-5px;">
-        			<i class="mangan-invoice-icon icon ion-compose" style="font-size:12px; margin-right:5px;"></i>
-        			<span class=""><input type="text" placeholder="tambah catatan" style="font-size:12px; color:orangered;"></span>
-        		</label>
-			</div>
-
             <div class="item mangan-menu" style="margin:0; text-align: center;">
-                    <a href="" class="" style="text-decoration: none; color: rgb(1,177,178); font-size: 14px;" ng-click=""><i class="icon ion-plus"></i> Tambah Pesanan</a>
+                    <a class="" style="text-decoration: none; color: rgb(1,177,178); font-size: 14px;" ng-click="addOrder()"><i class="icon ion-plus"></i> Tambah Pesanan</a>
             </div>
 		
         	<div class="mangan-kontak-header">
@@ -66,23 +43,23 @@
         		
         		<label class="item-input mangan-menu">
         			<i class="mangan-invoice-icon icon ion-ios-person"></i>
-        			<span class="mangan-line"><input type="text" placeholder="Penerima" required></span>
+        			<span class="mangan-line"><input type="text" placeholder="Penerima" readonly="true" ng-model="transaksi.namaUser"></span>
         		</label>
         		<label class="item-input mangan-menu">
         			<i class="mangan-invoice-icon icon ion-ios-location"></i>
-        			<span class="mangan-line"><input type="text" placeholder="Alamat" required></span>
+        			<span class="mangan-line"><input type="text" placeholder="Alamat" ng-model="transaksi.alamatUser" required></span>
         		</label>
-        		<label class="item-input mangan-menu" style="margin-left: 18px;"><a href="" style="font-size: 12px; color:rgb(1,175,177); text-decoration:none;">Pilih Lokasi</a></label>
+        		<label class="item-input mangan-menu" style="margin-left: 18px;"><button class="button" style="font-size: 12px; color:rgb(1,175,177); text-decoration:none;" ng-click="pickLocation()">Pilih Lokasi</button></label>
         		<label class="item-input mangan-menu">
         			<i class="mangan-invoice-icon icon ion-ios-telephone"></i>
-        			<span class="mangan-line"><input type="number" placeholder="Telepon" required></span>
+        			<span class="mangan-line"><input type="number" placeholder="Telepon" ng-model="transaksi.noTelpUser"></span>
         		</label>
         		<label class="item-input item-select mangan-menu">
 				    <i class="mangan-invoice-icon icon ion-android-bicycle"></i>
 				    <span class=""><p class="input-label" style="color:#a3a3a3;">Kurir</p></span>
-				    <select>
-				      <option>Omas (Ojek Mahasiswa)</option>
-				      <option>Solojek</option>
+				    <select ng-model="transaksi.kurir">
+				      <option value="omas">Omas (Ojek Mahasiswa)</option>
+				      <option value="solojek">Solojek</option>
 				    </select>
 
 				</label>
@@ -94,23 +71,21 @@
         	<div class="item item-text-wrap mangan-menu">
 	        	<div class="row">
 					<div class="col col-75"><h3>Total Pesanan</h3></div>
-					<div class="col"><h3>Rp 40.000</h3></div>
+					<div class="col"><h3>Rp {{transaksi.jumlah}}</h3></div>
 				</div>
 				<div class="row">
 					<div class="col col-75"><h3>Ongkos Kirim</h3></div>
-					<div class="col"><h3>Rp 10.000</h3></div>
+					<div class="col"><h3>Rp {{transaksi.feedelivery}}</h3></div>
 				</div>
 			</div>
 			<div class="item mangan-menu" style="border-bottom: 5px solid rgb(230,231,232); border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;">
 				<div class="row">
 					<div class="col col-75"><h2 style="color:rgb(1,177,178);">TOTAL BAYAR</h2></div>
-					<div class="col"><h2 style="color:rgb(1,177,178);">Rp 50.000</h2></div>
+					<div class="col"><h2 style="color:rgb(1,177,178);">Rp {{transaksi.totalHarga}}</h2></div>
 				</div>
 			</div>
 
-            
-            <button class="button button-block button-outline button-oren" ng-click="invoice()" ion-ripple>Proses Pesanan</button>
-               
+            <button class="button button-block button-outline button-oren" ng-click="checkout()" ion-ripple>Checkout</button>
 		</div>
     </ion-content>
 </ion-view>

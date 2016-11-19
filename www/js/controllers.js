@@ -1861,7 +1861,61 @@ angular.module('app.controllers', [])
 		if ($scope.selectedMenus == "") {
 			alert('Pesen dulu bos');
 		} else if($scope.selectedMenus !== ""){
-			$state.go('tabsController.invoice', {'selectedMenus': $scope.selectedMenus});
+			var user = firebase.auth().currentUser;
+			if (user) {
+				user.providerData.forEach(function(profile) {
+					$scope.uid = profile.uid
+				});
+			} else {
+				alert('not logged in');
+			}
+
+			$ionicLoading.show({
+		      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+		      duration: 5000
+		    });
+
+			Services.getProfileByUid($scope.uid).then(function(dataUser) {
+				if (dataUser) {
+					Services.getRestoranDetails($stateParams.index).then(function(restoran) {
+						if (restoran) {
+							if ($scope.transaksi) {
+								$scope.transaksi.pesanan = $scope.selectedMenus;
+							} else {
+								$scope.transaksi = {
+									'alamat' : restoran.alamat,
+									'alamatUser' : null,
+									'feedelivery' : 5000,
+									'indexResto' : restoran.index,
+									'indexTransaksi' : Date.now()+$scope.uid+restoran.index,
+									'jumlah' : null,
+									'kurir' : null,
+									'map' : {
+										'lat' : restoran.map.lat,
+										'long' : restoran.map.long
+									},
+									'mapUser' : {
+										'lat' : null,
+										'long' : null
+									},
+									'namaResto' : restoran.namaResto,
+									'namaUser' : dataUser.name,
+									'noTelpUser' : dataUser.noTelpUser,
+									'pesanan' : $scope.selectedMenus,
+									'status' : 'queue',
+									'processBy' : null,
+									'tgl' : firebase.database.ServerValue.TIMESTAMP,
+									'totalHarga' : null,
+									'userPhotoUrl' : dataUser.photoUrl,
+									'username' : $scope.uid
+								}
+							}
+							$ionicLoading.hide();
+							$state.go('tabsController.invoice', {'transaksi': $scope.transaksi});
+						}
+					});
+				}
+			});
 		}
 	}
 
@@ -1875,8 +1929,160 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('invoiceCtrl',function($scope, $state, $stateParams){
+.controller('invoiceCtrl',function($scope, $state, $stateParams, Services, $ionicHistory, $ionicModal, $ionicPopup, $cordovaGeolocation, $http){
 	//controller invoice
 	console.log('invoice');
-	console.log(JSON.stringify($stateParams.selectedMenus));
+	console.log(JSON.stringify(angular.toJson($stateParams.selectedMenus)));
+
+	// // show menu dipesan
+	// $scope.menus = $stateParams.selectedMenus;
+	// $scope.transaksi = "";
+
+	// on enter set transaksi
+	$scope.invoice = function() {
+		$scope.transaksi = $stateParams.transaksi;
+		$scope.transaksi.jumlah = jumlah();
+		$scope.transaksi.totalHarga = totalHarga();
+	}
+
+	$scope.invoice();
+
+	function jumlah() {
+		var jumlah = 0;
+		var hnq = 0;
+		for(var id in $scope.transaksi.pesanan) {
+			hnq = $scope.transaksi.pesanan[id].harga*$scope.transaksi.pesanan[id].quantity;
+			jumlah += hnq;
+			hnq = 0;
+		}
+		return jumlah;
+	}
+
+	function totalHarga() {
+		var total = 0;
+		var total = jumlah();
+		total += $scope.transaksi.feedelivery;
+		return total;
+	}
+
+	$scope.minQuantity = function(index, quantity) {
+		console.log(index, quantity);
+		if (quantity > 1) {
+			$scope.transaksi.pesanan[index].quantity = quantity - 1;
+		} else {
+			$scope.transaksi.pesanan[index].quantity = 1;
+		}
+		$scope.transaksi.jumlah = jumlah();
+		$scope.transaksi.totalHarga = totalHarga();
+	}
+
+	$scope.addQuantity = function(index, quantity) {
+		console.log(index, quantity);
+		if (quantity >= 1) {
+			$scope.transaksi.pesanan[index].quantity = quantity + 1;
+		} else {
+			$scope.transaksi.pesanan[index].quantity = 1;
+		}
+		$scope.transaksi.jumlah = jumlah();
+		$scope.transaksi.totalHarga = totalHarga();
+	}
+
+	$scope.addOrder = function() {
+		$ionicHistory.goBack();
+	}
+
+	$scope.pickLocation = function() {
+		var coords = { latitude: -7.569527, longitude: 110.830289 };
+		var options = { timeout: 5000, enableHighAccuracy: true };
+		var openedInfo = null;
+		$cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+			if(position) {
+				console.log('position aru');
+				coords = position.coords;
+			}
+			showMap();
+		}, function(error) {
+			console.log("could not get location");
+			$ionicPopup.alert({
+				title: 'Error',
+				template: 'Tidak dapat menemukan sinyal GPS!',
+				okText: 'OK',
+				okType: 'button-balanced'
+			}).then(function(res) {
+				showMap();
+			});
+		});
+
+
+		function showMap() {
+			console.log('pusat: '+ coords.latitude, coords.longitude);
+			var latlon = new google.maps.LatLng(coords.latitude, coords.longitude);
+			var mapOptions = { center: latlon, zoom: 15, mapTypeId: google.maps.MapTypeId.ROADMAP };
+			
+			$scope.map = new google.maps.Map(document.getElementById('mangan-peta'), mapOptions);
+
+			// wait till map loaded
+			// google.maps.event.addListener($scope.map, 'idle', function() {
+				var userMarker = new google.maps.Marker({
+					map: $scope.map,
+					icon: 'img/marker.png',
+					position: latlon,
+					draggable: true
+				})
+			// });
+				google.maps.event.addListener(userMarker, 'dragend', function(evt) {
+					console.log(evt.latLng.lat(), evt.latLng.lng());
+					$scope.mapUser = {
+						'lat' : evt.latLng.lat(),
+						'long' : evt.latLng.lng()
+					}
+					
+					$http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+evt.latLng.lat()+","+evt.latLng.lng()+"&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ").success(function(result) {
+						$scope.alamatUser = result.results[0].formatted_address;
+					}).error(function(error) {
+						console.log('data error : '+error);
+					});
+
+					$scope.transaksi.mapUser = $scope.mapUser;
+					$scope.transaksi.alamatUser = $scope.alamatUser;
+				})
+		}
+		$scope.maps.show();
+	}
+
+	$scope.checkout = function() {
+		Services.addTransaction($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, $scope.transaksi).then(function() {
+			// console.log($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, JSON.stringify(angular.toJson($scope.transaksi)));
+			var notificationData = {
+				"notification":{
+					"title":"Order Baru",
+					"body":"Order Baru dari "+$scope.transaksi.namaUser+"!",
+					"sound":"default",
+					"icon":"fcm_push_icon"
+				},
+				"to":"/topics/"+$scope.transaksi.kurir,
+				"priority":"high",
+				"restricted_package_name":"com.manganindonesia.kurma"
+			}
+
+			$http.post('https://fcm.googleapis.com/fcm/send', notificationData, {
+				headers: {
+					"Content-Type" : "application/json",
+					"Authorization" : "key=AIzaSyD7WQ08Da_qVb0Je4V5H-LBjpRsFkGkYBI"
+				}
+			}).then(function(result) {
+				console.log(JSON.stringify(result));
+			}, function(err) {
+				console.log(err);
+			})
+			console.log('sukses');
+		}, function(err) {
+			console.log(err);
+		})
+	}
+
+	$ionicModal.fromTemplateUrl('templates/maps.html', {
+		scope: $scope,
+		animation: 'slide-in-up' 
+	}).then(function(modal) { $scope.maps = modal; });
 })
