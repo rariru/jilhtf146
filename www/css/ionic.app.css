@@ -9873,8 +9873,8 @@ p {
 
 .mangan-menu-selengkapnya {
   text-align: center;
-  padding: 10px;
-  background-color: #01b2b1; }
+  padding: 0 10px;
+  background-color: white; }
 
 .list {
   margin-bottom: 10px;
@@ -10082,7 +10082,7 @@ p {
   width: 100%; }
 
 #mangan-peta {
-  min-height: 92.5%;
+  height: 100%;
   width: 100%; }
 
 .ionic_ratings .icon {
@@ -10288,3 +10288,14 @@ p {
       color: #FFF;
       background-color: #DD4B39;
       border-color: #dc4330; }
+
+.mangan-hello {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7ae1d+0,01b2b1+73&0.65+99,0+100 */
+  background: -moz-linear-gradient(-45deg, rgba(247, 174, 29, 0.65) 0%, rgba(1, 178, 177, 0.65) 73%, rgba(1, 178, 177, 0.65) 99%, rgba(1, 178, 177, 0) 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg, rgba(247, 174, 29, 0.65) 0%, rgba(1, 178, 177, 0.65) 73%, rgba(1, 178, 177, 0.65) 99%, rgba(1, 178, 177, 0) 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, rgba(247, 174, 29, 0.65) 0%, rgba(1, 178, 177, 0.65) 73%, rgba(1, 178, 177, 0.65) 99%, rgba(1, 178, 177, 0) 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6f7ae1d', endColorstr='#0001b2b1',GradientType=1 );
+  /* IE6-9 fallback on horizontal gradient */ }

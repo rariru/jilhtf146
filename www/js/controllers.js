@@ -771,6 +771,13 @@ angular.module('app.controllers', [])
 		return false;
 	}
 
+	$scope.daftar = function() {
+		analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
+		console.log('trackEvent, Daftar, Pendaftaran Restoran');
+		window.open('https://mobilepangan.com/mangan/daftar', '_system', 'location=yes'); 
+		return false;
+	}
+
 	Services.getSliders().then(function(sliders) {
 		if (sliders) {
 			$scope.sliders = sliders;
@@ -1449,6 +1456,7 @@ angular.module('app.controllers', [])
 		};
 
 		$scope.map = new google.maps.Map(document.getElementById('mangan-peta'), mapOptions);
+		$scope.markers = [];
 
 		// wait till map loaded
 		google.maps.event.addListener($scope.map, 'idle', function() {
@@ -1521,6 +1529,8 @@ angular.module('app.controllers', [])
 							var contentString = restorans[r].namaResto;
 							addInfoWindow(marker, contentString, restorans[r].index);
 
+							$scope.markers.push(marker);
+
 							j++;
 						} else {
 							console.log('...');
@@ -1531,6 +1541,10 @@ angular.module('app.controllers', [])
 			} else {
 				console.log('no resto');
 			}
+
+			var markerCluster = new MarkerClusterer($scope.map, $scope.markers, {
+				imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+			});
 
 			$ionicLoading.hide();
 		}, function(reason) {
@@ -1544,7 +1558,7 @@ angular.module('app.controllers', [])
 	function addInfoWindow(marker, message, index) {
 		// console.log('waaaahaa');
 		var infoWindow = new google.maps.InfoWindow({
-			content: '<a href="#/page1/tab1/restoran/'+ index +'">'+ message +'</a>',
+			content: '<div style="width: 100px;"><center><a href="#/page1/tab1/restoran/'+ index +'" style="text-decoration: none;">'+ message +'<button class="button button-oren button-outline" style="width: 100px" ion-ripple>Lihat</button></a></center></div>',
 			maxWidth: 100
 		});
 
