@@ -9873,8 +9873,8 @@ p {
 
 .mangan-menu-selengkapnya {
   text-align: center;
-  padding: 10px;
-  background-color: #01b2b1; }
+  padding: 0 10px;
+  background-color: white; }
 
 .list {
   margin-bottom: 10px;
@@ -9931,6 +9931,10 @@ p {
   width: auto;
   background-color: #e6e7e8; }
 
+.mangan-line {
+  border-bottom: 1px solid #ddd;
+  width: 100%; }
+
 .mangan-kontak {
   background-color: #01b2b1;
   padding-bottom: 0; }
@@ -9954,6 +9958,12 @@ p {
 .mangan-kontak-icon {
   margin-right: 10px;
   font-size: 15px;
+  color: orangered; }
+
+.mangan-invoice-icon {
+  margin-right: 10px;
+  margin-left: -5px;
+  font-size: 20px;
   color: orangered; }
 
 .mangan-button-menumakanan {
@@ -9986,6 +9996,9 @@ p {
   padding-top: 5px; }
 
 .mangan-menu > h3 {
+  color: #01b2b1; }
+
+.mangan-menu p {
   color: #01b2b1; }
 
 .mangan-menu > h3 > a {
@@ -10069,7 +10082,7 @@ p {
   width: 100%; }
 
 #mangan-peta {
-  min-height: 92.5%;
+  height: 100%;
   width: 100%; }
 
 .ionic_ratings .icon {
@@ -10152,6 +10165,53 @@ p {
   -moz-box-shadow: 0px 0px 10px 2px #888888;
   box-shadow: 0px 0px 10px 2px #888888; }
 
+.mangan-button-jumlah {
+  padding: 2px 4px 1px;
+  min-width: 20px;
+  min-height: 22px;
+  font-size: 12px;
+  line-height: 18px; }
+
+.mangan-button-jumlah .icon:before, .mangan-button-jumlah.icon:before, .mangan-button-jumlah.icon-left:before, .mangan-button-jumlah.icon-right:before {
+  font-size: 16px;
+  line-height: 19px;
+  margin-top: 3px; }
+
+.button-oren {
+  background-color: #ff6a32;
+  border-color: transparent;
+  color: #fff;
+  overflow: hidden;
+  white-space: nowrap;
+  border-radius: 2px; }
+
+.button.button-oren:hover {
+  color: #fff;
+  text-decoration: none; }
+
+.button.button-oren.active, .button.button-oren.activated {
+  background-color: #ff6a32; }
+
+.button.button-oren.button-clear {
+  border-color: transparent;
+  background: none;
+  box-shadow: none;
+  color: #ff6a32; }
+
+.button.button-oren.button-icon {
+  border-color: transparent;
+  background: none; }
+
+.button.button-oren.button-outline {
+  border-color: #ff6a32;
+  background: transparent;
+  color: #ff6a32; }
+
+.button.button-oren.button-outline.active, .button.button-oren.button-outline.activated {
+  background-color: #ff6a32;
+  box-shadow: none;
+  color: #fff; }
+
 .mangan-disclaimer {
   width: 100%;
   height: auto;
@@ -10174,6 +10234,9 @@ p {
   float: right;
   font-size: 16px; }
 
+.mangan-card {
+  border-radius: 8px; }
+
 .tab-nav {
   -webkit-box-shadow: 0px 0px 10px 2px #888888;
   -moz-box-shadow: 0px 0px 10px 2px #888888;
@@ -10181,3 +10244,58 @@ p {
 
 .mangan-tombol {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
+
+.login {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#01b2b1+0,f28509+100 */
+  background: #01b2b1;
+  /* Old browsers */
+  background: -moz-linear-gradient(top, #01b2b1 0%, #f28509 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(top, #01b2b1 0%, #f28509 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(to bottom, #01b2b1 0%, #f28509 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', endColorstr='#f28509',GradientType=0 );
+  /* IE6-9 */ }
+  .login .top-content {
+    height: 66%; }
+    .login .top-content .app-copy {
+      text-align: center;
+      padding-top: 13vh; }
+    .login .top-content .app-logo {
+      font-size: 40px;
+      font-family: sans-serif;
+      font-weight: 600;
+      color: #FFFFFF;
+      letter-spacing: 8px;
+      text-transform: uppercase; }
+    .login .top-content .app-tagline {
+      font-size: 16px;
+      margin-top: 0px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.95); }
+  .login .bottom-content {
+    height: 34%; }
+    .login .bottom-content .facebook-sign-in {
+      border-radius: 4px;
+      font-weight: 500;
+      color: #FFF;
+      background-color: #294886;
+      border-color: #27447e; }
+    .login .bottom-content .google-sign-in {
+      border-radius: 4px;
+      font-weight: 500;
+      color: #FFF;
+      background-color: #DD4B39;
+      border-color: #dc4330; }
+
+.mangan-hello {
+  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7ae1d+0,01b2b1+73&0.65+99,0+100 */
+  background: -moz-linear-gradient(-45deg, rgba(247, 174, 29, 0.65) 0%, rgba(1, 178, 177, 0.65) 73%, rgba(1, 178, 177, 0.65) 99%, rgba(1, 178, 177, 0) 100%);
+  /* FF3.6-15 */
+  background: -webkit-linear-gradient(-45deg, rgba(247, 174, 29, 0.65) 0%, rgba(1, 178, 177, 0.65) 73%, rgba(1, 178, 177, 0.65) 99%, rgba(1, 178, 177, 0) 100%);
+  /* Chrome10-25,Safari5.1-6 */
+  background: linear-gradient(135deg, rgba(247, 174, 29, 0.65) 0%, rgba(1, 178, 177, 0.65) 73%, rgba(1, 178, 177, 0.65) 99%, rgba(1, 178, 177, 0) 100%);
+  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6f7ae1d', endColorstr='#0001b2b1',GradientType=1 );
+  /* IE6-9 fallback on horizontal gradient */ }

@@ -23,7 +23,7 @@
         </div>
 
             <div class="mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'" ><strong>{{restoran.keteranganBuka}}</strong></div>
-            <div class="mangan-detail-review" ng-click="openReview()">
+            <div class="mangan-detail-review" ng-click="openReview()" ion-ripple>
                 <!-- <div class="mangan-disclaimer">Jam dan hari buka bisa berubah setiap saat</div> -->
                 <div class="mangan-detail-review-col-1">
                     <!-- <p>{{restoran.reviewTim | limitTo: 70}}{{restoran.reviewTim.length > 70 ? '...' : ''}}</p> -->
@@ -47,7 +47,7 @@
                     <h2>{{menu.namaMenu}}</h2>
                     <h3 ng-show="(menu.harga % 1) == 0">{{menu.harga | currency:'Rp ':2}}</h3>
                     <h3 ng-hide="(menu.harga % 1) == 0">{{menu.harga}}</h3>
-                    <!-- <span class="mangan-tag-menumakanan">Khas</span> -->
+                    <span ng-show="menu.tag" class="mangan-tag-menumakanan">{{menu.tag}}</span>
 
                     <span class="mangan-menu-review" ng-show="menu.review && menu.review != 'null'">
                         <!-- <button class="mangan-button-menumakanan" ng-click="openMenu( {{ $index }} )"> -->
@@ -57,12 +57,17 @@
                     </span>
                 </ion-item>
             </ion-list>
-            <div class="mangan-menu-selengkapnya" ng-hide="menus && menus.length > 3">
-                <button id="mangan-button-pesan" class="button button-positive button-small" ng-click="pesan()">PESAN</button>
+            <div class="row mangan-menu-selengkapnya" ng-hide="menus && menus.length > 3">
+               
+                    <button id="mangan-button-pesan" class="button button-oren" ng-click="pesan()" ion-ripple>PESAN</button>
+               
             </div>
-            <div class="mangan-menu-selengkapnya" ng-show="menus && menus.length > 3">
-                <a ui-sref="tabsController.menus({ index: restoran.index })" id="selatViens-button20" class="button button-positive button-small">MENU LAINNYA</a>
-                <button id="mangan-button-pesan" class="button button-positive button-small" ng-click="pesan()">PESAN</button>
+            <div class="row mangan-menu-selengkapnya" ng-show="menus && menus.length > 3">
+               
+                    <a ui-sref="tabsController.menus({ index: restoran.index })" id="selatViens-button20" class="button button-oren" style="width: 50%;margin-top:10px; margin-right: 10px;" ion-ripple>MENU LAINNYA</a>
+                
+                    <a ui-sref="tabsController.pesan({ index: restoran.index })" id="mangan-button-pesan" class="button button-double button-oren" ng-click="pesan()" style="width: 50%;margin-top:10px;" ion-ripple>PESAN</a>
+                
             </div>
             <!-- <div class="mangan-spacer"></div> -->
 <!--             <div class="mangan-kontak-header" ng-show="(restoran.noTelp && restoran.noTelp != 'null') ||
@@ -76,7 +81,7 @@
                 <!-- <div class="mangan-kontak-konten"> -->
                     <ion-item class="item-thumbnail-left assertive item-text-wrap" style="margin: 0px; border: 0; background-color: rgb(1, 178, 177); border-top: 2px solid white; border-bottom: 2px solid white;">
                         <img ui-sref="tabsController.peta({ index: restoran.index })" ng-src="img/map-resto.jpg" style="max-width: 100px; max-height: 100px; top: 0; left: 0;">
-                        <h2 style="margin-left: 10px;" ui-sref="tabsController.peta({ index: restoran.index })">
+                        <h2 style="margin-left: 10px;" ui-sref="tabsController.peta({ index: restoran.index })" ion-ripple>
                             <p ng-show="restoran.alamat && restoran.alamat != 'null'" style="color: white">
                             <i class="mangan-kontak-icon icon ion-ios-location" style="color: red;"></i>
                                 {{restoran.alamat}}
@@ -125,7 +130,7 @@
                 </div>
             </div>
             <div class="mangan-menu-selengkapnya" style="border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">
-                <button class="button button-positive button-small" ng-click="openRating()">TULIS ULASAN</button>
+                <button class="button button-positive button-small" ng-click="openRating()" ion-ripple>TULIS ULASAN</button>
             </div>
         </div>
     </ion-content>
