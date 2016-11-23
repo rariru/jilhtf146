@@ -1,0 +1,19 @@
+<div class="mangan-modal-container">
+	<ion-modal-view class="mangan-modal">
+		<ion-header-bar class="bar bar-header bar-balanced">
+			<h1 class="title">Pilih Lokasi</h1>
+			<!-- <button class="button button-primary" ng-click="maps.hide()"><span class="icon ion-close"></span></button> -->
+		</ion-header-bar>
+
+		<ion-content lazy-scroll has-header="true" padding="true">
+			<div class="mangan-container">
+	            <div id="mangan-peta" style="height: 100%" map>
+	            	
+	            </div>
+	        </div>
+		</ion-content>
+		<ion-footer-bar align-title="center" class="bar-balanced">
+            <button class="button button-oren" ng-click="maps.hide()" ion-ripple><i class="icon ion-ios-location"></i> Gunakan Lokasi</button>
+		</ion-footer-bar>
+	</ion-modal-view>
+</div>

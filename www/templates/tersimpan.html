@@ -1,0 +1,85 @@
+<ion-view id="page3">
+    <ion-nav-title>{{category}}</ion-nav-title>
+
+    <ion-content lazy-scroll padding="true" class="has-header">
+        <ion-refresher
+            pulling-text="Lepas untuk memperbarui"
+            on-refresh="getRestorans()"
+            spinner = "ripple" >
+        </ion-refresher>
+
+        <div class="card mangan-card" ng-show="dataUser">
+            <a class="mangan-menu item" style="background-color:#f9f9f9;border-left:0px;border-right:0px;" ng-click="openProfile()" ion-ripple>
+                <center><img ng-src="{{dataUser.photoUrl}}" width="30%" height="auto" style="margin-bottom: 5px; border-radius: 50%;"></center>
+                <center><h2>{{dataUser.name}}</h2></center>
+                <center><p>{{dataUser.email}}</p></center>
+                <center><p>{{dataUser.location}}</p></center>
+                <center><i class="icon ion-compose" style="font-size: 20px; color: orangered; opacity: 0.5; "></i></center>
+            </a>
+        </div>
+        
+        <div ng-show="nodata && !notersimpan" class="mangan-nodata">
+            <center><i class="ion-sad-outline"></i></center>
+            <p style="margin-bottom: 10px;">Ups, Periksa jaringan internet Anda</p>
+            <center><button class="button button-oren button-small button-outline" style="width: 50%;" ng-click="getRestorans()" ion-ripple>MUAT ULANG</button></center>
+        </div>
+
+        <div ng-show="notersimpan" class="mangan-nodata">
+            <center><i class="ion-android-favorite" style="color:#c85054;"></i></center>
+            <p style="margin-bottom: 10px;">Ups, Sepertinya Anda belum menyimpan apapun</p>
+            <div class="row">
+                <button ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" class="button button-oren button-outline" style="width: 50%; display: block; margin: auto;" ion-ripple>JELAJAHI</button>
+                <button ng-show="!dataUser || dataUser == null" class="button button-oren button-outline"  style="width: 50%; display: block; margin-left: 5px;" ng-click="login()" ion-ripple>SIGN IN</button>
+            </div>
+        </div>
+
+        <div class="list card mangan-restorans" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true track by restoran.index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
+            <div class="mangan-list-header">
+                <div class="row mangan-nama-resto">
+                    <span class="col col-75">{{restoran.namaResto}}</span>
+                    <span class="col mangan-rating-nilai" ng-show="restoran.rating && restoran.rating != 'null'">{{restoran.rating}}
+                        <i class="mangan-rating-icon icon ion-star" style="color:yellow; font-size: 20px;"></i>
+                    </span>
+                </div>
+                <a ui-sref="tabsController.restoran({index: restoran.index})"><img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50" ion-ripple></a>
+            </div>
+                <a ui-sref="tabsController.restoran({index: restoran.index})"><div class="mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'">{{restoran.keteranganBuka}}</div></a>
+            <div class="mangan-keterangan item-body">
+                <div class="mangan-keterangan-teks" ng-bind-html="restoran.keteranganResto"></div>
+            </div>
+            
+            <div class="row mangan-selengkapnya">
+                 <span class="col col-20" style="padding:0;">
+                </span>
+                <span class="col col-25" style="padding:0;">
+                    <button class="mangan-tombol-aksi" ng-click="shareRestoran(restoran.index)">
+                        <i class="mangan-icon icon ion-android-share-alt"></i>
+                    </button>
+                </span>
+                <span ng-if="checkSavedRestoran(restoran.index) == false" class="col col-25" style="padding:0;">
+                    <button class="mangan-tombol-aksi" ng-click="saveRestoran(restoran.index)">
+                        <i class="mangan-icon icon icon ion-android-favorite-outline"></i>
+                    </button>
+                </span>
+                <span ng-if="checkSavedRestoran(restoran.index) == true" class="col" style="padding:0;">
+                    <button class="mangan-tombol-aksi" ng-click="saveRestoran(restoran.index)">
+                        <i class="mangan-icon icon ion-android-favorite" style="color:#c85054;"></i>
+                    </button>
+                </span>
+                <span class="col col-25" style="padding:0;">
+                    <button class="mangan-tombol-aksi">
+                        <i class="mangan-icon icon ion-more"></i>
+                    </button>
+                </span>
+            </div>
+        </div>
+
+        <div ng-hide="notersimpan || dataUser" class="mangan-nodata" style="border-top: 1px solid rgba(230, 231, 232, 0.8);">
+            <center><i class="ion-android-favorite" style="color:#c85054;"></i></center>
+            <p style="margin-bottom: 10px;">Kamu belum login, ayo login dulu</p>
+            <div class="row">
+                <button ng-show="!dataUser || dataUser == null" class="button button-oren button-outline"  style="width: 50%; display: block; margin: auto;" ng-click="login()" ion-ripple>SIGN IN</button>
+            </div>
+        </div>
+    </ion-content>
+</ion-view>

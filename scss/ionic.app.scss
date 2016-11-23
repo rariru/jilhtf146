@@ -17,12 +17,20 @@ $dark:                            #444 !default;
 
 $balanced: rgb(1,178,177) !default;
 $positive: orangered !default;
-$button-small-height: 20px !default;
+$button-small-height: 30px !default;
 $item-padding: 10px !default;
 $button-border-radius:  0px !default;
 $card-box-shadow: 0 -1px -1px rgba(0, 0, 0, 0.3) !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
+
+// variable color
+$background-color: rgb(1, 178, 177);
+$auth-big-btn-bg: #FFF;
+$auth-small-btn-color: #FFF;
+$facebook-blue: #294886;
+$google-red: #DD4B39;
+$welcome-color: #FFFFFF;
 
 // Include all of Ionic
 @import "www/lib/ionic/scss/ionic";
@@ -50,21 +58,20 @@ p {
 .mangan-selengkapnya{
 	width: 100%;
 	height: auto;
-	padding: 10px; 
-	background-color:rgb(1,178,177);
+	border: 1px solid rgb(230,231,232);
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
 
 .mangan-detail-review {
-	background-color: rgb(1,178,177);
-	color: white;
-	padding: 5px;
-	padding-left: 10px;
-	min-height: 100px;
-	-webkit-box-shadow: inset 0px 0px 10px 0px rgba(136,136,136,1);
-	-moz-box-shadow: inset 0px 0px 10px 0px rgba(136,136,136,1);
-	box-shadow: inset 0px 0px 10px 0px rgba(136,136,136,1);
+	color: black;
+	/*padding-top: 5px;*/
+	border-top: 0;
+	border-bottom: 1px solid rgb(230,231,232);
+	border-left: 1px solid rgb(230,231,232);
+	border-right: 1px solid rgb(230,231,232);
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
 }
 
 .mangan-detail-keterangan {
@@ -110,6 +117,14 @@ p {
 .mangan-image-1_1 {
 	background: url('../img/preload1.jpg');
 	background-position:center;
+}
+
+.mangan-greeting-gambar {
+	background: url('../img/cat.jpg');
+	background-position:center;
+	background-size: cover;
+	border-radius: 50%; 
+	border: 1px solid rgba(230, 231, 232, 0.8);
 }
 
 .mangan-reviewer {
@@ -184,24 +199,35 @@ p {
 	color: rgb(1, 178, 177);
 }
 
-.card .item{
+/*.card .item{
 	// border: 2.5px solid rgb(230, 231, 232);
 	border-left: 5px solid rgb(230, 231, 232);
 	border-right: 5px solid rgb(230, 231, 232);
-}
+}*/
+
 
 .card .item:first-child {
-	// border: 5px solid rgb(230, 231, 232);
+	/*// border: 5px solid rgb(230, 231, 232);*/
+	border-top: 1px solid rgb(230, 231, 232);
 }
 
 .card .item:last-child {
-	// border: 5px solid rgb(230, 231, 232);
+	/*// border: 5px solid rgb(230, 231, 232);*/
+	border-bottom: 1px solid rgb(230, 231, 232);
 }
 
 .mangan-menu-selengkapnya {
-	text-align: center;
-	padding: 10px;
-	background-color: rgb(1, 178, 177);
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.mangan-tombol-pesan{
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .list {
@@ -226,21 +252,19 @@ p {
 
 .mangan-keterangan {
 	padding: 15px;
-	// border: 5px solid rgb(230,231,232);
-	-webkit-box-shadow: inset 0px 0px 5px 0px rgba(136,136,136,1);
-	-moz-box-shadow: inset 0px 0px 5px 0px rgba(136,136,136,1);
-	box-shadow: inset 0px 0px 5px 0px rgba(136,136,136,1);
+	border-left: 1px solid rgb(230,231,232);
+	border-right: 1px solid rgb(230,231,232);
 }
 
 .mangan-keterangan-buka {
-	color: white;
+	color: rgb(1,177,178);
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 14px;
 	width: 100%;
 	height: auto;
 	padding: 10px;
 	padding-left: 15px; 
-	background-color:orange;
+	border: 1px solid rgb(230,231,232);
 	// margin-bottom: 10px;
 	// border-radius: 5px;
 	// border: 2px solid orange;
@@ -270,8 +294,8 @@ p {
 }
 
 .mangan-icon {
-	font-size: 20px;
-	color: white;
+	font-size: 25px;
+	color: rgb(1,177,178);
 }
 
 .mangan-menu-list{
@@ -284,13 +308,17 @@ p {
 	background-color: rgb(230,231,232);
 }
 
+.mangan-line{
+	border-bottom: 1px solid rgb(230,231,232);
+	width: 100%;
+}
 .mangan-kontak {
-	background-color: rgb(1, 178, 177);
-	// padding: 5px;
 	padding-bottom: 0;
+	border-top:1px solid rgb(230,231,232);
+	border-bottom:1px solid rgb(230,231,232);
 }
 
-.mangan-kontak-header {
+.kontak-header {
 	background-color: rgb(1, 178, 177);
 	padding: 10px;
 	color: white;
@@ -311,8 +339,14 @@ p {
 }
 
 .mangan-kontak-icon {
-	margin-right: 10px;
 	font-size: 15px;
+	color: orangered;
+}
+
+.mangan-invoice-icon {
+	margin-right: 10px;
+	margin-left: -5px;
+	font-size: 20px;
 	color: orangered;
 }
 
@@ -353,6 +387,10 @@ p {
 }
 
 .mangan-menu > h3 {
+	color: rgb(1,178,177);
+}
+
+.mangan-menu p {
 	color: rgb(1,178,177);
 }
 
@@ -441,8 +479,11 @@ p {
 
 .mangan-menu-navigasi {
 	bottom: 0;
+	width: 100%;
+	height: 12%;
 	text-align: center;
-	padding: 10px;
+	padding: 8px;
+	position: fixed;
 	background-color: rgb(1, 178, 177);
 }
 
@@ -452,7 +493,7 @@ p {
 }
 
 #mangan-peta {
-	min-height: 92.5%;
+	height: 88%;
 	width: 100%;
 }
 
@@ -510,7 +551,7 @@ p {
  	width: auto;
   	color:rgba(0,0,0,0.3);
 	font-size: 40px;
-	padding-top : 5px;
+//  padding-top : 5px;
 }
 
 .gallery-container {
@@ -548,10 +589,55 @@ p {
     overflow: hidden;
     white-space: nowrap;
     border-radius: 2px;
-	-webkit-box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);
-	-moz-box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);
-	box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);
+    padding-left: 20px;
+    padding-right: 20px;
+	//-webkit-box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);//
+	//-moz-box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);//
+	//box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);//
 }
+
+.mangan-button-jumlah{
+	padding: 2px 4px 1px;
+	min-width: 20px;
+	min-height: 22px;
+	font-size: 12px;
+	line-height: 18px; 
+}
+.mangan-button-jumlah .icon:before, .mangan-button-jumlah.icon:before, .mangan-button-jumlah.icon-left:before, .mangan-button-jumlah.icon-right:before {
+	    font-size: 16px;
+	    line-height: 19px;
+	    margin-top: 3px;
+}
+.button-oren {
+    background-color:#ff6a32;
+    border-color: transparent;
+    color: #fff;
+    overflow: hidden;
+    white-space: nowrap;
+    border-radius: 2px;
+}
+
+.button.button-oren:hover {
+      color: #fff;
+      text-decoration: none; }
+    .button.button-oren.active, .button.button-oren.activated {
+      background-color: #ff6a32; }
+    .button.button-oren.button-clear {
+      border-color: transparent;
+      background: none;
+      box-shadow: none;
+      color: #ff6a32; }
+    .button.button-oren.button-icon {
+      border-color: transparent;
+      background: none; }
+    .button.button-oren.button-outline {
+      border-color: #ff6a32;
+      background: transparent;
+      color: #ff6a32; }
+      .button.button-oren.button-outline.active, .button.button-oren.button-outline.activated {
+        background-color: #ff6a32;
+        box-shadow: none;
+        color: #fff; }
 
 .mangan-disclaimer {
 	width: 100%;
@@ -585,6 +671,11 @@ p {
 	font-size: 16px;
 }
 
+.mangan-card{
+	border-radius: 8px;
+
+}
+
 .tab-nav {
 	-webkit-box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);
 	-moz-box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);
@@ -594,3 +685,83 @@ p {
 .mangan-tombol{
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
+
+
+.login
+{
+	// background-color: $background-color;
+/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#01b2b1+0,f28509+100 */
+background: #01b2b1; /* Old browsers */
+background: -moz-linear-gradient(top,  #01b2b1 0%, #f28509 100%); /* FF3.6-15 */
+background: -webkit-linear-gradient(top,  #01b2b1 0%,#f28509 100%); /* Chrome10-25,Safari5.1-6 */
+background: linear-gradient(to bottom,  #01b2b1 0%,#f28509 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', endColorstr='#f28509',GradientType=0 ); /* IE6-9 */
+
+	.top-content
+	{
+    	height: 66%;
+
+		.app-copy
+		{
+			text-align: center;
+			padding-top: 13vh;
+		}
+
+		.app-logo
+		{
+			font-size: 40px;
+			font-family: sans-serif;
+			font-weight: 600;
+			color: $welcome-color;
+			letter-spacing: 8px;
+			text-transform: uppercase;
+		}
+
+		.app-tagline
+		{
+			font-size: 16px;
+			margin-top: 0px;
+			font-weight: 500;
+			color: rgba($welcome-color, 0.95);
+		}
+	}
+
+	.bottom-content
+	{
+    	height: 34%;
+
+		.facebook-sign-in
+		{
+			border-radius: 4px;
+			font-weight: 500;
+			color: $auth-small-btn-color;
+			background-color: $facebook-blue;
+			border-color: darken($facebook-blue, 2);
+		}
+
+		.google-sign-in
+		{
+			border-radius: 4px;
+			font-weight: 500;
+			color: $auth-small-btn-color;
+			background-color: $google-red;
+			border-color: darken($google-red, 2);
+		}
+	}
+}
+
+.card .item:first-child, .list-inset .item:first-child, .padding > .list .item:first-child {
+	border-top-left-radius: 0;
+     border-top-right-radius: 0;
+}
+
+.mangan-bottom {
+	text-align: center;
+	padding: 0 10px;
+}
+
+
+
+
+
+

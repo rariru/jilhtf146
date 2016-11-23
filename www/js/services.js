@@ -1,5 +1,10 @@
 // Initialize Firebase
-var config = {};
+var config = {
+	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
+	authDomain: "project-1449647215698534337.firebaseapp.com",
+	databaseURL: "https://project-1449647215698534337.firebaseio.com",
+	storageBucket: "project-1449647215698534337.appspot.com"
+};
 
 firebase.initializeApp(config);
 
@@ -12,6 +17,8 @@ var keyword = firebase.database().ref('keywordResto');
 var slider = firebase.database().ref('slider');
 var promo = firebase.database().ref('promo');
 var version = firebase.database().ref('version');
+var user = firebase.database().ref('user');
+var transaksi = firebase.database().ref('transaksi');
 
 angular.module('app.services', [])
 
@@ -257,6 +264,108 @@ angular.module('app.services', [])
 		return promiseValue(
 			promo
 		);
+	}
+
+	this.cekUserData = function(email) {
+		return promiseValue(
+			user.orderByChild('email').equalTo(email)
+		)
+	}
+
+	this.getProfileByUid = function(uid) {
+		return promiseValue(
+			user.child(uid)
+		)
+	}
+
+	this.addUserData = function(dataUser) {
+		var promise = $q.defer();
+
+		user.child(dataUser.id).set({
+			'index': dataUser.id,
+			'email': dataUser.email,
+			'fb_id': dataUser.id,
+			'name': dataUser.name,
+			'photoUrl': dataUser.picture.data.url,
+			'dateRegister': firebase.database.ServerValue.TIMESTAMP,
+			'dateUpdatedData': firebase.database.ServerValue.TIMESTAMP
+		}).then(function() {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.addUserDataByGoogle = function(dataUser) {
+		var promise = $q.defer();
+
+		user.child(dataUser.id).set({
+			'index': dataUser.id,
+			'email': dataUser.email,
+			'gpluslink': dataUser.link,
+			'name': dataUser.name,
+			'photoUrl': dataUser.picture,
+			'dateRegister': firebase.database.ServerValue.TIMESTAMP,
+			'dateUpdatedData': firebase.database.ServerValue.TIMESTAMP
+		}).then(function() {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.addTransaction = function(kurir, idTransaksi, dataTransaksi) {
+		var promise = $q.defer();
+
+		transaksi.child(kurir +'/'+ idTransaksi).set({
+			'alamat' : dataTransaksi.alamat,
+			'alamatUser' : dataTransaksi.alamatUser,
+			'feedelivery' : dataTransaksi.feedelivery,
+			'indexResto' : dataTransaksi.indexResto,
+			'indexTransaksi' : dataTransaksi.indexTransaksi,
+			'jumlah' : dataTransaksi.jumlah,
+			'kurir' : dataTransaksi.kurir,
+			'map' : {
+				'lat' : dataTransaksi.map.lat,
+				'long' : dataTransaksi.map.long
+			},
+			'mapUser' : {
+				'lat' : dataTransaksi.mapUser.lat,
+				'long' : dataTransaksi.mapUser.long
+			},
+			'namaResto' : dataTransaksi.namaResto,
+			'namaUser' : dataTransaksi.namaUser,
+			'noTelpUser' : dataTransaksi.noTelpUser,
+			// to not use angular.copy, pleasee use trackby on ng-repeat
+			'pesanan' : angular.copy(dataTransaksi.pesanan),
+			'status' : dataTransaksi.status,
+			'processBy' : dataTransaksi.processBy,
+			'tgl' : dataTransaksi.tgl,
+			'totalHarga' : dataTransaksi.totalHarga,
+			'userPhotoUrl' : dataTransaksi.userPhotoUrl,
+			'username' : dataTransaksi.username
+		}).then(function(result) {
+			console.log(JSON.stringify(result));
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.updateUserData = function(userData) {
+		var promise = $q.defer();
+
+		user.child(userData.index).update({
+			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
+			'phoneNumber' : userData.phoneNumber,
+			'name' : userData.name,
+			'email' : userData.email,
+			'location' : userData.location
+		}).then(function(result) {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
 	}
 
 	function promiseAdded(obj) {
