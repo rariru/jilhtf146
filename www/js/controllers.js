@@ -1873,6 +1873,14 @@ angular.module('app.controllers', [])
 	    console.log('trackEvent, Menu, Lihat Menu, '+$stateParams.index);
     });
 
+    Services.getRestoranDetails($stateParams.index).then(function(restoran) {
+    	if (restoran) {
+    		$scope.restoran = restoran;
+    	} else {
+    		console.log('Error fetch data restoran');
+    	};
+    })
+
     $scope.getMenus = function() {
 		Services.getRestoranMenus($stateParams.index).then(function(menus) {
 			if(menus) {

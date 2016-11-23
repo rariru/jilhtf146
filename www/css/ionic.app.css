@@ -8797,10 +8797,10 @@ progress {
 
 .button-small {
   padding: 2px 4px 1px;
-  min-width: 20px;
-  min-height: 22px;
+  min-width: 30px;
+  min-height: 32px;
   font-size: 12px;
-  line-height: 18px; }
+  line-height: 28px; }
   .button-small .icon:before, .button-small.icon:before, .button-small.icon-left:before, .button-small.icon-right:before {
     font-size: 16px;
     line-height: 19px;
@@ -9751,20 +9751,19 @@ p {
 .mangan-selengkapnya {
   width: 100%;
   height: auto;
-  padding: 10px;
-  background-color: #01b2b1;
+  border: 1px solid #e6e7e8;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px; }
 
 .mangan-detail-review {
-  background-color: #01b2b1;
-  color: white;
-  padding: 5px;
-  padding-left: 10px;
-  min-height: 100px;
-  -webkit-box-shadow: inset 0px 0px 10px 0px #888888;
-  -moz-box-shadow: inset 0px 0px 10px 0px #888888;
-  box-shadow: inset 0px 0px 10px 0px #888888; }
+  color: black;
+  /*padding-top: 5px;*/
+  border-top: 0;
+  border-bottom: 1px solid #e6e7e8;
+  border-left: 1px solid #e6e7e8;
+  border-right: 1px solid #e6e7e8;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px; }
 
 .mangan-detail-keterangan {
   background-color: #e6e7e8;
@@ -9867,14 +9866,30 @@ p {
 .item > p {
   color: #01b2b1; }
 
-.card .item {
-  border-left: 5px solid #e6e7e8;
-  border-right: 5px solid #e6e7e8; }
+/*.card .item{
+	// border: 2.5px solid rgb(230, 231, 232);
+	border-left: 5px solid rgb(230, 231, 232);
+	border-right: 5px solid rgb(230, 231, 232);
+}*/
+.card .item:first-child {
+  /*// border: 5px solid rgb(230, 231, 232);*/
+  border-top: 1px solid #e6e7e8; }
+
+.card .item:last-child {
+  /*// border: 5px solid rgb(230, 231, 232);*/
+  border-bottom: 1px solid #e6e7e8; }
 
 .mangan-menu-selengkapnya {
-  text-align: center;
-  padding: 0 10px;
-  background-color: white; }
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px; }
+
+.mangan-tombol-pesan {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px; }
 
 .list {
   margin-bottom: 10px;
@@ -9893,19 +9908,18 @@ p {
 
 .mangan-keterangan {
   padding: 15px;
-  -webkit-box-shadow: inset 0px 0px 5px 0px #888888;
-  -moz-box-shadow: inset 0px 0px 5px 0px #888888;
-  box-shadow: inset 0px 0px 5px 0px #888888; }
+  border-left: 1px solid #e6e7e8;
+  border-right: 1px solid #e6e7e8; }
 
 .mangan-keterangan-buka {
-  color: white;
+  color: #01b1b2;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 14px;
   width: 100%;
   height: auto;
   padding: 10px;
   padding-left: 15px;
-  background-color: orange; }
+  border: 1px solid #e6e7e8; }
 
 .mangan-keterangan-buka > i {
   color: white; }
@@ -9920,8 +9934,8 @@ p {
   border: none; }
 
 .mangan-icon {
-  font-size: 20px;
-  color: white; }
+  font-size: 25px;
+  color: #01b1b2; }
 
 .mangan-menu-list {
   margin-bottom: 0; }
@@ -9932,14 +9946,15 @@ p {
   background-color: #e6e7e8; }
 
 .mangan-line {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #e6e7e8;
   width: 100%; }
 
 .mangan-kontak {
-  background-color: #01b2b1;
-  padding-bottom: 0; }
+  padding-bottom: 0;
+  border-top: 1px solid #e6e7e8;
+  border-bottom: 1px solid #e6e7e8; }
 
-.mangan-kontak-header {
+.kontak-header {
   background-color: #01b2b1;
   padding: 10px;
   color: white;
@@ -9956,7 +9971,6 @@ p {
   text-decoration: none; }
 
 .mangan-kontak-icon {
-  margin-right: 10px;
   font-size: 15px;
   color: orangered; }
 
@@ -10129,8 +10143,7 @@ p {
   margin-right: auto;
   width: auto;
   color: rgba(0, 0, 0, 0.3);
-  font-size: 40px;
-  padding-top: 5px; }
+  font-size: 40px; }
 
 .gallery-container {
   -ms-box-orient: horizontal;
@@ -10164,9 +10177,8 @@ p {
   overflow: hidden;
   white-space: nowrap;
   border-radius: 2px;
-  -webkit-box-shadow: 0px 0px 10px 2px #888888;
-  -moz-box-shadow: 0px 0px 10px 2px #888888;
-  box-shadow: 0px 0px 10px 2px #888888; }
+  padding-left: 20px;
+  padding-right: 20px; }
 
 .mangan-button-jumlah {
   padding: 2px 4px 1px;
@@ -10292,48 +10304,6 @@ p {
       background-color: #DD4B39;
       border-color: #dc4330; }
 
-.mangan-hello {
-  /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7ae1d+0,01b2b1+73&0.65+99,0+100 */
-  background: -moz-linear-gradient(-45deg, rgba(247, 174, 29, 0.65) 0%, rgba(1, 178, 177, 0.65) 73%, rgba(1, 178, 177, 0.65) 99%, rgba(1, 178, 177, 0) 100%);
-  /* FF3.6-15 */
-  background: -webkit-linear-gradient(-45deg, rgba(247, 174, 29, 0.65) 0%, rgba(1, 178, 177, 0.65) 73%, rgba(1, 178, 177, 0.65) 99%, rgba(1, 178, 177, 0) 100%);
-  /* Chrome10-25,Safari5.1-6 */
-  background: linear-gradient(135deg, rgba(247, 174, 29, 0.65) 0%, rgba(1, 178, 177, 0.65) 73%, rgba(1, 178, 177, 0.65) 99%, rgba(1, 178, 177, 0) 100%);
-  /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6f7ae1d', endColorstr='#0001b2b1',GradientType=1 );
-  /* IE6-9 fallback on horizontal gradient */ }
-
-.mangan-floating-button {
-  bottom: 10%;
-  right: 10%;
-  width: 50px;
-  height: 50px;
-  border-radius: 100%;
-  position: fixed;
-  z-index: 9999;
-  float: right; }
-
-.float-button {
-  width: 50px;
-  padding: 50px;
-  font-size: 40px;
-  border-radius: 50%;
-  position: fixed;
-  bottom: 15px;
-  /* Adjust to where you want it */
-  right: 30px;
-  /* Adjust to where you want it */
-  z-index: 9999; }
-
-.float-button .height_fix {
-  margin-top: 100%; }
-
-.float-button .content {
-  position: absolute;
-  left: 0;
-  top: 50%;
-  height: 100%;
-  width: 100%;
-  text-align: center;
-  margin-top: -20px;
-  /* Note, this must be half the font size */ }
+.card .item:first-child, .list-inset .item:first-child, .padding > .list .item:first-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0; }
