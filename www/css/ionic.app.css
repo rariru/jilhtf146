@@ -8797,10 +8797,10 @@ progress {
 
 .button-small {
   padding: 2px 4px 1px;
-  min-width: 20px;
-  min-height: 22px;
+  min-width: 30px;
+  min-height: 32px;
   font-size: 12px;
-  line-height: 18px; }
+  line-height: 28px; }
   .button-small .icon:before, .button-small.icon:before, .button-small.icon-left:before, .button-small.icon-right:before {
     font-size: 16px;
     line-height: 19px;
@@ -9751,20 +9751,19 @@ p {
 .mangan-selengkapnya {
   width: 100%;
   height: auto;
-  padding: 10px;
-  background-color: #01b2b1;
+  border: 1px solid #e6e7e8;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px; }
 
 .mangan-detail-review {
-  background-color: #01b2b1;
-  color: white;
-  padding: 5px;
-  padding-left: 10px;
-  min-height: 100px;
-  -webkit-box-shadow: inset 0px 0px 10px 0px #888888;
-  -moz-box-shadow: inset 0px 0px 10px 0px #888888;
-  box-shadow: inset 0px 0px 10px 0px #888888; }
+  color: black;
+  /*padding-top: 5px;*/
+  border-top: 0;
+  border-bottom: 1px solid #e6e7e8;
+  border-left: 1px solid #e6e7e8;
+  border-right: 1px solid #e6e7e8;
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px; }
 
 .mangan-detail-keterangan {
   background-color: #e6e7e8;
@@ -9867,14 +9866,30 @@ p {
 .item > p {
   color: #01b2b1; }
 
-.card .item {
-  border-left: 5px solid #e6e7e8;
-  border-right: 5px solid #e6e7e8; }
+/*.card .item{
+	// border: 2.5px solid rgb(230, 231, 232);
+	border-left: 5px solid rgb(230, 231, 232);
+	border-right: 5px solid rgb(230, 231, 232);
+}*/
+.card .item:first-child {
+  /*// border: 5px solid rgb(230, 231, 232);*/
+  border-top: 1px solid #e6e7e8; }
+
+.card .item:last-child {
+  /*// border: 5px solid rgb(230, 231, 232);*/
+  border-bottom: 1px solid #e6e7e8; }
 
 .mangan-menu-selengkapnya {
-  text-align: center;
-  padding: 10px;
-  background-color: #01b2b1; }
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px; }
+
+.mangan-tombol-pesan {
+  width: 100%;
+  margin-top: 10px;
+  margin-bottom: 10px; }
 
 .list {
   margin-bottom: 10px;
@@ -9893,19 +9908,18 @@ p {
 
 .mangan-keterangan {
   padding: 15px;
-  -webkit-box-shadow: inset 0px 0px 5px 0px #888888;
-  -moz-box-shadow: inset 0px 0px 5px 0px #888888;
-  box-shadow: inset 0px 0px 5px 0px #888888; }
+  border-left: 1px solid #e6e7e8;
+  border-right: 1px solid #e6e7e8; }
 
 .mangan-keterangan-buka {
-  color: white;
+  color: #01b1b2;
   font-weight: bold;
-  font-size: 16px;
+  font-size: 14px;
   width: 100%;
   height: auto;
   padding: 10px;
   padding-left: 15px;
-  background-color: orange; }
+  border: 1px solid #e6e7e8; }
 
 .mangan-keterangan-buka > i {
   color: white; }
@@ -9920,8 +9934,8 @@ p {
   border: none; }
 
 .mangan-icon {
-  font-size: 20px;
-  color: white; }
+  font-size: 25px;
+  color: #01b1b2; }
 
 .mangan-menu-list {
   margin-bottom: 0; }
@@ -9932,14 +9946,15 @@ p {
   background-color: #e6e7e8; }
 
 .mangan-line {
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid #e6e7e8;
   width: 100%; }
 
 .mangan-kontak {
-  background-color: #01b2b1;
-  padding-bottom: 0; }
+  padding-bottom: 0;
+  border-top: 1px solid #e6e7e8;
+  border-bottom: 1px solid #e6e7e8; }
 
-.mangan-kontak-header {
+.kontak-header {
   background-color: #01b2b1;
   padding: 10px;
   color: white;
@@ -9956,7 +9971,6 @@ p {
   text-decoration: none; }
 
 .mangan-kontak-icon {
-  margin-right: 10px;
   font-size: 15px;
   color: orangered; }
 
@@ -10126,8 +10140,7 @@ p {
   margin-right: auto;
   width: auto;
   color: rgba(0, 0, 0, 0.3);
-  font-size: 40px;
-  padding-top: 5px; }
+  font-size: 40px; }
 
 .gallery-container {
   -ms-box-orient: horizontal;
@@ -10161,9 +10174,8 @@ p {
   overflow: hidden;
   white-space: nowrap;
   border-radius: 2px;
-  -webkit-box-shadow: 0px 0px 10px 2px #888888;
-  -moz-box-shadow: 0px 0px 10px 2px #888888;
-  box-shadow: 0px 0px 10px 2px #888888; }
+  padding-left: 20px;
+  padding-right: 20px; }
 
 .mangan-button-jumlah {
   padding: 2px 4px 1px;
@@ -10288,3 +10300,7 @@ p {
       color: #FFF;
       background-color: #DD4B39;
       border-color: #dc4330; }
+
+.card .item:first-child, .list-inset .item:first-child, .padding > .list .item:first-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0; }

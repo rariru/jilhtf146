@@ -17,7 +17,7 @@ $dark:                            #444 !default;
 
 $balanced: rgb(1,178,177) !default;
 $positive: orangered !default;
-$button-small-height: 20px !default;
+$button-small-height: 30px !default;
 $item-padding: 10px !default;
 $button-border-radius:  0px !default;
 $card-box-shadow: 0 -1px -1px rgba(0, 0, 0, 0.3) !default;
@@ -58,21 +58,20 @@ p {
 .mangan-selengkapnya{
 	width: 100%;
 	height: auto;
-	padding: 10px; 
-	background-color:rgb(1,178,177);
+	border: 1px solid rgb(230,231,232);
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
 
 .mangan-detail-review {
-	background-color: rgb(1,178,177);
-	color: white;
-	padding: 5px;
-	padding-left: 10px;
-	min-height: 100px;
-	-webkit-box-shadow: inset 0px 0px 10px 0px rgba(136,136,136,1);
-	-moz-box-shadow: inset 0px 0px 10px 0px rgba(136,136,136,1);
-	box-shadow: inset 0px 0px 10px 0px rgba(136,136,136,1);
+	color: black;
+	/*padding-top: 5px;*/
+	border-top: 0;
+	border-bottom: 1px solid rgb(230,231,232);
+	border-left: 1px solid rgb(230,231,232);
+	border-right: 1px solid rgb(230,231,232);
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;
 }
 
 .mangan-detail-keterangan {
@@ -192,25 +191,35 @@ p {
 	color: rgb(1, 178, 177);
 }
 
-.card .item{
+/*.card .item{
 	// border: 2.5px solid rgb(230, 231, 232);
 	border-left: 5px solid rgb(230, 231, 232);
 	border-right: 5px solid rgb(230, 231, 232);
-}
+}*/
 
 
 .card .item:first-child {
-	// border: 5px solid rgb(230, 231, 232);
+	/*// border: 5px solid rgb(230, 231, 232);*/
+	border-top: 1px solid rgb(230, 231, 232);
 }
 
 .card .item:last-child {
-	// border: 5px solid rgb(230, 231, 232);
+	/*// border: 5px solid rgb(230, 231, 232);*/
+	border-bottom: 1px solid rgb(230, 231, 232);
 }
 
 .mangan-menu-selengkapnya {
-	text-align: center;
-	padding: 10px;
-	background-color: rgb(1, 178, 177);
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.mangan-tombol-pesan{
+	width: 100%;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 .list {
@@ -235,21 +244,19 @@ p {
 
 .mangan-keterangan {
 	padding: 15px;
-	// border: 5px solid rgb(230,231,232);
-	-webkit-box-shadow: inset 0px 0px 5px 0px rgba(136,136,136,1);
-	-moz-box-shadow: inset 0px 0px 5px 0px rgba(136,136,136,1);
-	box-shadow: inset 0px 0px 5px 0px rgba(136,136,136,1);
+	border-left: 1px solid rgb(230,231,232);
+	border-right: 1px solid rgb(230,231,232);
 }
 
 .mangan-keterangan-buka {
-	color: white;
+	color: rgb(1,177,178);
 	font-weight: bold;
-	font-size: 16px;
+	font-size: 14px;
 	width: 100%;
 	height: auto;
 	padding: 10px;
 	padding-left: 15px; 
-	background-color:orange;
+	border: 1px solid rgb(230,231,232);
 	// margin-bottom: 10px;
 	// border-radius: 5px;
 	// border: 2px solid orange;
@@ -279,8 +286,8 @@ p {
 }
 
 .mangan-icon {
-	font-size: 20px;
-	color: white;
+	font-size: 25px;
+	color: rgb(1,177,178);
 }
 
 .mangan-menu-list{
@@ -294,16 +301,16 @@ p {
 }
 
 .mangan-line{
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid rgb(230,231,232);
 	width: 100%;
 }
 .mangan-kontak {
-	background-color: rgb(1, 178, 177);
-	// padding: 5px;
 	padding-bottom: 0;
+	border-top:1px solid rgb(230,231,232);
+	border-bottom:1px solid rgb(230,231,232);
 }
 
-.mangan-kontak-header {
+.kontak-header {
 	background-color: rgb(1, 178, 177);
 	padding: 10px;
 	color: white;
@@ -324,7 +331,6 @@ p {
 }
 
 .mangan-kontak-icon {
-	margin-right: 10px;
 	font-size: 15px;
 	color: orangered;
 }
@@ -534,7 +540,7 @@ p {
  	width: auto;
   	color:rgba(0,0,0,0.3);
 	font-size: 40px;
-	padding-top : 5px;
+//  padding-top : 5px;
 }
 
 .gallery-container {
@@ -572,9 +578,11 @@ p {
     overflow: hidden;
     white-space: nowrap;
     border-radius: 2px;
-	-webkit-box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);
-	-moz-box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);
-	box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);
+    padding-left: 20px;
+    padding-right: 20px;
+	//-webkit-box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);//
+	//-moz-box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);//
+	//box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);//
 }
 
 .mangan-button-jumlah{
@@ -729,6 +737,11 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', end
 			border-color: darken($google-red, 2);
 		}
 	}
+}
+
+.card .item:first-child, .list-inset .item:first-child, .padding > .list .item:first-child {
+	border-top-left-radius: 0;
+     border-top-right-radius: 0; 
 }
 
 
