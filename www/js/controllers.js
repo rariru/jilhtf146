@@ -1,7 +1,8 @@
 angular.module('app.controllers', [])
 
-.controller('main', function($scope, $stateParams) {
-	$scope.badge = 10;
+.controller('main', function($scope, $stateParams, $localStorage) {
+	$localStorage.badge = 0;
+	$scope.badge = $localStorage.badge;
 })
 
 .controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing, $timeout) {
@@ -677,6 +678,22 @@ angular.module('app.controllers', [])
       duration: 5000
     });
 
+	firebase.auth().onAuthStateChanged(function(user) {
+		if (user) {
+			user.providerData.forEach(function(profile) {
+				if (profile.providerId === "facebook.com") {
+					$scope.getProfileByUid(profile.uid);
+				} else if (profile.providerId === "google.com") {
+					$scope.getProfileByUid(profile.uid);
+				} else {
+					console.log('logged in with another provider');
+				}
+			});
+		} else {
+			$scope.dataUser = "";
+		}
+	})
+
     Services.getVersion().then(function(version) {
     	if (version) {
     		// if (config.version < version) {
@@ -749,6 +766,22 @@ angular.module('app.controllers', [])
 	    };
 	    _waitForAnalytics();
 
+		var user = firebase.auth().currentUser;
+		if (user) {
+			user.providerData.forEach(function(profile) {
+				if (profile.providerId === "facebook.com") {
+					$scope.getProfileByUid(profile.uid);
+				} else if (profile.providerId === "google.com") {
+					$scope.getProfileByUid(profile.uid);
+				} else {
+					console.log('logged in with another provider');
+				}
+			});
+		} else {
+			console.log('not logged in');
+			$scope.dataUser = "";
+		}
+
 	    $scope.greeting();
     });
 
@@ -763,6 +796,17 @@ angular.module('app.controllers', [])
 	if (firebase == 'undefined') {
 		console.log('Error firebase undefined');
 		makeToast('Error koneksi tidak stabil', 1500, 'bottom');
+	}
+
+	$scope.getProfileByUid = function(uid) {
+		Services.getProfileByUid(uid).then(function(dataUser) {
+			if (dataUser) {
+				$scope.dataUser = dataUser
+				console.log(JSON.stringify(dataUser));
+			} else {
+				console.log('profil no dataUser found with uid:'+uid);
+			}
+		})
 	}
 
 	$scope.searchQuery = function() {
@@ -1156,6 +1200,22 @@ angular.module('app.controllers', [])
 		// }
 
 		updateSavedRestorans(savedRestorans);
+
+		var user = firebase.auth().currentUser;
+		if (user) {
+			user.providerData.forEach(function(profile) {
+				if (profile.providerId === "facebook.com") {
+					$scope.getProfileByUid(profile.uid);
+				} else if (profile.providerId === "google.com") {
+					$scope.getProfileByUid(profile.uid);
+				} else {
+					console.log('logged in with another provider');
+				}
+			});
+		} else {
+			console.log('not logged in');
+			$scope.dataUser = "";
+		}
 	});
 
 	$scope.getRestorans = function() {
@@ -1633,7 +1693,7 @@ angular.module('app.controllers', [])
 	$scope.getMenu();
 })
 
-.controller('promoCtrl', function($scope, $state, $ionicLoading, $cordovaToast, Services, $timeout) {
+.controller('promoCtrl', function($scope, $state, $ionicLoading, $cordovaToast, Services, $timeout, $localStorage) {
 	// $ionicLoading.show({
  //      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
  //      duration: 5000
@@ -1789,13 +1849,12 @@ angular.module('app.controllers', [])
 	});
 })
 
-.controller('profilCtrl', function($scope, $state, $ionicLoading, Services, $http, $localStorage) {
+.controller('profilCtrl', function($scope, $state, $ionicLoading, Services, $http, $localStorage, $ionicHistory, $ionicModal, $cordovaGeolocation, $ionicPopup, $cordovaToast) {
 	// profile Code here
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
       duration: 5000
     });
-
 
 	$scope.$on('$ionicView.enter', function() {
 		var user = firebase.auth().currentUser;
@@ -1818,8 +1877,7 @@ angular.module('app.controllers', [])
 	$scope.getProfileByUid = function(uid) {
 		Services.getProfileByUid(uid).then(function(dataUser) {
 			if (dataUser) {
-				$scope.dataUser = dataUser
-				console.log(JSON.stringify(dataUser));
+				$scope.dataUser = dataUser;
 			} else {
 				console.log('profil no dataUser found with uid:'+uid);
 			}
@@ -1842,13 +1900,98 @@ angular.module('app.controllers', [])
 	// 		console.log('no access token');
 	// 	}
 	// }
+	$scope.updateUserData = function() {
+		$ionicLoading.show({
+	      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+	      duration: 5000
+	    });
+
+		Services.updateUserData($scope.dataUser).then(function(result) {
+			$ionicLoading.hide();
+			makeToast('Data berhasil diperbarui')
+		}, function(err) {
+			console.log('error');
+			$ionicLoading.hide();
+		});
+	}
 
 	$scope.signOut = function() {
 		firebase.auth().signOut().then(function() {
 			console.log('signed out');
 			$state.go('tabsController.tersimpan');
+			$ionicHistory.removeBackView();
 		}, function(error) {
 			console.log(error);
+		});
+	}
+
+	$scope.pickLocation = function() {
+		var coords = { latitude: -7.569527, longitude: 110.830289 };
+		var options = { timeout: 5000, enableHighAccuracy: true };
+		var openedInfo = null;
+		$cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+			if(position) {
+				console.log('position aru');
+				coords = position.coords;
+			}
+			showMap();
+		}, function(error) {
+			console.log("could not get location");
+			$ionicPopup.alert({
+				title: 'Error',
+				template: 'Tidak dapat menemukan sinyal GPS!',
+				okText: 'OK',
+				okType: 'button-balanced'
+			}).then(function(res) {
+				showMap();
+			});
+		});
+
+
+		function showMap() {
+			console.log('pusat: '+ coords.latitude, coords.longitude);
+			var latlon = new google.maps.LatLng(coords.latitude, coords.longitude);
+			var mapOptions = { center: latlon, zoom: 15, mapTypeId: google.maps.MapTypeId.ROADMAP };
+			
+			$scope.map = new google.maps.Map(document.getElementById('mangan-peta'), mapOptions);
+
+			// wait till map loaded
+			// google.maps.event.addListener($scope.map, 'idle', function() {
+				var userMarker = new google.maps.Marker({
+					map: $scope.map,
+					icon: 'img/marker.png',
+					position: latlon,
+					draggable: true
+				})
+			// });
+				google.maps.event.addListener(userMarker, 'dragend', function(evt) {
+					console.log(evt.latLng.lat(), evt.latLng.lng());
+					$scope.mapUser = {
+						'lat' : evt.latLng.lat(),
+						'long' : evt.latLng.lng()
+					}
+					
+					$http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+evt.latLng.lat()+","+evt.latLng.lng()+"&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ").success(function(result) {
+						$scope.dataUser.location = result.results[0].address_components[2].short_name;
+					}).error(function(error) {
+						console.log('data error : '+error);
+					});
+				})
+		}
+		$scope.maps.show();
+	}
+
+	$ionicModal.fromTemplateUrl('templates/maps.html', {
+		scope: $scope,
+		animation: 'slide-in-up' 
+	}).then(function(modal) { $scope.maps = modal; });
+
+	function makeToast(_message) {
+		window.plugins.toast.showWithOptions({
+			message: _message,
+			duration: 1500,
+			position: 'bottom',
+			addPixelsY: -40
 		});
 	}
 })

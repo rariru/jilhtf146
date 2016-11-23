@@ -1,33 +1,22 @@
 <ion-view id="page3">
     <ion-nav-title>{{category}}</ion-nav-title>
-    <button class="button button-clear button-positive">Edit</button>
+
     <ion-content lazy-scroll padding="true" class="has-header">
-    <!-- {{restorans.length}} -->
-            <!-- ng-show= "category === 'Tersimpan'" -->
         <ion-refresher
             pulling-text="Lepas untuk memperbarui"
             on-refresh="getRestorans()"
             spinner = "ripple" >
         </ion-refresher>
 
-
-        <div class="card mangan-card">
-            <a class="mangan-menu item" ng-show="dataUser" style="background-color:#f9f9f9;border-left:0px;border-right:0px;" ng-click="openProfile()"ion-ripple>
+        <div class="card mangan-card" ng-show="dataUser">
+            <a class="mangan-menu item" style="background-color:#f9f9f9;border-left:0px;border-right:0px;" ng-click="openProfile()" ion-ripple>
                 <center><img ng-src="{{dataUser.photoUrl}}" width="30%" height="auto" style="margin-bottom: 5px; border-radius: 50%;"></center>
                 <center><h2>{{dataUser.name}}</h2></center>
                 <center><p>{{dataUser.email}}</p></center>
-                <center><p>Karanganyar</p></center>
+                <center><p>{{dataUser.location}}</p></center>
                 <center><i class="icon ion-compose" style="font-size: 20px; color: orangered; opacity: 0.5; "></i></center>
             </a>
         </div>
-
-        <!-- <div ng-show="!dataUser || dataUser == null" style="margin: 10px;">
-            <center><button class="button button-positive button-small" ng-click="login()" ion-ripple>Sign In </button></center>
-        </div> -->
-
-      <!--   <div class="item item-divider" style="margin-bottom: 10px;">
-            Kuliner Tersimpan
-        </div> -->
         
         <div ng-show="nodata && !notersimpan" class="mangan-nodata">
             <center><i class="ion-sad-outline"></i></center>
@@ -39,14 +28,12 @@
             <center><i class="ion-android-favorite" style="color:#c85054;"></i></center>
             <p style="margin-bottom: 10px;">Ups, Sepertinya Anda belum menyimpan apapun</p>
             <div class="row">
-                    <a ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" class="button button-oren button-outline" style="width: 50%; display: block; margin: auto;" ion-ripple>JELAJAHI</a>
-                    <a ui-sref="" ng-show="!dataUser || dataUser == null" class="button button-oren button-outline"  style="width: 50%; display: block; margin-left: 5px;" ng-click="login()" ion-ripple>SIGN IN</a>
+                <button ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" class="button button-oren button-outline" style="width: 50%; display: block; margin: auto;" ion-ripple>JELAJAHI</button>
+                <button ng-show="!dataUser || dataUser == null" class="button button-oren button-outline"  style="width: 50%; display: block; margin-left: 5px;" ng-click="login()" ion-ripple>SIGN IN</button>
             </div>
-
         </div>
 
         <div class="list card mangan-restorans" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true track by restoran.index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
-        <!-- <div class="list card" ng-repeat="restoran in restorans" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'"> -->
             <div class="mangan-list-header">
                 <div class="row mangan-nama-resto">
                     <span class="col col-75">{{restoran.namaResto}}</span>
@@ -62,9 +49,6 @@
             </div>
             
             <div class="row mangan-selengkapnya">
-                <!-- <span class="col col-75" style="padding:0;margin-top: 3px;">
-                    <a ui-sref="tabsController.restoran({index: restoran.index})" id="tersimpan-button18" class="button button-positive button-small">SELENGKAPNYA</a>
-                </span> -->
                  <span class="col col-20" style="padding:0;">
                 </span>
                 <span class="col col-25" style="padding:0;">
@@ -90,11 +74,12 @@
             </div>
         </div>
 
-        
-
-        <ion-infinite-scroll on-infinite="loadMoreResto()" distance="5%" immediate-check="false" spinner="spiral" ng-if="canLoadResto()">
-        </ion-infinite-scroll>
-
-
+        <div ng-hide="notersimpan || dataUser" class="mangan-nodata" style="border-top: 1px solid rgba(230, 231, 232, 0.8);">
+            <center><i class="ion-android-favorite" style="color:#c85054;"></i></center>
+            <p style="margin-bottom: 10px;">Kamu belum login, ayo login dulu</p>
+            <div class="row">
+                <button ng-show="!dataUser || dataUser == null" class="button button-oren button-outline"  style="width: 50%; display: block; margin: auto;" ng-click="login()" ion-ripple>SIGN IN</button>
+            </div>
+        </div>
     </ion-content>
 </ion-view>
