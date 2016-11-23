@@ -466,8 +466,11 @@ p {
 
 .mangan-menu-navigasi {
 	bottom: 0;
+	width: 100%;
+	height: 12%;
 	text-align: center;
-	padding: 10px;
+	padding: 8px;
+	position: fixed;
 	background-color: rgb(1, 178, 177);
 }
 
@@ -477,7 +480,7 @@ p {
 }
 
 #mangan-peta {
-	height: 100%;
+	height: 88%;
 	width: 100%;
 }
 
@@ -733,12 +736,47 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', end
 }
 
 .mangan-hello {
-		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7ae1d+0,01b2b1+73&0.65+99,0+100 */
-background: -moz-linear-gradient(-45deg,  rgba(247,174,29,0.65) 0%, rgba(1,178,177,0.65) 73%, rgba(1,178,177,0.65) 99%, rgba(1,178,177,0) 100%); /* FF3.6-15 */
-background: -webkit-linear-gradient(-45deg,  rgba(247,174,29,0.65) 0%,rgba(1,178,177,0.65) 73%,rgba(1,178,177,0.65) 99%,rgba(1,178,177,0) 100%); /* Chrome10-25,Safari5.1-6 */
-background: linear-gradient(135deg,  rgba(247,174,29,0.65) 0%,rgba(1,178,177,0.65) 73%,rgba(1,178,177,0.65) 99%,rgba(1,178,177,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6f7ae1d', endColorstr='#0001b2b1',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+	/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#f7ae1d+0,01b2b1+73&0.65+99,0+100 */
+	background: -moz-linear-gradient(-45deg,  rgba(247,174,29,0.65) 0%, rgba(1,178,177,0.65) 73%, rgba(1,178,177,0.65) 99%, rgba(1,178,177,0) 100%); /* FF3.6-15 */
+	background: -webkit-linear-gradient(-45deg,  rgba(247,174,29,0.65) 0%,rgba(1,178,177,0.65) 73%,rgba(1,178,177,0.65) 99%,rgba(1,178,177,0) 100%); /* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(135deg,  rgba(247,174,29,0.65) 0%,rgba(1,178,177,0.65) 73%,rgba(1,178,177,0.65) 99%,rgba(1,178,177,0) 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6f7ae1d', endColorstr='#0001b2b1',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+}
 
+.mangan-floating-button {
+	bottom: 10%;
+	right: 10%;
+	width: 50px;
+	height: 50px;
+	border-radius: 100%;
+	position: fixed;
+	z-index: 9999;
+	float: right;
+}
+
+.float-button {
+	width: 50px;
+	padding: 50px;
+	font-size: 40px;
+	border-radius: 50%;
+	position: fixed;
+	bottom: 15px; /* Adjust to where you want it */
+	right: 30px; /* Adjust to where you want it */
+	z-index: 9999;
+}
+
+.float-button .height_fix {
+	margin-top: 100%;
+}
+
+.float-button .content {
+	position: absolute;
+	left: 0;
+	top: 50%;
+	height: 100%;
+	width: 100%;
+	text-align: center;
+	margin-top: -20px; /* Note, this must be half the font size */
 }
 
 

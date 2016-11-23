@@ -14,7 +14,7 @@
                 <img src="img/cat.jpg" style="border-radius: 50%; border: 1px solid rgba(230, 231, 232, 0.8);">
                 <h2 style="font-weight: bold; color: orangered; font-size: 24px;">Hello Foodies</h2>
                 <p style="font-size: 18px;">Kamu lapar? Mau makan apa hari ini?</p>
-                <a><i class="icon ion-ios-location" style="padding-right:5px"></i>Surakarta, Jawa Tengah</a>
+                <a ng-show="lokasiUser"><i class="icon ion-ios-location" style="padding-right:5px"></i>{{lokasiUser}}</a>
             </div>
         </div>
 <!--         <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
@@ -220,7 +220,7 @@
             <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
                 <h4 style="color: rgba(1,178,177,0.8); background: white; padding-left: 10px; width: 100%;">Tidak menemukan yang kamu sukai?</h4>
             </div>
-            <button id="button-rekomendasi" class="button button-block button-oren button-outline" ng-click="rekomendasikan()" ion-ripple>TAMBAH KULINER</button>
+            <button id="button-rekomendasi" class="button button-block button-oren button-outline" ng-click="rekomendasikan()" ion-ripple>REKOMENDASIKAN</button>
         </div>
 
         <div class="mangan-menu-selengkapnya">
