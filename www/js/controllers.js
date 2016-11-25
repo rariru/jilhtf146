@@ -533,6 +533,10 @@ angular.module('app.controllers', [])
 		// });
 	}
 
+	$scope.ulasanPengguna = function() {
+		$state.go('tabsController.ulasanPengguna');
+	}
+
 	function makeToast(_message) {
 		window.plugins.toast.showWithOptions({
 			message: _message,
@@ -2093,4 +2097,8 @@ angular.module('app.controllers', [])
 		scope: $scope,
 		animation: 'slide-in-up' 
 	}).then(function(modal) { $scope.maps = modal; });
+})
+
+.controller('ulasanPenggunaCtrl', function($scope, $state, $stateParams) {
+	// code here
 })

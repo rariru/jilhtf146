@@ -11,14 +11,30 @@
         </ion-refresher>
 
 
-        <div class="card mangan-card">
-            <a class="mangan-menu item" ng-show="dataUser" style="background-color:#f9f9f9;border-left:0px;border-right:0px;" ng-click="openProfile()"ion-ripple>
+        <div class="card mangan-card" ng-show="dataUser" >
+            <a class="mangan-menu item" style="background-color:#f9f9f9;border-left:0px;border-right:0px;" ng-click="openProfile()"ion-ripple>
                 <center><img ng-src="{{dataUser.photoUrl}}" width="30%" height="auto" style="margin-bottom: 5px; border-radius: 50%;"></center>
                 <center><h2>{{dataUser.name}}</h2></center>
                 <center><p>{{dataUser.email}}</p></center>
                 <center><p>Karanganyar</p></center>
-                <center><i class="icon ion-compose" style="font-size: 20px; color: orangered; opacity: 0.5; "></i></center>
             </a>
+
+            <div class="row mangan-selengkapnya">
+              <!--   <span class="col col-75" style="padding:0;margin-top: 3px;">
+                    <a ui-sref="tabsController.restoran({index: restoran.index})" id="tersimpan-button18" class="button button-positive button-small">SELENGKAPNYA</a>
+                </span> -->
+                <span class="col col-25"></span>
+                <span class="col" style="padding:0;">
+                    <button class="mangan-tombol-aksi">
+                        <i class="mangan-icon icon ion-person"></i>
+                    </button>
+                </span>
+                 <span class="col" style="padding:0;">
+                    <button class="mangan-tombol-aksi">
+                        <i class="mangan-icon icon ion-android-cart"></i>
+                    </button>
+                </span>
+            </div>
         </div>
 
         <!-- <div ng-show="!dataUser || dataUser == null" style="margin: 10px;">
