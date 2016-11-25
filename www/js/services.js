@@ -19,6 +19,7 @@ var promo = firebase.database().ref('promo');
 var version = firebase.database().ref('version');
 var user = firebase.database().ref('user');
 var transaksi = firebase.database().ref('transaksi');
+var queue = firebase.database().ref('status').child('queue');
 
 angular.module('app.services', [])
 
@@ -345,7 +346,18 @@ angular.module('app.services', [])
 			'userPhotoUrl' : dataTransaksi.userPhotoUrl,
 			'username' : dataTransaksi.username
 		}).then(function(result) {
-			console.log(JSON.stringify(result));
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.addQueue = function(kurir, idTransaksi) {
+		var promise = $q.defer();
+
+		queue.child(kurir +'/'+ idTransaksi).set({
+			'indexTransaksi' : idTransaksi
+		}).then(function(result) {
 			promise.resolve(true);
 		});
 
@@ -357,7 +369,7 @@ angular.module('app.services', [])
 
 		user.child(userData.index).update({
 			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
-			'phoneNumber' : userData.phoneNumber,
+			'noTelpUser' : userData.noTelpUser,
 			'name' : userData.name,
 			'email' : userData.email,
 			'location' : userData.location
@@ -366,6 +378,31 @@ angular.module('app.services', [])
 		});
 
 		return promise.promise;
+	}
+
+	this.addHistory = function(index, idTransaksi, kurir) {
+		var promise = $q.defer();
+
+		user.child(index +'/transaksi/'+ idTransaksi).set({
+			'indexTransaksi' : idTransaksi,
+			'kurir' : kurir
+		}).then(function(result) {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.getHistory = function(index) {
+		return promiseValue(
+			user.child(index +'/transaksi')
+		);
+	}
+
+	this.getTransaksiDetails = function(kurir, index) {
+		return promiseValue(
+			transaksi.child(kurir +'/'+ index)
+		);
 	}
 
 	function promiseAdded(obj) {

@@ -9,8 +9,7 @@
           <h3 style="text-align: center;">{{dataUser.name}}</h3>
         </div>
       </div>
-
-      <div class="mangan mangan-card">
+      <div class="card mangan-card">
         <div class="kontak-header">
           <p>PROFIL</p>
         </div>
@@ -20,34 +19,32 @@
             <i class="mangan-invoice-icon icon ion-ios-person"></i>
             <span class="mangan-line"><input type="text" style="font-size: 16px;" ng-model="dataUser.name"></span>
           </label>
-
+          
           <label class="item-input mangan-menu">
             <i class="mangan-invoice-icon icon ion-ios-email"></i>
-            <span class="mangan-line"><input type="text" style="font-size: 16px;" ng-model="dataUser.email" required></span>
+            <span class="mangan-line"><input type="text" style="font-size: 16px;" ng-model="dataUser.email"></span>
           </label>
-
+        
           <label class="item-input mangan-menu">
             <i class="mangan-invoice-icon icon ion-ios-location"></i>
-            <span class="mangan-line"><input type="text" style="font-size: 16px;" ng-model="dataUser.location" required></span>
+            <span class="mangan-line"><input type="text" style="font-size: 16px;" ng-model="dataUser.location"></span>
           </label>
 
-          <label class="item-input mangan-menu" style="margin-left: 18px;">
-            <button class="button button-small button-balanced button-clear" style="font-size: 14px;" ng-click="pickLocation()">Pilih Lokasi</button>
-          </label>
+          <label class="item-input mangan-menu" style="margin-left: 18px;"><button class="button button-small button-balanced button-clear" style="font-size: 14px;" ng-click="pickLocation()">Pilih Lokasi</button></label>
 
           <label class="item-input mangan-menu">
             <i class="mangan-invoice-icon icon ion-ios-telephone"></i>
-            <span class="mangan-line"><input type="number" style="font-size: 16px;" ng-model="dataUser.phoneNumber" required=""></span>
+            <span class="mangan-line"><input type="number" style="font-size: 16px;" ng-model="dataUser.noTelpUser"></span>
           </label>
 
-          <button class="button button-block button-oren button-outline" ng-click="updateUserData()">Simpan</button>
-          
-          <center>
-            <button class="button button-clear button-balanced" ng-click="signOut()">Log Out</button>
-          </center>
+          <button class="button button-block button-oren button-outline" ng-click="">Simpan</button>
         </div>
       </div>
 
-  </div>
-</ion-content>
+      <button class="button button-block button-oren button-outline" ng-click="updateUserData()">Simpan</button>
+      <label class="item"> 
+        <center><button class="button button-clear button-balanced" ng-click="signOut()">Log Out</button></center>
+      </label>
+    </div>
+  </ion-content>
 </ion-view>

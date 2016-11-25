@@ -205,7 +205,6 @@ p {
 	border-right: 5px solid rgb(230, 231, 232);
 }*/
 
-
 .card .item:first-child {
 	/*// border: 5px solid rgb(230, 231, 232);*/
 	border-top: 1px solid rgb(230, 231, 232);
@@ -214,6 +213,7 @@ p {
 .card .item:last-child {
 	/*// border: 5px solid rgb(230, 231, 232);*/
 	border-bottom: 1px solid rgb(230, 231, 232);
+
 }
 
 .mangan-menu-selengkapnya {
@@ -750,14 +750,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', end
 	}
 }
 
-.card .item:first-child, .list-inset .item:first-child, .padding > .list .item:first-child {
-	border-top-left-radius: 0;
-     border-top-right-radius: 0;
-}
-
 .mangan-bottom {
 	text-align: center;
 	padding: 0 10px;
+     border-top-right-radius: 0; 
+     border-top: 0;
+}
+
+.card .item:last-child, .list-inset .item:last-child, .padding > .list .item:last-child{
+	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 
