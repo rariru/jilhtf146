@@ -286,6 +286,27 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+  .state('tabsController.ulasanPengguna',{
+    url: '/ulasanPengguna',
+    views: {
+      'tab1':{
+        templateUrl:'templates/ulasanPengguna.html',
+        controller:'ulasanPenggunaCtrl'
+      },
+      'tab2':{
+        templateUrl:'templates/ulasanPengguna.html',
+        controller:'ulasanPenggunaCtrl'
+      },
+      'tab3':{
+        templateUrl:'templates/ulasanPengguna.html',
+        controller:'ulasanPenggunaCtrl'
+      }
+    },
+    params: {
+      transaksi: null
+    }
+  })
+
   .state('login', {
     url: '/login-page',
     templateUrl: 'templates/login.html',
