@@ -352,6 +352,22 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
+	this.updateUserData = function(userData) {
+		var promise = $q.defer();
+
+		user.child(userData.index).update({
+			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
+			'phoneNumber' : userData.phoneNumber,
+			'name' : userData.name,
+			'email' : userData.email,
+			'location' : userData.location
+		}).then(function(result) {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
 	function promiseAdded(obj) {
 		var promise = $q.defer();
 
