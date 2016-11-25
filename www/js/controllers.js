@@ -2363,7 +2363,6 @@ angular.module('app.controllers', [])
 	}).then(function(modal) { $scope.maps = modal; });
 })
 
-<<<<<<< HEAD
 .controller('transaksiCtrl', function($scope, $state, $stateParams, Services, $ionicHistory) {
 	// code for transaksi
 	$scope.$on('$ionicView.enter', function() {
@@ -2390,8 +2389,8 @@ angular.module('app.controllers', [])
 			console.log('error get transactions :'+err);
 		})
 	}
-=======
+})
+
 .controller('ulasanPenggunaCtrl', function($scope, $state, $stateParams) {
 	// code here
->>>>>>> 23ca1dbd3936651997a6fd1e0b0706ccc95342cc
 })
