@@ -8,6 +8,7 @@
             spinner = "ripple" >
         </ion-refresher>
 
+<<<<<<< HEAD
         <div class="card mangan-card" ng-show="dataUser">
             <a class="mangan-menu item" style="background-color:#f9f9f9;border-left:0px;border-right:0px;" ng-click="openProfile()" ion-ripple>
                 <center><img ng-src="{{dataUser.photoUrl}}" width="30%" height="auto" style="margin-bottom: 5px; border-radius: 50%;"></center>
@@ -26,6 +27,30 @@
                 <span class="col col-25" style="padding:0;">
                     <button class="mangan-tombol-aksi" ui-sref="tabsController.transaksi" ion-ripple>
                         <i class="mangan-icon icon ion-ios-cart"></i>
+=======
+
+        <div class="card mangan-card" ng-show="dataUser" >
+            <a class="mangan-menu item" style="background-color:#f9f9f9;border-left:0px;border-right:0px;" ng-click="openProfile()"ion-ripple>
+                <center><img ng-src="{{dataUser.photoUrl}}" width="30%" height="auto" style="margin-bottom: 5px; border-radius: 50%;"></center>
+                <center><h2>{{dataUser.name}}</h2></center>
+                <center><p>{{dataUser.email}}</p></center>
+                <center><p>Karanganyar</p></center>
+            </a>
+
+            <div class="row mangan-selengkapnya">
+              <!--   <span class="col col-75" style="padding:0;margin-top: 3px;">
+                    <a ui-sref="tabsController.restoran({index: restoran.index})" id="tersimpan-button18" class="button button-positive button-small">SELENGKAPNYA</a>
+                </span> -->
+                <span class="col col-25"></span>
+                <span class="col" style="padding:0;">
+                    <button class="mangan-tombol-aksi">
+                        <i class="mangan-icon icon ion-person"></i>
+                    </button>
+                </span>
+                 <span class="col" style="padding:0;">
+                    <button class="mangan-tombol-aksi">
+                        <i class="mangan-icon icon ion-android-cart"></i>
+>>>>>>> 23ca1dbd3936651997a6fd1e0b0706ccc95342cc
                     </button>
                 </span>
             </div>
