@@ -14,8 +14,21 @@
                 <center><h2>{{dataUser.name}}</h2></center>
                 <center><p>{{dataUser.email}}</p></center>
                 <center><p>{{dataUser.location}}</p></center>
-                <center><i class="icon ion-compose" style="font-size: 20px; color: orangered; opacity: 0.5; "></i></center>
             </a>
+            <div class="row mangan-selengkapnya">
+                <span class="col col-25" style="padding:0;"></span>
+                <span class="col col-25" style="padding:0;">
+                    <button class="mangan-tombol-aksi" ng-click="openProfile()">
+                        <i class="mangan-icon icon ion-ios-person"></i>
+                    </button>
+                </span>
+                <span class="col col-20" style="padding:0;"></span>
+                <span class="col col-25" style="padding:0;">
+                    <button class="mangan-tombol-aksi" ui-sref="tabsController.transaksi" ion-ripple>
+                        <i class="mangan-icon icon ion-ios-cart"></i>
+                    </button>
+                </span>
+            </div>
         </div>
         
         <div ng-show="nodata && !notersimpan" class="mangan-nodata">

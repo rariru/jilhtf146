@@ -1,0 +1,22 @@
+{{transactions}}
+<ion-view title="Transaksi" id="transaksi">
+    <ion-content lazy-scroll padding="true" class="has-header">
+<!--         <ion-refresher
+            pulling-text="Lepas untuk memperbarui"
+            on-refresh="getHistory(uid)"
+            spinner = "ripple" >
+        </ion-refresher> -->
+        <div class="mangan-nodata" ng-hide="transactions.length > 0">
+            <center><i class="ion-ios-nutrition"></i></center>
+            <p>Anda belum melakukan transaksi</p>
+        </div>
+        <ion-list>
+            <ion-item class="item-thumbnail-left assertive item-text-wrap" ng-repeat="transaction in transactions | orderObjectBy: 'tgl' :true">
+            	<img ng-src="{{transaction.pesanan[0].gambar}}">
+                <h2>{{transaction.namaResto}}</h2>
+                <p>{{transaction.status}}</p>
+                <p>{{transaction.kurir}}</p>
+            </ion-item>
+        </ion-list>
+    </ion-content>
+</ion-view>

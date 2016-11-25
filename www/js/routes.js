@@ -226,7 +226,6 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
-
   .state('tabsController.promo', {
     url: '/promo',
     views: {
@@ -299,6 +298,16 @@ angular.module('app.routes', ['ionicUIRouter'])
       'tab3': {
         templateUrl: 'templates/profil.html',
         controller: 'profilCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.transaksi', {
+    url: '/transaksi',
+    views: {
+      'tab3': {
+        templateUrl: 'templates/transaksi.html',
+        controller: 'transaksiCtrl'
       }
     }
   });
