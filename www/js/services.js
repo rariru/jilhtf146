@@ -87,7 +87,7 @@ angular.module('app.services', [])
 
 	this.getRestoranReviews = function(id) {
 		return promiseValue(
-			firebase.database().ref('reviewRating/'+ id).orderByChild('tglReview')
+			review.child(id).orderByChild('tglReview')
 			);
 	}
 
@@ -200,7 +200,7 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
-	this.updateRatingReview = function(resto, user, userRating, userReview) {
+	this.updateRatingReview = function(resto, user, userPhotoUrl, userRating, titleReview, userReview) {
 		// this.getRestoranReviews(resto).then(function(result) {
 		// 	var ratingReviews = result;
 		// 	console.log(ratingReviews);
@@ -226,8 +226,10 @@ angular.module('app.services', [])
 
 		review.child(resto +'/'+ user).set({
 			'rating': userRating,
+			'titleReview': titleReview || null,
 			'review' : userReview || null,
-			'reviewer': user,
+			'username': user,
+			'userPhotoUrl': userPhotoUrl,
 			'tglReview': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
 			promise.resolve(true);

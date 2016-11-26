@@ -134,25 +134,25 @@
 
 
 
-            <div class="mangan-kontak-header kontak-header">
+            <!-- <div class="mangan-kontak-header kontak-header">
                 <p>Ulasan Pengunjung</p>
             </div>
             <div class="mangan-menu-list list">
-                <div class="item item-text-wrap">
+                <div class="item item-text-wrap" ng-hide="reviews != null">
                     <center><p style="font-weight: bold;">Tulis Ulasan Pertama</p></center>
                 </div>
-
-                <div ng-repeat="review in reviews" ng-hide="true">
+                
+                <div ng-repeat="review in reviews" ng-show="reviews != null">
                     <div class="item item-avatar item-text-wrap">
-                        <img image-lazy-src="img/anonim.jpg" image-lazy-distance-from-bottom-to-load="50">
-                        <h2>{{review.reviewer}}</h2>
+                        <img image-lazy-src={{review.userPhotoUrl}} image-lazy-distance-from-bottom-to-load="50">
+                        <h2>{{review.username}}</h2>
                         <p>{{review.review}}</p>
                     </div>
                 </div>
             </div>
             <div class="mangan-menu-selengkapnya" style="text-align: center;">
                 <button class="button button-oren button-outline button-block" ng-click="openRating()" ion-ripple><i class="icon ion-ios-paper-outline"></i> TULIS ULASAN</button>
-            </div>
+            </div> -->
 
 
         </div>
