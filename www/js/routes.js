@@ -303,7 +303,8 @@ angular.module('app.routes', ['ionicUIRouter'])
       }
     },
     params: {
-      transaksi: null
+      namaResto: null,
+      indexResto: null
     }
   })
 

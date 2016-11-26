@@ -293,7 +293,7 @@ angular.module('app.controllers', [])
     });
 
     $timeout(function() {
-    	loadingIndicator.hide();
+    	$ionicLoading.hide();
     	if(!loadFlag) {
     		makeToast('Koneksi tidak stabil');
     	}
@@ -308,7 +308,7 @@ angular.module('app.controllers', [])
 
 	$scope.restoran = null;
 	$scope.menus = null;
-	$scope.reviews = [];
+	$scope.reviews = null;
 	$scope.user = {
 		rating: 5
 	};
@@ -348,6 +348,7 @@ angular.module('app.controllers', [])
 						// 		// console.log('success');
 						// 	}
 						// });
+						refreshRatingReview();
 					} else {
 						makeToast('Error, tidak ada menu', 1500, 'bottom');
 						console.log('gaada menu');
@@ -400,19 +401,71 @@ angular.module('app.controllers', [])
 		// console.log(uid);
 		// console.log('\t'+ $scope.user.review);
 		// console.log('\t'+ $scope.user.rating);
+		var user = firebase.auth().currentUser;
+		if (user) {
+			user.providerData.forEach(function(profile) {
+				Services.getProfileByUid(profile.uid).then(function(dataUser) {
+					if (dataUser) {
+						$scope.dataUser = dataUser;
+						console.log(JSON.stringify(dataUser));
+						Services.updateRatingReview(
+							$scope.restoran.index, 
+							$scope.dataUser.name, 
+							$scope.dataUser.photoUrl,
+							$scope.user.rating,
+							$scope.user.titleReview,
+							$scope.user.review
+						).then(function(result) {
+							$scope.reviews = null;
+							refreshRatingReview();
+						}, function(reason) {
+							console.log('gagal review');
+						});
+					} else {
+						console.log('profil no dataUser found with uid:'+uid);
+					}
+				});
+			});
+		} else {
+			$ionicPopup.alert({
+				title: 'Belum login',
+				template: '<center>Kamu harus login dulu</center>',
+				okText: 'OK',
+				okType: 'button-balanced'
+			});
+			$state.go('login');
+		};
 
-		Services.updateRatingReview($scope.restoran.index, $scope.user.reviewer, $scope.user.rating, $scope.user.review);
+		
 		$scope.modalRating.hide();
 
 		// if(!$scope.reviews) {
 		// 	$scope.reviews = [];
 		// }
 
-		$scope.reviews[$scope.user.reviewer] = {
-			reviewer: $scope.user.reviewer,
-			review: $scope.user.review
-		};
+		// $scope.reviews[$scope.user.reviewer] = {
+		// 	reviewer: $scope.user.reviewer,
+		// 	review: $scope.user.review
+		// };
 	};
+
+	function refreshRatingReview() {
+		Services.getRestoranReviews($stateParams.index).then(function(reviews) {
+			if(reviews) {
+				for(var r in reviews) {
+					if(reviews[r].review == undefined || reviews[r].review == null) {
+						delete reviews[r];
+					}
+				}
+				$scope.reviews = reviews;
+
+				console.log('success');
+			}
+		}, function(reason) {
+			console.log(JSON.stringify(reason));
+			console.log('gagal');
+		});
+	}
 
 
 	///////////////////////////////////////////////////////////
@@ -502,17 +555,19 @@ angular.module('app.controllers', [])
 		// });
 		
 		// Kode asli
+		// cek sdh login blm, blm munculnotif utk login
+		//else
 		// $scope.modalRating.show();
 
 		// Coming Soon
 		analytics.trackEvent('Coming Soon', 'Ulasan Pengguna', 'Tombol Ulasan', 10);
 		console.log('trackEvent, Coming Soon, Ulasan Pengguna, Tombol Ulasan');
-		$ionicPopup.alert({
-			title: 'Coming Soon',
-			template: '<center>Layanan ini akan segera hadir</center>',
-			okText: 'OK',
-			okType: 'button-balanced'
-		});
+		var user = firebase.auth().currentUser;
+		if (user) {
+			$scope.modalRating.show();
+		} else {
+			$state.go('login');
+		}
 	};
 
 	$scope.pesan = function() {
@@ -536,10 +591,10 @@ angular.module('app.controllers', [])
 		// 	okText: 'OK',
 		// 	okType: 'button-balanced'
 		// });
-	}
+	};
 
 	$scope.ulasanPengguna = function() {
-		$state.go('tabsController.ulasanPengguna');
+		$state.go('tabsController.ulasanPengguna', {'namaResto': $scope.restoran.namaResto, 'indexResto': $scope.restoran.index});
 	}
 
 	function makeToast(_message) {
@@ -571,7 +626,7 @@ angular.module('app.controllers', [])
     });
 
     $timeout(function() {
-    	loadingIndicator.hide();
+    	$ionicLoading.hide();
     	if(!loadFlag) {
     		makeToast('Koneksi tidak stabil');
     	}
@@ -1708,7 +1763,7 @@ angular.module('app.controllers', [])
     });
 
     $timeout(function() {
-    	loadingIndicator.hide();
+    	$ionicLoading.hide();
     	if(!loadFlag) {
     		makeToast('Koneksi tidak stabil');
     	}
@@ -2007,7 +2062,7 @@ angular.module('app.controllers', [])
     });
 
     $timeout(function() {
-    	loadingIndicator.hide();
+    	$ionicLoading.hide();
     	if(!loadFlag) {
     		makeToast('Koneksi tidak stabil');
     	}
@@ -2391,6 +2446,166 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('ulasanPenggunaCtrl', function($scope, $state, $stateParams) {
+.controller('ulasanPenggunaCtrl', function($scope, $state, $stateParams, $ionicLoading, $ionicModal, $timeout, Services) {
 	// code here
+	var loadFlag = false;
+	var loadingIndicator = $ionicLoading.show({
+      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
+    });
+
+    $timeout(function() {
+    	$ionicLoading.hide();
+    	if(!loadFlag) {
+    		makeToast('Koneksi tidak stabil');
+    	}
+    }, 10000);
+
+	$scope.$on('$ionicView.enter', function() {
+		analytics.trackView('Kuliner');
+		console.log('trackView, Kuliner');
+		analytics.trackEvent('Kuliner', 'ReviewPengguna', $stateParams.index, 5);
+		console.log('trackEvent, Kuliner, ReviewPengguna, '+$stateParams.index);
+	});
+
+	$scope.namaResto = $stateParams.namaResto;
+	$scope.indexResto = $stateParams.indexResto;
+	$scope.jmlReview = 0;
+	$scope.reviews = null;
+	$scope.user = {
+		rating: 5
+	};
+
+	$scope.ratingsObject = {
+		iconOn: 'ion-ios-star',
+		iconOff: 'ion-ios-star-outline',
+		iconOnColor: 'orangered',
+		iconOffColor: 'grey',
+		rating: $scope.user.rating,
+		minRating: 1,
+		callback: function(rating) {
+			$scope.ratingsCallback(rating);
+		}
+	};
+
+	$scope.ratingsCallback = function(rating) {
+		// console.log('Select', rating);
+		$scope.user.rating = rating;
+	};
+
+	$scope.saveRatingReview = function() {
+		// console.log(uid);
+		// console.log('\t'+ $scope.user.review);
+		// console.log('\t'+ $scope.user.rating);
+		var user = firebase.auth().currentUser;
+		if (user) {
+			user.providerData.forEach(function(profile) {
+				Services.getProfileByUid(profile.uid).then(function(dataUser) {
+					if (dataUser) {
+						$scope.dataUser = dataUser;
+						console.log(JSON.stringify(dataUser));
+						Services.updateRatingReview(
+							$scope.indexResto, 
+							$scope.dataUser.name, 
+							$scope.dataUser.photoUrl,
+							$scope.user.rating,
+							$scope.user.titleReview,
+							$scope.user.review
+						).then(function(result) {
+							// $scope.reviews = null;
+							$scope.refreshRatingReview();
+						}, function(reason) {
+							console.log('gagal review');
+							makeToast('Gagal menambahkan ulasan');
+						});
+					} else {
+						console.log('profil no dataUser found with uid:'+uid);
+					}
+				});
+			});
+		} else {
+			$ionicPopup.alert({
+				title: 'Belum login',
+				template: '<center>Kamu harus login dulu</center>',
+				okText: 'OK',
+				okType: 'button-balanced'
+			});
+			$state.go('login');
+		};
+
+		
+		$scope.modalRating.hide();
+
+		// if(!$scope.reviews) {
+		// 	$scope.reviews = [];
+		// }
+
+		// $scope.reviews[$scope.user.reviewer] = {
+		// 	reviewer: $scope.user.reviewer,
+		// 	review: $scope.user.review
+		// };
+	};
+
+	$scope.refreshRatingReview = function() {
+		$scope.jmlReview = 0;
+		Services.getRestoranReviews($stateParams.indexResto).then(function(reviews) {
+			if(reviews) {
+				for(var r in reviews) {
+					if(reviews[r].review == undefined || reviews[r].review == null) {
+						delete reviews[r];
+					} else {
+						$scope.jmlReview++;
+					}
+				}
+				$scope.reviews = reviews;
+
+				console.log('success');
+				loadFlag = true;
+			}
+
+			$ionicLoading.hide();
+		}, function(reason) {
+			console.log(JSON.stringify(reason));
+			console.log('gagal');
+			$ionicLoading.hide();
+		});
+	};
+	$scope.refreshRatingReview();
+
+
+	///////////////////////////////////////////////////////////
+	//
+	// MODAL SECTION
+	//
+	///////////////////////////////////////////////////////////
+
+	$ionicModal.fromTemplateUrl('templates/rating.html', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal) { $scope.modalRating = modal; });
+
+	$scope.openRating = function() {
+		// Kode asli
+		// cek sdh login blm, blm munculnotif utk login
+		//else
+		// $scope.modalRating.show();
+
+		// Coming Soon
+		analytics.trackEvent('Coming Soon', 'Ulasan Pengguna', 'Tombol Ulasan', 10);
+		console.log('trackEvent, Coming Soon, Ulasan Pengguna, Tombol Ulasan');
+		var user = firebase.auth().currentUser;
+		if (user) {
+			$scope.modalRating.show();
+		} else {
+			$state.go('login');
+		}
+	};
+
+	function makeToast(_message) {
+		window.plugins.toast.showWithOptions({
+			message: _message,
+			duration: 1500,
+			position: 'bottom',
+			addPixelsY: -40
+		});
+	}
 })
