@@ -502,17 +502,19 @@ angular.module('app.controllers', [])
 		// });
 		
 		// Kode asli
+		// cek sdh login blm, blm munculnotif utk login
+		//else
 		// $scope.modalRating.show();
 
 		// Coming Soon
 		analytics.trackEvent('Coming Soon', 'Ulasan Pengguna', 'Tombol Ulasan', 10);
 		console.log('trackEvent, Coming Soon, Ulasan Pengguna, Tombol Ulasan');
-		$ionicPopup.alert({
-			title: 'Coming Soon',
-			template: '<center>Layanan ini akan segera hadir</center>',
-			okText: 'OK',
-			okType: 'button-balanced'
-		});
+		var user = firebase.auth().currentUser;
+		if (user) {
+			$scope.modalRating.show();
+		} else {
+			$state.go('login');
+		}
 	};
 
 	$scope.pesan = function() {
@@ -536,7 +538,7 @@ angular.module('app.controllers', [])
 		// 	okText: 'OK',
 		// 	okType: 'button-balanced'
 		// });
-	}
+	};
 
 	function makeToast(_message) {
 		window.plugins.toast.showWithOptions({
