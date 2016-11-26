@@ -226,7 +226,6 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
-
   .state('tabsController.promo', {
     url: '/promo',
     views: {
@@ -287,6 +286,27 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+  .state('tabsController.ulasanPengguna',{
+    url: '/ulasanPengguna',
+    views: {
+      'tab1':{
+        templateUrl:'templates/ulasanPengguna.html',
+        controller:'ulasanPenggunaCtrl'
+      },
+      'tab2':{
+        templateUrl:'templates/ulasanPengguna.html',
+        controller:'ulasanPenggunaCtrl'
+      },
+      'tab3':{
+        templateUrl:'templates/ulasanPengguna.html',
+        controller:'ulasanPenggunaCtrl'
+      }
+    },
+    params: {
+      transaksi: null
+    }
+  })
+
   .state('login', {
     url: '/login-page',
     templateUrl: 'templates/login.html',
@@ -299,6 +319,16 @@ angular.module('app.routes', ['ionicUIRouter'])
       'tab3': {
         templateUrl: 'templates/profil.html',
         controller: 'profilCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.transaksi', {
+    url: '/transaksi',
+    views: {
+      'tab3': {
+        templateUrl: 'templates/transaksi.html',
+        controller: 'transaksiCtrl'
       }
     }
   });

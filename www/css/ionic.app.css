@@ -10311,10 +10311,12 @@ p {
       background-color: #DD4B39;
       border-color: #dc4330; }
 
-.card .item:first-child, .list-inset .item:first-child, .padding > .list .item:first-child {
-  border-top-left-radius: 0;
-  border-top-right-radius: 0; }
-
 .mangan-bottom {
   text-align: center;
-  padding: 0 10px; }
+  padding: 0 10px;
+  border-top-right-radius: 0;
+  border-top: 0; }
+
+.card .item:last-child, .list-inset .item:last-child, .padding > .list .item:last-child {
+  border-bottom-right-radius: 0;
+  border-bottom-left-radius: 0; }
