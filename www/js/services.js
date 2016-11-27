@@ -69,7 +69,7 @@ angular.module('app.services', [])
 
 	this.getAllRestorans = function(startDate) {
 		return promiseValue(
-			restoran.orderByChild('tglInput').endAt(startDate)//.limitToLast(10)
+			restoran.orderByChild('tglInput').endAt(startDate).limitToLast(10)
 			);
 	}
 
@@ -90,6 +90,24 @@ angular.module('app.services', [])
 			review.child(id).orderByChild('tglReview')
 			);
 	}
+
+		this.getJmlSad = function(id) {
+			return promiseValue(
+				restoran.child(id +'/jmlSad')
+				);
+		}
+
+		this.getJmlHappy = function(id) {
+			return promiseValue(
+				restoran.child(id +'/jmlHappy')
+				);
+		}
+
+		this.getJmlFavorite = function(id) {
+			return promiseValue(
+				restoran.child(id +'/jmlFavorite')
+				);
+		}
 
 	this.getRestoransByLocation = function(lon1, lon2) {
 		// console.log(lon1 +' | '+ lon2);
@@ -224,7 +242,20 @@ angular.module('app.services', [])
 
 		var promise = $q.defer();
 
-		review.child(resto +'/'+ user).set({
+		// 1. ini versi update,jadi 1 user cuma bisa kasih 1 komen,kalo komen lagi yg sebelumnya diupdate
+		// review.child(resto +'/'+ user).set({
+		// 	'rating': userRating,
+		// 	'titleReview': titleReview || null,
+		// 	'review' : userReview || null,
+		// 	'username': user,
+		// 	'userPhotoUrl': userPhotoUrl,
+		// 	'tglReview': firebase.database.ServerValue.TIMESTAMP
+		// }).then(function() {
+		// 	promise.resolve(true);
+		// });
+
+		// 2. ini versi add, 1 user bisa nambah komen berapapun
+		review.child(resto).push({
 			'rating': userRating,
 			'titleReview': titleReview || null,
 			'review' : userReview || null,
@@ -237,6 +268,63 @@ angular.module('app.services', [])
 
 		return promise.promise;
 	}
+
+		this.updateJmlSad = function(resto) {
+			var promise = $q.defer();
+
+			restoran.child(resto +'/jmlSad').once('value', function(jml) {
+				var jmlSad = jml;
+				if(typeof jmlSad === 'number' && jmlSad >= 1) {
+					jmlSad++;
+				} else {
+					jmlSad = 1;
+				}
+
+				restoran.child(resto +'/jmlSad').set(jmlSad).then(function() {
+					promise.resolve(true);
+				});
+			});
+
+			return promise.promise;
+		}
+
+		this.updateJmlHappy = function(resto, jmlHappy) {
+			var promise = $q.defer();
+
+			restoran.child(resto +'/jmlHappy').once('value', function(jml) {
+				var jmlHappy = jml;
+				if(typeof jmlHappy === 'number' && jmlHappy >= 1) {
+					jmlHappy++;
+				} else {
+					jmlHappy = 1;
+				}
+
+				restoran.child(resto +'/jmlHappy').set(jmlHappy).then(function() {
+					promise.resolve(true);
+				});
+			});
+
+			return promise.promise;
+		}
+
+		this.updateJmlFavorite = function(resto, jmlFavorite) {
+			var promise = $q.defer();
+
+			restoran.child(resto +'/jmlFavorite').once('value', function(jml) {
+				var jmlFavorite = jml;
+				if(typeof jmlFavorite === 'number' && jmlFavorite >= 1) {
+					jmlFavorite++;
+				} else {
+					jmlFavorite = 1;
+				}
+
+				restoran.child(resto +'/jmlFavorite').set(jmlFavorite).then(function() {
+					promise.resolve(true);
+				});
+			});
+
+			return promise.promise;
+		}
 
 	this.searchQuery = function(query) {
 		var promise = $q.defer();
