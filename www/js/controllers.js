@@ -417,6 +417,10 @@ angular.module('app.controllers', [])
 							$scope.user.review
 						).then(function(result) {
 							$scope.reviews = null;
+
+							Services.updateJmlSad($scope.restoran.index).then(function(result) {
+								refreshRatingReview();
+							});
 							refreshRatingReview();
 						}, function(reason) {
 							console.log('gagal review');
@@ -2469,7 +2473,13 @@ angular.module('app.controllers', [])
 
 	$scope.namaResto = $stateParams.namaResto;
 	$scope.indexResto = $stateParams.indexResto;
+	$scope.jmlSad = 0;
+	$scope.jmlHappy = 0;
+	$scope.jmlFavorite = 0;
 	$scope.jmlReview = 0;
+	$scope.sadSelected = false;
+	$scope.happySelected = true;
+	$scope.favoriteSelected = false;
 	$scope.reviews = null;
 	$scope.user = {
 		rating: 5
@@ -2492,6 +2502,27 @@ angular.module('app.controllers', [])
 		$scope.user.rating = rating;
 	};
 
+	$scope.sadFeedbackCallback = function() {
+		console.log('sad');
+		$scope.sadSelected = true;
+		$scope.happySelected = false;
+		$scope.favoriteSelected = false;
+	};
+
+	$scope.happyFeedbackCallback = function() {
+		console.log('happy');
+		$scope.sadSelected = false;
+		$scope.happySelected = true;
+		$scope.favoriteSelected = false;
+	};
+
+	$scope.favoriteFeedbackCallback = function() {
+		console.log('favorite');
+		$scope.sadSelected = false;
+		$scope.happySelected = false;
+		$scope.favoriteSelected = true;
+	};
+
 	$scope.saveRatingReview = function() {
 		// console.log(uid);
 		// console.log('\t'+ $scope.user.review);
@@ -2512,6 +2543,21 @@ angular.module('app.controllers', [])
 							$scope.user.review
 						).then(function(result) {
 							// $scope.reviews = null;
+
+							if($scope.sadSelected) {
+								Services.updateJmlSad($scope.indexResto).then(function(result) {
+									$scope.refreshRatingReview();
+								});
+							} else if($scope.happySelected) {
+								Services.updateJmlHappy($scope.indexResto).then(function(result) {
+									$scope.refreshRatingReview();
+								});
+							} else if($scope.favoriteSelected) {
+								Services.updateJmlFavorite($scope.indexResto).then(function(result) {
+									$scope.refreshRatingReview();
+								});
+							}
+
 							$scope.refreshRatingReview();
 						}, function(reason) {
 							console.log('gagal review');
@@ -2557,6 +2603,30 @@ angular.module('app.controllers', [])
 					}
 				}
 				$scope.reviews = reviews;
+
+				// get jml sad
+				Services.getJmlSad($stateParams.indexResto).then(function(jml) {
+					if(typeof jml === 'number' && jml >= 0)
+						$scope.jmlSad = jml;
+					else
+						$scope.jmlSad = 0;
+				});
+
+				// get jml happy
+				Services.getJmlHappy($stateParams.indexResto).then(function(jml) {
+					if(typeof jml === 'number' && jml >= 0)
+						$scope.jmlHappy = jml;
+					else
+						$scope.jmlHappy = 0;
+				});
+
+				// get jml favorite
+				Services.getJmlFavorite($stateParams.indexResto).then(function(jml) {
+					if(typeof jml === 'number' && jml >= 0)
+						$scope.jmlFavorite = jml;
+					else
+						$scope.jmlFavorite = 0;
+				});
 
 				console.log('success');
 				loadFlag = true;
