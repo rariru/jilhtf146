@@ -44,23 +44,23 @@
                 </span> -->
                 <span class="col col-20" style="padding:0;">
                 </span>
-                <span class="col col-25" style="padding:0;">
+                <span class="col col-25" style="padding:0;" ion-ripple>
                     <button class="mangan-tombol-aksi" ng-click="shareRestoran(restoran.index)">
                         <i class="mangan-icon icon ion-android-share-alt"></i>
                     </button>
                 </span>
-                <span ng-if="checkSavedRestoran(restoran.index) == false" class="col col-25" style="padding:0;">
+                <span ng-if="checkSavedRestoran(restoran.index) == false" class="col col-25" style="padding:0;" ion-ripple>
                     <button class="mangan-tombol-aksi" ng-click="saveRestoran(restoran.index)">
                         <i class="mangan-icon icon icon ion-android-favorite-outline"></i>
                     </button>
                 </span>
-                <span ng-if="checkSavedRestoran(restoran.index) == true" class="col col-25" style="padding:0;">
+                <span ng-if="checkSavedRestoran(restoran.index) == true" class="col col-25" style="padding:0;" ion-ripple>
                     <button class="mangan-tombol-aksi" ng-click="saveRestoran(restoran.index)">
                         <i class="mangan-icon icon icon ion-android-favorite" style="color:#c85054;"></i>
                     </button>
                 </span>
-                 <span class="col col-25" style="padding:0;">
-                    <button class="mangan-tombol-aksi">
+                 <span class="col col-25" style="padding:0;" ion-ripple>
+                    <button class="mangan-tombol-aksi" ui-sref="tabsController.restoran({index: restoran.index})">
                         <i class="mangan-icon icon ion-more"></i>
                     </button>
                 </span>

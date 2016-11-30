@@ -119,6 +119,14 @@ p {
 	background-position:center;
 }
 
+.mangan-greeting-gambar {
+	background: url('../img/cat.jpg');
+	background-position:center;
+	background-size: cover;
+	border-radius: 50%; 
+	border: 1px solid rgba(230, 231, 232, 0.8);
+}
+
 .mangan-reviewer {
 	background: url('../img/user.png');
 	background-position:center;
@@ -471,8 +479,11 @@ p {
 
 .mangan-menu-navigasi {
 	bottom: 0;
+	width: 100%;
+	height: 12%;
 	text-align: center;
-	padding: 10px;
+	padding: 8px;
+	position: fixed;
 	background-color: rgb(1, 178, 177);
 }
 
@@ -482,7 +493,7 @@ p {
 }
 
 #mangan-peta {
-	min-height: 92.5%;
+	height: 88%;
 	width: 100%;
 }
 
@@ -739,15 +750,16 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', end
 	}
 }
 
-.card .item:first-child, .list-inset .item:first-child, .padding > .list .item:first-child {
-	border-top-left-radius: 0;
+.mangan-bottom {
+	text-align: center;
+	padding: 0 10px;
      border-top-right-radius: 0; 
      border-top: 0;
 }
 
 .card .item:last-child, .list-inset .item:last-child, .padding > .list .item:last-child{
 	border-bottom-right-radius: 0;
-     border-bottom-left-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
 

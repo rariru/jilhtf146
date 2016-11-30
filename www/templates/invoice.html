@@ -49,17 +49,20 @@
         			<i class="mangan-invoice-icon icon ion-ios-location"></i>
         			<span class="mangan-line"><input type="text" placeholder="Alamat" ng-model="transaksi.alamatUser" required></span>
         		</label>
-        		<label class="item-input mangan-menu" style="margin-left: 18px;"><button class="button button-small" style="font-size: 12px; color:rgb(1,175,177); text-decoration:none;" ng-click="pickLocation()">Pilih Lokasi</button></label>
+        		<label class="item-input mangan-menu" style="margin-left: 18px;"><button class="button button-clear button-balanced button-small button-outline" style="font-size: 12px; color:rgb(1,175,177); text-decoration:none;" ng-click="pickLocation()">Pilih Lokasi</button></label>
         		<label class="item-input mangan-menu">
         			<i class="mangan-invoice-icon icon ion-ios-telephone"></i>
-        			<span class="mangan-line"><input type="number" placeholder="Telepon" ng-model="transaksi.noTelpUser"></span>
+        			<span class="mangan-line"><input type="number" placeholder="Telepon" ng-model="transaksi.noTelpUser" readonly></span>
         		</label>
+                <label class="item-input mangan-menu">
+                    <i class="mangan-invoice-icon icon ion-ios-chatboxes"></i>
+                    <span class="mangan-line"><input type="text" placeholder="LINE Username" ng-model="transaksi.lineUsername" readonly></span>
+                </label>
         		<label class="item-input item-select mangan-menu">
 				    <i class="mangan-invoice-icon icon ion-android-bicycle"></i>
 				    <span class=""><p class="input-label" style="color:#a3a3a3;">Kurir</p></span>
 				    <select ng-model="transaksi.kurir">
 				      <option value="omas">Omas (Ojek Mahasiswa)</option>
-				      <option value="solojek">Solojek</option>
 				    </select>
 
 				</label>
@@ -86,7 +89,7 @@
 			</div>
 
 		</div>
-            <button class="button button-block button-outline button-oren" ng-click="checkout()" ion-ripple>Checkout</button>
+            <button class="button button-block button-outline button-oren" ng-click="checkout()" ion-ripple>CHECKOUT</button>
 
     </ion-content>
 </ion-view>

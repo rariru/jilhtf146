@@ -7,11 +7,14 @@
 
 		<ion-content has-header="true" padding="true">
 			<div class="mangan-rating">
-				<ionic-ratings ratingsobj='ratingsObject'></ionic-ratings>
+				<!-- <ionic-ratings ratingsobj='ratingsObject'></ionic-ratings> -->
+				<i class="ion-sad-outline" ng-hide="sadSelected" ng-click="sadFeedbackCallback()"></i> <i class="ion-sad" ng-show="sadSelected"></i> Sad 
+				<i class="ion-happy-outline" ng-hide="happySelected" ng-click="happyFeedbackCallback()"></i> <i class="ion-happy" ng-show="happySelected"></i> Happy
+				<i class="ion-android-favorite-outline" ng-hide="favoriteSelected" ng-click="favoriteFeedbackCallback()"></i> <i class="ion-android-favorite" ng-show="favoriteSelected"></i> Favorite
 			</div>
 			<div class="mangan-ulasan">
-				<h5>Nama Anda</h5>
-				<input type="text" ng-model="user.reviewer">
+				<h5>Judul Ulasan</h5>
+				<input type="text" ng-model="user.titleReview">
 			</div>
 			<div class="mangan-ulasan">
 				<h5>Ulasan</h5>
