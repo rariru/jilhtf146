@@ -1196,7 +1196,7 @@ angular.module('app.controllers', [])
 	}
 })
    
-.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading, $timeout, $localStorage, $http) {
+.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading, $timeout, $localStorage, $http, $ionicHistory) {
 	$scope.category = 'Tersimpan';
 	$scope.nodata = false;
 	$scope.notersimpan = false;
@@ -1222,6 +1222,10 @@ angular.module('app.controllers', [])
 	})
 
 	$scope.$on('$ionicView.enter', function() {
+		var stateBefore = $ionicHistory.backTitle()
+		if (stateBefore == "Invoice") {
+			$ionicHistory.removeBackView();
+		}
 		loadFlag = false;
 		$scope.nodata = false;
 		$scope.notersimpan = false;
@@ -2168,6 +2172,7 @@ angular.module('app.controllers', [])
 				if (dataUser) {
 					Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 						if (restoran) {
+							console.log(restoran.gambar);
 							if ($scope.transaksi) {
 								$scope.transaksi.pesanan = $scope.selectedMenus;
 							} else {
@@ -2176,6 +2181,8 @@ angular.module('app.controllers', [])
 									'alamatUser' : null,
 									'feedelivery' : 5000,
 									'indexResto' : restoran.index,
+									'keteranganBuka' : restoran.keteranganBuka,
+									'gambarResto' : restoran.gambar[0],
 									'indexTransaksi' : Date.now()+$scope.uid+restoran.index,
 									'jumlah' : null,
 									'kurir' : null,
@@ -2196,7 +2203,8 @@ angular.module('app.controllers', [])
 									'tgl' : firebase.database.ServerValue.TIMESTAMP,
 									'totalHarga' : null,
 									'userPhotoUrl' : dataUser.photoUrl,
-									'username' : $scope.uid
+									'username' : $scope.uid,
+									'lineUsername' : dataUser.lineUsername || null
 								}
 							}
 							$ionicLoading.hide();
@@ -2389,7 +2397,7 @@ angular.module('app.controllers', [])
 						console.log('complete add history');
 					});
 
-					$state.go('tabsController.transaksi');
+					$state.go('tabsController.tersimpan');
 				})
 			}, function(err) {
 				console.log(err);

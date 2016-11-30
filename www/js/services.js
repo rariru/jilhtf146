@@ -413,6 +413,8 @@ angular.module('app.services', [])
 			'alamatUser' : dataTransaksi.alamatUser,
 			'feedelivery' : dataTransaksi.feedelivery,
 			'indexResto' : dataTransaksi.indexResto,
+			'gambarResto' : dataTransaksi.gambarResto,
+			'keteranganBuka' :dataTransaksi.keteranganBuka,
 			'indexTransaksi' : dataTransaksi.indexTransaksi,
 			'jumlah' : dataTransaksi.jumlah,
 			'kurir' : dataTransaksi.kurir,
@@ -434,7 +436,8 @@ angular.module('app.services', [])
 			'tgl' : dataTransaksi.tgl,
 			'totalHarga' : dataTransaksi.totalHarga,
 			'userPhotoUrl' : dataTransaksi.userPhotoUrl,
-			'username' : dataTransaksi.username
+			'username' : dataTransaksi.username,
+			'lineUsername' : dataTransaksi.lineUsername
 		}).then(function(result) {
 			promise.resolve(true);
 		});
@@ -462,7 +465,8 @@ angular.module('app.services', [])
 			'noTelpUser' : userData.noTelpUser,
 			'name' : userData.name,
 			'email' : userData.email,
-			'location' : userData.location
+			'location' : userData.location,
+			'lineUsername' : userData.lineUsername
 		}).then(function(result) {
 			promise.resolve(true);
 		});
