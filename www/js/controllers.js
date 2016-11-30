@@ -735,7 +735,7 @@ angular.module('app.controllers', [])
 	}
 })
   
-.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup, $cordovaAppVersion, $cordovaGeolocation, $http) {
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup, $cordovaAppVersion, $cordovaGeolocation, $http, $ionicHistory) {
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
       duration: 5000
@@ -753,7 +753,12 @@ angular.module('app.controllers', [])
 				}
 			});
 		} else {
-			$scope.dataUser = "";
+			console.log('mumet');
+			$scope.dataUser = {
+				'name' : 'Mumeet',
+				'photoUrl' : 'img/cat.jpg'
+			};
+			console.log(JSON.stringify($scope.dataUser));
 		}
 	})
 
@@ -864,10 +869,9 @@ angular.module('app.controllers', [])
 	$scope.getProfileByUid = function(uid) {
 		Services.getProfileByUid(uid).then(function(dataUser) {
 			if (dataUser) {
-				$scope.dataUser = dataUser
-				console.log(JSON.stringify(dataUser));
+				$scope.dataUser = dataUser;
 			} else {
-				console.log('profil no dataUser found with uid:'+uid);
+				$scope.dataUser = "";
 			}
 		})
 	}
@@ -1222,10 +1226,6 @@ angular.module('app.controllers', [])
 	})
 
 	$scope.$on('$ionicView.enter', function() {
-		var stateBefore = $ionicHistory.backTitle()
-		if (stateBefore == "Invoice") {
-			$ionicHistory.removeBackView();
-		}
 		loadFlag = false;
 		$scope.nodata = false;
 		$scope.notersimpan = false;
@@ -2397,7 +2397,14 @@ angular.module('app.controllers', [])
 						console.log('complete add history');
 					});
 
-					$state.go('tabsController.tersimpan');
+					$ionicHistory.nextViewOptions({
+						disableBack: true
+					}, function(err) {
+						console.log('fail '+err);
+					});
+
+					delete $scope.transaksi;
+					$state.go('tabsController.transaksi');
 				})
 			}, function(err) {
 				console.log(err);
