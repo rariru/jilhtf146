@@ -522,5 +522,9 @@ angular.module('app.services', [])
 
 		return promise.promise;
 	}
+})
+
+.service('Analytics', function() {
+	
 });
 
