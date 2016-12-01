@@ -327,6 +327,14 @@ angular.module('app.routes', ['ionicUIRouter'])
   .state('tabsController.transaksi', {
     url: '/transaksi',
     views: {
+      'tab1':{
+        templateUrl:'templates/transaksi.html',
+        controller:'transaksiCtrl'
+      },
+      'tab2':{
+        templateUrl:'templates/transaksi.html',
+        controller:'transaksiCtrl'
+      },
       'tab3': {
         templateUrl: 'templates/transaksi.html',
         controller: 'transaksiCtrl'

@@ -735,7 +735,7 @@ angular.module('app.controllers', [])
 	}
 })
   
-.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup, $cordovaAppVersion, $cordovaGeolocation, $http) {
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup, $cordovaAppVersion, $cordovaGeolocation, $http, $ionicHistory) {
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
       duration: 5000
@@ -753,7 +753,12 @@ angular.module('app.controllers', [])
 				}
 			});
 		} else {
-			$scope.dataUser = "";
+			console.log('mumet');
+			$scope.dataUser = {
+				'name' : 'Mumeet',
+				'photoUrl' : 'img/cat.jpg'
+			};
+			console.log(JSON.stringify($scope.dataUser));
 		}
 	})
 
@@ -864,10 +869,9 @@ angular.module('app.controllers', [])
 	$scope.getProfileByUid = function(uid) {
 		Services.getProfileByUid(uid).then(function(dataUser) {
 			if (dataUser) {
-				$scope.dataUser = dataUser
-				console.log(JSON.stringify(dataUser));
+				$scope.dataUser = dataUser;
 			} else {
-				console.log('profil no dataUser found with uid:'+uid);
+				$scope.dataUser = "";
 			}
 		})
 	}
@@ -1196,7 +1200,7 @@ angular.module('app.controllers', [])
 	}
 })
    
-.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading, $timeout, $localStorage, $http) {
+.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading, $timeout, $localStorage, $http, $ionicHistory) {
 	$scope.category = 'Tersimpan';
 	$scope.nodata = false;
 	$scope.notersimpan = false;
@@ -2065,6 +2069,8 @@ angular.module('app.controllers', [])
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
     });
 
+    $scope.tambahan = {};
+
     $timeout(function() {
     	$ionicLoading.hide();
     	if(!loadFlag) {
@@ -2129,6 +2135,7 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.invoice = function() {
+		console.log($scope.tambahan.catatan);
 		$scope.selectedMenus = [];
 		for(var id in $scope.menus) {
 			if ($scope.menus[id].quantity > 0) {
@@ -2168,6 +2175,7 @@ angular.module('app.controllers', [])
 				if (dataUser) {
 					Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 						if (restoran) {
+							console.log(restoran.gambar);
 							if ($scope.transaksi) {
 								$scope.transaksi.pesanan = $scope.selectedMenus;
 							} else {
@@ -2176,6 +2184,8 @@ angular.module('app.controllers', [])
 									'alamatUser' : null,
 									'feedelivery' : 5000,
 									'indexResto' : restoran.index,
+									'keteranganBuka' : restoran.keteranganBuka,
+									'gambarResto' : restoran.gambar[0],
 									'indexTransaksi' : Date.now()+$scope.uid+restoran.index,
 									'jumlah' : null,
 									'kurir' : null,
@@ -2196,7 +2206,9 @@ angular.module('app.controllers', [])
 									'tgl' : firebase.database.ServerValue.TIMESTAMP,
 									'totalHarga' : null,
 									'userPhotoUrl' : dataUser.photoUrl,
-									'username' : $scope.uid
+									'username' : $scope.uid,
+									'lineUsername' : dataUser.lineUsername || null,
+									'tambahan' : $scope.tambahan.catatan || null
 								}
 							}
 							$ionicLoading.hide();
@@ -2389,6 +2401,13 @@ angular.module('app.controllers', [])
 						console.log('complete add history');
 					});
 
+					$ionicHistory.nextViewOptions({
+						disableBack: true
+					}, function(err) {
+						console.log('fail '+err);
+					});
+
+					delete $scope.transaksi;
 					$state.go('tabsController.transaksi');
 				})
 			}, function(err) {
