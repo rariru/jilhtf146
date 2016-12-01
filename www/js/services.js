@@ -437,7 +437,8 @@ angular.module('app.services', [])
 			'totalHarga' : dataTransaksi.totalHarga,
 			'userPhotoUrl' : dataTransaksi.userPhotoUrl,
 			'username' : dataTransaksi.username,
-			'lineUsername' : dataTransaksi.lineUsername
+			'lineUsername' : dataTransaksi.lineUsername || null,
+			'tambahan' : dataTransaksi.tambahan || null
 		}).then(function(result) {
 			promise.resolve(true);
 		});

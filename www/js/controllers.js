@@ -2069,6 +2069,8 @@ angular.module('app.controllers', [])
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
     });
 
+    $scope.tambahan = {};
+
     $timeout(function() {
     	$ionicLoading.hide();
     	if(!loadFlag) {
@@ -2133,6 +2135,7 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.invoice = function() {
+		console.log($scope.tambahan.catatan);
 		$scope.selectedMenus = [];
 		for(var id in $scope.menus) {
 			if ($scope.menus[id].quantity > 0) {
@@ -2204,7 +2207,8 @@ angular.module('app.controllers', [])
 									'totalHarga' : null,
 									'userPhotoUrl' : dataUser.photoUrl,
 									'username' : $scope.uid,
-									'lineUsername' : dataUser.lineUsername || null
+									'lineUsername' : dataUser.lineUsername || null,
+									'tambahan' : $scope.tambahan.catatan || null
 								}
 							}
 							$ionicLoading.hide();
