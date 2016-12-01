@@ -10113,21 +10113,21 @@ p {
   font-size: 40px; }
 
 .mangan-rating {
-  padding: 10px;
-  background-color: #e6e7e8; }
+  padding-top: 10px;
+  /*background-color: rgb(230, 231, 232);*/ }
 
 .mangan-ulasan {
   padding: 10px;
-  background-color: #e6e7e8;
-  border-top: 1px solid white; }
+  /*background-color: rgb(230, 231, 232);*/
+  /*border-top: 1px solid white;*/ }
 
-.mangan-ulasan > textarea,
-.mangan-ulasan > input {
-  width: 100%;
-  border: 2px solid grey;
-  padding: 5px;
-  border-radius: 2px; }
-
+/*.mangan-ulasan > textarea, 
+.mangan-ulasan > input{
+	width: 100%;
+	border: 2px solid grey;
+	padding: 5px;
+	border-radius: 2px;
+}*/
 .mangan-review-button {
   padding-top: 5px; }
 
@@ -10320,3 +10320,18 @@ p {
 .card .item:last-child, .list-inset .item:last-child, .padding > .list .item:last-child {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0; }
+
+input[disabled],
+select[disabled],
+textarea[disabled],
+input[readonly]:not(.cloned-text-input),
+textarea[readonly]:not(.cloned-text-input),
+select[readonly] {
+  background-color: white;
+  cursor: not-allowed; }
+
+input[type="radio"][disabled],
+input[type="checkbox"][disabled],
+input[type="radio"][readonly],
+input[type="checkbox"][readonly] {
+  background-color: transparent; }
