@@ -530,6 +530,29 @@ angular.module('app.services', [])
 })
 
 .service('Analytics', function() {
+
+	this.logView = function(viewName) {
+		addValue('trackView/'+ viewName);
+	}
+
+	this.logEvent = function(category, action, label) {
+		if(label)
+			addValue('trackEvent/'+ category +'/'+ action +'/'+ label);
+		else
+			addValue('trackEvent/'+ category +'/'+ action);
+	}
 	
+	function addValue(branch) {
+		firebase.database().ref('analytics/'+ branch).once('value', function(_value) {
+			var newValue = _value;
+			if(typeof newValue === 'number' && newValue >= 1) {
+				newValue++;
+			} else {
+				newValue = 1;
+			}
+
+			firebase.database().ref('analytics/'+ branch).set(newValue);
+		});
+	}
 });
 
