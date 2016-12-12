@@ -413,6 +413,8 @@ angular.module('app.services', [])
 			'alamatUser' : dataTransaksi.alamatUser,
 			'feedelivery' : dataTransaksi.feedelivery,
 			'indexResto' : dataTransaksi.indexResto,
+			'gambarResto' : dataTransaksi.gambarResto,
+			'keteranganBuka' :dataTransaksi.keteranganBuka,
 			'indexTransaksi' : dataTransaksi.indexTransaksi,
 			'jumlah' : dataTransaksi.jumlah,
 			'kurir' : dataTransaksi.kurir,
@@ -434,7 +436,9 @@ angular.module('app.services', [])
 			'tgl' : dataTransaksi.tgl,
 			'totalHarga' : dataTransaksi.totalHarga,
 			'userPhotoUrl' : dataTransaksi.userPhotoUrl,
-			'username' : dataTransaksi.username
+			'username' : dataTransaksi.username,
+			'lineUsername' : dataTransaksi.lineUsername || null,
+			'tambahan' : dataTransaksi.tambahan || null
 		}).then(function(result) {
 			promise.resolve(true);
 		});
@@ -462,7 +466,8 @@ angular.module('app.services', [])
 			'noTelpUser' : userData.noTelpUser,
 			'name' : userData.name,
 			'email' : userData.email,
-			'location' : userData.location
+			'location' : userData.location,
+			'lineUsername' : userData.lineUsername
 		}).then(function(result) {
 			promise.resolve(true);
 		});
@@ -521,6 +526,34 @@ angular.module('app.services', [])
 		});
 
 		return promise.promise;
+	}
+})
+
+.service('Analytics', function() {
+
+	this.logView = function(viewName) {
+		addValue('trackView/'+ viewName);
+	}
+
+	this.logEvent = function(category, action, label) {
+		if(label)
+			addValue('trackEvent/'+ category +'/'+ action +'/'+ label);
+		else
+			addValue('trackEvent/'+ category +'/'+ action);
+	}
+	
+	function addValue(branch) {
+		firebase.database().ref('analytics/'+ branch).once('value', function(_value) {
+			var newValue = _value.val();
+			console.log('_value: '+ _value.val());
+			if(typeof newValue === 'number' && newValue >= 1) {
+				newValue++;
+			} else {
+				newValue = 1;
+			}
+			console.log('newValue: '+ newValue);
+			firebase.database().ref('analytics/'+ branch).set(newValue);
+		});
 	}
 });
 

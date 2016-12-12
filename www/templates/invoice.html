@@ -26,10 +26,16 @@
   					</div>
 				</div>
 				<label class="item-input mangan-menu" style="margin-top:-5px;">
-        			<i class="mangan-invoice-icon icon ion-compose" style="font-size:12px; margin-right:5px;"></i>
-        			<span class=""><input type="text" placeholder="tambah catatan" style="font-size:12px; color:orangered;" ng-model="menu.note"></span>
+        			<i class="mangan-invoice-icon icon ion-compose" style="margin-right:5px;"></i>
+        			<span class=""><input type="text" placeholder="Tambah Catatan" style="color:orangered;" ng-model="menu.note"></span>
         		</label>
         	</div>
+            <div class="item item-divider">
+                Pesanan Tambahan
+            </div>
+            <div class="item mangan-menu">
+                <p>{{transaksi.tambahan}}</p>
+            </div>
 
             <div class="item mangan-menu" style="margin:0; text-align: center; border-left: 1px solid rgb(230,231,232);border-right: 1px solid rgb(230,231,232);">
                     <a class="" style="text-decoration: none; color: rgb(1,177,178); font-size: 14px;" ng-click="addOrder()"><i class="icon ion-plus"></i> Tambah Pesanan</a>
@@ -52,8 +58,12 @@
         		<label class="item-input mangan-menu" style="margin-left: 18px;"><button class="button button-clear button-balanced button-small button-outline" style="font-size: 12px; color:rgb(1,175,177); text-decoration:none;" ng-click="pickLocation()">Pilih Lokasi</button></label>
         		<label class="item-input mangan-menu">
         			<i class="mangan-invoice-icon icon ion-ios-telephone"></i>
-        			<span class="mangan-line"><input type="number" placeholder="Telepon" ng-model="transaksi.noTelpUser"></span>
+        			<span class="mangan-line"><input type="number" placeholder="Telepon" ng-model="transaksi.noTelpUser" readonly></span>
         		</label>
+                <label class="item-input mangan-menu">
+                    <i class="mangan-invoice-icon icon ion-ios-chatboxes"></i>
+                    <span class="mangan-line"><input type="text" placeholder="LINE Username" ng-model="transaksi.lineUsername" readonly></span>
+                </label>
         		<label class="item-input item-select mangan-menu">
 				    <i class="mangan-invoice-icon icon ion-android-bicycle"></i>
 				    <span class=""><p class="input-label" style="color:#a3a3a3;">Kurir</p></span>
