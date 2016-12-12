@@ -9,17 +9,31 @@
             <center><i class="ion-android-notifications-none"></i></center>
             <p>Tunggu promo menarik dari Kuliner favorit anda</p>
         </div>
-        <ion-list>
-            <ion-item class="item-thumbnail-left assertive item-text-wrap" ng-repeat="promo in promos | orderObjectBy: 'tglInput' :true track by promo.index" ng-click="openPromo(promo.indexResto)" ion-ripple>
+<!--         <ion-list>
+            <ion-item class="item-thumbnail-left assertive item-text-wrap" ng-repeat="promo in promos | orderObjectBy: 'tglInput' :true track by promo.index" ng-click="openPromo(promo.indexResto)">
                 <img image-lazy-src="{{ promo.url }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50">
                 <h2>{{promo.resto}}</h2>
                 <h3>{{promo.keterangan}}</h3>
                 <h3>Valid Hingga:</h3>
                 <h3>{{promo.valid}}</h3>
-<!--                 <span class="mangan-menu-review">
+                <span class="mangan-menu-review">
                     <i class="icon ion-ios-arrow-right" style="font-size: 40px; color: rgb(1,177,178); opacity: 0.5; "></i>
-                </span> -->
+                </span>
             </ion-item>
-        </ion-list>
+        </ion-list> -->
+
+        <div class="list card">
+            <div class="item item-body" ng-repeat="promo in promos | orderObjectBy: 'tglInput' :true track by promo.index" ng-click="openPromo(promo.indexResto)" style="border: 1px solid rgb(230,231,232)">
+                <img class="full-image" src="{{promo.url}}">
+                <h2>{{promo.namaPromo}}</h2>
+                <h2>{{promo.resto}}</h2>
+                <p>
+                    {{promo.keterangan}}
+                </p>
+                <p>
+                    <a class="subdued">Valid sampai : {{promo.valid}}</a>
+                </p>
+            </div>
+        </div>
     </ion-content>
 </ion-view>
