@@ -9,14 +9,14 @@
         </ion-refresher>
 
         <div class="card mangan-card" ng-show="dataUser" >
-            <a class="mangan-menu item" style="background-color:#f9f9f9;border-left:0px;border-right:0px;" ng-click="openProfile()" ion-ripple>
+            <a class="mangan-menu item" style="background-color:#f9f9f9;border:1px solid rgb(230,231,232);border-top-left-radius:10px;border-top-right-radius:10px;" ng-click="openProfile()" ion-ripple>
                 <center><img ng-src="{{dataUser.photoUrl}}" width="30%" height="auto" style="margin-bottom: 5px; border-radius: 50%;"></center>
                 <center><h2>{{dataUser.name}}</h2></center>
                 <center><p>{{dataUser.email}}</p></center>
                 <center><p>Karanganyar</p></center>
             </a>
 
-            <div class="row mangan-selengkapnya">
+            <div class="row mangan-selengkapnya" style="border-bottom-left-radius:10px;border-bottom-right-radius:10px;">
                 <span class="col col-25"></span>
                 <span class="col" style="padding:0;" ion-ripple>
                     <button class="mangan-tombol-aksi" ng-click="openProfile()">
