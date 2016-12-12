@@ -527,5 +527,33 @@ angular.module('app.services', [])
 
 		return promise.promise;
 	}
+})
+
+.service('Analytics', function() {
+
+	this.logView = function(viewName) {
+		addValue('trackView/'+ viewName);
+	}
+
+	this.logEvent = function(category, action, label) {
+		if(label)
+			addValue('trackEvent/'+ category +'/'+ action +'/'+ label);
+		else
+			addValue('trackEvent/'+ category +'/'+ action);
+	}
+	
+	function addValue(branch) {
+		firebase.database().ref('analytics/'+ branch).once('value', function(_value) {
+			var newValue = _value.val();
+			console.log('_value: '+ _value.val());
+			if(typeof newValue === 'number' && newValue >= 1) {
+				newValue++;
+			} else {
+				newValue = 1;
+			}
+			console.log('newValue: '+ newValue);
+			firebase.database().ref('analytics/'+ branch).set(newValue);
+		});
+	}
 });
 

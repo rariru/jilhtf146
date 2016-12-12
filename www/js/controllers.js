@@ -5,7 +5,7 @@ angular.module('app.controllers', [])
 	$scope.badge = $localStorage.badge;
 })
 
-.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing, $timeout) {
+.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing, $timeout, Analytics) {
 	var loadFlag = false;
 	$scope.nodata = false;
 	$scope.notersimpan = false;
@@ -36,9 +36,11 @@ angular.module('app.controllers', [])
 	// $scope.restorans = [];
 
 	$scope.$on('$ionicView.enter', function() {
-		analytics.trackView('Kategori '+$scope.category);
+		// analytics.trackView('Kategori '+$scope.category);
+		Analytics.logView('Kategori'+ $scope.category);
 		console.log('trackView, Kategori, '+$scope.category);
-		analytics.trackEvent('Kategori', 'Kategori Kuliner', $scope.category, 5);
+		// analytics.trackEvent('Kategori', 'Kategori Kuliner', $scope.category, 5);
+		Analytics.logEvent('Kategori', 'Kategori Kuliner', $scope.category);
 		console.log('trackEvent, Kategori Kuliner, '+$scope.category);
 
 		failCounter = 0;
@@ -75,14 +77,16 @@ angular.module('app.controllers', [])
 	$scope.saveRestoran = function(index) {
 		if(Services.checkSavedRestoran(index)) {
 			Services.deleteRestoran(index).then(function() {
-				analytics.trackEvent('Simpan Kuliner', 'Hapus Simpan', index, 5);
+				// analytics.trackEvent('Simpan Kuliner', 'Hapus Simpan', index, 5);
+				Analytics.logEvent('Simpan Kuliner', 'Hapus Simpan', index);
 				console.log('trackEvent, Hapus Simpan, '+index);
 				makeToast('Restoran telah dihapus', 1500, 'bottom');
 			});
 		} else {
 			Services.saveRestoran(index).then(function(result) {
 				if(result) {
-					analytics.trackEvent('Simpan Kuliner', 'Simpan', index, 5);
+					// analytics.trackEvent('Simpan Kuliner', 'Simpan', index, 5);
+					Analytics.logEvent('Simpan Kuliner', 'Simpan', index);
 					console.log('trackEvent, Simpan, '+index);
 					makeToast('Restoran berhasil disimpan', 1500, 'bottom');
 				} else {
@@ -90,7 +94,8 @@ angular.module('app.controllers', [])
 					console.log('this should not ever happen.');
 				}
 			}, function(reason) {
-				analytics.trackEvent('Simpan Kuliner', 'Simpan Penuh');
+				// analytics.trackEvent('Simpan Kuliner', 'Simpan Penuh');
+				Analytics.logEvent('Simpan Kuliner', 'Simpan Penuh');
 				console.log('trackEvent, Simpan Penuh');
 				makeToast('Penyimpanan restoran penuh (max. 5)', 1500, 'bottom');
 			});
@@ -122,11 +127,13 @@ angular.module('app.controllers', [])
 
 		$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
 		.then(function(result) {
-			analytics.trackEvent('Share', 'Share Kuliner', index);
+			// analytics.trackEvent('Share', 'Share Kuliner', index);
+			Analytics.logEvent('Share', 'Share Kuliner', index);
 			makeToast('Berhasil membagikan', 1500, 'bottom');
 			console.log('trackEvent, Share, '+index);
 		}, function(err) {
-			analytics.trackEvent('Error', 'Share', index, 5);
+			// analytics.trackEvent('Error', 'Share', index, 5);
+			Analytics.logEvent('Error', 'Share', index);
 			makeToast('Gagal membagikan', 1500, 'bottom');
 			console.log('error');
 		});
@@ -174,6 +181,66 @@ angular.module('app.controllers', [])
 				});
 
 				failCounter = 3;
+			} break;
+			case 'delivery' : {
+				Services.getAllRestorans(flag).then(function(restorans) {
+					if(!$scope.restorans) {
+						$scope.restorans = [];
+					}
+
+					if(restorans) {
+						loadFlag = true;
+						$scope.nodata = false;
+
+						var n = 0;
+						for(var id in restorans) {
+							if(restorans[id].delivery) {
+								n++;
+							} else {
+								console.log(restorans[id].namaResto);
+								delete restorans[id];
+							}
+						}
+
+						var i=0;
+						for(var id in restorans) {
+							$scope.restorans[id] = restorans[id];
+
+							// console.log(restorans[id].tglInput);
+							if(restorans[id].tglInput < flag) {
+								flag = restorans[id].tglInput;
+								// console.log('flag: '+ restorans[id].tglInput);
+							}
+						}
+						// $scope.restorans.push.apply($scope.restorans, restorans);
+					} else {
+						$scope.nodata = true;
+					}
+					
+					$ionicLoading.hide();
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+					$scope.$broadcast('scroll.refreshComplete');
+
+					// console.log(flag +" | "+ flag2);
+					if(flag >= flag2) {
+						flag--;
+						failCounter++;
+					} else {
+						failCounter = 0;
+					}
+					flag2 = flag;
+				}, function(reason) {
+					$scope.nodata = true;
+
+					console.log('error fetch data');
+					makeToast('Koneksi tidak stabil');
+					$ionicLoading.hide();
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+					$scope.$broadcast('scroll.refreshComplete');
+				}).finally(function() {
+					$scope.$broadcast('scroll.infiniteScrollComplete');
+					$scope.$broadcast('scroll.refreshComplete');
+				});
 			} break;
 			case 'all' : {
 				// console.log('halo');
@@ -280,7 +347,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup, $timeout) {
+.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup, $timeout, Analytics) {
     
 	// $ionicLoading.show({
  //      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
@@ -300,9 +367,11 @@ angular.module('app.controllers', [])
     }, 10000);
 
 	$scope.$on('$ionicView.enter', function() {
-		analytics.trackView('Kuliner');
+		// analytics.trackView('Kuliner');
+		Analytics.logView('Kuliner');
 		console.log('trackView, Kuliner');
-		analytics.trackEvent('Kuliner', 'Informasi', $stateParams.index, 5);
+		// analytics.trackEvent('Kuliner', 'Informasi', $stateParams.index, 5);
+		Analytics.logEvent('Kuliner', 'Informasi', $stateParams.index)
 		console.log('trackEvent, Kuliner, Informasi, '+$stateParams.index);
 	});
 
@@ -498,9 +567,11 @@ angular.module('app.controllers', [])
 	}).then(function(modal) { $scope.modalRating = modal; });
 
 	$scope.openReview = function() {
-		analytics.trackView('Ulasan Kuliner');
+		// analytics.trackView('Ulasan Kuliner');
+		Analytics.logView('Ulasan Kuliner');
 		console.log('trackView, Ulasan Kuliner');
-		analytics.trackEvent('Ulasan', 'Ulasan Kuliner', $stateParams.index, 5);
+		// analytics.trackEvent('Ulasan', 'Ulasan Kuliner', $stateParams.index, 5);
+		Analytics.logEvent('Ulasan', 'Ulasan Kuliner', $stateParams.index);
 		console.log('trackEvent, Ulasan, Ulasan Kuliner, '+$stateParams.index);
 		$scope.modalReview.show();
 	};
@@ -510,9 +581,11 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.openMenu = function(index) {
-		analytics.trackView('Ulasan Menu Kuliner');
+		// analytics.trackView('Ulasan Menu Kuliner');
+		Analytics.logView('Ulasan Menu Kuliner');
 		console.log('trackView, Ulasan Menu Kuliner');
-		analytics.trackEvent('Ulasan', 'Ulasan Menu Kuliner '+$stateParams.index , index, 5);
+		// analytics.trackEvent('Ulasan', 'Ulasan Menu Kuliner '+$stateParams.index , index, 5);
+		Analytics.logEvent('Ulasan', 'Ulasan Menu Kuliner '+ $stateParams.index, index);
 		console.log('trackEvent, Ulasan, Ulasan Menu Kuliner '+$stateParams.index+', '+index);
 		$scope.selectedMenu = $scope.menus[index];
 		console.log($scope.selectedMenu);
@@ -530,9 +603,11 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.openMenuGambar = function(index) {
-		analytics.trackView('Gambar Ulasan Menu Kuliner');
+		// analytics.trackView('Gambar Ulasan Menu Kuliner');
+		Analytics.logView('Gambar Ulasan Menu Kuliner');
 		console.log('trackView, Gambar Ulasan Menu Kuliner');
-		analytics.trackEvent('Ulasan', 'Gambar Ulasan Menu Kuliner '+$stateParams.index, index, 5);
+		// analytics.trackEvent('Ulasan', 'Gambar Ulasan Menu Kuliner '+$stateParams.index, index, 5);
+		Analytics.logEvent('Ulasan', 'Gambar Ulasan Menu Kuliner '+ $stateParams.index, index);
 		console.log('trackEvent, Ulasan, Gambar Ulasan Menu Kuliner '+$stateParams.index+', '+index);
 		$scope.selectedMenu = $scope.menus[index];
 		// console.log($scope.selectedMenu);
@@ -564,7 +639,8 @@ angular.module('app.controllers', [])
 		// $scope.modalRating.show();
 
 		// Coming Soon
-		analytics.trackEvent('Coming Soon', 'Ulasan Pengguna', 'Tombol Ulasan', 10);
+		// analytics.trackEvent('Coming Soon', 'Ulasan Pengguna', 'Tombol Ulasan', 10);
+		Analytics.logEvent('Coming Soon', 'Ulasan Pengguna', 'Tombol Ulasan');
 		console.log('trackEvent, Coming Soon, Ulasan Pengguna, Tombol Ulasan');
 		var user = firebase.auth().currentUser;
 		if (user) {
@@ -575,26 +651,33 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.pesan = function() {
-		analytics.trackEvent('Coming Soon', 'Pesan', 'Tombol Pesan', 5);
+		// analytics.trackEvent('Coming Soon', 'Pesan', 'Tombol Pesan', 5);
+		Analytics.logEvent('Coming Soon', 'Pesan', 'Tombol Pesan');
 		console.log('trackEvent, Coming Soon, Pesan, Tombol Pesan');
-		var user = firebase.auth().currentUser;
-		if (user) {
-			$state.go('tabsController.pesan', {'index': $scope.restoran.index});
-			// $ionicPopup.alert({
-			// 	title: 'Logged In',
-			// 	template: '<center>Anda dapat memesan</center>',
-			// 	okText: 'Pesan',
-			// 	okType: 'button-balanced'
-			// });
-		} else {
-			$state.go('login');
-		}
-		// $ionicPopup.alert({
-		// 	title: 'Coming Soon',
-		// 	template: '<center>Layanan ini akan segera hadir</center>',
-		// 	okText: 'OK',
-		// 	okType: 'button-balanced'
-		// });
+
+		///////////////////
+		// fitur pesan
+		// var user = firebase.auth().currentUser;
+		// if (user) {
+		// 	$state.go('tabsController.pesan', {'index': $scope.restoran.index});
+		// 	// $ionicPopup.alert({
+		// 	// 	title: 'Logged In',
+		// 	// 	template: '<center>Anda dapat memesan</center>',
+		// 	// 	okText: 'Pesan',
+		// 	// 	okType: 'button-balanced'
+		// 	// });
+		// } else {
+		// 	$state.go('login');
+		// }
+
+		//////////////////
+		// coming soon
+		$ionicPopup.alert({
+			title: 'Coming Soon',
+			template: '<center>Layanan ini akan segera hadir</center>',
+			okText: 'OK',
+			okType: 'button-balanced'
+		});
 	};
 
 	$scope.ulasanPengguna = function() {
@@ -611,7 +694,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout) {
+.controller('menusCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout, Analytics) {
 	// pindah di on enter
 	//
     // analytics.trackView('Menu Kuliner');
@@ -637,9 +720,11 @@ angular.module('app.controllers', [])
     }, 10000);
 
     $scope.$on('$ionicView.enter', function() {
-    	analytics.trackView('Menu Kuliner');
+    	// analytics.trackView('Menu Kuliner');
+    	Analytics.logView('Menu Kuliner');
 	    console.log('trackView, Menu Kuliner');
-	    analytics.trackEvent('Menu', 'Lihat Menu', $stateParams.index, 5);
+	    // analytics.trackEvent('Menu', 'Lihat Menu', $stateParams.index, 5);
+	    Analytics.logEvent('Menu', 'Lihat Menu', $stateParams.index);
 	    console.log('trackEvent, Menu, Lihat Menu, '+$stateParams.index);
     });
 
@@ -673,9 +758,11 @@ angular.module('app.controllers', [])
 	}).then(function(modal) { $scope.modalMenuGambar = modal; });
 
 	$scope.openMenu = function(index) {
-		analytics.trackView('Ulasan Menu Kuliner');
+		// analytics.trackView('Ulasan Menu Kuliner');
+		Analytics.logView('Ulasan Menu Kuliner');
 		console.log('trackView, Ulasan Menu Kuliner');
-		analytics.trackEvent('Ulasan', 'Ulasan Menu Kuliner '+$stateParams.index , index, 5);
+		// analytics.trackEvent('Ulasan', 'Ulasan Menu Kuliner '+$stateParams.index , index, 5);
+		Analytics.logEvent('Ulasan', 'Ulasan Menu Kuliner '+ $stateParams.index, index);
 		console.log('trackEvent, Ulasan, Ulasan Menu Kuliner '+$stateParams.index+', '+index);
 		$scope.selectedMenu = $scope.menus[index];
 		console.log($scope.selectedMenu);
@@ -693,9 +780,11 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.openMenuGambar = function(index) {
-		analytics.trackView('Gambar Ulasan Menu Kuliner');
+		// analytics.trackView('Gambar Ulasan Menu Kuliner');
+		Analytics.logView('Gambar Ulasan Menu Kuliner');
 		console.log('trackView, Gambar Ulasan Menu Kuliner');
-		analytics.trackEvent('Ulasan', 'Gambar Ulasan Menu Kuliner '+$stateParams.index, index, 5);
+		// analytics.trackEvent('Ulasan', 'Gambar Ulasan Menu Kuliner '+$stateParams.index, index, 5);
+		Analytics.logEvent('Ulasan', 'Gambar Ulasan Menu Kuliner '+ $stateParams.index, index);
 		console.log('trackEvent, Ulasan, Gambar Ulasan Menu Kuliner '+$stateParams.index+', '+index);
 		$scope.selectedMenu = $scope.menus[index];
 		$scope.selectedMenu = $scope.menus[index];
@@ -708,15 +797,22 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.pesan = function() {
-		analytics.trackEvent('Coming Soon', 'Pesan', 'Tombol Pesan', 5);
+		// analytics.trackEvent('Coming Soon', 'Pesan', 'Tombol Pesan', 5);
+		Analytics.logEvent('Coming Soon', 'Pesan', 'Tombol Pesan');
 		console.log('trackEvent, Coming Soon, Pesan, Tombol Pesan');
-		// $ionicPopup.alert({
-		// 	title: 'Coming Soon',
-		// 	template: '<center>Layanan ini akan segera hadir</center>',
-		// 	okText: 'OK',
-		// 	okType: 'button-balanced'
-		// });
-		$state.go('tabsController.pesan', {'index': $scope.restoran.index});
+
+		///////////////////
+		// coming soon
+		$ionicPopup.alert({
+			title: 'Coming Soon',
+			template: '<center>Layanan ini akan segera hadir</center>',
+			okText: 'OK',
+			okType: 'button-balanced'
+		});
+
+		////////////////////
+		// fitur pesan
+		// $state.go('tabsController.pesan', {'index': $scope.restoran.index});
 		// var user = firebase.auth().currentUser;
 		// if (user) {
 		// 	$state.go('tabsController.pesan');
@@ -735,7 +831,7 @@ angular.module('app.controllers', [])
 	}
 })
   
-.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup, $cordovaAppVersion, $cordovaGeolocation, $http, $ionicHistory) {
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup, $cordovaAppVersion, $cordovaGeolocation, $http, $ionicHistory, Analytics) {
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
       duration: 5000
@@ -780,10 +876,12 @@ angular.module('app.controllers', [])
 						console.log('button tapped');
 
 						if(res) {
-							analytics.trackEvent('Update', 'Tombol Update');
+							// analytics.trackEvent('Update', 'Tombol Update');
+							Analytics.logEvent('Update', 'Tombol Update');
 							window.open('https://play.google.com/store/apps/details?id=com.manganindonesia.mangan', '_system', 'location=yes');
 						} else {
-							analytics.trackEvent('Update', 'Tombol Nanti');
+							// analytics.trackEvent('Update', 'Tombol Nanti');
+							Analytics.logEvent('Update', 'Tombol Nanti');
 						}
 					});
 	    		} else {
@@ -824,7 +922,8 @@ angular.module('app.controllers', [])
 	        if(typeof analytics !== 'undefined'){
 	            analytics.startTrackerWithId(config.analytics);
 	            // pindah di on enter
-			    analytics.trackView('Jelajah');
+			    // analytics.trackView('Jelajah');
+			    Analytics.logView('Jelajah');
 	        }
 	        else{
 	            setTimeout(function(){
@@ -882,14 +981,16 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.rekomendasikan = function() {
-		analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
+		// analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
+		Analytics.logEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		console.log('trackEvent, Rekomendasikan, Buka Rekomendasikan');
 		window.open('https://mobilepangan.com/mangan/rekomendasi', '_system', 'location=yes'); 
 		return false;
 	}
 
 	$scope.daftar = function() {
-		analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
+		// analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
+		Analytics.logEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		console.log('trackEvent, Daftar, Pendaftaran Restoran');
 		window.open('https://mobilepangan.com/mangan/daftar', '_system', 'location=yes'); 
 		return false;
@@ -972,7 +1073,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services, $cordovaToast, $cordovaSocialSharing, config, $timeout) {
+.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services, $cordovaToast, $cordovaSocialSharing, config, $timeout, Analytics) {
 	$scope.category = 'Pencarian';
 	$scope.user = {};
 	$scope.user.query = $stateParams.query;
@@ -983,7 +1084,8 @@ angular.module('app.controllers', [])
     // console.log('trackView, Pencarian');
 
     $scope.$on('$ionicView.enter', function() {
-    	analytics.trackView('Pencarian');
+    	// analytics.trackView('Pencarian');
+    	Analytics.logView('Pencarian');
     	console.log('trackView, Pencarian');
 
     	$scope.notfound = false;
@@ -1009,16 +1111,17 @@ angular.module('app.controllers', [])
 	    }, 10000);
 
 		function _waitForAnalytics(){
-	        if(typeof analytics !== 'undefined'){
-	            analytics.startTrackerWithId(config.analytics);
-				analytics.trackEvent('Pencarian', 'Cari', $scope.user.query, 5);
-				console.log('trackEvent, Pencarian, Cari, '+$scope.user.query);
-	        }
-	        else{
-	            setTimeout(function(){
-	                _waitForAnalytics();
-	            },10000);
-	        }
+	   //      if(typeof analytics !== 'undefined'){
+	   //          analytics.startTrackerWithId(config.analytics);
+				// analytics.trackEvent('Pencarian', 'Cari', $scope.user.query, 5);
+				// console.log('trackEvent, Pencarian, Cari, '+$scope.user.query);
+	   //      }
+	   //      else{
+	   //          setTimeout(function(){
+	   //              _waitForAnalytics();
+	   //          },10000);
+	   //      }
+	   		Analytics.logEvent('Pencarian', 'Cari', $scope.user.query);
 	    };
 	    _waitForAnalytics();
 
@@ -1095,7 +1198,8 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.rekomendasikan = function() {
-		analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
+		// analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
+		Analytics.logEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		console.log('trackEvent, Rekomendasikan, Buka Rekomendasikan');
 		window.open('https://mobilepangan.com/mangan/rekomendasi', '_system', 'location=yes'); 
 		return false;
@@ -1134,14 +1238,16 @@ angular.module('app.controllers', [])
 	$scope.saveRestoran = function(index) {
 		if(Services.checkSavedRestoran(index)) {
 			Services.deleteRestoran(index).then(function() {
-				analytics.trackEvent('Simpan Kuliner', 'Hapus Simpan', index, 5);
+				// analytics.trackEvent('Simpan Kuliner', 'Hapus Simpan', index, 5);
+				Analytics.logEvent('Simpan Kuliner', 'Hapus Simpan', index);
 				console.log('trackEvent, Hapus Simpan, '+index);
 				makeToast('Restoran telah dihapus', 1500, 'bottom');
 			});
 		} else {
 			Services.saveRestoran(index).then(function(result) {
 				if(result) {
-					analytics.trackEvent('Simpan Kuliner', 'Simpan', index, 5);
+					// analytics.trackEvent('Simpan Kuliner', 'Simpan', index, 5);
+					Analytics.logEvent('Simpan Kuliner', 'Simpan', index);
 					console.log('trackEvent, Simpan, '+index);
 					makeToast('Restoran berhasil disimpan', 1500, 'bottom');
 				} else {
@@ -1149,7 +1255,8 @@ angular.module('app.controllers', [])
 					console.log('this should not be done.');
 				}
 			}, function(reason) {
-				analytics.trackEvent('Simpan Kuliner', 'Simpan Penuh');
+				// analytics.trackEvent('Simpan Kuliner', 'Simpan Penuh');
+				Analytics.logEvent('Simpan Kuliner', 'Simpan Penuh');
 				console.log('trackEvent, Simpan Penuh');
 				makeToast('Penyimpanan restoran penuh (max. 5)', 1500, 'bottom');
 			});
@@ -1180,7 +1287,8 @@ angular.module('app.controllers', [])
 		$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
 		.then(function(result) {
 			makeToast('Berhasil membagikan', 1500, 'bottom');
-			analytics.trackEvent('Share', 'Share Kuliner', index);
+			// analytics.trackEvent('Share', 'Share Kuliner', index);
+			Analytics.logEvent('Share', 'Share Kuliner', index);
 			console.log('trackEvent, Share, '+index);
 		}, function(err) {
 			makeToast('Gagal membagikan', 1500, 'bottom');
@@ -1200,7 +1308,7 @@ angular.module('app.controllers', [])
 	}
 })
    
-.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading, $timeout, $localStorage, $http, $ionicHistory) {
+.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading, $timeout, $localStorage, $http, $ionicHistory, Analytics) {
 	$scope.category = 'Tersimpan';
 	$scope.nodata = false;
 	$scope.notersimpan = false;
@@ -1242,7 +1350,8 @@ angular.module('app.controllers', [])
 	    	}
 	    }, 10000);
 
-	 	analytics.trackView('Tersimpan');
+	 	// analytics.trackView('Tersimpan');
+	 	Analytics.logView('Tersimpan');
 		console.log('trackView, Tersimpan');
 
 		var temp = Services.getSavedRestorans();
@@ -1312,7 +1421,8 @@ angular.module('app.controllers', [])
 
 	$scope.saveRestoran = function(index) {
 		Services.deleteRestoran(index).then(function() {
-			analytics.trackEvent('Simpan Kuliner', 'Hapus Simpan', index, 5);
+			// analytics.trackEvent('Simpan Kuliner', 'Hapus Simpan', index, 5);
+			Analytics.logEvent('Simpan Kuliner', 'Hapus Simpan', index);
 			console.log('trackEvent, Hapus Simpan, '+index);
 			window.plugins.toast.showWithOptions({
 				message: 'Restoran berhasil dihapus',
@@ -1348,7 +1458,8 @@ angular.module('app.controllers', [])
 		$cordovaSocialSharing.share(textshared, resto.namaResto, gambar, link)
 		.then(function(result) {
 			makeToast('Berhasil membagikan', 1500, 'bottom');
-			analytics.trackEvent('Share', 'Share Kuliner', index);
+			// analytics.trackEvent('Share', 'Share Kuliner', index);
+			Analytics.logEvent('Share', 'Share Kuliner', index);
 			console.log('trackEvent, Share, '+index);
 		}, function(err) {
 			makeToast('Gagal membagikan', 1500, 'bottom');
@@ -1448,7 +1559,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('petaCtrl', function($scope, $state, $stateParams, Services, $cordovaToast, $cordovaGeolocation, $ionicPopup) {
+.controller('petaCtrl', function($scope, $state, $stateParams, Services, $cordovaToast, $cordovaGeolocation, $ionicPopup, Analytics) {
 	$scope.category = 'Peta';
 	
 	// console.log($stateParams.index);
@@ -1461,9 +1572,11 @@ angular.module('app.controllers', [])
 	// console.log('trackEvent, Peta, Lihat Peta, '+$stateParams.index);
 
 	$scope.$on('$ionicView.enter', function() {
-		analytics.trackView('Peta');
+		// analytics.trackView('Peta');
+		Analytics.logView('Peta');
 		console.log('trackView, Peta');
-		analytics.trackEvent('Peta', 'Lihat Peta', $stateParams.index, 5);
+		// analytics.trackEvent('Peta', 'Lihat Peta', $stateParams.index, 5);
+		Analytics.logEvent('Peta', 'Lihat Peta', $stateParams.index);
 		console.log('trackEvent, Peta, Lihat Peta, '+$stateParams.index);
 	});
 
@@ -1511,7 +1624,8 @@ angular.module('app.controllers', [])
 				});
 
 				$scope.openUrl = function() {
-					analytics.trackEvent('Peta', 'Navigasikan', $stateParams.index, 5);
+					// analytics.trackEvent('Peta', 'Navigasikan', $stateParams.index, 5);
+					Analytics.logEvent('Peta','Navigasikan', $stateParams.index);
 					console.log('trackEvent, Peta, Navigasikan, '+$stateParams.index);
 					$cordovaGeolocation.getCurrentPosition(options).then(function(position){
 						var lat = position.coords.latitude;
@@ -1559,7 +1673,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading) {
+.controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading, Analytics) {
 	$scope.category = 'Terdekat';
 
 	$ionicLoading.show({
@@ -1567,9 +1681,11 @@ angular.module('app.controllers', [])
 	});
 
 	$scope.$on('$ionicView.enter', function() {
-		analytics.trackView('Terdekat');
+		// analytics.trackView('Terdekat');
+		Analytics.logView('Terdekat');
 		console.log('trackView, Terdekat');
-		analytics.trackEvent('Terdekat', 'Kuliner Terdekat', $scope.category, 5);
+		// analytics.trackEvent('Terdekat', 'Kuliner Terdekat', $scope.category, 5);
+		Analytics.logEvent('Terdekat', 'Kuliner Terdekat', $scope.category);
 		console.log('trackEvent, Terdekat, Kuliner Terdekat, '+$scope.category);
 	});
 
@@ -1710,9 +1826,11 @@ angular.module('app.controllers', [])
 				console.log('no resto');
 			}
 
-			var markerCluster = new MarkerClusterer($scope.map, $scope.markers, {
-				imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
-			});
+			/////////////////////
+			// cluster map
+			// var markerCluster = new MarkerClusterer($scope.map, $scope.markers, {
+			// 	imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'
+			// });
 
 			$ionicLoading.hide();
 		}, function(reason) {
@@ -1760,7 +1878,7 @@ angular.module('app.controllers', [])
 	$scope.getMenu();
 })
 
-.controller('promoCtrl', function($scope, $state, $ionicLoading, $cordovaToast, Services, $timeout, $localStorage) {
+.controller('promoCtrl', function($scope, $state, $ionicLoading, $cordovaToast, Services, $timeout, $localStorage, Analytics) {
 	// $ionicLoading.show({
  //      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
  //      duration: 5000
@@ -1778,12 +1896,14 @@ angular.module('app.controllers', [])
     }, 10000);
 
 	$scope.$on('$ionicView.enter', function() {
-		analytics.trackView('Promo');
+		// analytics.trackView('Promo');
+		Analytics.logView('Promo');
 		console.log('trackView, Promo');
 	});
 
 	$scope.openPromo = function(index) {
-		analytics.trackEvent('Promo', 'Click', index, 5);
+		// analytics.trackEvent('Promo', 'Click', index, 5);
+		Analytics.logEvent('Promo', 'Click', index);
 		console.log('Promo, Click, '+index);
 		$state.go('tabsController.restoran', {'index': index});
 	}
@@ -2063,7 +2183,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('pesanCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout, $ionicHistory) {
+.controller('pesanCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout, $ionicHistory, Analytics) {
 	// code pesan here	var loadFlag = false;
 	var loadingIndicator = $ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
@@ -2079,9 +2199,11 @@ angular.module('app.controllers', [])
     }, 10000);
 
     $scope.$on('$ionicView.enter', function() {
-    	analytics.trackView('Menu Kuliner');
+    	// analytics.trackView('Menu Kuliner');
+    	Analytics.logView('Menu Kuliner');
 	    console.log('trackView, Menu Kuliner');
-	    analytics.trackEvent('Menu', 'Lihat Menu', $stateParams.index, 5);
+	    // analytics.trackEvent('Menu', 'Lihat Menu', $stateParams.index, 5);
+	    Analytics.logEvent('Menu', 'Lihat Menu', $stateParams.index);
 	    console.log('trackEvent, Menu, Lihat Menu, '+$stateParams.index);
     });
 
@@ -2460,7 +2582,9 @@ angular.module('app.controllers', [])
 		Services.getHistory(uid).then(function(transactions) {
 			for (var id in transactions) {
 				Services.getTransaksiDetails(transactions[id].kurir, transactions[id].indexTransaksi).then(function(transaksi) {
-					$scope.transactions.push(transaksi);
+					if(transaksi.statusTransaksi == 'queue' || transaksi.statusTransaksi == 'process') {
+						$scope.transactions.push(transaksi);
+					}
 				});
 			}
 		}, function(err) {
@@ -2469,7 +2593,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('ulasanPenggunaCtrl', function($scope, $state, $stateParams, $ionicLoading, $ionicModal, $timeout, Services) {
+.controller('ulasanPenggunaCtrl', function($scope, $state, $stateParams, $ionicLoading, $ionicModal, $timeout, Services, Analytics) {
 	// code here
 	var loadFlag = false;
 	var loadingIndicator = $ionicLoading.show({
@@ -2484,9 +2608,11 @@ angular.module('app.controllers', [])
     }, 10000);
 
 	$scope.$on('$ionicView.enter', function() {
-		analytics.trackView('Kuliner');
+		// analytics.trackView('Kuliner');
+		Analytics.logView('Kuliner');
 		console.log('trackView, Kuliner');
-		analytics.trackEvent('Kuliner', 'ReviewPengguna', $stateParams.index, 5);
+		// analytics.trackEvent('Kuliner', 'ReviewPengguna', $stateParams.index, 5);
+		Analytics.logEvent('Kuliner', 'Review Pengguna', $stateParams.index);
 		console.log('trackEvent, Kuliner, ReviewPengguna, '+$stateParams.index);
 	});
 
@@ -2679,7 +2805,8 @@ angular.module('app.controllers', [])
 		// $scope.modalRating.show();
 
 		// Coming Soon
-		analytics.trackEvent('Coming Soon', 'Ulasan Pengguna', 'Tombol Ulasan', 10);
+		// analytics.trackEvent('Coming Soon', 'Ulasan Pengguna', 'Tombol Ulasan', 10);
+		Analytics.logEvent('Coming Soon', 'Ulasan Pengguna', 'Tombol Ulasan');
 		console.log('trackEvent, Coming Soon, Ulasan Pengguna, Tombol Ulasan');
 		var user = firebase.auth().currentUser;
 		if (user) {
