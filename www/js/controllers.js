@@ -849,12 +849,9 @@ angular.module('app.controllers', [])
 				}
 			});
 		} else {
-			console.log('mumet');
 			$scope.dataUser = {
-				'name' : 'Mumeet',
 				'photoUrl' : 'img/cat.jpg'
 			};
-			console.log(JSON.stringify($scope.dataUser));
 		}
 	})
 
