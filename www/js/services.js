@@ -273,7 +273,7 @@ angular.module('app.services', [])
 			var promise = $q.defer();
 
 			restoran.child(resto +'/jmlSad').once('value', function(jml) {
-				var jmlSad = jml;
+				var jmlSad = jml.val();
 				if(typeof jmlSad === 'number' && jmlSad >= 1) {
 					jmlSad++;
 				} else {
@@ -292,7 +292,7 @@ angular.module('app.services', [])
 			var promise = $q.defer();
 
 			restoran.child(resto +'/jmlHappy').once('value', function(jml) {
-				var jmlHappy = jml;
+				var jmlHappy = jml.val();
 				if(typeof jmlHappy === 'number' && jmlHappy >= 1) {
 					jmlHappy++;
 				} else {
@@ -311,7 +311,7 @@ angular.module('app.services', [])
 			var promise = $q.defer();
 
 			restoran.child(resto +'/jmlFavorite').once('value', function(jml) {
-				var jmlFavorite = jml;
+				var jmlFavorite = jml.val();
 				if(typeof jmlFavorite === 'number' && jmlFavorite >= 1) {
 					jmlFavorite++;
 				} else {
