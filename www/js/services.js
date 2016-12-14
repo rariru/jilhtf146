@@ -1,8 +1,10 @@
 // Initialize Firebase
-var config = {apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
-authDomain: "project-1449647215698534337.firebaseapp.com",
-databaseURL: "https://project-1449647215698534337.firebaseio.com",
-storageBucket: "project-1449647215698534337.appspot.com",};
+var config = {
+	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
+	authDomain: "project-1449647215698534337.firebaseapp.com",
+	databaseURL: "https://project-1449647215698534337.firebaseio.com",
+	storageBucket: "project-1449647215698534337.appspot.com"
+};
 
 firebase.initializeApp(config);
 
@@ -15,6 +17,9 @@ var keyword = firebase.database().ref('keywordResto');
 var slider = firebase.database().ref('slider');
 var promo = firebase.database().ref('promo');
 var version = firebase.database().ref('version');
+var user = firebase.database().ref('user');
+var transaksi = firebase.database().ref('transaksi');
+var queue = firebase.database().ref('status').child('queue');
 
 angular.module('app.services', [])
 
@@ -56,9 +61,15 @@ angular.module('app.services', [])
 			);
 	}
 
+	this.getNewRestorans = function(startDate) {
+		return promiseValue(
+			restoran.orderByChild('tglInput').limitToLast(12)
+			);
+	}
+
 	this.getAllRestorans = function(startDate) {
 		return promiseValue(
-			restoran.orderByChild('tglInput').endAt(startDate)//.limitToLast(10)
+			restoran.orderByChild('tglInput').endAt(startDate).limitToLast(10)
 			);
 	}
 
@@ -76,9 +87,27 @@ angular.module('app.services', [])
 
 	this.getRestoranReviews = function(id) {
 		return promiseValue(
-			firebase.database().ref('reviewRating/'+ id).orderByChild('tglReview')
+			review.child(id).orderByChild('tglReview')
 			);
 	}
+
+		this.getJmlSad = function(id) {
+			return promiseValue(
+				restoran.child(id +'/jmlSad')
+				);
+		}
+
+		this.getJmlHappy = function(id) {
+			return promiseValue(
+				restoran.child(id +'/jmlHappy')
+				);
+		}
+
+		this.getJmlFavorite = function(id) {
+			return promiseValue(
+				restoran.child(id +'/jmlFavorite')
+				);
+		}
 
 	this.getRestoransByLocation = function(lon1, lon2) {
 		// console.log(lon1 +' | '+ lon2);
@@ -189,7 +218,7 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
-	this.updateRatingReview = function(resto, user, userRating, userReview) {
+	this.updateRatingReview = function(resto, user, userPhotoUrl, userRating, titleReview, userReview) {
 		// this.getRestoranReviews(resto).then(function(result) {
 		// 	var ratingReviews = result;
 		// 	console.log(ratingReviews);
@@ -213,10 +242,25 @@ angular.module('app.services', [])
 
 		var promise = $q.defer();
 
-		review.child(resto +'/'+ user).set({
+		// 1. ini versi update,jadi 1 user cuma bisa kasih 1 komen,kalo komen lagi yg sebelumnya diupdate
+		// review.child(resto +'/'+ user).set({
+		// 	'rating': userRating,
+		// 	'titleReview': titleReview || null,
+		// 	'review' : userReview || null,
+		// 	'username': user,
+		// 	'userPhotoUrl': userPhotoUrl,
+		// 	'tglReview': firebase.database.ServerValue.TIMESTAMP
+		// }).then(function() {
+		// 	promise.resolve(true);
+		// });
+
+		// 2. ini versi add, 1 user bisa nambah komen berapapun
+		review.child(resto).push({
 			'rating': userRating,
+			'titleReview': titleReview || null,
 			'review' : userReview || null,
-			'reviewer': user,
+			'username': user,
+			'userPhotoUrl': userPhotoUrl,
 			'tglReview': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
 			promise.resolve(true);
@@ -224,6 +268,63 @@ angular.module('app.services', [])
 
 		return promise.promise;
 	}
+
+		this.updateJmlSad = function(resto) {
+			var promise = $q.defer();
+
+			restoran.child(resto +'/jmlSad').once('value', function(jml) {
+				var jmlSad = jml.val();
+				if(typeof jmlSad === 'number' && jmlSad >= 1) {
+					jmlSad++;
+				} else {
+					jmlSad = 1;
+				}
+
+				restoran.child(resto +'/jmlSad').set(jmlSad).then(function() {
+					promise.resolve(true);
+				});
+			});
+
+			return promise.promise;
+		}
+
+		this.updateJmlHappy = function(resto, jmlHappy) {
+			var promise = $q.defer();
+
+			restoran.child(resto +'/jmlHappy').once('value', function(jml) {
+				var jmlHappy = jml.val();
+				if(typeof jmlHappy === 'number' && jmlHappy >= 1) {
+					jmlHappy++;
+				} else {
+					jmlHappy = 1;
+				}
+
+				restoran.child(resto +'/jmlHappy').set(jmlHappy).then(function() {
+					promise.resolve(true);
+				});
+			});
+
+			return promise.promise;
+		}
+
+		this.updateJmlFavorite = function(resto, jmlFavorite) {
+			var promise = $q.defer();
+
+			restoran.child(resto +'/jmlFavorite').once('value', function(jml) {
+				var jmlFavorite = jml.val();
+				if(typeof jmlFavorite === 'number' && jmlFavorite >= 1) {
+					jmlFavorite++;
+				} else {
+					jmlFavorite = 1;
+				}
+
+				restoran.child(resto +'/jmlFavorite').set(jmlFavorite).then(function() {
+					promise.resolve(true);
+				});
+			});
+
+			return promise.promise;
+		}
 
 	this.searchQuery = function(query) {
 		var promise = $q.defer();
@@ -256,6 +357,149 @@ angular.module('app.services', [])
 		);
 	}
 
+	this.cekUserData = function(email) {
+		return promiseValue(
+			user.orderByChild('email').equalTo(email)
+		)
+	}
+
+	this.getProfileByUid = function(uid) {
+		return promiseValue(
+			user.child(uid)
+		)
+	}
+
+	this.addUserData = function(dataUser) {
+		var promise = $q.defer();
+
+		user.child(dataUser.id).set({
+			'index': dataUser.id,
+			'email': dataUser.email,
+			'fb_id': dataUser.id,
+			'name': dataUser.name,
+			'photoUrl': dataUser.picture.data.url,
+			'dateRegister': firebase.database.ServerValue.TIMESTAMP,
+			'dateUpdatedData': firebase.database.ServerValue.TIMESTAMP
+		}).then(function() {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.addUserDataByGoogle = function(dataUser) {
+		var promise = $q.defer();
+
+		user.child(dataUser.id).set({
+			'index': dataUser.id,
+			'email': dataUser.email,
+			'gpluslink': dataUser.link,
+			'name': dataUser.name,
+			'photoUrl': dataUser.picture,
+			'dateRegister': firebase.database.ServerValue.TIMESTAMP,
+			'dateUpdatedData': firebase.database.ServerValue.TIMESTAMP
+		}).then(function() {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.addTransaction = function(kurir, idTransaksi, dataTransaksi) {
+		var promise = $q.defer();
+
+		transaksi.child(kurir +'/'+ idTransaksi).set({
+			'alamat' : dataTransaksi.alamat,
+			'alamatUser' : dataTransaksi.alamatUser,
+			'feedelivery' : dataTransaksi.feedelivery,
+			'indexResto' : dataTransaksi.indexResto,
+			'gambarResto' : dataTransaksi.gambarResto,
+			'keteranganBuka' :dataTransaksi.keteranganBuka,
+			'indexTransaksi' : dataTransaksi.indexTransaksi,
+			'jumlah' : dataTransaksi.jumlah,
+			'kurir' : dataTransaksi.kurir,
+			'map' : {
+				'lat' : dataTransaksi.map.lat,
+				'long' : dataTransaksi.map.long
+			},
+			'mapUser' : {
+				'lat' : dataTransaksi.mapUser.lat,
+				'long' : dataTransaksi.mapUser.long
+			},
+			'namaResto' : dataTransaksi.namaResto,
+			'namaUser' : dataTransaksi.namaUser,
+			'noTelpUser' : dataTransaksi.noTelpUser,
+			// to not use angular.copy, pleasee use trackby on ng-repeat
+			'pesanan' : angular.copy(dataTransaksi.pesanan),
+			'status' : dataTransaksi.status,
+			'processBy' : dataTransaksi.processBy,
+			'tgl' : dataTransaksi.tgl,
+			'totalHarga' : dataTransaksi.totalHarga,
+			'userPhotoUrl' : dataTransaksi.userPhotoUrl,
+			'username' : dataTransaksi.username,
+			'lineUsername' : dataTransaksi.lineUsername || null,
+			'tambahan' : dataTransaksi.tambahan || null
+		}).then(function(result) {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.addQueue = function(kurir, idTransaksi) {
+		var promise = $q.defer();
+
+		queue.child(kurir +'/'+ idTransaksi).set({
+			'indexTransaksi' : idTransaksi
+		}).then(function(result) {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.updateUserData = function(userData) {
+		var promise = $q.defer();
+
+		user.child(userData.index).update({
+			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
+			'noTelpUser' : userData.noTelpUser,
+			'name' : userData.name,
+			'email' : userData.email,
+			'location' : userData.location,
+			'lineUsername' : userData.lineUsername
+		}).then(function(result) {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.addHistory = function(index, idTransaksi, kurir) {
+		var promise = $q.defer();
+
+		user.child(index +'/transaksi/'+ idTransaksi).set({
+			'indexTransaksi' : idTransaksi,
+			'kurir' : kurir
+		}).then(function(result) {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.getHistory = function(index) {
+		return promiseValue(
+			user.child(index +'/transaksi')
+		);
+	}
+
+	this.getTransaksiDetails = function(kurir, index) {
+		return promiseValue(
+			transaksi.child(kurir +'/'+ index)
+		);
+	}
+
 	function promiseAdded(obj) {
 		var promise = $q.defer();
 
@@ -282,6 +526,34 @@ angular.module('app.services', [])
 		});
 
 		return promise.promise;
+	}
+})
+
+.service('Analytics', function() {
+
+	this.logView = function(viewName) {
+		addValue('trackView/'+ viewName);
+	}
+
+	this.logEvent = function(category, action, label) {
+		if(label)
+			addValue('trackEvent/'+ category +'/'+ action +'/'+ label);
+		else
+			addValue('trackEvent/'+ category +'/'+ action);
+	}
+	
+	function addValue(branch) {
+		firebase.database().ref('analytics/'+ branch).once('value', function(_value) {
+			var newValue = _value.val();
+			console.log('_value: '+ _value.val());
+			if(typeof newValue === 'number' && newValue >= 1) {
+				newValue++;
+			} else {
+				newValue = 1;
+			}
+			console.log('newValue: '+ newValue);
+			firebase.database().ref('analytics/'+ branch).set(newValue);
+		});
 	}
 });
 

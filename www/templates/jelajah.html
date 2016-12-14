@@ -5,9 +5,104 @@
                 <div style="min-height: 37px; min-width: 37px; background-color: rgb(230, 231, 232); text-align:center; margin-right: 10px;">
                     <i class="icon ion-search placeholder-icon" style="font-size: 20px; line-height: 40px;"></i>
                 </div>
-                <input type="search" placeholder="Cari" ng-model="user.query" style="font-size: 14px;">
+                <input type="search" placeholder="Cari" ng-model="user.query" style="font-size: 14px;" ion-ripple>
             </label>
         </form>
+
+        <div class="list" style="border-bottom: 1px solid rgba(230, 231, 232, 0.8);">
+            <div class="item item-text-wrap item-thumbnail-right" style="border: none; margin:15px 15px 0 15px;">
+                <img class="mangan-greeting-gambar" ng-src="{{dataUser.photoUrl}}" style="">
+                <h2 ng-show="!dataUser.name" style="font-weight: bold; color: orangered; font-size: 24px;">Halo Foodies</h2>
+                <h2 ng-show="dataUser.name" style="font-weight: bold; color: orangered; font-size: 24px;">Halo {{dataUser.name}}</h2>
+                <p style="font-size: 18px;">Kamu lapar? Mau makan apa hari ini?</p>
+                <a ng-show="lokasiUser"><i class="icon ion-ios-location" style="padding-right:5px"></i>{{lokasiUser}}</a>
+                <a ng-show="!lokasiUser"><i class="icon ion-ios-location" style="padding-right:5px"></i>Lokasi tidak ditemukan</a>
+            </div>
+            <div style="width: 100%; margin-bottom: 10px; padding-left: 25px;">
+                <button ng-show="!dataUser || dataUser == null" ui-sref="login" class="button button-oren button-small button-outline" style="width:30%; margin: 0 2px;" ion-ripple>LOGIN</button>
+                <button ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" id="mangan-button-pesan" class="button button-oren button-small button-outline" ng-click="pesan()" style="width:30%;" ion-ripple>JELAJAHI</button> 
+            </div>
+        </div>
+<!--         <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
+            <ion-slide-page ng-repeat="slider in sliders">
+                <img ng-src="{{ slider.url }}" style="width: 100%; display: block;">
+            </ion-slide-page>
+        </ion-slides> -->
+
+        <!-- Kategori    -->
+        <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
+            <h4 style="color: rgba(1,178,177,0.8); background: white; padding-left: 10px; width: 100%; margin: 15px 0; font-weight: bold;">REKOMENDASI UNTUK KAMU</h4>
+        </div>
+
+        <div class="row gallery" style="border-bottom: 1px solid rgba(230, 231, 232, 0.8); margin-bottom: 10px;" ion-ripple>
+            <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
+                <a ui-sref="tabsController.restorans({category: 'terbaru', 'name': 'Terbaru'})">
+                    <!-- <div class="mangan-kategori">TERBARU</div> -->
+                    <img src="img/terbaru.jpg" class="mangan-image-jelajah">
+                </a>
+            </div>
+            <div class="jelajah-tile col col-50" style="position:relative;" ui-sref="tabsController.restorans({category: 'terbaru', 'name': 'Terbaru'})" ion-ripple>
+                <h4 style="color: orangered; margin: 0; padding: 0; font-weight: bold;">BARU DIULAS</h4>
+                <p>Temukan kuliner yang baru kami ulas disini</p>
+            </div>
+        </div>
+
+        <div class="row gallery" style="border-bottom: 1px solid rgba(230, 231, 232, 0.8); margin-bottom: 10px;" ion-ripple>
+            <div class="col col-50" style="position:relative; width:100%;" ion-ripple>
+                <a ui-sref="tabsController.restorans({category: 'kampusuns', name: 'Sekitar Kampus'})">
+                    <!-- <div class="mangan-kategori">SEKITAR KAMPUS</div> -->
+                    <img src="img/kampus.jpg" class="mangan-image-jelajah">
+                </a>
+            </div>
+            <div class="jelajah-tile col col-50" style="position:relative;" ui-sref="tabsController.restorans({category: 'kampusuns', name: 'Sekitar Kampus'})" ion-ripple>
+                <h4 style="color: orangered; margin: 0; padding: 0; font-weight: bold;">ALA MAHASISWA</h4>
+                <p>Kumpulan kuliner dekat kampus dan murah cuma disini nih</p>
+            </div>
+        </div>
+        <div class="row gallery" style="border-bottom: 1px solid rgba(230, 231, 232, 0.8); margin-bottom: 10px;" ion-ripple>
+            <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
+                <a ui-sref="tabsController.restorans({category: 'all', 'name': 'Semua Kuliner'})">
+                    <!-- <div class="mangan-kategori">SEMUA KULINER</div> -->
+                    <img src="img/semua.jpg" class="mangan-image-jelajah">
+                </a>
+            </div>
+            <div class="jelajah-tile col col-50" style="position:relative;" ui-sref="tabsController.restorans({category: 'all', 'name': 'Semua Kuliner'})" ion-ripple>
+                <h4 style="color: orangered; margin: 0; padding: 0; font-weight: bold;">JELAJAHI SEMUA</h4>
+                <p>Jelajahi semua kuliner kotamu disini</p>
+            </div>
+        </div>
+        <div class="row gallery" style="margin-bottom: 10px;" ion-ripple>
+            <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
+                <a ui-sref="tabsController.restorans({category: 'all', 'name': 'Semua Kuliner'})">
+                    <!-- <div class="mangan-kategori">FOOD DELIVERY</div> -->
+                    <img src="img/delivery.jpg" class="mangan-image-jelajah">
+                </a>
+            </div>
+            <div class="jelajah-tile col col-50" style="position:relative;" ui-sref="tabsController.restorans({category: 'delivery', 'name': 'Laper Mager'})" ion-ripple>
+                <h4 style="color: orangered; margin: 0; padding: 0; font-weight: bold;">LAPER MAGER</h4>
+                <p>Laper tapi mager? tenang, kumpulan kuliner ini punya jasa pesan antar lho</p>
+            </div>
+        </div>
+
+<!--             <div class="col col-50" style="position:relative; width:100%;">
+                <a ui-sref="tabsController.terdekat">
+                    <div class="mangan-kategori">KULINER TERDEKAT</div>
+                    <img src="img/terdekat.jpg" class="mangan-image-jelajah">
+                </a>
+            </div> -->
+
+        <!-- <h4 style="background: rgba(0,0,0,0.2); padding: 5px; width: 100%; margin: 0;" >Informasi</h4> -->
+
+        <!-- <div class="row">
+            
+            <div class="col col-50" style="position:relative;">
+                <a ui-sref="tabsController.restorans({category: 'all'})">
+                    <div class="mangan-kategori">OLEH-OLEH</div>
+                    <img src="img/oleholeh.jpg" width="100%">
+                </a>
+            </div>
+       
+        </div> -->
 
         <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
             <ion-slide-page>
@@ -26,52 +121,11 @@
                 <img src="img/slider1.jpg" style="width: 100%; display: block;">
             </ion-slide-page>
         </ion-slides>
-
-<!--         <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
-            <ion-slide-page ng-repeat="slider in sliders">
-                <img ng-src="{{ slider.url }}" style="width: 100%; display: block;">
-            </ion-slide-page>
-        </ion-slides> -->
-
-        <!-- Kategori    -->
-        <h4 style="color: white; background: rgba(1,178,177,0.8); padding: 5px; width: 100%; margin: 0;" >Rekomendasi</h4>
-        <div class="row gallery">
-            <div class="jelajah-tile col col-50" style="position:relative; ">
-                <a ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})">
-                    <div class="mangan-kategori">TERBARU</div>
-                    <img src="img/baru.jpg" class="mangan-image-jelajah">
-                </a>
-            </div>
-            <div class="col col-50" style="position:relative; width:100%;">
-                <a ui-sref="tabsController.restorans({category: 'kampusuns', name: 'Sekitar Kampus'})">
-                    <div class="mangan-kategori">SEKITAR KAMPUS</div>
-                    <img src="img/kampus.jpg" class="mangan-image-jelajah">
-                </a>
-            </div>
-<!--             <div class="col col-50" style="position:relative; width:100%;">
-                <a ui-sref="tabsController.terdekat">
-                    <div class="mangan-kategori">KULINER TERDEKAT</div>
-                    <img src="img/terdekat.jpg" class="mangan-image-jelajah">
-                </a>
-            </div> -->
-        </div>
-
-        <!-- <h4 style="background: rgba(0,0,0,0.2); padding: 5px; width: 100%; margin: 0;" >Informasi</h4> -->
-
-        <!-- <div class="row">
-            
-            <div class="col col-50" style="position:relative;">
-                <a ui-sref="tabsController.restorans({category: 'all'})">
-                    <div class="mangan-kategori">OLEH-OLEH</div>
-                    <img src="img/oleholeh.jpg" width="100%">
-                </a>
-            </div>
-       
-        </div> -->
-
         
         <!-- Kategori    -->
-        <h4 style="color: white; background: rgba(1,178,177,0.8); padding: 5px; width: 100%; margin: 0;" > Kategori </h4>
+        <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
+            <h4 style="color: rgba(1,178,177,0.8); background: white; padding-left: 10px; width: 100%; margin: 15px 0; font-weight: bold;">BY CATEGORY</h4>
+        </div>
 
         <div class="row gallery">
 <!--             <div class="jelajah-tile col col-50" style="position:relative;" ng-hide="category.kode == 'kampusuns'" ng-repeat="category in categories">
@@ -80,13 +134,13 @@
                     <img ng-src="{{category.gambar}}" class="mangan-image-jelajah">
                 </a>
             </div> -->
-            <div class="jelajah-tile col col-50" style="position:relative;">
+            <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
                 <a ui-sref="tabsController.restorans({category: 'indonesia', 'name': 'Khas Indonesia'})">
                     <div class="mangan-kategori">KHAS INDONESIA</div>
                     <img src="img/indonesia.jpg" class="mangan-image-jelajah">
                 </a>
             </div>
-            <div class="col col-50" style="position:relative; width:100%;">
+            <div class="col col-50" style="position:relative; width:100%;" ion-ripple>
                 <a ui-sref="tabsController.restorans({category: 'baksoSupMie', 'name': 'Bakso, Sup & Mie'})">
                     <div class="mangan-kategori">BAKSO, SUP & MIE</div>
                     <img src="img/noodle.jpg" class="mangan-image-jelajah">
@@ -94,13 +148,13 @@
             </div>
         </div>
         <div class="row gallery">
-            <div class="jelajah-tile col col-50" style="position:relative;">
+            <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
                 <a ui-sref="tabsController.restorans({category: 'cakeDessert', 'name': 'Cake & Dessert'})">
                     <div class="mangan-kategori">CAKE & DESSERT</div>
                     <img src="img/cake.jpg" class="mangan-image-jelajah">
                 </a>
             </div>
-            <div class="col col-50" style="position:relative; width:100%;">
+            <div class="col col-50" style="position:relative; width:100%;" ion-ripple>
                 <a ui-sref="tabsController.restorans({category: 'minumanEskrim', 'name': 'ES & Minuman Segar'})">
                     <div class="mangan-kategori">ES & MINUMAN SEGAR</div>
                     <img src="img/minumanes.jpg" class="mangan-image-jelajah">
@@ -108,13 +162,13 @@
             </div>
         </div>
         <div class="row gallery">
-            <div class="jelajah-tile col col-50" style="position:relative;">
+            <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
                 <a ui-sref="tabsController.restorans({category: 'steakSosis', 'name': 'Steak & Sosis'})">
                     <div class="mangan-kategori">STEAK & SOSIS</div>
                     <img src="img/steak.jpg" class="mangan-image-jelajah">
                 </a>
             </div>
-            <div class="col col-50" style="position:relative; width:100%;">
+            <div class="col col-50" style="position:relative; width:100%;" ion-ripple>
                 <a ui-sref="tabsController.restorans({category: 'cepatsaji', 'name': 'Cepat Saji'})">
                     <div class="mangan-kategori">CEPAT SAJI</div>
                     <img src="img/cepatsaji.jpg" class="mangan-image-jelajah">
@@ -124,11 +178,11 @@
         <div class="row gallery">
             <div class="col col-50" style="position:relative; width:100%;">
                 <a ui-sref="tabsController.restorans({category: 'cafeResto', 'name': 'Cafe & Resto'})">
-                    <div class="mangan-kategori">CAFE & RESTO</div>
+                    <div class="mangan-kategori">CAFE & RESTO</div ion-ripple>
                     <img src="img/caferesto.jpg" class="mangan-image-jelajah">
                 </a>
             </div>
-            <div class="jelajah-tile col col-50" style="position:relative;">
+            <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
                 <a ui-sref="tabsController.restorans({category: 'asian', 'name': 'Asian Food'})">
                     <div class="mangan-kategori">ASIAN FOOD</div>
                     <img src="img/asian.jpg" class="mangan-image-jelajah">
@@ -136,13 +190,13 @@
             </div>
         </div>
         <div class="row gallery">
-            <div class="jelajah-tile col col-50" style="position:relative;">
+            <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
                 <a ui-sref="tabsController.restorans({category: 'western', 'name': 'Western Food'})">
                     <div class="mangan-kategori">WESTERN FOOD</div>
                     <img src="img/western.jpg" class="mangan-image-jelajah">
                 </a>
             </div>
-            <div class="jelajah-tile col col-50" style="position:relative;">
+            <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
                 <a ui-sref="tabsController.restorans({category: 'streetFood', 'name': 'Street Food'})">
                     <div class="mangan-kategori">STREET FOOD</div>
                     <img src="img/streetfood.jpg" class="mangan-image-jelajah">
@@ -150,13 +204,13 @@
             </div>
         </div>
         <div class="row gallery">
-            <div class="jelajah-tile col col-50" style="position:relative;">
+            <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
                 <a ui-sref="tabsController.restorans({category: 'oleholeh', 'name': 'Oleh-oleh'})">
                     <div class="mangan-kategori">OLEH-OLEH</div>
                     <img src="img/oleholeh.jpg" class="mangan-image-jelajah">
                 </a>
             </div>
-            <div class="jelajah-tile col col-50" style="position:relative;">
+            <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
                 <a ui-sref="tabsController.restorans({category: 'wedangan', 'name': 'Wedangan'})">
                     <div class="mangan-kategori">WEDANGAN</div>
                     <img src="img/wedangan.jpg" class="mangan-image-jelajah">
@@ -164,11 +218,23 @@
             </div>
         </div>
 
-        <div class="mangan-menu-selengkapnya">
-            <!-- <a href="#" id="button-rekomendasi" class="button button-positive button-small" onclick="window.open('https://mobilepangan.com/mangan/rekomendasi', '_system', 'location=yes'); return false;">REKOMENDASIKAN</a> -->
-            <button id="button-rekomendasi" class="button button-positive button-small" ng-click="rekomendasikan()">REKOMENDASIKAN</button>
+<!--         <div class="mangan-menu-selengkapnya">
+            <button id="button-rekomendasi" class="button button-positive button-small" ng-click="rekomendasikan()" ion-ripple>REKOMENDASIKAN</button>
+            <button id="button-daftar" class="button button-positive button-small" ng-click="daftar()" ion-ripple>PENDAFTARAN</button>
+        </div> -->
+        <div class="mangan-bottom">
+            <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
+                <h4 style="color: rgba(1,178,177,0.8); background: white; padding-left: 10px; width: 100%;">Tidak menemukan yang kamu sukai?</h4>
+            </div>
+            <button id="button-rekomendasi" class="button button-block button-oren button-outline" ng-click="rekomendasikan()" ion-ripple>REKOMENDASIKAN</button>
         </div>
 
+        <div class="mangan-bottom">
+            <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
+                <h4 style="color: rgba(1,178,177,0.8); background: white; padding-left: 10px; width: 100%;">Punya usaha kuliner?</h4>
+            </div>
+            <button id="button-daftar" class="button button-block button-oren button-outline" ng-click="daftar()" ion-ripple>DAFTAR KULINER</button>
+        </div>
         <!-- <div class="row" style="width: 100%; padding: 0;"> -->
         <!-- ion slides awal -->
 

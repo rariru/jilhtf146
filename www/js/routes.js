@@ -48,15 +48,15 @@ angular.module('app.routes', ['ionicUIRouter'])
     url: '/page3',
     views: {
       'tab1': {
-        templateUrl: 'templates/restorans.html',
+        templateUrl: 'templates/tersimpan.html',
         controller: 'tersimpanCtrl'
       },
       'tab2': {
-        templateUrl: 'templates/restorans.html',
+        templateUrl: 'templates/tersimpan.html',
         controller: 'tersimpanCtrl'
       },
       'tab3': {
-        templateUrl: 'templates/restorans.html',
+        templateUrl: 'templates/tersimpan.html',
         controller: 'tersimpanCtrl'
       }
     }
@@ -240,6 +240,104 @@ angular.module('app.routes', ['ionicUIRouter'])
       'tab3': {
         templateUrl: 'templates/promo.html',
         controller: 'promoCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.pesan', {
+    url: '/pesan',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/pesan.html',
+        controller: 'pesanCtrl'
+      },
+      'tab2': {
+        templateUrl: 'templates/pesan.html',
+        controller: 'pesanCtrl'
+      },
+      'tab3':{
+        templateUrl: 'templates/pesan.html',
+        controller: 'pesanCtrl'
+      }
+    },
+    params: {
+      index: null
+    }
+  })
+
+  .state('tabsController.invoice',{
+    url: '/invoice',
+    views: {
+      'tab1':{
+        templateUrl:'templates/invoice.html',
+        controller:'invoiceCtrl'
+      },
+      'tab2':{
+        templateUrl:'templates/invoice.html',
+        controller:'invoiceCtrl'
+      },
+      'tab3':{
+        templateUrl:'templates/invoice.html',
+        controller:'invoiceCtrl'
+      }
+    },
+    params: {
+      transaksi: null
+    }
+  })
+
+  .state('tabsController.ulasanPengguna',{
+    url: '/ulasanPengguna',
+    views: {
+      'tab1':{
+        templateUrl:'templates/ulasanPengguna.html',
+        controller:'ulasanPenggunaCtrl'
+      },
+      'tab2':{
+        templateUrl:'templates/ulasanPengguna.html',
+        controller:'ulasanPenggunaCtrl'
+      },
+      'tab3':{
+        templateUrl:'templates/ulasanPengguna.html',
+        controller:'ulasanPenggunaCtrl'
+      }
+    },
+    params: {
+      namaResto: null,
+      indexResto: null
+    }
+  })
+
+  .state('login', {
+    url: '/login-page',
+    templateUrl: 'templates/login.html',
+    controller: 'loginCtrl'
+  })
+
+  .state('tabsController.profil', {
+    url: '/profil',
+    views: {
+      'tab3': {
+        templateUrl: 'templates/profil.html',
+        controller: 'profilCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.transaksi', {
+    url: '/transaksi',
+    views: {
+      'tab1':{
+        templateUrl:'templates/transaksi.html',
+        controller:'transaksiCtrl'
+      },
+      'tab2':{
+        templateUrl:'templates/transaksi.html',
+        controller:'transaksiCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/transaksi.html',
+        controller: 'transaksiCtrl'
       }
     }
   });
