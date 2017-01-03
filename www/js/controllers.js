@@ -657,27 +657,27 @@ angular.module('app.controllers', [])
 
 		///////////////////
 		// fitur pesan
-		// var user = firebase.auth().currentUser;
-		// if (user) {
-		// 	$state.go('tabsController.pesan', {'index': $scope.restoran.index});
-		// 	// $ionicPopup.alert({
-		// 	// 	title: 'Logged In',
-		// 	// 	template: '<center>Anda dapat memesan</center>',
-		// 	// 	okText: 'Pesan',
-		// 	// 	okType: 'button-balanced'
-		// 	// });
-		// } else {
-		// 	$state.go('login');
-		// }
+		var user = firebase.auth().currentUser;
+		if (user) {
+			$state.go('tabsController.pesan', {'index': $scope.restoran.index});
+			// $ionicPopup.alert({
+			// 	title: 'Logged In',
+			// 	template: '<center>Anda dapat memesan</center>',
+			// 	okText: 'Pesan',
+			// 	okType: 'button-balanced'
+			// });
+		} else {
+			$state.go('login');
+		}
 
 		//////////////////
 		// coming soon
-		$ionicPopup.alert({
-			title: 'Coming Soon',
-			template: '<center>Layanan ini akan segera hadir</center>',
-			okText: 'OK',
-			okType: 'button-balanced'
-		});
+		// $ionicPopup.alert({
+		// 	title: 'Coming Soon',
+		// 	template: '<center>Layanan ini akan segera hadir</center>',
+		// 	okText: 'OK',
+		// 	okType: 'button-balanced'
+		// });
 	};
 
 	$scope.ulasanPengguna = function() {
