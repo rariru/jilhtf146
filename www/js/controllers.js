@@ -2822,3 +2822,13 @@ angular.module('app.controllers', [])
 		});
 	}
 })
+
+.controller('adsController', function($scope, $state) {
+	$scope.adsCounter = 5;
+	
+	$scope.showRowAds = function(isShow) {
+		if(isShow)
+			return "img/cat.jpg";
+		return "NOPE";
+	}
+})
