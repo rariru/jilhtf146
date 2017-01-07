@@ -273,7 +273,7 @@ angular.module('app.services', [])
 			var promise = $q.defer();
 
 			restoran.child(resto +'/jmlSad').once('value', function(jml) {
-				var jmlSad = jml;
+				var jmlSad = jml.val();
 				if(typeof jmlSad === 'number' && jmlSad >= 1) {
 					jmlSad++;
 				} else {
@@ -292,7 +292,7 @@ angular.module('app.services', [])
 			var promise = $q.defer();
 
 			restoran.child(resto +'/jmlHappy').once('value', function(jml) {
-				var jmlHappy = jml;
+				var jmlHappy = jml.val();
 				if(typeof jmlHappy === 'number' && jmlHappy >= 1) {
 					jmlHappy++;
 				} else {
@@ -311,7 +311,7 @@ angular.module('app.services', [])
 			var promise = $q.defer();
 
 			restoran.child(resto +'/jmlFavorite').once('value', function(jml) {
-				var jmlFavorite = jml;
+				var jmlFavorite = jml.val();
 				if(typeof jmlFavorite === 'number' && jmlFavorite >= 1) {
 					jmlFavorite++;
 				} else {
@@ -437,7 +437,8 @@ angular.module('app.services', [])
 			'totalHarga' : dataTransaksi.totalHarga,
 			'userPhotoUrl' : dataTransaksi.userPhotoUrl,
 			'username' : dataTransaksi.username,
-			'lineUsername' : dataTransaksi.lineUsername
+			'lineUsername' : dataTransaksi.lineUsername || null,
+			'tambahan' : dataTransaksi.tambahan || null
 		}).then(function(result) {
 			promise.resolve(true);
 		});
@@ -525,6 +526,34 @@ angular.module('app.services', [])
 		});
 
 		return promise.promise;
+	}
+})
+
+.service('Analytics', function() {
+
+	this.logView = function(viewName) {
+		addValue('trackView/'+ viewName);
+	}
+
+	this.logEvent = function(category, action, label) {
+		if(label)
+			addValue('trackEvent/'+ category +'/'+ action +'/'+ label);
+		else
+			addValue('trackEvent/'+ category +'/'+ action);
+	}
+	
+	function addValue(branch) {
+		firebase.database().ref('analytics/'+ branch).once('value', function(_value) {
+			var newValue = _value.val();
+			// console.log('_value: '+ _value.val());
+			if(typeof newValue === 'number' && newValue >= 1) {
+				newValue++;
+			} else {
+				newValue = 1;
+			}
+			// console.log('newValue: '+ newValue);
+			firebase.database().ref('analytics/'+ branch).set(newValue);
+		});
 	}
 });
 
