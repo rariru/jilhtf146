@@ -324,6 +324,42 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+  .state('tabsController.rekomendasi',{
+    url:'/rekomendasi',
+    views:{
+      'tab1': {
+        templateUrl: 'templates/rekomendasi.html',
+        controller: 'rekomendasiCtrl'
+      },
+      'tab2': {
+        templateUrl: 'templates/rekomendasi.html',
+        controller: 'rekomendasiCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/rekomendasi.html',
+        controller: 'rekomendasiCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.daftar',{
+    url:'/daftar',
+    views:{
+      'tab1': {
+        templateUrl: 'templates/daftar.html',
+        controller: 'daftarCtrl'
+      },
+      'tab2': {
+        templateUrl: 'templates/daftar.html',
+        controller: 'daftarCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/daftar.html',
+        controller: 'daftarCtrl'
+      }
+    }
+  })
+
   .state('tabsController.transaksi', {
     url: '/transaksi',
     views: {

@@ -58,7 +58,10 @@ p {
 .mangan-selengkapnya{
 	width: 100%;
 	height: auto;
-	border: 1px solid rgb(230,231,232);
+	border-right: 1px solid rgb(230,231,232);
+	border-left: 1px solid rgb(230,231,232);
+	border-bottom: 1px solid rgb(230,231,232);
+	border-top: 0;
 	border-bottom-left-radius: 5px;
 	border-bottom-right-radius: 5px;
 }
@@ -201,8 +204,8 @@ p {
 
 /*.card .item{
 	// border: 2.5px solid rgb(230, 231, 232);
-	border-left: 5px solid rgb(230, 231, 232);
-	border-right: 5px solid rgb(230, 231, 232);
+	border-left: 1px solid #e6e7e8;
+	border-right: 1px solid #e6e7e8;
 }*/
 
 .card .item:first-child {
@@ -254,6 +257,7 @@ p {
 	padding: 15px;
 	border-left: 1px solid rgb(230,231,232);
 	border-right: 1px solid rgb(230,231,232);
+	border-bottom: 1px solid rgb(230,231,232);
 }
 
 .mangan-keterangan-buka {
@@ -672,8 +676,8 @@ p {
 }
 
 .mangan-card{
-	border-radius: 8px;
-
+	border-top-right-radius: 8px;
+	border-top-left-radius: 8px;
 }
 
 .tab-nav {
@@ -757,9 +761,15 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', end
      border-top: 0;
 }
 
+
 .card .item:last-child, .list-inset .item:last-child, .padding > .list .item:last-child{
 	border-bottom-right-radius: 0;
 	border-bottom-left-radius: 0;
+}
+
+.card .item:first-child, .list-inset .item:first-child, .padding > .list .item:first-child{
+	border-top-right-radius: 0;
+	border-top-left-radius: 0;
 }
 
 input[disabled],
