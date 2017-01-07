@@ -988,7 +988,8 @@ angular.module('app.controllers', [])
 		// analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		Analytics.logEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		console.log('trackEvent, Rekomendasikan, Buka Rekomendasikan');
-		window.open('https://mobilepangan.com/mangan/rekomendasi', '_system', 'location=yes'); 
+		// window.open('https://mobilepangan.com/mangan/rekomendasi', '_system', 'location=yes');
+		$state.go("tabsController.rekomendasi"); 
 		return false;
 	}
 
@@ -996,7 +997,8 @@ angular.module('app.controllers', [])
 		// analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		Analytics.logEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		console.log('trackEvent, Daftar, Pendaftaran Restoran');
-		window.open('https://mobilepangan.com/mangan/daftar', '_system', 'location=yes'); 
+		// window.open('https://mobilepangan.com/mangan/daftar', '_system', 'location=yes'); 
+		$state.go("tabsController.daftar");
 		return false;
 	}
 
@@ -2889,6 +2891,14 @@ angular.module('app.controllers', [])
 			addPixelsY: -40
 		});
 	}
+})
+
+.controller('rekomendasiCtrl', function($scope, $state, $stateParams, Services){
+	
+})
+
+.controller('daftarCtrl', function($scope, $state, $stateParams, Services){
+
 })
 
 .controller('adsController', function($scope, $state) {
