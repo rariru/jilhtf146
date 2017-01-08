@@ -2901,8 +2901,8 @@ angular.module('app.controllers', [])
 		if(isShow)
 		{
 			var adsUrl = ManganAds.getAdsUrl();
-			Analytics.logEvent('RowAds-'+ adsName);
-			Analytics.logView('RowAds',  adsName);
+			Analytics.logView('RowAds-'+ 'cat');
+			Analytics.logEvent('RowAds',  'cat');
 			return adsUrl;
 		}
 
