@@ -836,6 +836,9 @@ angular.module('app.controllers', [])
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
       duration: 5000
     });
+    // set default selected city to Surakarta,
+    // though the default city has been set in Services
+	$scope.selectedCity = $localStorage.location? $localStorage.location: 'Surakarta';
 
 	firebase.auth().onAuthStateChanged(function(user) {
 		if (user) {
@@ -1208,7 +1211,7 @@ angular.module('app.controllers', [])
 						var isFound = false;
 						// console.log('mulai cari');
 
-						var ta = 0;
+						var ta = 0; // total all restoran
 						for(var id in result) {
 							ta++;
 						}
@@ -1217,7 +1220,7 @@ angular.module('app.controllers', [])
 
 						var ia = 0,
 							ir = 0,
-							tr = 0;
+							tr = 0; // total restoran matches found
 						for(var id in result) {
 							// console.log(result[id].keyword);
 							if(result[id].keyword.indexOf($scope.user.query) >= 0) {
@@ -2901,12 +2904,18 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('adsController', function($scope, $state) {
+.controller('adsController', function($scope, $state, ManganAds, Analytics) {
 	$scope.adsCounter = 5;
 	
 	$scope.showRowAds = function(isShow) {
 		if(isShow)
-			return "img/cat.jpg";
-		return "NOPE";
+		{
+			var adsUrl = ManganAds.getAdsUrl();
+			Analytics.logView('RowAds-'+ 'cat');
+			Analytics.logEvent('RowAds',  'cat');
+			return adsUrl;
+		}
+
+		return null;
 	}
-})
+});
