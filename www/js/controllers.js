@@ -1103,7 +1103,9 @@ angular.module('app.controllers', [])
 				coords = position.coords;
 			}
 
-			$http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+coords.latitude+","+coords.longitude+"&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ").success(function(result) {
+			$http.get(
+					"https://maps.googleapis.com/maps/api/geocode/json?latlng="+coords.latitude+","+coords.longitude+"&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ"
+				).success(function(result) {
 				$localStorage.location = result.results[1].address_components[1].short_name;
 				if ($localStorage.location == "Kota Surakarta") {
 					console.log('ada di Solo');
@@ -2652,9 +2654,9 @@ angular.module('app.controllers', [])
 		Services.getHistory(uid).then(function(transactions) {
 			for (var id in transactions) {
 				Services.getTransaksiDetails(transactions[id].kurir, transactions[id].indexTransaksi).then(function(transaksi) {
-					if(transaksi.statusTransaksi == 'queue' || transaksi.statusTransaksi == 'process') {
+					// if(transaksi.statusTransaksi == 'queue' || transaksi.statusTransaksi == 'process') {
 						$scope.transactions.push(transaksi);
-					}
+					// }
 				});
 			}
 		}, function(err) {
@@ -2896,12 +2898,52 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('rekomendasiCtrl', function($scope, $state, $stateParams, Services){
-	
+.controller('rekomendasiCtrl', function($scope, $state, $stateParams, Services, $http, $ionicPopup){
+	// define data
+	$scope.data = [];
+
+	$scope.rekomendasikan = function() {
+		// send email, error tapi berhasil
+		$http.post("https://mobilepangan.com/mangan/sendNotificationMail?nama="+$scope.data.namaResto+"&kontak="+$scope.data.kontak+"&alamat="+$scope.data.alamat+"&token=717mangan"
+		).success(function(data) {
+			console.log(data);
+		}).error(function(error, status) {
+			console.log(error, status);
+		});
+
+		$ionicPopup.alert({
+			title: 'Terima Kasih',
+			template: '<center>Terima kasih telah memberikan rekomendasi</center>',
+			okText: 'OK',
+			okType: 'button-balanced'
+		});
+
+		$state.go("tabsController.jelajah");
+	}
 })
 
-.controller('daftarCtrl', function($scope, $state, $stateParams, Services){
+.controller('daftarCtrl', function($scope, $state, $stateParams, Services, $http, $ionicPopup){
+	// define data
+	$scope.data = [];
 
+	$scope.daftar = function() {
+		// send email, error tapi terkirim
+		$http.post("https://mobilepangan.com/mangan/sendNotificationMail?nama="+$scope.data.namaResto+"&kontak="+$scope.data.kontak+"&alamat="+$scope.data.alamat+"&token=717mangan"
+		).success(function(data) {
+			console.log(data);
+		}).error(function(error, status) {
+			console.log(error, status);
+		});
+
+		$ionicPopup.alert({
+			title: 'Mendaftar',
+			template: '<center>Kami akan segera menghubungi anda</center>',
+			okText: 'OK',
+			okType: 'button-balanced'
+		});
+
+		$state.go("tabsController.jelajah");		
+	}
 })
 
 .controller('adsController', function($scope, $state, ManganAds, Analytics) {

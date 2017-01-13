@@ -8,11 +8,20 @@
 // };
 
 //ryou
+// var config = {
+// 	apiKey: "AIzaSyBvDJSC5qe1AfnNbEZOiqw3GUFjvb4i3go",
+//     authDomain: "project-7791088175021720001.firebaseapp.com",
+//     databaseURL: "https://project-7791088175021720001.firebaseio.com",
+//     storageBucket: "project-7791088175021720001.appspot.com",
+// };
+
+// hamzah ManganBak
 var config = {
-	apiKey: "AIzaSyBvDJSC5qe1AfnNbEZOiqw3GUFjvb4i3go",
-    authDomain: "project-7791088175021720001.firebaseapp.com",
-    databaseURL: "https://project-7791088175021720001.firebaseio.com",
-    storageBucket: "project-7791088175021720001.appspot.com",
+    apiKey: "AIzaSyB1U7icSEQX4ZTCdsRHxDUFieD-r7sDFKA",
+    authDomain: "manganbak.firebaseapp.com",
+    databaseURL: "https://manganbak.firebaseio.com",
+    storageBucket: "manganbak.appspot.com",
+    messagingSenderId: "374536724800"
 };
 
 firebase.initializeApp(config);
