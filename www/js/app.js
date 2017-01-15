@@ -12,7 +12,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
   version: 100018
 })
 
-.run(function($ionicPlatform, config) {
+.run(function($ionicPlatform, config, $ionicPopup) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -31,6 +31,33 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     //   console.log("Google Analytics Unavailable");
     // }
 
+    window.FirebasePlugin.getToken(function(token) {
+      console.log('device token : '+token);
+    }, function(err) {
+      console.log('err get token : '+err);
+    })
+
+    window.FirebasePlugin.onTokenRefresh(function(token) {
+      console.log('device token refresh : '+token);
+    }, function(err) {
+      console.log('err get token : '+err);
+    })
+
+    window.FirebasePlugin.onNotificationOpen(function(notification) {
+      alert(JSON.stringify(notification));
+
+      // $ionicPopup.alert({
+      //   title: 'Status Order',
+      //   template: 'Order diproses oleh Hamzah',
+      //   okText: 'OK',
+      //   okType: 'button-balanced'
+      // });
+    }, function(err) {
+      console.log(err);
+    })
+
+    window.FirebasePlugin.subscribe("mangan");
+
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
             // analytics.debugMode();
@@ -43,8 +70,12 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
         }
     };
     _waitForAnalytics();
-    
   });
+
+  if (ionic.Platform.isIOS()) {
+    window.FirebasePlugin.grantPermission();
+    console.log("iOS permission granted");
+  }
 })
 
 .config(['$ionicConfigProvider', function($ionicConfigProvider) {
@@ -71,4 +102,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
       if(reverse) filtered.reverse();
       return filtered;
     };
-});
+})
+
+
+
+
