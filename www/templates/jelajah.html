@@ -8,7 +8,6 @@
                 <input type="search" placeholder="Cari" ng-model="user.query" style="font-size: 14px;" ion-ripple>
             </label>
         </form>
-
         <!-- If transaksi done, ng-hide -->
         <div class="list" style="" ng-click="transaksi()";>
             <div class="item mangan-menu item-text-wrap item-icon-right">
@@ -31,6 +30,19 @@
                 <button ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" id="mangan-button-pesan" class="button button-oren button-small button-outline" ng-click="pesan()" style="width:30%;" ion-ripple>JELAJAHI</button> 
             </div>
         </div>
+
+<div class="list">
+  <label class="item item-input item-select">
+    <div class="input-label">
+      Lihat Kota Lain
+    </div>
+    <select ng-model="selectedCity" ng-change="pilihKota(selectedCity)">
+      <option>Surakarta</option>
+      <option>Yogyakarta</option>
+    </select>
+  </label>
+</div>
+
 <!--         <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
             <ion-slide-page ng-repeat="slider in sliders">
                 <img ng-src="{{ slider.url }}" style="width: 100%; display: block;">

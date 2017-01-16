@@ -9,7 +9,7 @@
         
             <div class="row kontak-header">
                 <span class="col col-70"><p>DAFTAR KULINER</p></span>
-                <a style="font-size: 14px; padding-top: 5px; color: white; text-decoration:none;">Lihat Paket</a>
+                <!-- <a style="font-size: 14px; padding-top: 5px; color: white; text-decoration:none;">Lihat Paket</a> -->
             </div>
             
             <!-- <div class="item item-text-wrap mangan-menu" style="background-color:#f9f9f9;  border-left: 1px solid #e6e7e8;border-right: 1px solid #e6e7e8;">
@@ -18,16 +18,16 @@
             <div class="item item-text-wrap mangan-menu" style="border-left: 1px solid #e6e7e8;border-right: 1px solid #e6e7e8;">
                 <label class="item-input mangan-menu">
                     <i class="mangan-invoice-icon icon ion-android-restaurant"></i>
-                    <span class="mangan-line"><input type="text" placeholder="Nama Usaha Kuliner" required ></span>
+                    <span class="mangan-line"><input type="text" placeholder="Nama Usaha Kuliner" ng-model="data.namaResto"></span>
                 </label>
                 <label class="item-input mangan-menu">
                     <i class="mangan-invoice-icon icon ion-ios-location"></i>
-                    <span class="mangan-line"><input type="text" placeholder="Alamat Usaha Kuliner"  required></span>
+                    <span class="mangan-line"><input type="text" placeholder="Alamat Usaha Kuliner"  ng-model="data.alamat"></span>
                 </label>
-                <label class="item-input mangan-menu" style="margin-left: 18px;"><button class="button button-clear button-balanced button-small button-outline" style="font-size: 12px; color:rgb(1,175,177); text-decoration:none;" ng-click="pickLocation()">Pilih Lokasi</button></label>
+                <!-- <label class="item-input mangan-menu" style="margin-left: 18px;"><button class="button button-clear button-balanced button-small button-outline" style="font-size: 12px; color:rgb(1,175,177); text-decoration:none;" ng-click="pickLocation()">Pilih Lokasi</button></label> -->
                 <label class="item-input mangan-menu">
                     <i class="mangan-invoice-icon icon ion-ios-telephone"></i>
-                    <span class="mangan-line"><input type="number" placeholder="Nomor Telepon Anda"></span>
+                    <span class="mangan-line"><input type="number" placeholder="Nomor Telepon Anda" ng-model="data.kontak"></span>
                 </label>
                 <label class="item-input item-select mangan-menu" required>
                     <i class="mangan-invoice-icon icon ion-coffee"></i>
@@ -40,7 +40,7 @@
                 </label>
             </div>
         </div>
-            <button class="button button-block button-outline button-oren" ion-ripple>DAFTAR SEKARANG</button>
+            <button class="button button-block button-outline button-oren" ng-click="daftar()" ion-ripple>DAFTAR SEKARANG</button>
 
     </ion-content>
 </ion-view>
