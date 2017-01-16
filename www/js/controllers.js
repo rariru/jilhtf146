@@ -986,6 +986,10 @@ angular.module('app.controllers', [])
 		return false;
 	}
 
+	$scope.transaksi = function() {
+		$state.go('tabsController.transaksi');
+	}
+
 	$scope.daftar = function() {
 		// analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		Analytics.logEvent('Rekomendasikan', 'Buka Rekomendasikan');
@@ -2581,14 +2585,18 @@ angular.module('app.controllers', [])
 		Services.getHistory(uid).then(function(transactions) {
 			for (var id in transactions) {
 				Services.getTransaksiDetails(transactions[id].kurir, transactions[id].indexTransaksi).then(function(transaksi) {
-					if(transaksi.statusTransaksi == 'queue' || transaksi.statusTransaksi == 'process') {
+					// if(transaksi.statusTransaksi == 'queue' || transaksi.statusTransaksi == 'process') {
 						$scope.transactions.push(transaksi);
-					}
+					// }
 				});
 			}
 		}, function(err) {
 			console.log('error get transactions :'+err);
 		})
+	}
+
+	$scope.rincianTransaksi = function() {
+		$state.go('tabsController.rincianTransaksi');
 	}
 })
 
@@ -2830,6 +2838,10 @@ angular.module('app.controllers', [])
 })
 
 .controller('daftarCtrl', function($scope, $state, $stateParams, Services){
+
+})
+
+.controller('rincianTransaksiCtrl', function($scope, $state, $stateParams, Services){
 
 })
 

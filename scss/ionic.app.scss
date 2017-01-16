@@ -260,6 +260,7 @@ p {
 	border-bottom: 1px solid rgb(230,231,232);
 }
 
+
 .mangan-keterangan-buka {
 	color: rgb(1,177,178);
 	font-weight: bold;
@@ -283,8 +284,8 @@ p {
 
 .mangan-keterangan-teks {
 	font-size: 14px;
-	text-align: justify;
-	line-height: 16px;
+	line-height: 1.5;
+	font-weight: 300;
 }
 
 // .mangan-ikon-aksi {
@@ -386,6 +387,11 @@ p {
 	margin-top: -5px;
 }
 
+.mangan-menu span {
+	color: black;
+	font-weight: 300;
+}
+
 .mangan-menu > h2 {
 	padding-top: 5px;
 }
@@ -394,8 +400,14 @@ p {
 	color: rgb(1,178,177);
 }
 
+.mangan-menu > h5 {
+	color: #78715f;
+}
+
 .mangan-menu p {
-	color: rgb(1,178,177);
+	/*color: #78715f;*/
+	color: black;
+	font-weight: 300;
 }
 
 .mangan-menu > h3 > a {
@@ -688,6 +700,14 @@ p {
 
 .mangan-tombol{
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.kapital{
+	display: inline-block;
+}
+
+.kapital:first-letter{
+	text-transform: uppercase;
 }
 
 

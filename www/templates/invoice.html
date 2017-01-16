@@ -1,5 +1,5 @@
 <ion-view title="Invoice" id="invoice">
-    <ion-content lazy-scroll padding="true" class="has-header">
+    <ion-content lazy-scroll padding="true" class="has-header has-footer ">
         <!-- <ion-refresher
             on-refresh="getMenus()"
             spinner = "ripple" >
@@ -30,20 +30,28 @@
         			<span class=""><input type="text" placeholder="Tambah Catatan" style="color:orangered;" ng-model="menu.note"></span>
         		</label>
         	</div>
-            <div class="list mangan-detail-review">
-                <div class="item item-divider">
-                    Pesanan Tambahan
+            <div class="list mangan-keterangan-teks" style="border-left: 1px solid rgb(230,231,232);border-right: 1px solid rgb(230,231,232); border-bottom: 1px solid rgb(230,231,232);">
+                <!-- <div class="item item-divider">
+                    Pesanan Lain
                 </div>
-                <div class="item-body">
-                    <div class="mangan-keterangan-teks" style="color: orangered;"><p>{{transaksi.tambahan}}</p></div>
-                </div>
-            </div>
+                <div class="row item-text-wrap mangan-menu">
+                    <div class="col col-90" style="padding-left: 10px;"><p style="color: black">{{transaksi.tambahan}}</p></div>
+                    <div class="col"><i class="mangan-invoice-icon icon ion-android-close" style="color: orangered;"></i></div>
+                </div> -->
 
-            <div class="item mangan-menu" style="margin:0; text-align: center; border-left: 1px solid rgb(230,231,232);border-right: 1px solid rgb(230,231,232);">
-                    <a class="" style="text-decoration: none; color: rgb(1,177,178); font-size: 14px;" ng-click="addOrder()"><i class="icon ion-plus"></i> Tambah Pesanan</a>
+                <!-- <div class="item-body item-icon-right">
+                    <div class="mangan-keterangan-teks" style="">
+                        <p>{{transaksi.tambahan}}</p>
+                        <button class="button button-clear button-small"><i class="mangan-invoice-icon icon ion-android-close" style="color: orangered;"></i></button>
+                    </div>
+                </div> -->
+
+                <div class="item mangan-menu" style="margin:0; text-align: center; border-bottom:0; border-top:0;">
+                        <a class="" style="text-decoration: none; color: rgb(1,177,178); font-size: 14px;" ng-click="addOrder()"><i class="icon ion-plus"></i> Tambah Pesanan</a>
+                </div>
             </div>
 		
-        	<div class="kontak-header">
+        	<div class="kontak-header" style="border-top-left-radius: 5px; border-top-right-radius: 5px;">
         		<p>PENGIRIMAN</p>
         	</div>
         	
@@ -89,7 +97,7 @@
 					<div class="col"><h3>Rp {{transaksi.feedelivery}}</h3></div>
 				</div>
 			</div>
-			<div class="item mangan-menu" style="border-bottom-left-radius: 8px;border-bottom-right-radius: 8px;border-left: 1px solid rgb(230,231,232);border-right: 1px solid rgb(230,231,232)">
+			<div class="item mangan-menu" style="border-left: 1px solid rgb(230,231,232);border-right: 1px solid rgb(230,231,232); margin-bottom: 5px;">
 				<div class="row">
 					<div class="col col-75"><h2 style="color:rgb(1,177,178);">TOTAL BAYAR</h2></div>
 					<div class="col"><h2 style="color:rgb(1,177,178);">Rp {{transaksi.totalHarga}}</h2></div>
@@ -97,7 +105,9 @@
 			</div>
 
 		</div>
-            <button class="button button-block button-outline button-oren" ng-click="checkout()" ion-ripple>CHECKOUT</button>
 
     </ion-content>
+     <!-- <div class="" style="height:auto; background-color:; position:fixed; bottom:0px;left:0px;right:0px;"> -->
+            <button class="button button-full button-oren icon-right ion-chevron-right" ng-click="checkout()" style="position:fixed; border-top-right-radius:0px; border-top-left-radius:0px;border-bottom-right-radius:0px;border-bottom-left-radius:0px;margin-bottom:0px; bottom:0px;left:0px;right:0px;" ion-ripple>CHECKOUT</button>
+     <!-- </div> -->
 </ion-view>

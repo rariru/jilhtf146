@@ -48,7 +48,7 @@
 
         <div class="list card mangan-restorans" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true track by restoran.index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
             <div class="mangan-list-header">
-                <div class="row mangan-nama-resto">
+                <div class="row mangan-nama-resto" style="z-index: 999;">
                     <span class="col col-75">{{restoran.namaResto}}</span>
                     <span class="col mangan-rating-nilai" ng-show="restoran.rating && restoran.rating != 'null'">{{restoran.rating}}
                         <i class="mangan-rating-icon icon ion-star" style="color:yellow; font-size: 20px;"></i>
@@ -91,7 +91,7 @@
             <center><i class="ion-android-favorite" style="color:#c85054;"></i></center>
             <p style="margin-bottom: 10px;">Kamu belum login, ayo login dulu</p>
             <div class="row">
-                <button ng-show="!dataUser || dataUser == null" class="button button-oren button-outline"  style="width: 50%; display: block; margin: auto;" ng-click="login()" ion-ripple>SIGN IN</button>
+                <button ng-show="!dataUser || dataUser == null" class="button button-oren button-outline"  style="width: 50%; display: block; margin: auto;" ng-click="login()" ion-ripple>LOGIN</button>
             </div>
         </div>
     </ion-content>

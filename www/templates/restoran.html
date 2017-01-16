@@ -1,6 +1,6 @@
 <ion-view id="page10">
     <ion-nav-title>{{restoran.namaResto}}</ion-nav-title>
-    <ion-content lazy-scroll padding="true" class="has-header">
+    <ion-content lazy-scroll padding="true" class="has-header has-footer">
         <ion-refresher
             pulling-text="Lepas untuk memperbarui"
             on-refresh="getRestoran()"
@@ -124,9 +124,9 @@
             </div> -->
             <!-- <div class="mangan-spacer"></div> -->
 
-            <div class="mangan-tombol-pesan" style="text-align:center;">
+            <!-- <div class="mangan-tombol-pesan" style="text-align:center;">
                 <button id="mangan-button-pesan" class="button button-oren button-block button-outline" ng-click="pesan()" ion-ripple><i class="icon ion-ios-cart"></i> PESAN</button>
-            </div>
+            </div> -->
 <!--             <div class="row mangan-tombol-pesan" style="width:100% ;text-align: center;">
                 <button ui-sref="tabsController.menus({ index: restoran.index })" class="button button-oren button-small button-outline" style="width:50%; margin: 0 2px;" ion-ripple>MENU LAINNYA</button>
                 <button ui-sref="tabsController.pesan({ index: restoran.index })" id="mangan-button-pesan" class="button button-oren button-small button-outline" ng-click="pesan()" style="width:50%;" ion-ripple>PESAN</button> 
@@ -159,4 +159,5 @@
 
 
     </ion-content>
+        <button class="button icon-right ion-chevron-right button-full button-oren" ng-click="pesan()" style="position:fixed; border-top-right-radius:0px; border-top-left-radius:0px;border-bottom-right-radius:0px;border-bottom-left-radius:0px;margin-bottom:0px; bottom:0px;left:0px;right:0px;" ion-ripple>DELIVERY ORDER</button>
 </ion-view>
