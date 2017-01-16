@@ -55,6 +55,9 @@ want fast?
 * ngStorage (https://github.com/gsklee/ngStorage)
 	
 	`bower install ngstorage`
+* cordova-plugin-firebase
+
+	`cordova plugin add cordova-plugin-firebase@0.1.18 --save`
 
 
 # version
@@ -72,3 +75,10 @@ want fast?
 * rekomendasi kuliner terdekat
 * promo notification
 * upgrade UI
+
+## 1.3.0
+* not listed yet
+
+## 1.4.0
+* pesan antar
+* push notification

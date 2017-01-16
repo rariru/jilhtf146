@@ -831,11 +831,14 @@ angular.module('app.controllers', [])
 	}
 })
   
-.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup, $cordovaAppVersion, $cordovaGeolocation, $http, $ionicHistory, Analytics) {
+.controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup, $cordovaAppVersion, $cordovaGeolocation, $http, $ionicHistory, Analytics, $ionicModal, $localStorage) {
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
       duration: 5000
     });
+    // set default selected city to Surakarta,
+    // though the default city has been set in Services
+	$scope.selectedCity = $localStorage.location? $localStorage.location: 'Surakarta';
 
 	firebase.auth().onAuthStateChanged(function(user) {
 		if (user) {
@@ -946,7 +949,14 @@ angular.module('app.controllers', [])
 			$scope.dataUser = "";
 		}
 
-	    $scope.greeting();
+		if ($localStorage.location == null) {
+			console.log("localStorage.location null");
+		    $scope.setLocation();
+		} else {
+			console.log($localStorage.location);
+		}
+
+		$scope.greeting();
     });
 
 	$scope.options = {
@@ -1034,6 +1044,13 @@ angular.module('app.controllers', [])
 	// 	$ionicLoading.hide();
 	// });
 
+	$ionicModal.fromTemplateUrl('templates/pickLocation.html', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal) {
+		$scope.modal = modal;
+	});
+
 	// get location and weather
 	$scope.greeting = function() {
 		var coords = {
@@ -1069,6 +1086,62 @@ angular.module('app.controllers', [])
 			// 	showMap();
 			// });
 		});
+	}
+
+	$scope.setLocation = function() {
+		var coords = {
+			latitude: -7.569527,
+			longitude: 110.830289
+		};
+
+		var options = {
+			timeout: 5000,
+			enableHighAccuracy: true
+		};
+		$cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+			if(position) {
+				coords = position.coords;
+			}
+
+			$http.get(
+					"https://maps.googleapis.com/maps/api/geocode/json?latlng="+coords.latitude+","+coords.longitude+"&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ"
+				).success(function(result) {
+				$localStorage.location = result.results[1].address_components[1].short_name;
+				if ($localStorage.location == "Kota Surakarta") {
+					console.log('ada di Solo');
+					// Code fetch database solo
+				} else if ($scope.kota == "Yogyakarta") {
+					console.log('ada di Jogja');
+					// Code fetch database jogja
+				} else {
+					console.log('tampilkan popup lokasi');
+					$scope.modal.show();
+				}
+			}).error(function(error) {
+				console.log('data error : '+error);
+			});
+		}, function(error) {
+			console.log("could not get location");
+			console.log('tampilkan popup lokasi');
+			$scope.modal.show();
+			// show dialog to pick city manually 
+
+			// $ionicPopup.alert({
+			// 	title: 'Error',
+			// 	template: 'Tidak dapat menemukan sinyal GPS!',
+			// 	okText: 'OK',
+			// 	okType: 'button-balanced'
+			// }).then(function(res) {
+			// 	showMap();
+			// });
+		});
+	}
+
+	$scope.pilihKota = function(kota) {
+		console.log(kota);
+		$localStorage.location = kota;
+		$scope.modal.hide();
+		// fetch data sesuai kota terpilih
 	}
 })
 
@@ -1140,7 +1213,7 @@ angular.module('app.controllers', [])
 						var isFound = false;
 						// console.log('mulai cari');
 
-						var ta = 0;
+						var ta = 0; // total all restoran
 						for(var id in result) {
 							ta++;
 						}
@@ -1149,7 +1222,7 @@ angular.module('app.controllers', [])
 
 						var ia = 0,
 							ir = 0,
-							tr = 0;
+							tr = 0; // total restoran matches found
 						for(var id in result) {
 							// console.log(result[id].keyword);
 							if(result[id].keyword.indexOf($scope.user.query) >= 0) {
@@ -2581,9 +2654,9 @@ angular.module('app.controllers', [])
 		Services.getHistory(uid).then(function(transactions) {
 			for (var id in transactions) {
 				Services.getTransaksiDetails(transactions[id].kurir, transactions[id].indexTransaksi).then(function(transaksi) {
-					if(transaksi.statusTransaksi == 'queue' || transaksi.statusTransaksi == 'process') {
+					// if(transaksi.statusTransaksi == 'queue' || transaksi.statusTransaksi == 'process') {
 						$scope.transactions.push(transaksi);
-					}
+					// }
 				});
 			}
 		}, function(err) {
@@ -2825,20 +2898,66 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('rekomendasiCtrl', function($scope, $state, $stateParams, Services){
-	
+.controller('rekomendasiCtrl', function($scope, $state, $stateParams, Services, $http, $ionicPopup){
+	// define data
+	$scope.data = [];
+
+	$scope.rekomendasikan = function() {
+		// send email, error tapi berhasil
+		$http.post("https://mobilepangan.com/mangan/sendNotificationMail?nama="+$scope.data.namaResto+"&kontak="+$scope.data.kontak+"&alamat="+$scope.data.alamat+"&token=717mangan"
+		).success(function(data) {
+			console.log(data);
+		}).error(function(error, status) {
+			console.log(error, status);
+		});
+
+		$ionicPopup.alert({
+			title: 'Terima Kasih',
+			template: '<center>Terima kasih telah memberikan rekomendasi</center>',
+			okText: 'OK',
+			okType: 'button-balanced'
+		});
+
+		$state.go("tabsController.jelajah");
+	}
 })
 
-.controller('daftarCtrl', function($scope, $state, $stateParams, Services){
+.controller('daftarCtrl', function($scope, $state, $stateParams, Services, $http, $ionicPopup){
+	// define data
+	$scope.data = [];
 
+	$scope.daftar = function() {
+		// send email, error tapi terkirim
+		$http.post("https://mobilepangan.com/mangan/sendNotificationMail?nama="+$scope.data.namaResto+"&kontak="+$scope.data.kontak+"&alamat="+$scope.data.alamat+"&token=717mangan"
+		).success(function(data) {
+			console.log(data);
+		}).error(function(error, status) {
+			console.log(error, status);
+		});
+
+		$ionicPopup.alert({
+			title: 'Mendaftar',
+			template: '<center>Kami akan segera menghubungi anda</center>',
+			okText: 'OK',
+			okType: 'button-balanced'
+		});
+
+		$state.go("tabsController.jelajah");		
+	}
 })
 
-.controller('adsController', function($scope, $state) {
+.controller('adsController', function($scope, $state, ManganAds, Analytics) {
 	$scope.adsCounter = 5;
 	
 	$scope.showRowAds = function(isShow) {
 		if(isShow)
-			return "img/cat.jpg";
-		return "NOPE";
+		{
+			var adsUrl = ManganAds.getAdsUrl();
+			Analytics.logView('RowAds-'+ 'cat');
+			Analytics.logEvent('RowAds',  'cat');
+			return adsUrl;
+		}
+
+		return null;
 	}
-})
+});
