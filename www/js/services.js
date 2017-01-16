@@ -7,7 +7,7 @@
 // 	storageBucket: "project-1449647215698534337.appspot.com"
 // };
 
-//ryou
+// ryou
 // var config = {
 // 	apiKey: "AIzaSyBvDJSC5qe1AfnNbEZOiqw3GUFjvb4i3go",
 //     authDomain: "project-7791088175021720001.firebaseapp.com",
@@ -45,6 +45,7 @@ angular.module('app.services', [])
 	$localStorage = $localStorage.$default({
 		indexes: [],
 		maxSaved: 5,
+		token: null,
 		location: 'Surakarta' // default location
 	});
 
@@ -397,9 +398,28 @@ angular.module('app.services', [])
 			'fb_id': dataUser.id,
 			'name': dataUser.name,
 			'photoUrl': dataUser.picture.data.url,
+			'device_token' : $localStorage.token,
 			'dateRegister': firebase.database.ServerValue.TIMESTAMP,
 			'dateUpdatedData': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.updateUserData = function(userData) {
+		var promise = $q.defer();
+
+		user.child(userData.index).update({
+			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
+			'noTelpUser' : userData.noTelpUser,
+			'name' : userData.name,
+			'email' : userData.email,
+			'location' : userData.location,
+			'device_token' : $localStorage.token,
+			'lineUsername' : userData.lineUsername
+		}).then(function(result) {
 			promise.resolve(true);
 		});
 
@@ -457,7 +477,8 @@ angular.module('app.services', [])
 			'userPhotoUrl' : dataTransaksi.userPhotoUrl,
 			'username' : dataTransaksi.username,
 			'lineUsername' : dataTransaksi.lineUsername || null,
-			'tambahan' : dataTransaksi.tambahan || null
+			'tambahan' : dataTransaksi.tambahan || null,
+			'device_token' : $localStorage.token
 		}).then(function(result) {
 			promise.resolve(true);
 		});
@@ -470,23 +491,6 @@ angular.module('app.services', [])
 
 		queue.child(kurir +'/'+ idTransaksi).set({
 			'indexTransaksi' : idTransaksi
-		}).then(function(result) {
-			promise.resolve(true);
-		});
-
-		return promise.promise;
-	}
-
-	this.updateUserData = function(userData) {
-		var promise = $q.defer();
-
-		user.child(userData.index).update({
-			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
-			'noTelpUser' : userData.noTelpUser,
-			'name' : userData.name,
-			'email' : userData.email,
-			'location' : userData.location,
-			'lineUsername' : userData.lineUsername
 		}).then(function(result) {
 			promise.resolve(true);
 		});

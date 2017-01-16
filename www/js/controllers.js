@@ -840,6 +840,8 @@ angular.module('app.controllers', [])
     // though the default city has been set in Services
 	$scope.selectedCity = $localStorage.location? $localStorage.location: 'Surakarta';
 
+	console.log("localStorage token "+$localStorage.token);
+
 	firebase.auth().onAuthStateChanged(function(user) {
 		if (user) {
 			user.providerData.forEach(function(profile) {
@@ -2050,6 +2052,18 @@ angular.module('app.controllers', [])
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
 							console.log(JSON.stringify(user));
+							$http.get("https://graph.facebook.com/v2.8/me?fields=name,location,birthday,gender,picture.type(large){url},age_range,email,about", {params :{
+								access_token : $localStorage.fbaccesstoken,
+								format : "json"
+							}}).then(function(result) {
+								$scope.dataUser = result.data;
+								console.log(JSON.stringify(result.data));
+								Services.addUserData($scope.dataUser).then(function(user) {
+									console.log(user);
+								}, function(err) {
+									console.log(err);
+								})
+							})
 							// update user data?
 							// data already added to database
 						} else {
@@ -2255,7 +2269,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('pesanCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout, $ionicHistory, Analytics) {
+.controller('pesanCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout, $ionicHistory, Analytics, $localStorage) {
 	// code pesan here	var loadFlag = false;
 	var loadingIndicator = $ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
@@ -2402,7 +2416,8 @@ angular.module('app.controllers', [])
 									'userPhotoUrl' : dataUser.photoUrl,
 									'username' : $scope.uid,
 									'lineUsername' : dataUser.lineUsername || null,
-									'tambahan' : $scope.tambahan.catatan || null
+									'tambahan' : $scope.tambahan.catatan || null,
+									'device_token' : $localStorage.token
 								}
 							}
 							$ionicLoading.hide();
