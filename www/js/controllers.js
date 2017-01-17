@@ -996,6 +996,10 @@ angular.module('app.controllers', [])
 		return false;
 	}
 
+	$scope.transaksi = function() {
+		$state.go('tabsController.transaksi');
+	}
+
 	$scope.daftar = function() {
 		// analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		Analytics.logEvent('Rekomendasikan', 'Buka Rekomendasikan');
@@ -2663,6 +2667,10 @@ angular.module('app.controllers', [])
 			console.log('error get transactions :'+err);
 		})
 	}
+
+	$scope.rincianTransaksi = function() {
+		$state.go('tabsController.rincianTransaksi');
+	}
 })
 
 .controller('ulasanPenggunaCtrl', function($scope, $state, $stateParams, $ionicLoading, $ionicModal, $timeout, Services, Analytics) {
@@ -2946,7 +2954,11 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('adsController', function($scope, $state, ManganAds, Analytics) {
+.controller('rincianTransaksiCtrl', function($scope, $state, $stateParams, Services){
+
+})
+
+.controller('adsController', function($scope, $state) {
 	$scope.adsCounter = 5;
 	
 	$scope.showRowAds = function(isShow) {

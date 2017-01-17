@@ -9937,8 +9937,8 @@ p {
 
 .mangan-keterangan-teks {
   font-size: 14px;
-  text-align: justify;
-  line-height: 16px; }
+  line-height: 1.5;
+  font-weight: 300; }
 
 .mangan-tombol-aksi {
   background: none;
@@ -10017,14 +10017,23 @@ p {
 .mangan-menu > img {
   margin-top: -5px; }
 
+.mangan-menu span {
+  color: black;
+  font-weight: 300; }
+
 .mangan-menu > h2 {
   padding-top: 5px; }
 
 .mangan-menu > h3 {
   color: #01b2b1; }
 
+.mangan-menu > h5 {
+  color: #78715f; }
+
 .mangan-menu p {
-  color: #01b2b1; }
+  /*color: #78715f;*/
+  color: black;
+  font-weight: 300; }
 
 .mangan-menu > h3 > a {
   text-decoration: none; }
@@ -10271,6 +10280,12 @@ p {
 
 .mangan-tombol {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
+
+.kapital {
+  display: inline-block; }
+
+.kapital:first-letter {
+  text-transform: uppercase; }
 
 .login {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#01b2b1+0,f28509+100 */
