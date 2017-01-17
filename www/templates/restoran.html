@@ -21,6 +21,12 @@
                 </ion-slides> -->
                 <img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50">
             </div>
+            
+            <!-- <div class="row">
+                <button class="button button-outline button-block button-oren" style="display: block; margin: auto;width: 50%"><i class="icon ion-ios-location" style="padding-right: 5px; font-size: 20px;"></i>Menuju Lokasi</button>
+                <button class="button button-outline 
+                button-block button-oren" style="display: block; margin: auto;width: 50%"><i class="icon ion-ios-telephone" style="padding-right: 5px;  font-size: 20px;"></i>Hubungi Sekarang</button>
+            </div> -->
 
             <div class="mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'" style="border-bottom: 0;">
                 <h3 style="font-size: 14px; color:rgb(1,177,178);">
@@ -41,6 +47,7 @@
                         {{restoran.noTelp}}
                     </a>
                 </h3>
+
 
             </div>
            
@@ -83,7 +90,7 @@
                     <h2>{{menu.namaMenu}}</h2>
                     <h3 ng-show="(menu.harga % 1) == 0">{{menu.harga | currency:'Rp ':2}}</h3>
                     <h3 ng-hide="(menu.harga % 1) == 0">{{menu.harga}}</h3>
-                    <span ng-show="menu.tag" class="mangan-tag-menumakanan">{{menu.tag}}</span>
+                    <span ng-show="menu.tag" class="mangan-tag-menumakanan" style="color:rgb(1,177,178);">{{menu.tag}}</span>
 
                     <span class="mangan-menu-review" ng-show="menu.review && menu.review != 'null'">
                         <!-- <button class="mangan-button-menumakanan" ng-click="openMenu( {{ $index }} )"> -->
@@ -159,5 +166,5 @@
 
 
     </ion-content>
-        <button class="button icon-right ion-chevron-right button-full button-oren" ng-click="pesan()" style="position:fixed; border-top-right-radius:0px; border-top-left-radius:0px;border-bottom-right-radius:0px;border-bottom-left-radius:0px;margin-bottom:0px; bottom:0px;left:0px;right:0px;" ion-ripple>DELIVERY ORDER</button>
+        <button class="button icon-right ion-chevron-right button-full button-oren" ng-click="pesan()" style="position:fixed; border-top-right-radius:0px; border-top-left-radius:0px;border-bottom-right-radius:0px;border-bottom-left-radius:0px;margin-bottom:0px; bottom:0px;left:0px;right:0px;box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);" ion-ripple>DELIVERY ORDER</button>
 </ion-view>
