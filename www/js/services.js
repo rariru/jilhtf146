@@ -415,8 +415,7 @@ angular.module('app.services', [])
 			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
 			'noTelpUser' : userData.noTelpUser,
 			'name' : userData.name,
-			'email' : userData.email,
-			'location' : userData.location,
+			'photoUrl' : userData.photoUrl || userData.picture.data.url || userData.picture || null,
 			'device_token' : $localStorage.token,
 			'lineUsername' : userData.lineUsername
 		}).then(function(result) {
@@ -450,6 +449,7 @@ angular.module('app.services', [])
 		transaksi.child(kurir +'/'+ idTransaksi).set({
 			'alamat' : dataTransaksi.alamat,
 			'alamatUser' : dataTransaksi.alamatUser,
+			'alamatUserDetail' : dataTransaksi.alamatUserDetail || null,
 			'feedelivery' : dataTransaksi.feedelivery,
 			'indexResto' : dataTransaksi.indexResto,
 			'gambarResto' : dataTransaksi.gambarResto,
@@ -512,6 +512,7 @@ angular.module('app.services', [])
 	}
 
 	this.getHistory = function(index) {
+		console.log("nilai index uid : "+index);
 		return promiseValue(
 			user.child(index +'/transaksi')
 		);

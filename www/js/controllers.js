@@ -998,6 +998,10 @@ angular.module('app.controllers', [])
 		return false;
 	}
 
+	$scope.transaksi = function() {
+		$state.go('tabsController.transaksi');
+	}
+
 	$scope.daftar = function() {
 		// analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		Analytics.logEvent('Rekomendasikan', 'Buka Rekomendasikan');
@@ -2058,7 +2062,7 @@ angular.module('app.controllers', [])
 							}}).then(function(result) {
 								$scope.dataUser = result.data;
 								console.log(JSON.stringify(result.data));
-								Services.addUserData($scope.dataUser).then(function(user) {
+								Services.updateUserData($scope.dataUser).then(function(user) {
 									console.log(user);
 								}, function(err) {
 									console.log(err);
@@ -2088,6 +2092,21 @@ angular.module('app.controllers', [])
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
 							console.log(JSON.stringify(user));
+							$http.get("https://www.googleapis.com/userinfo/v2/me?fields=email,family_name,gender,given_name,hd,id,link,locale,name,picture,verified_email", {
+								headers :{
+									"Authorization" : "Bearer "+$localStorage.googleaccesstoken
+								}
+							}).then(function(result) {
+								$scope.dataUser = result.data;
+								console.log(JSON.stringify(result.data));
+								Services.updateUserData($scope.dataUser).then(function(user) {
+									console.log(user);
+								}, function(err) {
+									console.log(err);
+								})
+							}, function(err) {
+								console.log('error get from google apis: '+JSON.stringify(err));
+							})
 							// update user data?
 							// data already added to database
 						} else {
@@ -2580,48 +2599,63 @@ angular.module('app.controllers', [])
 				okType: 'button-balanced'
 			});
 		} else {
-			Services.addTransaction($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, $scope.transaksi).then(function() {
-				// console.log($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, JSON.stringify(angular.toJson($scope.transaksi)));
-				Services.addQueue($scope.transaksi.kurir, $scope.transaksi.indexTransaksi).then(function() {
-					var notificationData = {
-						"notification":{
-							"title":"Order Baru",
-							"body":"Dari "+$scope.transaksi.namaUser+" ke "+$scope.transaksi.namaResto,
-							"sound":"default",
-							"icon":"fcm_push_icon"
-						},
-						"to":"/topics/"+$scope.transaksi.kurir,
-						"priority":"high",
-						"restricted_package_name":"com.manganindonesia.kurma"
-					}
+			$ionicPopup.confirm({
+				title: 'Konfirmasi Pesan',
+				template: '<center>Apakah anda akan memesan?</center>',
+				okText: 'Ya',
+				cancelText: 'Tidak',
+				okType: 'button-balanced',
+				cancelType: 'button-clear'
+			}).then(function(res) {
+				console.log('button tapped');
+				if(res) {
+					Services.addTransaction($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, $scope.transaksi).then(function() {
+						// console.log($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, JSON.stringify(angular.toJson($scope.transaksi)));
+						Services.addQueue($scope.transaksi.kurir, $scope.transaksi.indexTransaksi).then(function() {
+							var notificationData = {
+								"notification":{
+									"title":"Order Baru",
+									"body":"Dari "+$scope.transaksi.namaUser+" ke "+$scope.transaksi.namaResto,
+									"sound":"default",
+									"icon":"fcm_push_icon"
+								},
+								"to":"/topics/"+$scope.transaksi.kurir,
+								"priority":"high",
+								"restricted_package_name":"com.manganindonesia.kurma"
+							}
 
-					$http.post('https://fcm.googleapis.com/fcm/send', notificationData, {
-						headers: {
-							"Content-Type" : "application/json",
-							"Authorization" : "key=AIzaSyD-AE-K7XNFFfwl-VWnmKW0PHMTHJBtQKo"
-						}
-					}).then(function(result) {
-						console.log(JSON.stringify(result));
+							$http.post('https://fcm.googleapis.com/fcm/send', notificationData, {
+								headers: {
+									"Content-Type" : "application/json",
+									"Authorization" : "key=AIzaSyD-AE-K7XNFFfwl-VWnmKW0PHMTHJBtQKo"
+								}
+							}).then(function(result) {
+								console.log(JSON.stringify(result));
+							}, function(err) {
+								console.log(err);
+							})
+
+							Services.addHistory($scope.uid, $scope.transaksi.indexTransaksi, $scope.transaksi.kurir).then(function(){
+								console.log('complete add history');
+							});
+
+							$ionicHistory.nextViewOptions({
+								disableBack: true
+							}, function(err) {
+								console.log('fail '+err);
+							});
+
+							delete $scope.transaksi;
+							$state.go('tabsController.jelajah');
+						})
 					}, function(err) {
 						console.log(err);
 					})
-
-					Services.addHistory($scope.uid, $scope.transaksi.indexTransaksi, $scope.transaksi.kurir).then(function(){
-						console.log('complete add history');
-					});
-
-					$ionicHistory.nextViewOptions({
-						disableBack: true
-					}, function(err) {
-						console.log('fail '+err);
-					});
-
-					delete $scope.transaksi;
-					$state.go('tabsController.transaksi');
-				})
-			}, function(err) {
-				console.log(err);
-			})
+				} else {
+					// analytics.trackEvent('Update', 'Tombol Nanti');
+					Analytics.logEvent('Update', 'Tombol Nanti');
+				}
+			});
 		}
 	}
 
@@ -2650,7 +2684,7 @@ angular.module('app.controllers', [])
 	}).then(function(modal) { $scope.maps = modal; });
 })
 
-.controller('transaksiCtrl', function($scope, $state, $stateParams, Services, $ionicHistory) {
+.controller('transaksiCtrl', function($scope, $state, $stateParams, Services, $ionicHistory, $ionicLoading) {
 	// code for transaksi
 	$scope.$on('$ionicView.enter', function() {
 		var user = firebase.auth().currentUser;
@@ -2665,6 +2699,7 @@ angular.module('app.controllers', [])
 	});
 
 	$scope.getHistory = function(uid) {
+		console.log(uid);
 		$scope.transactions = [];
 		Services.getHistory(uid).then(function(transactions) {
 			for (var id in transactions) {
@@ -2674,9 +2709,23 @@ angular.module('app.controllers', [])
 					// }
 				});
 			}
+			$scope.$broadcast('scroll.refreshComplete');
 		}, function(err) {
 			console.log('error get transactions :'+err);
+			$scope.$broadcast('scroll.refreshComplete');
 		})
+	}
+
+	$scope.rincianTransaksi = function(kurir, indexTransaksi) {
+		$state.go('tabsController.rincianTransaksi', {kurir: kurir, indexTransaksi: indexTransaksi});
+	}
+
+	$scope.getDate = function(timestamp) {
+		var x = new Date(timestamp);
+		var hours  = x.getHours();
+		var minute = "0"+x.getMinutes();
+		var time = hours+'.'+minute.substr(-2);
+		return time;
 	}
 })
 
@@ -2961,7 +3010,28 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('adsController', function($scope, $state, ManganAds, Analytics) {
+.controller('rincianTransaksiCtrl', function($scope, $state, $stateParams, Services, $ionicLoading){
+	$ionicLoading.show({
+      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+      duration: 5000
+    });
+
+	$scope.$on('$ionicView.enter', function() {
+		$scope.getTransaksiDetails();
+	});
+
+    $scope.getTransaksiDetails = function() {
+    	console.log($stateParams.kurir, $stateParams.indexTransaksi);
+    	Services.getTransaksiDetails($stateParams.kurir, $stateParams.indexTransaksi).then(function(detailTransaksi) {
+    		$scope.detailTransaksi = detailTransaksi;
+    		console.log(detailTransaksi);
+    	}, function(err) {
+    		console.log(err);
+    	});
+    }
+})
+
+.controller('adsController', function($scope, $state) {
 	$scope.adsCounter = 5;
 	
 	$scope.showRowAds = function(isShow) {
