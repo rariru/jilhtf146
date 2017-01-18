@@ -87,7 +87,7 @@
                     <img src="{{detailTransaksi.kurirPhotoUrl}}" style="margin-top:5px;">
                     <h3>{{detailTransaksi.namaKurir}}</h3>
                     <p>{{detailTransaksi.kurir}}</p>
-                    <button class="button button-small button-oren icon-left ion-ios-telephone" ng-click="kontak()">Hubungi Kurir</button>
+                    <a href="tel:{{detailTransaksi.kontakKurir}}" class="button button-small button-oren icon-left ion-ios-telephone" ng-click="kontak()">Hubungi Kurir</a>
                 </div>
     </div>
 </ion-view>

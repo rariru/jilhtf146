@@ -847,8 +847,10 @@ angular.module('app.controllers', [])
 			user.providerData.forEach(function(profile) {
 				if (profile.providerId === "facebook.com") {
 					$scope.getProfileByUid(profile.uid);
+					$scope.getOrder(profile.uid);
 				} else if (profile.providerId === "google.com") {
 					$scope.getProfileByUid(profile.uid);
+					$scope.getOrder(profile.uid);
 				} else {
 					console.log('logged in with another provider');
 				}
@@ -940,8 +942,10 @@ angular.module('app.controllers', [])
 			user.providerData.forEach(function(profile) {
 				if (profile.providerId === "facebook.com") {
 					$scope.getProfileByUid(profile.uid);
+					$scope.getOrder(profile.uid);
 				} else if (profile.providerId === "google.com") {
 					$scope.getProfileByUid(profile.uid);
+					$scope.getOrder(profile.uid);
 				} else {
 					console.log('logged in with another provider');
 				}
@@ -1148,6 +1152,37 @@ angular.module('app.controllers', [])
 		$localStorage.location = kota;
 		$scope.modal.hide();
 		// fetch data sesuai kota terpilih
+	}
+
+	$scope.getOrder = function(uid) {
+		console.log(uid);
+		$scope.queue = [];
+		$scope.process = [];
+		var date = new Date();
+		var currentDate = date.getTime() ;
+		var lastDayTimestamp = currentDate - 604800000;
+		Services.getHistory(uid).then(function(transactions) {
+			for (var id in transactions) {
+				Services.getTransaksiDetails(transactions[id].kurir, transactions[id].indexTransaksi).then(function(transaksi) {
+					console.log(transaksi.status);
+					if(transaksi.status == "queue") {
+						if (transaksi.tgl >= lastDayTimestamp) {
+							console.log(transaksi.tgl);
+							$scope.queue.push(transaksi);
+						}
+					} else if (transaksi.status == "process") {
+						if (transaksi.tgl >= lastDayTimestamp) {
+							console.log(transaksi.tgl);
+							$scope.process.push(transaksi);
+						}
+					}
+				});
+			}
+			$scope.$broadcast('scroll.refreshComplete');
+		}, function(err) {
+			console.log('error get transactions :'+err);
+			$scope.$broadcast('scroll.refreshComplete');
+		})
 	}
 })
 
@@ -2705,7 +2740,15 @@ angular.module('app.controllers', [])
 			for (var id in transactions) {
 				Services.getTransaksiDetails(transactions[id].kurir, transactions[id].indexTransaksi).then(function(transaksi) {
 					// if(transaksi.statusTransaksi == 'queue' || transaksi.statusTransaksi == 'process') {
-						$scope.transactions.push(transaksi);
+						var date = new Date();
+						var currentDate = date.getTime() ;
+						var lastDayTimestamp = currentDate - 604800000;
+						console.log("Current Date "+currentDate);
+						console.log("Date Transaksi "+transaksi.tgl);
+						if (transaksi.tgl >= lastDayTimestamp) {
+							console.log(transaksi.tgl);
+							$scope.transactions.push(transaksi);
+						}
 					// }
 				});
 			}

@@ -46,13 +46,12 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     })
 
     window.FirebasePlugin.onNotificationOpen(function(notification) {
-      alert(JSON.stringify(notification));
-      // $ionicPopup.alert({
-      //   title: 'Status Order',
-      //   template: 'Order diproses oleh Hamzah',
-      //   okText: 'OK',
-      //   okType: 'button-balanced'
-      // });
+      $ionicPopup.alert({
+        title: 'Proses',
+        template: 'Pesanan kamu sudah diproses',
+        okText: 'OK',
+        okType: 'button-balanced'
+      });
     }, function(err) {
       console.log(err);
     })
