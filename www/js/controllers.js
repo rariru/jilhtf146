@@ -2444,7 +2444,7 @@ angular.module('app.controllers', [])
 								$scope.transaksi = {
 									'alamat' : restoran.alamat,
 									'alamatUser' : null,
-									'feedelivery' : 5000,
+									'feedelivery' : 0,
 									'indexResto' : restoran.index,
 									'keteranganBuka' : restoran.keteranganBuka,
 									'gambarResto' : restoran.gambar[0],
@@ -2590,15 +2590,39 @@ angular.module('app.controllers', [])
 			$scope.getAddress(coords.latitude, coords.longitude);
 			$scope.transaksi.mapUser = $scope.mapUser;
 
+			var infoWindow = new google.maps.InfoWindow({
+				content: '<div id="content">Lokasi Anda Sekarang</div>',
+				maxWidth: 500
+			});
+
+			// google.maps.event.addListener(userMarker, 'click', function () {
+			// 	infoWindow.open($scope.mapUser, userMarker);
+			// });
+
+			infoWindow.open($scope.mapUser, userMarker);
+
+			$http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+coords.latitude+","+coords.longitude+"&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ").success(function(result) {
+				$scope.alamatUser = result.results[0].formatted_address;
+				$scope.transaksi.alamatUser = $scope.alamatUser;
+				infoWindow.setContent($scope.transaksi.alamatUser);
+			}).error(function(error) {
+				console.log('data error : '+error);
+			});
+
 			google.maps.event.addListener(userMarker, 'dragend', function(evt) {
 				$scope.mapUser = {
 					'lat' : evt.latLng.lat(),
 					'long' : evt.latLng.lng()
 				}
 				$scope.getAddress(evt.latLng.lat(), evt.latLng.lng());
+				updateInfoWindow();
 				$scope.transaksi.mapUser = $scope.mapUser;
 			})
 			// });
+
+			function updateInfoWindow() {
+				infoWindow.setContent($scope.transaksi.alamatUser);
+			}
 		}
 		$scope.maps.show();
 	}
@@ -2711,6 +2735,23 @@ angular.module('app.controllers', [])
 			$scope.alamatUser = "";
 			$ionicLoading.hide();
 		});
+	}
+
+	$scope.setFeeDelivery = function(kurir) {
+		console.log('ongkir '+$scope.transaksi.feedelivery);
+		if (kurir == "esd") {
+			console.log('esd 9000');
+			$scope.transaksi.feedelivery = 9000;
+			$scope.transaksi.totalHarga = $scope.transaksi.jumlah+$scope.transaksi.feedelivery;
+		} else if (kurir == "maskurir") {
+			console.log('maskurir 9000');
+			$scope.transaksi.feedelivery = 9000;
+			$scope.transaksi.totalHarga = $scope.transaksi.jumlah+$scope.transaksi.feedelivery;
+		} else {
+			console.log('kurma 5000');
+			$scope.transaksi.feedelivery = 5000;
+			$scope.transaksi.totalHarga = $scope.transaksi.jumlah+$scope.transaksi.feedelivery;
+		}
 	}
 
 	$ionicModal.fromTemplateUrl('templates/maps.html', {
@@ -3053,7 +3094,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('rincianTransaksiCtrl', function($scope, $state, $stateParams, Services, $ionicLoading){
+.controller('rincianTransaksiCtrl', function($scope, $state, $stateParams, Services, $ionicLoading, $ionicPopup){
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
       duration: 5000
@@ -3072,6 +3113,68 @@ angular.module('app.controllers', [])
     		console.log(err);
     	});
     }
+
+    $scope.cancelTransaction = function() {
+    	$ionicPopup.confirm({
+			title: 'Batalkan Pesanan',
+			template: '<center>Apakah anda yakin ingin membatalkan pesanan anda?</center>',
+			okText: 'Ya',
+			cancelText: 'Tidak',
+			okType: 'button-balanced',
+			cancelType: 'button-clear'
+		}).then(function(res) {
+			console.log('button tapped');
+
+			if(res) {
+				// batalkan pesanan
+				Services.getTransaksiDetails($stateParams.kurir, $stateParams.indexTransaksi).then(function(detailTransaksi) {
+					if (detailTransaksi.status == "process" || detailTransaksi.status == "done") {
+						$ionicPopup.alert({
+							title: 'Gagal',
+							template: '<center>Sepertinya pesanan kamu telah diproses kurir, silahkan hubungi kurir untuk membatalkan</center>',
+							okText: 'OK',
+							okType: 'button-balanced'
+						});
+					} else {
+						Services.changeStatus($scope.detailTransaksi.kurir, $scope.detailTransaksi.indexTransaksi).then(function() {
+							Services.deleteQueue($scope.detailTransaksi.kurir, $scope.detailTransaksi.indexTransaksi).then(function() {
+								console.log('order cancel');
+							}, function(err) {
+								console.log(err);
+							});
+						}, function(err) {
+							console.log('error change status : '+err);
+						});
+					}
+				})
+			} else {
+				// Tidak di tap
+			}
+		});
+    }
+
+	$scope.getDate = function(timestamp) {
+		var x = new Date(timestamp);
+		var hours  = x.getHours();
+		var minute = "0"+x.getMinutes();
+		var time = hours+'.'+minute.substr(-2);
+		return time;
+	}
+	
+	$scope.getTime = function(timestamp){
+	  var a = new Date(timestamp);
+	  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+	  var days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+	  var day = days[a.getDay()];
+	  var year = a.getFullYear();
+	  var month = months[a.getMonth()];
+	  var date = a.getDate();
+	  var hour = a.getHours();
+	  var min = a.getMinutes();
+	  var sec = a.getSeconds();
+	  var time = day+', '+date + ' ' + month + ' ' + year ;
+	  return time;
+	}
 })
 
 .controller('adsController', function($scope, $state) {

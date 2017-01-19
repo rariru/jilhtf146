@@ -524,6 +524,31 @@ angular.module('app.services', [])
 		);
 	}
 
+	this.changeStatus = function(kurir, index) {
+		var promise = $q.defer();
+
+		transaksi.child(kurir +'/'+ index).update({
+			'userCancel' : true,
+			'status' : "cancel",
+			'statusUserCancel' : firebase.database.ServerValue.TIMESTAMP
+		}).then(function() {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	// delete entri in queue list
+	this.deleteQueue = function(kurir, index) {
+		var promise = $q.defer();
+
+		queue.child(kurir +'/'+ index).remove().then(function() {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
 	function promiseAdded(obj) {
 		var promise = $q.defer();
 
