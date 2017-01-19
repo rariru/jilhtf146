@@ -2441,7 +2441,7 @@ angular.module('app.controllers', [])
 								$scope.transaksi.pesanan = $scope.selectedMenus;
 							} else {
 								$scope.transaksi = {
-									'uid' : dataUser.uid,
+									'indexUser' : dataUser.index,
 									'alamat' : restoran.alamat,
 									'alamatUser' : null,
 									'feedelivery' : 0,
@@ -3138,7 +3138,7 @@ angular.module('app.controllers', [])
 					} else {
 						Services.changeStatus($scope.detailTransaksi.kurir, $scope.detailTransaksi.indexTransaksi).then(function() {
 							Services.deleteQueue($scope.detailTransaksi.kurir, $scope.detailTransaksi.indexTransaksi).then(function() {
-								Service.addCancel($scope.detailTransaksi.uid, $scope.detailTransaksi);
+								Service.addCancel($scope.detailTransaksi.indexUser, $scope.detailTransaksi);
 								console.log('order cancel');
 							}, function(err) {
 								console.log(err);
