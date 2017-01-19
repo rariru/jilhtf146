@@ -1,6 +1,6 @@
 <ion-view id="pesan">
     <ion-nav-title>{{restoran.namaResto}}</ion-nav-title>
-    <ion-content lazy-scroll padding="true" class="has-header">
+    <ion-content lazy-scroll padding="true" class="has-header has-footer">
         <ion-refresher
             on-refresh="getMenus()"
             spinner = "ripple" >
@@ -27,19 +27,21 @@
                     </p>
             </ion-item>
 
-            <div class="list">
+            <!-- <div class="list">
                 <div class="item mangan-menu" style="border-bottom: 1px solid rgb(230,231,232);" ion-ripple>
                     <label class="item-input mangan-menu" style="">
                         <i class="mangan-invoice-icon icon ion-compose" style="margin-right:5px;"></i>
-                        <span class=""><input type="text" placeholder="Tambah Catatan" ng-model="tambahan.catatan" style="color:orangered;"></span>
+                        <span class=""><input type="text" placeholder="Tulis Pesanan Lain" ng-model="tambahan.catatan" style="color:orangered;"></span>
                     </label>
                 </div>
-            </div>
+            </div> -->
             
         </ion-list>
 
-        <div class="">
+        <!-- <div class="">
             <button class="button button-outline button-block button-oren" ng-click="invoice()" ion-ripple><i class="icon ion-ios-cart"></i> LANJUTKAN</button>
-        </div>
+        </div> -->
     </ion-content>
+
+        <button class="button button-full button-oren icon-right ion-chevron-right" ng-click="invoice()" style="position:fixed; border-top-right-radius:0px; border-top-left-radius:0px;border-bottom-right-radius:0px;border-bottom-left-radius:0px;margin-bottom:0px; bottom:0px;left:0px;right:0px;text-align: center; box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);" ion-ripple>LANJUTKAN</button>
 </ion-view>

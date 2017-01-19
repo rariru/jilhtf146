@@ -360,6 +360,28 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+   .state('tabsController.rincianTransaksi', {
+    url: '/rincianTransaksi',
+    views: {
+      'tab1':{
+        templateUrl:'templates/rincianTransaksi.html',
+        controller:'rincianTransaksiCtrl'
+      },
+      'tab2':{
+        templateUrl:'templates/rincianTransaksi.html',
+        controller:'rincianTransaksiCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/rincianTransaksi.html',
+        controller: 'rincianTransaksiCtrl'
+      }
+    },
+    params : {
+      kurir : null,
+      indexTransaksi : null
+    }
+  })
+
   .state('tabsController.transaksi', {
     url: '/transaksi',
     views: {
@@ -377,6 +399,7 @@ angular.module('app.routes', ['ionicUIRouter'])
       }
     }
   });
+
 
   $urlRouterProvider.otherwise('/page1/page2');
 

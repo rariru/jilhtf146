@@ -1,21 +1,28 @@
 <ion-view title="Transaksi" id="transaksi">
     <ion-content lazy-scroll padding="true" class="has-header">
-<!--         <ion-refresher
+        <ion-refresher
             pulling-text="Lepas untuk memperbarui"
             on-refresh="getHistory(uid)"
             spinner = "ripple" >
-        </ion-refresher> -->
+        </ion-refresher>
         <div class="mangan-nodata" ng-hide="transactions.length > 0">
             <center><i class="ion-ios-nutrition"></i></center>
             <p>Anda belum melakukan transaksi</p>
         </div>
-        <ion-list>
-            <ion-item class="item-thumbnail-left assertive item-text-wrap" ng-repeat="transaction in transactions | orderObjectBy: 'tgl' :true">
+        
+        <div class="card mangan-card" ng-hide="transactions.length == 0">
+            <div class="kontak-header">
+                <p>Riwayat transaksi 1 minggu terakhir</p>
+            </div>
+            <div class="item item-thumbnail-left item-icon-right assertive item-text-wrap mangan-menu" style="border-left: 1px solid rgb(230,231,232);border-right: 1px solid rgb(230,231,232);" ng-repeat="transaction in transactions | orderObjectBy: 'tgl' :true" ng-click="rincianTransaksi(transaction.kurir, transaction.indexTransaksi)";>
             	<img ng-src="{{transaction.pesanan[0].gambar}}">
-                <h2>{{transaction.namaResto}}</h2>
-                <p>{{transaction.status}}</p>
-                <p>{{transaction.kurir}}</p>
-            </ion-item>
-        </ion-list>
+                <h3 style="padding-top:0;">{{transaction.namaResto}}</h3>
+                <h3 style="color: black">Status: <span class="kapital" style="">{{transaction.status}}</span></h3>
+                <h3 style="color: black">Waktu Update: <span class="kapital" style="">{{getDate(transaction.tgl)}}</span></h3>
+                <h3 style="color: black">Kurir: <span class="kapital" style="">{{transaction.kurir}}</span></h3>
+                <h3 style="color: black">Total Bayar: <span class="kapital" style="">{{transaction.totalHarga}}</span></h3>
+                <i class="icon ion-ios-arrow-right" style="font-size: 40px; color: rgb(1,177,178); opacity: 0.5; "></i>
+            </div>
+        </div>
     </ion-content>
 </ion-view>
