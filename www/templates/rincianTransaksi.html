@@ -70,11 +70,11 @@
                     <i class="mangan-invoice-icon icon ion-ios-person"></i>
                     <span style="width: 100%">Dipesan pada : {{getDate(detailTransaksi.tgl)}}</span>
                 </label>
-                <label class="item-input mangan-menu">
+                <label class="item-input mangan-menu" ng-show="detailTransaksi.timeProcess">
                     <i class="mangan-invoice-icon icon ion-ios-location"></i>
                     <span style="width: 100%">Diproses kurir pada : {{getDate(detailTransaksi.timeProcess)}}</span>
                 </label>
-                <label class="item-input mangan-menu">
+                <label class="item-input mangan-menu" ng-show="detailTransaksi.statusUpdateTime">
                     <i class="mangan-invoice-icon icon ion-ios-telephone"></i>
                     <span style="width: 100%">Selesai pada : {{getDate(detailTransaksi.statusUpdateTime)}}</span>
                 </label>

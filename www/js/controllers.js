@@ -657,27 +657,23 @@ angular.module('app.controllers', [])
 
 		///////////////////
 		// fitur pesan
-		var user = firebase.auth().currentUser;
-		if (user) {
-			$state.go('tabsController.pesan', {'index': $scope.restoran.index});
-			// $ionicPopup.alert({
-			// 	title: 'Logged In',
-			// 	template: '<center>Anda dapat memesan</center>',
-			// 	okText: 'Pesan',
-			// 	okType: 'button-balanced'
-			// });
+		if ($scope.restoran.delivery) {
+			var user = firebase.auth().currentUser;
+			if (user) {
+				$state.go('tabsController.pesan', {'index': $scope.restoran.index});
+			} else {
+				$state.go('login');
+			}
 		} else {
-			$state.go('login');
+			//////////////////
+			// tidak mendukung pesan antar
+			$ionicPopup.alert({
+				title: 'Oops',
+				template: '<center>:( kuliner ini belum mendukung pesan antar</center>',
+				okText: 'OK',
+				okType: 'button-balanced'
+			});
 		}
-
-		//////////////////
-		// coming soon
-		// $ionicPopup.alert({
-		// 	title: 'Coming Soon',
-		// 	template: '<center>Layanan ini akan segera hadir</center>',
-		// 	okText: 'OK',
-		// 	okType: 'button-balanced'
-		// });
 	};
 
 	$scope.ulasanPengguna = function() {
@@ -2442,6 +2438,7 @@ angular.module('app.controllers', [])
 								$scope.transaksi.pesanan = $scope.selectedMenus;
 							} else {
 								$scope.transaksi = {
+									'uid' : dataUser.uid,
 									'alamat' : restoran.alamat,
 									'alamatUser' : null,
 									'feedelivery' : 0,
@@ -3138,6 +3135,7 @@ angular.module('app.controllers', [])
 					} else {
 						Services.changeStatus($scope.detailTransaksi.kurir, $scope.detailTransaksi.indexTransaksi).then(function() {
 							Services.deleteQueue($scope.detailTransaksi.kurir, $scope.detailTransaksi.indexTransaksi).then(function() {
+								Service.addCancel($scope.detailTransaksi.uid, $scope.detailTransaksi);
 								console.log('order cancel');
 							}, function(err) {
 								console.log(err);

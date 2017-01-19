@@ -549,6 +549,15 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
+	this.addCancel = function(uid, index) {
+		var promise = $q.defer();
+
+		user.child(uid +'/cancel/'+index).set({
+			'index' : index,
+			'timestamp' : firebase.database.ServerValue.TIMESTAMP
+		})
+	}
+
 	function promiseAdded(obj) {
 		var promise = $q.defer();
 
