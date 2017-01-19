@@ -456,7 +456,7 @@ angular.module('app.services', [])
 		var promise = $q.defer();
 
 		transaksi.child(kurir +'/'+ idTransaksi).set({
-			'uid' : dataTransaksi.uid,
+			'indexUser' : dataTransaksi.indexUser,
 			'alamat' : dataTransaksi.alamat,
 			'alamatUser' : dataTransaksi.alamatUser,
 			'alamatUserDetail' : dataTransaksi.alamatUserDetail || null,
@@ -559,11 +559,11 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
-	this.addCancel = function(uid, index) {
+	this.addCancel = function(indexUser, indexTransaksi) {
 		var promise = $q.defer();
 
-		user.child(uid +'/cancel/'+index).set({
-			'index' : index,
+		user.child(indexUser +'/cancel/'+indexTransaksi).set({
+			'indexTransaksi' : indexTransaksi,
 			'timestamp' : firebase.database.ServerValue.TIMESTAMP
 		})
 	}
