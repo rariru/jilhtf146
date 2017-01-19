@@ -447,6 +447,7 @@ angular.module('app.services', [])
 		var promise = $q.defer();
 
 		transaksi.child(kurir +'/'+ idTransaksi).set({
+			'uid' : dataTransaksi.uid,
 			'alamat' : dataTransaksi.alamat,
 			'alamatUser' : dataTransaksi.alamatUser,
 			'alamatUserDetail' : dataTransaksi.alamatUserDetail || null,
