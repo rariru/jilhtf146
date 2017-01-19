@@ -1114,16 +1114,19 @@ angular.module('app.controllers', [])
 					console.log('ada di Jogja');
 					// Code fetch database jogja
 				} else {
-					console.log('tampilkan popup lokasi');
-					$scope.modal.show();
+					//pick location
+					// console.log('tampilkan popup lokasi');
+					// $scope.modal.show();
 				}
 			}).error(function(error) {
 				console.log('data error : '+error);
 			});
 		}, function(error) {
-			console.log("could not get location");
-			console.log('tampilkan popup lokasi');
-			$scope.modal.show();
+			//pick location
+			// console.log("could not get location");
+			// console.log('tampilkan popup lokasi');
+			// $scope.modal.show();
+			
 			// show dialog to pick city manually 
 
 			// $ionicPopup.alert({
