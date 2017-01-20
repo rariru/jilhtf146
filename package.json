@@ -23,7 +23,6 @@
     "ionic-plugin-keyboard",
     "cordova-plugin-x-socialsharing",
     "cordova-plugin-x-toast",
-    "cordova-plugin-console",
     "cordova-plugin-compat",
     "cordova-plugin-geolocation",
     "cordova-plugin-inappbrowser",

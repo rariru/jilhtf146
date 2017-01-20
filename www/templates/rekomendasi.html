@@ -17,7 +17,7 @@
             <div class="item item-text-wrap mangan-menu" style="border-left: 1px solid #e6e7e8;border-right: 1px solid #e6e7e8;">
                 <label class="item-input mangan-menu">
                     <i class="mangan-invoice-icon icon ion-android-restaurant"></i>
-                    <span class="mangan-line"><input type="text" placeholder="Nama Tempat Kuliner" ng-model="data.namaResto"></span>
+                    <span class="mangan-line"><input type="text" placeholder="Nama Kuliner" ng-model="data.namaResto"></span>
                 </label>
                 <label class="item-input mangan-menu">
                     <i class="mangan-invoice-icon icon ion-ios-location"></i>
@@ -33,10 +33,19 @@
                     <span class=""><p class="input-label" style="color:#a3a3a3;">Kategori</p></span>
                     <select ng-model="data.jenis">
                       <option value="Restoran/Cafe">Restoran/Cafe</option>
+                      <option value="Warung Makan">Warung Makan</option>
                       <option value="Street Food">Street Food (Jajanan Pinggir Jalan)</option>
                       <option value="Outlet">Food Outlet (Makanan yang Dijual di Food Court)</option>
                       <option value="HIK">Wedangan/Hik</option>
                     </select>
+                </label>
+                <label class="item-input mangan-menu">
+                    <i class="mangan-invoice-icon icon ion-ios-telephone"></i>
+                    <span class="mangan-line"><input type="number" placeholder="Kontak anda" ng-model="data.kontak"></span>
+                </label>
+                <label class="item-input mangan-menu">
+                    <i class="mangan-invoice-icon icon ion-compose"></i>
+                    <span class="mangan-line"><input type="text" placeholder="Deskripsi Kuliner" ng-model="data.alasan"></span>
                 </label>
             </div>
         </div>
