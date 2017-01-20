@@ -433,6 +433,21 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
+	this.updateUserDataFB = function(userData) {
+		var promise = $q.defer();
+
+		user.child(userData.id).update({
+			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
+			'name' : userData.name,
+			'photoUrl' : userData.photoUrl || userData.picture.data.url || null,
+			'device_token' : $localStorage.token
+		}).then(function(result) {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
 	this.addUserDataByGoogle = function(dataUser) {
 		var promise = $q.defer();
 
