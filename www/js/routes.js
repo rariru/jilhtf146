@@ -267,6 +267,7 @@ angular.module('app.routes', ['ionicUIRouter'])
 
   .state('tabsController.invoice',{
     url: '/invoice',
+    cache: false,
     views: {
       'tab1':{
         templateUrl:'templates/invoice.html',

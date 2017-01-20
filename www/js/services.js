@@ -583,6 +583,40 @@ angular.module('app.services', [])
 		})
 	}
 
+
+	// DAFTAR& REKOMENDASI
+	this.daftarResto = function(data) {
+		var promise = $q.defer();
+
+		firebase.database().ref('daftar').push({
+			'namaResto': data.namaResto,
+			'namaPemilik': data.namaPemilik,
+			'alamat': data.alamat,
+			'kontak': data.kontak,
+			'deskripsi': data.deskripsi
+		}).then(function() {
+			promise.resolve(true)
+		});
+
+		return promise.promise;
+	}
+
+	this.rekomendasiResto = function(data) {
+		var promise = $q.defer();
+
+		firebase.database().ref('rekomendasi').push({
+			'namaResto': data.namaResto,
+			'alamat': data.alamat,
+			'jenis': data.jenis,
+			'kontak': data.kontak,
+			'alasan': data.alasan
+		}).then(function() {
+			promise.resolve(true)
+		});
+
+		return promise.promise;
+	}
+
 	function promiseAdded(obj) {
 		var promise = $q.defer();
 

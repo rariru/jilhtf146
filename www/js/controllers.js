@@ -716,6 +716,7 @@ angular.module('app.controllers', [])
     }, 10000);
 
     $scope.$on('$ionicView.enter', function() {
+    	$scope.getMenus();
     	// analytics.trackView('Menu Kuliner');
     	Analytics.logView('Menu Kuliner');
 	    console.log('trackView, Menu Kuliner');
@@ -741,7 +742,7 @@ angular.module('app.controllers', [])
 		});
     }
 
-    $scope.getMenus();
+    // $scope.getMenus();
 
 	$ionicModal.fromTemplateUrl('templates/ulasanMenu.html', {
 		scope: $scope,
@@ -2484,6 +2485,7 @@ angular.module('app.controllers', [])
 							}
 							$ionicLoading.hide();
 							$state.go('tabsController.invoice', {'transaksi': $scope.transaksi});
+							// console.log(JSON.stringify($scope.transaksi));
 						}
 					});
 				}
@@ -2508,7 +2510,11 @@ angular.module('app.controllers', [])
 		$scope.transaksi.totalHarga = totalHarga();
 	}
 
-	$scope.invoice();
+	// $scope.invoice();
+	$scope.$on('$ionicView.enter', function() {
+    	$scope.invoice();
+    	// console.log(JSON.stringify($scope.transaksi));
+    });
 
 	function jumlah() {
 		var jumlah = 0;
@@ -2636,6 +2642,8 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.checkout = function() {
+		$scope.maps.remove();
+
 		var user = firebase.auth().currentUser;
 		if (user) {
 			user.providerData.forEach(function(profile) {
@@ -2711,8 +2719,13 @@ angular.module('app.controllers', [])
 								console.log('fail '+err);
 							});
 
-							$scope.transaksi = {};
-							delete $scope.transaksi;
+							// $scope.transaksi = {};
+							// delete $scope.transaksi;
+							// delete $stateParams.transaksi.pesanan;
+							// $stateParams.transaksi.kurir = "";
+							// $stateParams.transaksi.alamatUser = "";
+							// $stateParams.transaksi.alamatUserDetail = "";
+							// $scope.invoice();
 							$state.go('tabsController.jelajah');
 						})
 					}, function(err) {
@@ -3078,6 +3091,7 @@ angular.module('app.controllers', [])
 			}).error(function(error, status) {
 				console.log(error, status);
 			});
+			Services.rekomendasiResto($scope.data);
 
 			$ionicPopup.alert({
 				title: 'Terima Kasih',
@@ -3118,6 +3132,7 @@ angular.module('app.controllers', [])
 			}).error(function(error, status) {
 				console.log(error, status);
 			});
+			Services.daftarResto($scope.data);
 
 			$ionicPopup.alert({
 				title: 'Mendaftar',
