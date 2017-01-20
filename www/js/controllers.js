@@ -977,6 +977,7 @@ angular.module('app.controllers', [])
 	$scope.getProfileByUid = function(uid) {
 		Services.getProfileByUid(uid).then(function(dataUser) {
 			if (dataUser) {
+				$localStorage.indexUser = dataUser.index;
 				$scope.dataUser = dataUser;
 			} else {
 				$scope.dataUser = "";
@@ -2094,6 +2095,7 @@ angular.module('app.controllers', [])
 								access_token : $localStorage.fbaccesstoken,
 								format : "json"
 							}}).then(function(result) {
+								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
 								console.log(JSON.stringify(result.data));
 								Services.updateUserDataFB($scope.dataUser).then(function(user) {
@@ -2110,6 +2112,7 @@ angular.module('app.controllers', [])
 								access_token : $localStorage.fbaccesstoken,
 								format : "json"
 							}}).then(function(result) {
+								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
 								console.log(JSON.stringify(result.data));
 								Services.addUserData($scope.dataUser).then(function(user) {
@@ -2131,6 +2134,7 @@ angular.module('app.controllers', [])
 									"Authorization" : "Bearer "+$localStorage.googleaccesstoken
 								}
 							}).then(function(result) {
+								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
 								console.log(JSON.stringify(result.data));
 								Services.updateUserData($scope.dataUser).then(function(user) {
@@ -2151,6 +2155,7 @@ angular.module('app.controllers', [])
 									"Authorization" : "Bearer "+$localStorage.googleaccesstoken
 								}
 							}).then(function(result) {
+								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
 								console.log(JSON.stringify(result.data));
 								Services.addUserDataByGoogle($scope.dataUser).then(function(user) {

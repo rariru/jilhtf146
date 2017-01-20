@@ -46,7 +46,8 @@ angular.module('app.services', [])
 		indexes: [],
 		maxSaved: 5,
 		token: null,
-		location: 'Surakarta' // default location
+		location: 'Surakarta', // default location,
+		indexUser: 'uyehh'
 	});
 
 	this.getVersion = function() {
@@ -349,9 +350,9 @@ angular.module('app.services', [])
 	this.searchQuery = function(query) {
 		var promise = $q.defer();
 
-		var user = firebase.auth().currentUser;
-		if(user) {
-			search.child(user.uid).push({
+		var logged = firebase.auth().currentUser;
+		if(logged) {
+			user.child($localStorage.indexUser +"/search").push({
 				'keyword': query,
 				'timestamp': firebase.database.ServerValue.TIMESTAMP
 			});
