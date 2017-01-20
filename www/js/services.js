@@ -593,10 +593,7 @@ angular.module('app.services', [])
 			'namaPemilik': data.namaPemilik,
 			'alamat': data.alamat,
 			'kontak': data.kontak,
-			'namaResto': data.namaResto,
-			'namaPemilik': data.namaPemilik,
-			'alamat': data.alamat,
-			'kontak': data.kontak
+			'deskripsi': data.deskripsi
 		}).then(function() {
 			promise.resolve(true)
 		});
@@ -611,9 +608,8 @@ angular.module('app.services', [])
 			'namaResto': data.namaResto,
 			'alamat': data.alamat,
 			'jenis': data.jenis,
-			'namaResto': data.namaResto,
-			'alamat': data.alamat,
-			'jenis': data.jenis
+			'kontak': data.kontak,
+			'alasan': data.alasan
 		}).then(function() {
 			promise.resolve(true)
 		});

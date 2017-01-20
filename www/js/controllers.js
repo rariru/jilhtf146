@@ -3091,7 +3091,7 @@ angular.module('app.controllers', [])
 			}).error(function(error, status) {
 				console.log(error, status);
 			});
-			Services.rekomendasiResto(data);
+			Services.rekomendasiResto($scope.data);
 
 			$ionicPopup.alert({
 				title: 'Terima Kasih',
@@ -3132,7 +3132,7 @@ angular.module('app.controllers', [])
 			}).error(function(error, status) {
 				console.log(error, status);
 			});
-			Services.daftarResto(data);
+			Services.daftarResto($scope.data);
 
 			$ionicPopup.alert({
 				title: 'Mendaftar',
