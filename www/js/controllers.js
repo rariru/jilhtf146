@@ -504,7 +504,7 @@ angular.module('app.controllers', [])
 				title: 'Belum login',
 				template: '<center>Kamu harus login dulu</center>',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			});
 			$state.go('login');
 		};
@@ -669,9 +669,9 @@ angular.module('app.controllers', [])
 			// tidak mendukung pesan antar
 			$ionicPopup.alert({
 				title: 'Oops',
-				template: '<center>:( kuliner ini belum mendukung pesan antar</center>',
+				template: '<center>Maaf kuliner ini belum mendukung pesan antar</center>',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			});
 		}
 	};
@@ -716,6 +716,7 @@ angular.module('app.controllers', [])
     }, 10000);
 
     $scope.$on('$ionicView.enter', function() {
+    	$scope.getMenus();
     	// analytics.trackView('Menu Kuliner');
     	Analytics.logView('Menu Kuliner');
 	    console.log('trackView, Menu Kuliner');
@@ -741,7 +742,7 @@ angular.module('app.controllers', [])
 		});
     }
 
-    $scope.getMenus();
+    // $scope.getMenus();
 
 	$ionicModal.fromTemplateUrl('templates/ulasanMenu.html', {
 		scope: $scope,
@@ -803,7 +804,7 @@ angular.module('app.controllers', [])
 			title: 'Coming Soon',
 			template: '<center>Layanan ini akan segera hadir</center>',
 			okText: 'OK',
-			okType: 'button-balanced'
+			okType: 'button-oren'
 		});
 
 		////////////////////
@@ -870,7 +871,7 @@ angular.module('app.controllers', [])
 						template: '<center>Versi baru aplikasi tersedia di play store</center>',
 						okText: 'OK',
 						cancelText: 'Nanti',
-						okType: 'button-balanced',
+						okType: 'button-oren',
 						cancelType: 'button-clear'
 					}).then(function(res) {
 						console.log('button tapped');
@@ -1088,7 +1089,7 @@ angular.module('app.controllers', [])
 			// 	title: 'Error',
 			// 	template: 'Tidak dapat menemukan sinyal GPS!',
 			// 	okText: 'OK',
-			// 	okType: 'button-balanced'
+			// 	okType: 'button-oren'
 			// }).then(function(res) {
 			// 	showMap();
 			// });
@@ -1140,7 +1141,7 @@ angular.module('app.controllers', [])
 			// 	title: 'Error',
 			// 	template: 'Tidak dapat menemukan sinyal GPS!',
 			// 	okText: 'OK',
-			// 	okType: 'button-balanced'
+			// 	okType: 'button-oren'
 			// }).then(function(res) {
 			// 	showMap();
 			// });
@@ -1753,7 +1754,7 @@ angular.module('app.controllers', [])
 						// 	title: 'Error',
 						// 	template: 'Tidak dapat menggunakan GPS, hidupkan setting GPS anda',
 						// 	okText: 'OK',
-						// 	okType: 'button-balanced'
+						// 	okType: 'button-oren'
 						// });
 					});
 				}
@@ -1772,7 +1773,7 @@ angular.module('app.controllers', [])
 	// 		title: 'Error',
 	// 		template: 'Tidak dapat menggunakan GPS, hidupkan setting GPS anda',
 	// 		okText: 'OK',
-	// 		okType: 'button-balanced'
+	// 		okType: 'button-oren'
 	// 	});
 	// });
 
@@ -1834,7 +1835,7 @@ angular.module('app.controllers', [])
 			title: 'Error',
 			template: 'Tidak dapat menemukan sinyal GPS!',
 			okText: 'OK',
-			okType: 'button-balanced'
+			okType: 'button-oren'
 		}).then(function(res) {
 			showMap();
 		});
@@ -2098,7 +2099,7 @@ angular.module('app.controllers', [])
 								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
 								console.log(JSON.stringify(result.data));
-								Services.updateUserData($scope.dataUser).then(function(user) {
+								Services.updateUserDataFB($scope.dataUser).then(function(user) {
 									console.log(user);
 								}, function(err) {
 									console.log(err);
@@ -2209,8 +2210,10 @@ angular.module('app.controllers', [])
 		Services.getProfileByUid(uid).then(function(dataUser) {
 			if (dataUser) {
 				$scope.dataUser = dataUser;
+				$ionicLoading.hide();
 			} else {
 				console.log('profil no dataUser found with uid:'+uid);
+				makeToast('Data tidak ditemukan');
 			}
 		})
 	} 
@@ -2239,7 +2242,7 @@ angular.module('app.controllers', [])
 
 		Services.updateUserData($scope.dataUser).then(function(result) {
 			$ionicLoading.hide();
-			makeToast('Data berhasil diperbarui')
+			makeToast('Data berhasil diperbarui');
 		}, function(err) {
 			console.log('error');
 			$ionicLoading.hide();
@@ -2272,7 +2275,7 @@ angular.module('app.controllers', [])
 				title: 'Error',
 				template: 'Tidak dapat menemukan sinyal GPS!',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			}).then(function(res) {
 				showMap();
 			});
@@ -2414,7 +2417,7 @@ angular.module('app.controllers', [])
 				title: 'Pilih pesanan',
 				template: '<center>Kamu harus memilih pesanan minimal 1</center>',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			});
 		} else if($scope.selectedMenus !== ""){
 			var user = firebase.auth().currentUser;
@@ -2427,7 +2430,7 @@ angular.module('app.controllers', [])
 					title: 'Belum login',
 					template: '<center>Kamu harus login dulu</center>',
 					okText: 'OK',
-					okType: 'button-balanced'
+					okType: 'button-oren'
 				});
 				$state.go('login');
 			}
@@ -2505,7 +2508,10 @@ angular.module('app.controllers', [])
 		$scope.transaksi.totalHarga = totalHarga();
 	}
 
-	$scope.invoice();
+	// $scope.invoice();
+	$scope.$on('$ionicView.enter', function() {
+    	$scope.invoice();
+    });
 
 	function jumlah() {
 		var jumlah = 0;
@@ -2564,7 +2570,7 @@ angular.module('app.controllers', [])
 				title: 'Lokasi Tidak Ditemukan',
 				template: '<center>Nyalakan setting GPS anda</center>',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			}).then(function(res) {
 				showMap();
 			});
@@ -2643,7 +2649,7 @@ angular.module('app.controllers', [])
 				title: 'Belum login',
 				template: '<center>Kamu harus login dulu</center>',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			});
 			$state.go('login');
 		}
@@ -2660,7 +2666,7 @@ angular.module('app.controllers', [])
 				title: 'Data tidak lengkap',
 				template: '<center>Mohon lengkapi data pemesanan</center>',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			});
 		} else {
 			$ionicPopup.confirm({
@@ -2668,10 +2674,9 @@ angular.module('app.controllers', [])
 				template: '<center>Apakah anda akan memesan?</center>',
 				okText: 'Ya',
 				cancelText: 'Tidak',
-				okType: 'button-balanced',
+				okType: 'button-oren',
 				cancelType: 'button-clear'
 			}).then(function(res) {
-				console.log('button tapped');
 				if(res) {
 					Services.addTransaction($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, $scope.transaksi).then(function() {
 						// console.log($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, JSON.stringify(angular.toJson($scope.transaksi)));
@@ -2709,16 +2714,16 @@ angular.module('app.controllers', [])
 								console.log('fail '+err);
 							});
 
+							$scope.transaksi = {};
 							delete $scope.transaksi;
-							$scope.invoice();
+							// $scope.invoice();
 							$state.go('tabsController.jelajah');
 						})
 					}, function(err) {
 						console.log(err);
 					})
 				} else {
-					// analytics.trackEvent('Update', 'Tombol Nanti');
-					Analytics.logEvent('Update', 'Tombol Nanti');
+					// gajadi pesan
 				}
 			});
 		}
@@ -2944,7 +2949,7 @@ angular.module('app.controllers', [])
 				title: 'Belum login',
 				template: '<center>Kamu harus login dulu</center>',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			});
 			$state.go('login');
 		};
@@ -3069,7 +3074,7 @@ angular.module('app.controllers', [])
 			title: 'Terima Kasih',
 			template: '<center>Terima kasih telah memberikan rekomendasi</center>',
 			okText: 'OK',
-			okType: 'button-balanced'
+			okType: 'button-oren'
 		});
 
 		$state.go("tabsController.jelajah");
@@ -3093,14 +3098,14 @@ angular.module('app.controllers', [])
 			title: 'Mendaftar',
 			template: '<center>Kami akan segera menghubungi anda</center>',
 			okText: 'OK',
-			okType: 'button-balanced'
+			okType: 'button-oren'
 		});
 
 		$state.go("tabsController.jelajah");		
 	}
 })
 
-.controller('rincianTransaksiCtrl', function($scope, $state, $stateParams, Services, $ionicLoading, $ionicPopup){
+.controller('rincianTransaksiCtrl', function($scope, $state, $stateParams, Services, $ionicLoading, $ionicPopup, $ionicHistory){
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
       duration: 5000
@@ -3126,25 +3131,33 @@ angular.module('app.controllers', [])
 			template: '<center>Apakah anda yakin ingin membatalkan pesanan anda?</center>',
 			okText: 'Ya',
 			cancelText: 'Tidak',
-			okType: 'button-balanced',
-			cancelType: 'button-clear'
+			okType: 'button-clear',
+			cancelType: 'button-oren'
 		}).then(function(res) {
 			console.log('button tapped');
 
 			if(res) {
 				// batalkan pesanan
 				Services.getTransaksiDetails($stateParams.kurir, $stateParams.indexTransaksi).then(function(detailTransaksi) {
-					if (detailTransaksi.status == "process" || detailTransaksi.status == "done") {
+					if (detailTransaksi.status == "process" || detailTransaksi.status == "done" || detailTransaksi.status == "cancel") {
 						$ionicPopup.alert({
 							title: 'Gagal',
 							template: '<center>Sepertinya pesanan kamu telah diproses kurir, silahkan hubungi kurir untuk membatalkan</center>',
 							okText: 'OK',
-							okType: 'button-balanced'
+							okType: 'button-oren'
 						});
 					} else {
 						Services.changeStatus($scope.detailTransaksi.kurir, $scope.detailTransaksi.indexTransaksi).then(function() {
 							Services.deleteQueue($scope.detailTransaksi.kurir, $scope.detailTransaksi.indexTransaksi).then(function() {
-								Service.addCancel($scope.detailTransaksi.indexUser, $scope.detailTransaksi);
+								Services.addCancel($scope.detailTransaksi.indexUser, $scope.detailTransaksi.indexTransaksi);
+								$ionicPopup.alert({
+									title: 'Dibatalkan',
+									template: '<center>Pesanan berhasil dibatalkan</center>',
+									okText: 'OK',
+									okType: 'button-oren'
+								}).then(function() {
+									$ionicHistory.goBack();
+								});
 								console.log('order cancel');
 							}, function(err) {
 								console.log(err);
