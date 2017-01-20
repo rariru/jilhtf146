@@ -2710,6 +2710,7 @@ angular.module('app.controllers', [])
 							});
 
 							delete $scope.transaksi;
+							$scope.invoice();
 							$state.go('tabsController.jelajah');
 						})
 					}, function(err) {
