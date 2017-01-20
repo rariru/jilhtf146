@@ -117,9 +117,9 @@ angular.module('app.controllers', [])
 			}
 		}
 
-		var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
+		var link = 'Download apliasinya bit.ly/download-mangan untuk Android dan bit.ly/download-mangan-ios untuk iPhone';
 		var gambar = null;
-		var textshared = resto.namaResto+" - "+resto.keteranganResto;
+		var textshared = resto.namaResto+" - "+resto.keteranganResto+" Buka di aplikasi MANGAN untuk info selengkapnya.";
 
 		if(resto.gambar[3]) {
 			gambar = resto.gambar[3];
@@ -1187,7 +1187,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services, $cordovaToast, $cordovaSocialSharing, config, $timeout, Analytics) {
+.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, $state, Services, $cordovaToast, $cordovaSocialSharing, config, $timeout, Analytics) {
 	$scope.category = 'Pencarian';
 	$scope.user = {};
 	$scope.user.query = $stateParams.query;
@@ -1315,7 +1315,8 @@ angular.module('app.controllers', [])
 		// analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		Analytics.logEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		console.log('trackEvent, Rekomendasikan, Buka Rekomendasikan');
-		window.open('https://mobilepangan.com/mangan/rekomendasi', '_system', 'location=yes'); 
+		// window.open('https://mobilepangan.com/mangan/rekomendasi', '_system', 'location=yes'); 
+		$state.go('tabsController.rekomendasi');
 		return false;
 	}
 
@@ -1390,9 +1391,9 @@ angular.module('app.controllers', [])
 		}
 		// var resto = $scope.restorans[index];
 
-		var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
+		var link = 'Download apliasinya bit.ly/download-mangan untuk Android dan bit.ly/download-mangan-ios untuk iPhone';
 		var gambar = null;
-		var textshared = resto.namaResto+" - "+resto.keteranganResto;
+		var textshared = resto.namaResto+" - "+resto.keteranganResto+" Buka di aplikasi MANGAN untuk info selengkapnya.";
 
 		if(resto.gambar[3]) {
 			gambar = resto.gambar[3];
@@ -1561,9 +1562,9 @@ angular.module('app.controllers', [])
 		}
 		// var resto = $scope.restorans[index];
 
-		var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
+		var link = 'Download apliasinya bit.ly/download-mangan untuk Android dan bit.ly/download-mangan-ios untuk iPhone';
 		var gambar = null;
-		var textshared = resto.namaResto+" - "+resto.keteranganResto;
+		var textshared = resto.namaResto+" - "+resto.keteranganResto+" Buka di aplikasi MANGAN untuk info selengkapnya.";
 
 		if(resto.gambar[3]) {
 			gambar = resto.gambar[3];
@@ -3063,21 +3064,35 @@ angular.module('app.controllers', [])
 
 	$scope.rekomendasikan = function() {
 		// send email, error tapi berhasil
-		$http.post("https://mobilepangan.com/mangan/sendNotificationMail?nama="+$scope.data.namaResto+"&kontak="+$scope.data.kontak+"&alamat="+$scope.data.alamat+"&token=717mangan"
-		).success(function(data) {
-			console.log(data);
-		}).error(function(error, status) {
-			console.log(error, status);
-		});
+		if ($scope.data.namaResto == "" ||
+			$scope.data.alamat == "" ||
+			$scope.data.jenis == "" ||
+			$scope.data.namaResto == null ||
+			$scope.data.alamat == null ||
+			$scope.data.jenis == null) {
+			$ionicPopup.alert({
+				title: 'Lengkapi Data',
+				template: '<center>Data belum lengkap</center>',
+				okText: 'OK',
+				okType: 'button-oren'
+			});
+		} else {
+			$http.post("https://mobilepangan.com/mangan/sendMailRecomendation?nama="+$scope.data.namaResto+"&alamat="+$scope.data.alamat+"&jenis="+$scope.data.jenis+"&kontak="+$scope.data.kontak+"&alasan="+$scope.data.alasan+"&token=717mangan"
+			).success(function(data) {
+				console.log(data);
+			}).error(function(error, status) {
+				console.log(error, status);
+			});
 
-		$ionicPopup.alert({
-			title: 'Terima Kasih',
-			template: '<center>Terima kasih telah memberikan rekomendasi</center>',
-			okText: 'OK',
-			okType: 'button-oren'
-		});
+			$ionicPopup.alert({
+				title: 'Terima Kasih',
+				template: '<center>Terima kasih telah memberikan rekomendasi</center>',
+				okText: 'OK',
+				okType: 'button-oren'
+			});
 
-		$state.go("tabsController.jelajah");
+			$state.go("tabsController.jelajah");
+		}
 	}
 })
 
@@ -3087,21 +3102,37 @@ angular.module('app.controllers', [])
 
 	$scope.daftar = function() {
 		// send email, error tapi terkirim
-		$http.post("https://mobilepangan.com/mangan/sendNotificationMail?nama="+$scope.data.namaResto+"&kontak="+$scope.data.kontak+"&alamat="+$scope.data.alamat+"&token=717mangan"
-		).success(function(data) {
-			console.log(data);
-		}).error(function(error, status) {
-			console.log(error, status);
-		});
+		if ($scope.data.namaResto == "" ||
+			$scope.data.namaPemilik == "" ||
+			$scope.data.alamat == "" ||
+			$scope.data.kontak == "" ||
+			$scope.data.namaResto == null ||
+			$scope.data.namaPemilik == null ||
+			$scope.data.alamat == null ||
+			$scope.data.kontak == null) {
+			$ionicPopup.alert({
+				title: 'Lengkapi Data',
+				template: '<center>Data belum lengkap</center>',
+				okText: 'OK',
+				okType: 'button-oren'
+			});
+		} else {
+			$http.post("https://mobilepangan.com/mangan/sendMailRegister?nama="+$scope.data.namaResto+"&namapemilik="+$scope.data.namaPemilik+"&alamat="+$scope.data.alamat+"&kontak="+$scope.data.kontak+"&deskripsi="+$scope.data.deskripsi+"&token=717mangan"
+			).success(function(data) {
+				console.log(data);
+			}).error(function(error, status) {
+				console.log(error, status);
+			});
 
-		$ionicPopup.alert({
-			title: 'Mendaftar',
-			template: '<center>Kami akan segera menghubungi anda</center>',
-			okText: 'OK',
-			okType: 'button-oren'
-		});
+			$ionicPopup.alert({
+				title: 'Mendaftar',
+				template: '<center>Kami akan segera menghubungi anda</center>',
+				okText: 'OK',
+				okType: 'button-oren'
+			});
 
-		$state.go("tabsController.jelajah");		
+			$state.go("tabsController.jelajah");
+		}		
 	}
 })
 
