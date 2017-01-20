@@ -2485,6 +2485,7 @@ angular.module('app.controllers', [])
 							}
 							$ionicLoading.hide();
 							$state.go('tabsController.invoice', {'transaksi': $scope.transaksi});
+							// console.log(JSON.stringify($scope.transaksi));
 						}
 					});
 				}
@@ -2512,6 +2513,7 @@ angular.module('app.controllers', [])
 	// $scope.invoice();
 	$scope.$on('$ionicView.enter', function() {
     	$scope.invoice();
+    	// console.log(JSON.stringify($scope.transaksi));
     });
 
 	function jumlah() {
@@ -2640,6 +2642,8 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.checkout = function() {
+		$scope.maps.remove();
+
 		var user = firebase.auth().currentUser;
 		if (user) {
 			user.providerData.forEach(function(profile) {
@@ -2715,8 +2719,12 @@ angular.module('app.controllers', [])
 								console.log('fail '+err);
 							});
 
-							$scope.transaksi = {};
-							delete $scope.transaksi;
+							// $scope.transaksi = {};
+							// delete $scope.transaksi;
+							// delete $stateParams.transaksi.pesanan;
+							// $stateParams.transaksi.kurir = "";
+							// $stateParams.transaksi.alamatUser = "";
+							// $stateParams.transaksi.alamatUserDetail = "";
 							// $scope.invoice();
 							$state.go('tabsController.jelajah');
 						})
@@ -3083,6 +3091,7 @@ angular.module('app.controllers', [])
 			}).error(function(error, status) {
 				console.log(error, status);
 			});
+			Services.rekomendasiResto(data);
 
 			$ionicPopup.alert({
 				title: 'Terima Kasih',
@@ -3123,6 +3132,7 @@ angular.module('app.controllers', [])
 			}).error(function(error, status) {
 				console.log(error, status);
 			});
+			Services.daftarResto(data);
 
 			$ionicPopup.alert({
 				title: 'Mendaftar',
