@@ -38,6 +38,7 @@ var version = firebase.database().ref('version');
 var user = firebase.database().ref('user');
 var transaksi = firebase.database().ref('transaksi');
 var queue = firebase.database().ref('status').child('queue');
+var ongkir = firebase.database().ref('ongkir');
 
 angular.module('app.services', [])
 
@@ -581,6 +582,12 @@ angular.module('app.services', [])
 			'indexTransaksi' : indexTransaksi,
 			'timestamp' : firebase.database.ServerValue.TIMESTAMP
 		})
+	}
+
+	this.getFeeDelivery = function(kurir) {
+		return promiseValue(
+			ongkir.child(kurir)
+		);
 	}
 
 	function promiseAdded(obj) {

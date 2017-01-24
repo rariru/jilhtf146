@@ -6,7 +6,8 @@
             on-refresh="getRestoran()"
             spinner = "ripple" >
         </ion-refresher>
-        <div class="list card mangan-card">
+        
+        <div class="list card mangan-card" ng-show="loadFlag">
             <div class="mangan-list-header">
                 <div class="row mangan-nama-resto" style="z-index: 9999;">
                     <span class="col col-75">{{restoran.namaResto}}</span>
@@ -14,19 +15,8 @@
                         <i class="mangan-rating-icon icon ion-star"></i>
                     </span>
                  </div>
-    <!--              <ion-slides style="width: 100%; height: 223px;">
-                    <ion-slide>
-                        <img ng-src="{{restoran.gambar[0]}}" class="mangan-image-4_3">
-                    </ion-slide>
-                </ion-slides> -->
                 <img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50">
             </div>
-            
-            <!-- <div class="row">
-                <button class="button button-outline button-block button-oren" style="display: block; margin: auto;width: 50%"><i class="icon ion-ios-location" style="padding-right: 5px; font-size: 20px;"></i>Menuju Lokasi</button>
-                <button class="button button-outline 
-                button-block button-oren" style="display: block; margin: auto;width: 50%"><i class="icon ion-ios-telephone" style="padding-right: 5px;  font-size: 20px;"></i>Hubungi Sekarang</button>
-            </div> -->
 
             <div class="mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'" style="border-bottom: 0;">
                 <h3 style="font-size: 14px; color:rgb(1,177,178);">
@@ -47,10 +37,8 @@
                         {{restoran.noTelp}}
                     </a>
                 </h3>
-
-
             </div>
-           
+
             <div class="list mangan-detail-review">
                 <div class="item item-divider">
                     Ulasan
@@ -74,97 +62,26 @@
                 <div class="item item-divider">
                     Menu
                 </div>
-            
-                <!-- <div class="mangan-detail-review-col-1">
-                    <div ng-bind-html="restoran.keteranganResto" style="font-size: 14px; text-align: justify;"></div>
-                    <button class="selengkapnya mangan-tombol-aksi" ng-click="openReview()">(Baca Ulasan)</button>
-                </div> -->
-                <!-- <div class="mangan-detail-review-col-2">
-                    <img class="mangan-reviewer" ng-src="{{ restoran.reviewer.foto }}" ng-click="openReview()">
-                </div> -->
-                
-            <div class="list mangan-card">
-                <div class="item mangan-menu item-thumbnail-left item-icon-right" ng-repeat="menu in menus" ng-click="openMenu( {{ $index }} )">
-                    <!-- <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50" ng-click="openMenuGambar( {{ $index }} )"> -->
-                    <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50">
-                    <h2>{{menu.namaMenu}}</h2>
-                    <h3 ng-show="(menu.harga % 1) == 0">{{menu.harga | currency:'Rp ':2}}</h3>
-                    <h3 ng-hide="(menu.harga % 1) == 0">{{menu.harga}}</h3>
-                    <span ng-show="menu.tag" class="mangan-tag-menumakanan" style="color:rgb(1,177,178);">{{menu.tag}}</span>
 
-                    <span class="mangan-menu-review" ng-show="menu.review && menu.review != 'null'">
-                        <!-- <button class="mangan-button-menumakanan" ng-click="openMenu( {{ $index }} )"> -->
-                            <!-- <i class="icon ion-eye assertive" style="font-size: 20px;"></i> -->
-                            <i class="icon ion-ios-arrow-right" style="font-size: 40px; color: rgb(1,177,178); opacity: 0.5; "></i>
-                        
-                    </span>
-                </div>
-            </div>
-            </div>
+                <div class="list mangan-card">
+                    <div class="item mangan-menu item-thumbnail-left item-icon-right" ng-repeat="menu in menus" ng-click="openMenu( {{ $index }} )">
+                        <!-- <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50" ng-click="openMenuGambar( {{ $index }} )"> -->
+                        <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50">
+                        <h2>{{menu.namaMenu}}</h2>
+                        <h3 ng-show="(menu.harga % 1) == 0">{{menu.harga | currency:'Rp ':2}}</h3>
+                        <h3 ng-hide="(menu.harga % 1) == 0">{{menu.harga}}</h3>
+                        <span ng-show="menu.tag" class="mangan-tag-menumakanan" style="color:rgb(1,177,178);">{{menu.tag}}</span>
 
-            
-            <!-- <div class="mangan-spacer"></div> -->
-<!--             <div class="mangan-kontak-header" ng-show="(restoran.noTelp && restoran.noTelp != 'null') ||
-                                                        (restoran.email && restoran.email != 'null') ||
-                                                        (restoran.alamat && restoran.alamat != 'null')">
-                <p>Kontak</p>
-            </div> -->
-           <!--  <div class="mangan-kontak" style="border-top:1px solid rgb(230,231,232);" ng-show="(restoran.noTelp && restoran.noTelp != 'null') ||
-                                                        (restoran.email && restoran.email != 'null') ||
-                                                        (restoran.alamat && restoran.alamat != 'null')">
-                <div class="mangan-kontak-konten">
-                    <ion-item class="item-thumbnail-left assertive item-text-wrap" style="margin: 0px; border: 0;">
-                        <img ui-sref="tabsController.peta({ index: restoran.index })" ng-src="img/map-resto.jpg" style="max-width: 100px; max-height: 100px; top: 0; left: 0;">
-                        
-                    </ion-item> -->
-
-
-                    <!-- <a href="tel:{{restoran.noTelp}}" ng-show="restoran.noTelp && restoran.noTelp != 'null'"><i class="mangan-kontak-icon icon ion-ios-telephone"></i>{{restoran.noTelp}}
-                    </br></a>
-                    <a href="mailto:{{restoran.email}}" ng-show="restoran.email && restoran.email != 'null'"><i class="mangan-kontak-icon icon ion-email"></i>{{restoran.email}}</a>
-                    <p href="" ng-show="restoran.alamat && restoran.alamat != 'null'"><i class="mangan-kontak-icon icon ion-map"></i>{{restoran.alamat}}</p> -->
-                <!-- </div> -->
-            <!-- </div> -->
-            <!-- <div class="mangan-spacer"></div> -->
-            <!-- <div class="mangan-menu-selengkapnya" ng-show="restoran.map.lat && restoran.map.lat != 'null'">
-                <a ui-sref="tabsController.peta({ index: restoran.index })" id="selatViens-button21" class="button button-positive button-small">LIHAT PETA</a>
-            </div> -->
-            <!-- <div class="mangan-spacer"></div> -->
-
-            <!-- <div class="mangan-tombol-pesan" style="text-align:center;">
-                <button id="mangan-button-pesan" class="button button-oren button-block button-outline" ng-click="pesan()" ion-ripple><i class="icon ion-ios-cart"></i> PESAN</button>
-            </div> -->
-<!--             <div class="row mangan-tombol-pesan" style="width:100% ;text-align: center;">
-                <button ui-sref="tabsController.menus({ index: restoran.index })" class="button button-oren button-small button-outline" style="width:50%; margin: 0 2px;" ion-ripple>MENU LAINNYA</button>
-                <button ui-sref="tabsController.pesan({ index: restoran.index })" id="mangan-button-pesan" class="button button-oren button-small button-outline" ng-click="pesan()" style="width:50%;" ion-ripple>PESAN</button> 
-            </div> -->
-
-
-
-            <!-- <div class="mangan-kontak-header kontak-header">
-                <p>Ulasan Pengunjung</p>
-            </div>
-            <div class="mangan-menu-list list">
-                <div class="item item-text-wrap" ng-hide="reviews != null">
-                    <center><p style="font-weight: bold;">Tulis Ulasan Pertama</p></center>
-                </div>
-                
-                <div ng-repeat="review in reviews" ng-show="reviews != null">
-                    <div class="item item-avatar item-text-wrap">
-                        <img image-lazy-src={{review.userPhotoUrl}} image-lazy-distance-from-bottom-to-load="50">
-                        <h2>{{review.username}}</h2>
-                        <p>{{review.review}}</p>
+                        <span class="mangan-menu-review" ng-show="menu.review && menu.review != 'null'">
+                            <!-- <button class="mangan-button-menumakanan" ng-click="openMenu( {{ $index }} )"> -->
+                                <!-- <i class="icon ion-eye assertive" style="font-size: 20px;"></i> -->
+                                <i class="icon ion-ios-arrow-right" style="font-size: 40px; color: rgb(1,177,178); opacity: 0.5; "></i>
+                            
+                        </span>
                     </div>
                 </div>
             </div>
-            <div class="mangan-menu-selengkapnya" style="text-align: center;">
-                <button class="button button-oren button-outline button-block" ng-click="openRating()" ion-ripple><i class="icon ion-ios-paper-outline"></i> TULIS ULASAN</button>
-            </div> -->
-
-
         </div>
-
-
     </ion-content>
         <button class="button icon-right ion-chevron-right button-full button-oren" ng-click="pesan()" style="position:fixed; border-top-right-radius:0px; border-top-left-radius:0px;border-bottom-right-radius:0px;border-bottom-left-radius:0px;margin-bottom:0px; bottom:0px;left:0px;right:0px;box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);" ion-ripple>DELIVERY ORDER</button>
 </ion-view>

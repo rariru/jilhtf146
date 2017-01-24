@@ -355,6 +355,7 @@ angular.module('app.controllers', [])
  //    });
 	// console.log("index:'"+ $stateParams.index +"'");
 	var loadFlag = false;
+	$scope.loadFlag = false;
 	var loadingIndicator = $ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
     });
@@ -388,6 +389,7 @@ angular.module('app.controllers', [])
 			if(restoran) {
 				$scope.restoran = restoran;
 				loadFlag = true;
+				$scope.loadFlag = true;
 				// pindah di on enter
 				//
 				// analytics.trackView('Kuliner');
@@ -2685,6 +2687,11 @@ angular.module('app.controllers', [])
 									"sound":"default",
 									"icon":"fcm_push_icon"
 								},
+								"data":{
+									"title": "Order Baru",
+									"body": "Dari "+$scope.transaksi.namaUser+" ke "+$scope.transaksi.namaResto,
+									"indexTransaksi": $scope.transaksi.indexTransaksi
+								},
 								"to":"/topics/"+$scope.transaksi.kurir,
 								"priority":"high",
 								"restricted_package_name":"com.manganindonesia.kurma"
@@ -2745,20 +2752,24 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.setFeeDelivery = function(kurir) {
-		console.log('ongkir '+$scope.transaksi.feedelivery);
-		if (kurir == "esd") {
-			console.log('esd 9000');
-			$scope.transaksi.feedelivery = 9000;
+		Services.getFeeDelivery(kurir).then(function(ongkir) {
+			$scope.transaksi.feedelivery = ongkir.ongkir;
 			$scope.transaksi.totalHarga = $scope.transaksi.jumlah+$scope.transaksi.feedelivery;
-		} else if (kurir == "maskurir") {
-			console.log('maskurir 9000');
-			$scope.transaksi.feedelivery = 9000;
-			$scope.transaksi.totalHarga = $scope.transaksi.jumlah+$scope.transaksi.feedelivery;
-		} else {
-			console.log('kurma 5000');
-			$scope.transaksi.feedelivery = 5000;
-			$scope.transaksi.totalHarga = $scope.transaksi.jumlah+$scope.transaksi.feedelivery;
-		}
+		});
+		// console.log('ongkir '+$scope.transaksi.feedelivery);
+		// if (kurir == "esd") {
+		// 	console.log('esd 9000');
+		// 	$scope.transaksi.feedelivery = 9000;
+		// 	$scope.transaksi.totalHarga = $scope.transaksi.jumlah+$scope.transaksi.feedelivery;
+		// } else if (kurir == "maskurir") {
+		// 	console.log('maskurir 9000');
+		// 	$scope.transaksi.feedelivery = 9000;
+		// 	$scope.transaksi.totalHarga = $scope.transaksi.jumlah+$scope.transaksi.feedelivery;
+		// } else {
+		// 	console.log('kurma 5000');
+		// 	$scope.transaksi.feedelivery = 5000;
+		// 	$scope.transaksi.totalHarga = $scope.transaksi.jumlah+$scope.transaksi.feedelivery;
+		// }
 	}
 
 	$ionicModal.fromTemplateUrl('templates/maps.html', {
