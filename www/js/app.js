@@ -12,7 +12,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
   version: 100018
 })
 
-.run(function($ionicPlatform, config, $ionicPopup) {
+.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -32,26 +32,26 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     // }
 
     window.FirebasePlugin.getToken(function(token) {
+      $localStorage.token = token;
       console.log('device token : '+token);
     }, function(err) {
       console.log('err get token : '+err);
     })
 
     window.FirebasePlugin.onTokenRefresh(function(token) {
+      $localStorage.token = token;
       console.log('device token refresh : '+token);
     }, function(err) {
       console.log('err get token : '+err);
     })
 
     window.FirebasePlugin.onNotificationOpen(function(notification) {
-      alert(JSON.stringify(notification));
-
-      // $ionicPopup.alert({
-      //   title: 'Status Order',
-      //   template: 'Order diproses oleh Hamzah',
-      //   okText: 'OK',
-      //   okType: 'button-balanced'
-      // });
+      $ionicPopup.alert({
+        title: 'Proses',
+        template: 'Pesanan kamu sudah diproses',
+        okText: 'OK',
+        okType: 'button-balanced'
+      });
     }, function(err) {
       console.log(err);
     })

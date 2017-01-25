@@ -1,13 +1,13 @@
 // Initialize Firebase
 // mangan
-// var config = {
-// 	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
-// 	authDomain: "project-1449647215698534337.firebaseapp.com",
-// 	databaseURL: "https://project-1449647215698534337.firebaseio.com",
-// 	storageBucket: "project-1449647215698534337.appspot.com"
-// };
+var config = {
+	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
+	authDomain: "project-1449647215698534337.firebaseapp.com",
+	databaseURL: "https://project-1449647215698534337.firebaseio.com",
+	storageBucket: "project-1449647215698534337.appspot.com"
+};
 
-//ryou
+// ryou
 // var config = {
 // 	apiKey: "AIzaSyBvDJSC5qe1AfnNbEZOiqw3GUFjvb4i3go",
 //     authDomain: "project-7791088175021720001.firebaseapp.com",
@@ -16,13 +16,13 @@
 // };
 
 // hamzah ManganBak
-var config = {
-    apiKey: "AIzaSyB1U7icSEQX4ZTCdsRHxDUFieD-r7sDFKA",
-    authDomain: "manganbak.firebaseapp.com",
-    databaseURL: "https://manganbak.firebaseio.com",
-    storageBucket: "manganbak.appspot.com",
-    messagingSenderId: "374536724800"
-};
+// var config = {
+//     apiKey: "AIzaSyB1U7icSEQX4ZTCdsRHxDUFieD-r7sDFKA",
+//     authDomain: "manganbak.firebaseapp.com",
+//     databaseURL: "https://manganbak.firebaseio.com",
+//     storageBucket: "manganbak.appspot.com",
+//     messagingSenderId: "374536724800"
+// };
 
 firebase.initializeApp(config);
 
@@ -45,7 +45,9 @@ angular.module('app.services', [])
 	$localStorage = $localStorage.$default({
 		indexes: [],
 		maxSaved: 5,
-		location: 'Surakarta' // default location
+		token: null,
+		location: 'Surakarta', // default location,
+		indexUser: 'uyehh'
 	});
 
 	this.getVersion = function() {
@@ -348,6 +350,14 @@ angular.module('app.services', [])
 	this.searchQuery = function(query) {
 		var promise = $q.defer();
 
+		var logged = firebase.auth().currentUser;
+		if(logged) {
+			user.child($localStorage.indexUser +"/search").push({
+				'keyword': query,
+				'timestamp': firebase.database.ServerValue.TIMESTAMP
+			});
+		}
+
 		search.child('all').push({
 			'keyword': query,
 			'timestamp': firebase.database.ServerValue.TIMESTAMP
@@ -397,9 +407,42 @@ angular.module('app.services', [])
 			'fb_id': dataUser.id,
 			'name': dataUser.name,
 			'photoUrl': dataUser.picture.data.url,
+			'device_token' : $localStorage.token,
 			'dateRegister': firebase.database.ServerValue.TIMESTAMP,
 			'dateUpdatedData': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.updateUserData = function(userData) {
+		var promise = $q.defer();
+
+		user.child(userData.index).update({
+			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
+			'noTelpUser' : userData.noTelpUser,
+			'name' : userData.name,
+			'photoUrl' : userData.photoUrl || userData.picture.data.url || userData.picture || null,
+			'device_token' : $localStorage.token,
+			'lineUsername' : userData.lineUsername
+		}).then(function(result) {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.updateUserDataFB = function(userData) {
+		var promise = $q.defer();
+
+		user.child(userData.id).update({
+			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
+			'name' : userData.name,
+			'photoUrl' : userData.photoUrl || userData.picture.data.url || null,
+			'device_token' : $localStorage.token
+		}).then(function(result) {
 			promise.resolve(true);
 		});
 
@@ -428,8 +471,10 @@ angular.module('app.services', [])
 		var promise = $q.defer();
 
 		transaksi.child(kurir +'/'+ idTransaksi).set({
+			'indexUser' : dataTransaksi.indexUser,
 			'alamat' : dataTransaksi.alamat,
 			'alamatUser' : dataTransaksi.alamatUser,
+			'alamatUserDetail' : dataTransaksi.alamatUserDetail || null,
 			'feedelivery' : dataTransaksi.feedelivery,
 			'indexResto' : dataTransaksi.indexResto,
 			'gambarResto' : dataTransaksi.gambarResto,
@@ -457,7 +502,8 @@ angular.module('app.services', [])
 			'userPhotoUrl' : dataTransaksi.userPhotoUrl,
 			'username' : dataTransaksi.username,
 			'lineUsername' : dataTransaksi.lineUsername || null,
-			'tambahan' : dataTransaksi.tambahan || null
+			'tambahan' : dataTransaksi.tambahan || null,
+			'device_token' : $localStorage.token
 		}).then(function(result) {
 			promise.resolve(true);
 		});
@@ -470,23 +516,6 @@ angular.module('app.services', [])
 
 		queue.child(kurir +'/'+ idTransaksi).set({
 			'indexTransaksi' : idTransaksi
-		}).then(function(result) {
-			promise.resolve(true);
-		});
-
-		return promise.promise;
-	}
-
-	this.updateUserData = function(userData) {
-		var promise = $q.defer();
-
-		user.child(userData.index).update({
-			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
-			'noTelpUser' : userData.noTelpUser,
-			'name' : userData.name,
-			'email' : userData.email,
-			'location' : userData.location,
-			'lineUsername' : userData.lineUsername
 		}).then(function(result) {
 			promise.resolve(true);
 		});
@@ -508,6 +537,7 @@ angular.module('app.services', [])
 	}
 
 	this.getHistory = function(index) {
+		console.log("nilai index uid : "+index);
 		return promiseValue(
 			user.child(index +'/transaksi')
 		);
@@ -517,6 +547,74 @@ angular.module('app.services', [])
 		return promiseValue(
 			transaksi.child(kurir +'/'+ index)
 		);
+	}
+
+	this.changeStatus = function(kurir, index) {
+		var promise = $q.defer();
+
+		transaksi.child(kurir +'/'+ index).update({
+			'userCancel' : true,
+			'status' : "cancel",
+			'statusUserCancel' : firebase.database.ServerValue.TIMESTAMP
+		}).then(function() {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	// delete entri in queue list
+	this.deleteQueue = function(kurir, index) {
+		var promise = $q.defer();
+
+		queue.child(kurir +'/'+ index).remove().then(function() {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.addCancel = function(indexUser, indexTransaksi) {
+		var promise = $q.defer();
+
+		user.child(indexUser +'/cancel/'+indexTransaksi).set({
+			'indexTransaksi' : indexTransaksi,
+			'timestamp' : firebase.database.ServerValue.TIMESTAMP
+		})
+	}
+
+
+	// DAFTAR& REKOMENDASI
+	this.daftarResto = function(data) {
+		var promise = $q.defer();
+
+		firebase.database().ref('daftar').push({
+			'namaResto': data.namaResto,
+			'namaPemilik': data.namaPemilik,
+			'alamat': data.alamat,
+			'kontak': data.kontak,
+			'deskripsi': data.deskripsi
+		}).then(function() {
+			promise.resolve(true)
+		});
+
+		return promise.promise;
+	}
+
+	this.rekomendasiResto = function(data) {
+		var promise = $q.defer();
+
+		firebase.database().ref('rekomendasi').push({
+			'namaResto': data.namaResto,
+			'alamat': data.alamat,
+			'jenis': data.jenis,
+			'kontak': data.kontak,
+			'alasan': data.alasan
+		}).then(function() {
+			promise.resolve(true)
+		});
+
+		return promise.promise;
 	}
 
 	function promiseAdded(obj) {
@@ -549,8 +647,16 @@ angular.module('app.services', [])
 
 	function restoranKota()
 	{
-		console.log('try get resto');
-		return restoran.child($localStorage.location);
+		// console.log('try get resto');
+		// return restoran.child($localStorage.location);
+		return restoran;
+
+		//next utk 2 kota
+		// if($localStorage.location == 'Surakarta') {
+		// 	return firebase.database().ref('dataResto');
+		// } else if($localStorage.location == 'Yogyakarta') {
+		// 	return firebase.database().ref('dataRestoJogya');
+		// }
 	}
 })
 

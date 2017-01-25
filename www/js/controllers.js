@@ -117,9 +117,9 @@ angular.module('app.controllers', [])
 			}
 		}
 
-		var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
+		var link = 'Download apliasinya bit.ly/download-mangan untuk Android dan bit.ly/download-mangan-ios untuk iPhone';
 		var gambar = null;
-		var textshared = resto.namaResto+" - "+resto.keteranganResto;
+		var textshared = resto.namaResto+" - "+resto.keteranganResto+" Buka di aplikasi MANGAN untuk info selengkapnya.";
 
 		if(resto.gambar[3]) {
 			gambar = resto.gambar[3];
@@ -504,7 +504,7 @@ angular.module('app.controllers', [])
 				title: 'Belum login',
 				template: '<center>Kamu harus login dulu</center>',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			});
 			$state.go('login');
 		};
@@ -657,27 +657,23 @@ angular.module('app.controllers', [])
 
 		///////////////////
 		// fitur pesan
-		var user = firebase.auth().currentUser;
-		if (user) {
-			$state.go('tabsController.pesan', {'index': $scope.restoran.index});
-			// $ionicPopup.alert({
-			// 	title: 'Logged In',
-			// 	template: '<center>Anda dapat memesan</center>',
-			// 	okText: 'Pesan',
-			// 	okType: 'button-balanced'
-			// });
+		if ($scope.restoran.delivery) {
+			var user = firebase.auth().currentUser;
+			if (user) {
+				$state.go('tabsController.pesan', {'index': $scope.restoran.index});
+			} else {
+				$state.go('login');
+			}
 		} else {
-			$state.go('login');
+			//////////////////
+			// tidak mendukung pesan antar
+			$ionicPopup.alert({
+				title: 'Oops',
+				template: '<center>Maaf kuliner ini belum mendukung pesan antar</center>',
+				okText: 'OK',
+				okType: 'button-oren'
+			});
 		}
-
-		//////////////////
-		// coming soon
-		// $ionicPopup.alert({
-		// 	title: 'Coming Soon',
-		// 	template: '<center>Layanan ini akan segera hadir</center>',
-		// 	okText: 'OK',
-		// 	okType: 'button-balanced'
-		// });
 	};
 
 	$scope.ulasanPengguna = function() {
@@ -720,6 +716,7 @@ angular.module('app.controllers', [])
     }, 10000);
 
     $scope.$on('$ionicView.enter', function() {
+    	$scope.getMenus();
     	// analytics.trackView('Menu Kuliner');
     	Analytics.logView('Menu Kuliner');
 	    console.log('trackView, Menu Kuliner');
@@ -745,7 +742,7 @@ angular.module('app.controllers', [])
 		});
     }
 
-    $scope.getMenus();
+    // $scope.getMenus();
 
 	$ionicModal.fromTemplateUrl('templates/ulasanMenu.html', {
 		scope: $scope,
@@ -807,7 +804,7 @@ angular.module('app.controllers', [])
 			title: 'Coming Soon',
 			template: '<center>Layanan ini akan segera hadir</center>',
 			okText: 'OK',
-			okType: 'button-balanced'
+			okType: 'button-oren'
 		});
 
 		////////////////////
@@ -840,13 +837,17 @@ angular.module('app.controllers', [])
     // though the default city has been set in Services
 	$scope.selectedCity = $localStorage.location? $localStorage.location: 'Surakarta';
 
+	console.log("localStorage token "+$localStorage.token);
+
 	firebase.auth().onAuthStateChanged(function(user) {
 		if (user) {
 			user.providerData.forEach(function(profile) {
 				if (profile.providerId === "facebook.com") {
 					$scope.getProfileByUid(profile.uid);
+					$scope.getOrder(profile.uid);
 				} else if (profile.providerId === "google.com") {
 					$scope.getProfileByUid(profile.uid);
+					$scope.getOrder(profile.uid);
 				} else {
 					console.log('logged in with another provider');
 				}
@@ -870,7 +871,7 @@ angular.module('app.controllers', [])
 						template: '<center>Versi baru aplikasi tersedia di play store</center>',
 						okText: 'OK',
 						cancelText: 'Nanti',
-						okType: 'button-balanced',
+						okType: 'button-oren',
 						cancelType: 'button-clear'
 					}).then(function(res) {
 						console.log('button tapped');
@@ -938,8 +939,10 @@ angular.module('app.controllers', [])
 			user.providerData.forEach(function(profile) {
 				if (profile.providerId === "facebook.com") {
 					$scope.getProfileByUid(profile.uid);
+					$scope.getOrder(profile.uid);
 				} else if (profile.providerId === "google.com") {
 					$scope.getProfileByUid(profile.uid);
+					$scope.getOrder(profile.uid);
 				} else {
 					console.log('logged in with another provider');
 				}
@@ -975,6 +978,7 @@ angular.module('app.controllers', [])
 	$scope.getProfileByUid = function(uid) {
 		Services.getProfileByUid(uid).then(function(dataUser) {
 			if (dataUser) {
+				$localStorage.indexUser = dataUser.index;
 				$scope.dataUser = dataUser;
 			} else {
 				$scope.dataUser = "";
@@ -1085,7 +1089,7 @@ angular.module('app.controllers', [])
 			// 	title: 'Error',
 			// 	template: 'Tidak dapat menemukan sinyal GPS!',
 			// 	okText: 'OK',
-			// 	okType: 'button-balanced'
+			// 	okType: 'button-oren'
 			// }).then(function(res) {
 			// 	showMap();
 			// });
@@ -1118,23 +1122,26 @@ angular.module('app.controllers', [])
 					console.log('ada di Jogja');
 					// Code fetch database jogja
 				} else {
-					console.log('tampilkan popup lokasi');
-					$scope.modal.show();
+					//pick location
+					// console.log('tampilkan popup lokasi');
+					// $scope.modal.show();
 				}
 			}).error(function(error) {
 				console.log('data error : '+error);
 			});
 		}, function(error) {
-			console.log("could not get location");
-			console.log('tampilkan popup lokasi');
-			$scope.modal.show();
+			//pick location
+			// console.log("could not get location");
+			// console.log('tampilkan popup lokasi');
+			// $scope.modal.show();
+			
 			// show dialog to pick city manually 
 
 			// $ionicPopup.alert({
 			// 	title: 'Error',
 			// 	template: 'Tidak dapat menemukan sinyal GPS!',
 			// 	okText: 'OK',
-			// 	okType: 'button-balanced'
+			// 	okType: 'button-oren'
 			// }).then(function(res) {
 			// 	showMap();
 			// });
@@ -1147,9 +1154,40 @@ angular.module('app.controllers', [])
 		$scope.modal.hide();
 		// fetch data sesuai kota terpilih
 	}
+
+	$scope.getOrder = function(uid) {
+		console.log(uid);
+		$scope.queue = [];
+		$scope.process = [];
+		var date = new Date();
+		var currentDate = date.getTime() ;
+		var lastDayTimestamp = currentDate - 604800000;
+		Services.getHistory(uid).then(function(transactions) {
+			for (var id in transactions) {
+				Services.getTransaksiDetails(transactions[id].kurir, transactions[id].indexTransaksi).then(function(transaksi) {
+					console.log(transaksi.status);
+					if(transaksi.status == "queue") {
+						if (transaksi.tgl >= lastDayTimestamp) {
+							console.log(transaksi.tgl);
+							$scope.queue.push(transaksi);
+						}
+					} else if (transaksi.status == "process") {
+						if (transaksi.tgl >= lastDayTimestamp) {
+							console.log(transaksi.tgl);
+							$scope.process.push(transaksi);
+						}
+					}
+				});
+			}
+			$scope.$broadcast('scroll.refreshComplete');
+		}, function(err) {
+			console.log('error get transactions :'+err);
+			$scope.$broadcast('scroll.refreshComplete');
+		})
+	}
 })
 
-.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, Services, $cordovaToast, $cordovaSocialSharing, config, $timeout, Analytics) {
+.controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, $state, Services, $cordovaToast, $cordovaSocialSharing, config, $timeout, Analytics) {
 	$scope.category = 'Pencarian';
 	$scope.user = {};
 	$scope.user.query = $stateParams.query;
@@ -1277,7 +1315,8 @@ angular.module('app.controllers', [])
 		// analytics.trackEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		Analytics.logEvent('Rekomendasikan', 'Buka Rekomendasikan');
 		console.log('trackEvent, Rekomendasikan, Buka Rekomendasikan');
-		window.open('https://mobilepangan.com/mangan/rekomendasi', '_system', 'location=yes'); 
+		// window.open('https://mobilepangan.com/mangan/rekomendasi', '_system', 'location=yes'); 
+		$state.go('tabsController.rekomendasi');
 		return false;
 	}
 
@@ -1352,9 +1391,9 @@ angular.module('app.controllers', [])
 		}
 		// var resto = $scope.restorans[index];
 
-		var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
+		var link = 'Download apliasinya bit.ly/download-mangan untuk Android dan bit.ly/download-mangan-ios untuk iPhone';
 		var gambar = null;
-		var textshared = resto.namaResto+" - "+resto.keteranganResto;
+		var textshared = resto.namaResto+" - "+resto.keteranganResto+" Buka di aplikasi MANGAN untuk info selengkapnya.";
 
 		if(resto.gambar[3]) {
 			gambar = resto.gambar[3];
@@ -1523,9 +1562,9 @@ angular.module('app.controllers', [])
 		}
 		// var resto = $scope.restorans[index];
 
-		var link = 'Kunjungi mobilepangan.com untuk download aplikasinya.';
+		var link = 'Download apliasinya bit.ly/download-mangan untuk Android dan bit.ly/download-mangan-ios untuk iPhone';
 		var gambar = null;
-		var textshared = resto.namaResto+" - "+resto.keteranganResto;
+		var textshared = resto.namaResto+" - "+resto.keteranganResto+" Buka di aplikasi MANGAN untuk info selengkapnya.";
 
 		if(resto.gambar[3]) {
 			gambar = resto.gambar[3];
@@ -1716,7 +1755,7 @@ angular.module('app.controllers', [])
 						// 	title: 'Error',
 						// 	template: 'Tidak dapat menggunakan GPS, hidupkan setting GPS anda',
 						// 	okText: 'OK',
-						// 	okType: 'button-balanced'
+						// 	okType: 'button-oren'
 						// });
 					});
 				}
@@ -1735,7 +1774,7 @@ angular.module('app.controllers', [])
 	// 		title: 'Error',
 	// 		template: 'Tidak dapat menggunakan GPS, hidupkan setting GPS anda',
 	// 		okText: 'OK',
-	// 		okType: 'button-balanced'
+	// 		okType: 'button-oren'
 	// 	});
 	// });
 
@@ -1797,7 +1836,7 @@ angular.module('app.controllers', [])
 			title: 'Error',
 			template: 'Tidak dapat menemukan sinyal GPS!',
 			okText: 'OK',
-			okType: 'button-balanced'
+			okType: 'button-oren'
 		}).then(function(res) {
 			showMap();
 		});
@@ -2054,6 +2093,19 @@ angular.module('app.controllers', [])
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
 							console.log(JSON.stringify(user));
+							$http.get("https://graph.facebook.com/v2.8/me?fields=name,location,birthday,gender,picture.type(large){url},age_range,email,about", {params :{
+								access_token : $localStorage.fbaccesstoken,
+								format : "json"
+							}}).then(function(result) {
+								$localStorage.indexUser = result.data.id;
+								$scope.dataUser = result.data;
+								console.log(JSON.stringify(result.data));
+								Services.updateUserDataFB($scope.dataUser).then(function(user) {
+									console.log(user);
+								}, function(err) {
+									console.log(err);
+								})
+							})
 							// update user data?
 							// data already added to database
 						} else {
@@ -2062,6 +2114,7 @@ angular.module('app.controllers', [])
 								access_token : $localStorage.fbaccesstoken,
 								format : "json"
 							}}).then(function(result) {
+								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
 								console.log(JSON.stringify(result.data));
 								Services.addUserData($scope.dataUser).then(function(user) {
@@ -2078,6 +2131,22 @@ angular.module('app.controllers', [])
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
 							console.log(JSON.stringify(user));
+							$http.get("https://www.googleapis.com/userinfo/v2/me?fields=email,family_name,gender,given_name,hd,id,link,locale,name,picture,verified_email", {
+								headers :{
+									"Authorization" : "Bearer "+$localStorage.googleaccesstoken
+								}
+							}).then(function(result) {
+								$localStorage.indexUser = result.data.id;
+								$scope.dataUser = result.data;
+								console.log(JSON.stringify(result.data));
+								Services.updateUserData($scope.dataUser).then(function(user) {
+									console.log(user);
+								}, function(err) {
+									console.log(err);
+								})
+							}, function(err) {
+								console.log('error get from google apis: '+JSON.stringify(err));
+							})
 							// update user data?
 							// data already added to database
 						} else {
@@ -2088,6 +2157,7 @@ angular.module('app.controllers', [])
 									"Authorization" : "Bearer "+$localStorage.googleaccesstoken
 								}
 							}).then(function(result) {
+								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
 								console.log(JSON.stringify(result.data));
 								Services.addUserDataByGoogle($scope.dataUser).then(function(user) {
@@ -2141,8 +2211,10 @@ angular.module('app.controllers', [])
 		Services.getProfileByUid(uid).then(function(dataUser) {
 			if (dataUser) {
 				$scope.dataUser = dataUser;
+				$ionicLoading.hide();
 			} else {
 				console.log('profil no dataUser found with uid:'+uid);
+				makeToast('Data tidak ditemukan');
 			}
 		})
 	} 
@@ -2171,7 +2243,7 @@ angular.module('app.controllers', [])
 
 		Services.updateUserData($scope.dataUser).then(function(result) {
 			$ionicLoading.hide();
-			makeToast('Data berhasil diperbarui')
+			makeToast('Data berhasil diperbarui');
 		}, function(err) {
 			console.log('error');
 			$ionicLoading.hide();
@@ -2204,7 +2276,7 @@ angular.module('app.controllers', [])
 				title: 'Error',
 				template: 'Tidak dapat menemukan sinyal GPS!',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			}).then(function(res) {
 				showMap();
 			});
@@ -2259,7 +2331,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('pesanCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout, $ionicHistory, Analytics) {
+.controller('pesanCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout, $ionicHistory, Analytics, $localStorage) {
 	// code pesan here	var loadFlag = false;
 	var loadingIndicator = $ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
@@ -2346,7 +2418,7 @@ angular.module('app.controllers', [])
 				title: 'Pilih pesanan',
 				template: '<center>Kamu harus memilih pesanan minimal 1</center>',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			});
 		} else if($scope.selectedMenus !== ""){
 			var user = firebase.auth().currentUser;
@@ -2359,7 +2431,7 @@ angular.module('app.controllers', [])
 					title: 'Belum login',
 					template: '<center>Kamu harus login dulu</center>',
 					okText: 'OK',
-					okType: 'button-balanced'
+					okType: 'button-oren'
 				});
 				$state.go('login');
 			}
@@ -2378,9 +2450,10 @@ angular.module('app.controllers', [])
 								$scope.transaksi.pesanan = $scope.selectedMenus;
 							} else {
 								$scope.transaksi = {
+									'indexUser' : dataUser.index,
 									'alamat' : restoran.alamat,
 									'alamatUser' : null,
-									'feedelivery' : 5000,
+									'feedelivery' : 0,
 									'indexResto' : restoran.index,
 									'keteranganBuka' : restoran.keteranganBuka,
 									'gambarResto' : restoran.gambar[0],
@@ -2406,11 +2479,13 @@ angular.module('app.controllers', [])
 									'userPhotoUrl' : dataUser.photoUrl,
 									'username' : $scope.uid,
 									'lineUsername' : dataUser.lineUsername || null,
-									'tambahan' : $scope.tambahan.catatan || null
+									'tambahan' : $scope.tambahan.catatan || null,
+									'device_token' : $localStorage.token
 								}
 							}
 							$ionicLoading.hide();
 							$state.go('tabsController.invoice', {'transaksi': $scope.transaksi});
+							// console.log(JSON.stringify($scope.transaksi));
 						}
 					});
 				}
@@ -2435,7 +2510,11 @@ angular.module('app.controllers', [])
 		$scope.transaksi.totalHarga = totalHarga();
 	}
 
-	$scope.invoice();
+	// $scope.invoice();
+	$scope.$on('$ionicView.enter', function() {
+    	$scope.invoice();
+    	// console.log(JSON.stringify($scope.transaksi));
+    });
 
 	function jumlah() {
 		var jumlah = 0;
@@ -2494,7 +2573,7 @@ angular.module('app.controllers', [])
 				title: 'Lokasi Tidak Ditemukan',
 				template: '<center>Nyalakan setting GPS anda</center>',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			}).then(function(res) {
 				showMap();
 			});
@@ -2525,20 +2604,46 @@ angular.module('app.controllers', [])
 			$scope.getAddress(coords.latitude, coords.longitude);
 			$scope.transaksi.mapUser = $scope.mapUser;
 
+			var infoWindow = new google.maps.InfoWindow({
+				content: '<div id="content">Lokasi Anda Sekarang</div>',
+				maxWidth: 500
+			});
+
+			// google.maps.event.addListener(userMarker, 'click', function () {
+			// 	infoWindow.open($scope.mapUser, userMarker);
+			// });
+
+			infoWindow.open($scope.mapUser, userMarker);
+
+			$http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+coords.latitude+","+coords.longitude+"&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ").success(function(result) {
+				$scope.alamatUser = result.results[0].formatted_address;
+				$scope.transaksi.alamatUser = $scope.alamatUser;
+				infoWindow.setContent($scope.transaksi.alamatUser);
+			}).error(function(error) {
+				console.log('data error : '+error);
+			});
+
 			google.maps.event.addListener(userMarker, 'dragend', function(evt) {
 				$scope.mapUser = {
 					'lat' : evt.latLng.lat(),
 					'long' : evt.latLng.lng()
 				}
 				$scope.getAddress(evt.latLng.lat(), evt.latLng.lng());
+				updateInfoWindow();
 				$scope.transaksi.mapUser = $scope.mapUser;
 			})
 			// });
+
+			function updateInfoWindow() {
+				infoWindow.setContent($scope.transaksi.alamatUser);
+			}
 		}
 		$scope.maps.show();
 	}
 
 	$scope.checkout = function() {
+		$scope.maps.remove();
+
 		var user = firebase.auth().currentUser;
 		if (user) {
 			user.providerData.forEach(function(profile) {
@@ -2549,7 +2654,7 @@ angular.module('app.controllers', [])
 				title: 'Belum login',
 				template: '<center>Kamu harus login dulu</center>',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			});
 			$state.go('login');
 		}
@@ -2566,51 +2671,70 @@ angular.module('app.controllers', [])
 				title: 'Data tidak lengkap',
 				template: '<center>Mohon lengkapi data pemesanan</center>',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			});
 		} else {
-			Services.addTransaction($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, $scope.transaksi).then(function() {
-				// console.log($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, JSON.stringify(angular.toJson($scope.transaksi)));
-				Services.addQueue($scope.transaksi.kurir, $scope.transaksi.indexTransaksi).then(function() {
-					var notificationData = {
-						"notification":{
-							"title":"Order Baru",
-							"body":"Dari "+$scope.transaksi.namaUser+" ke "+$scope.transaksi.namaResto,
-							"sound":"default",
-							"icon":"fcm_push_icon"
-						},
-						"to":"/topics/"+$scope.transaksi.kurir,
-						"priority":"high",
-						"restricted_package_name":"com.manganindonesia.kurma"
-					}
+			$ionicPopup.confirm({
+				title: 'Konfirmasi Pesan',
+				template: '<center>Apakah anda akan memesan?</center>',
+				okText: 'Ya',
+				cancelText: 'Tidak',
+				okType: 'button-oren',
+				cancelType: 'button-clear'
+			}).then(function(res) {
+				if(res) {
+					Services.addTransaction($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, $scope.transaksi).then(function() {
+						// console.log($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, JSON.stringify(angular.toJson($scope.transaksi)));
+						Services.addQueue($scope.transaksi.kurir, $scope.transaksi.indexTransaksi).then(function() {
+							var notificationData = {
+								"notification":{
+									"title":"Order Baru",
+									"body":"Dari "+$scope.transaksi.namaUser+" ke "+$scope.transaksi.namaResto,
+									"sound":"default",
+									"icon":"fcm_push_icon"
+								},
+								"to":"/topics/"+$scope.transaksi.kurir,
+								"priority":"high",
+								"restricted_package_name":"com.manganindonesia.kurma"
+							}
 
-					$http.post('https://fcm.googleapis.com/fcm/send', notificationData, {
-						headers: {
-							"Content-Type" : "application/json",
-							"Authorization" : "key=AIzaSyD-AE-K7XNFFfwl-VWnmKW0PHMTHJBtQKo"
-						}
-					}).then(function(result) {
-						console.log(JSON.stringify(result));
+							$http.post('https://fcm.googleapis.com/fcm/send', notificationData, {
+								headers: {
+									"Content-Type" : "application/json",
+									"Authorization" : "key=AIzaSyD-AE-K7XNFFfwl-VWnmKW0PHMTHJBtQKo"
+								}
+							}).then(function(result) {
+								console.log(JSON.stringify(result));
+							}, function(err) {
+								console.log(err);
+							})
+
+							Services.addHistory($scope.uid, $scope.transaksi.indexTransaksi, $scope.transaksi.kurir).then(function(){
+								console.log('complete add history');
+							});
+
+							$ionicHistory.nextViewOptions({
+								disableBack: true
+							}, function(err) {
+								console.log('fail '+err);
+							});
+
+							// $scope.transaksi = {};
+							// delete $scope.transaksi;
+							// delete $stateParams.transaksi.pesanan;
+							// $stateParams.transaksi.kurir = "";
+							// $stateParams.transaksi.alamatUser = "";
+							// $stateParams.transaksi.alamatUserDetail = "";
+							// $scope.invoice();
+							$state.go('tabsController.jelajah');
+						})
 					}, function(err) {
 						console.log(err);
 					})
-
-					Services.addHistory($scope.uid, $scope.transaksi.indexTransaksi, $scope.transaksi.kurir).then(function(){
-						console.log('complete add history');
-					});
-
-					$ionicHistory.nextViewOptions({
-						disableBack: true
-					}, function(err) {
-						console.log('fail '+err);
-					});
-
-					delete $scope.transaksi;
-					$state.go('tabsController.transaksi');
-				})
-			}, function(err) {
-				console.log(err);
-			})
+				} else {
+					// gajadi pesan
+				}
+			});
 		}
 	}
 
@@ -2633,13 +2757,30 @@ angular.module('app.controllers', [])
 		});
 	}
 
+	$scope.setFeeDelivery = function(kurir) {
+		console.log('ongkir '+$scope.transaksi.feedelivery);
+		if (kurir == "esd") {
+			console.log('esd 9000');
+			$scope.transaksi.feedelivery = 9000;
+			$scope.transaksi.totalHarga = $scope.transaksi.jumlah+$scope.transaksi.feedelivery;
+		} else if (kurir == "maskurir") {
+			console.log('maskurir 9000');
+			$scope.transaksi.feedelivery = 9000;
+			$scope.transaksi.totalHarga = $scope.transaksi.jumlah+$scope.transaksi.feedelivery;
+		} else {
+			console.log('kurma 5000');
+			$scope.transaksi.feedelivery = 5000;
+			$scope.transaksi.totalHarga = $scope.transaksi.jumlah+$scope.transaksi.feedelivery;
+		}
+	}
+
 	$ionicModal.fromTemplateUrl('templates/maps.html', {
 		scope: $scope,
 		animation: 'slide-in-up' 
 	}).then(function(modal) { $scope.maps = modal; });
 })
 
-.controller('transaksiCtrl', function($scope, $state, $stateParams, Services, $ionicHistory) {
+.controller('transaksiCtrl', function($scope, $state, $stateParams, Services, $ionicHistory, $ionicLoading) {
 	// code for transaksi
 	$scope.$on('$ionicView.enter', function() {
 		var user = firebase.auth().currentUser;
@@ -2654,22 +2795,41 @@ angular.module('app.controllers', [])
 	});
 
 	$scope.getHistory = function(uid) {
+		console.log(uid);
 		$scope.transactions = [];
 		Services.getHistory(uid).then(function(transactions) {
 			for (var id in transactions) {
 				Services.getTransaksiDetails(transactions[id].kurir, transactions[id].indexTransaksi).then(function(transaksi) {
 					// if(transaksi.statusTransaksi == 'queue' || transaksi.statusTransaksi == 'process') {
-						$scope.transactions.push(transaksi);
+						var date = new Date();
+						var currentDate = date.getTime() ;
+						var lastDayTimestamp = currentDate - 604800000;
+						console.log("Current Date "+currentDate);
+						console.log("Date Transaksi "+transaksi.tgl);
+						if (transaksi.tgl >= lastDayTimestamp) {
+							console.log(transaksi.tgl);
+							$scope.transactions.push(transaksi);
+						}
 					// }
 				});
 			}
+			$scope.$broadcast('scroll.refreshComplete');
 		}, function(err) {
 			console.log('error get transactions :'+err);
+			$scope.$broadcast('scroll.refreshComplete');
 		})
 	}
 
-	$scope.rincianTransaksi = function() {
-		$state.go('tabsController.rincianTransaksi');
+	$scope.rincianTransaksi = function(kurir, indexTransaksi) {
+		$state.go('tabsController.rincianTransaksi', {kurir: kurir, indexTransaksi: indexTransaksi});
+	}
+
+	$scope.getDate = function(timestamp) {
+		var x = new Date(timestamp);
+		var hours  = x.getHours();
+		var minute = "0"+x.getMinutes();
+		var time = hours+'.'+minute.substr(-2);
+		return time;
 	}
 })
 
@@ -2798,7 +2958,7 @@ angular.module('app.controllers', [])
 				title: 'Belum login',
 				template: '<center>Kamu harus login dulu</center>',
 				okText: 'OK',
-				okType: 'button-balanced'
+				okType: 'button-oren'
 			});
 			$state.go('login');
 		};
@@ -2912,21 +3072,36 @@ angular.module('app.controllers', [])
 
 	$scope.rekomendasikan = function() {
 		// send email, error tapi berhasil
-		$http.post("https://mobilepangan.com/mangan/sendNotificationMail?nama="+$scope.data.namaResto+"&kontak="+$scope.data.kontak+"&alamat="+$scope.data.alamat+"&token=717mangan"
-		).success(function(data) {
-			console.log(data);
-		}).error(function(error, status) {
-			console.log(error, status);
-		});
+		if ($scope.data.namaResto == "" ||
+			$scope.data.alamat == "" ||
+			$scope.data.jenis == "" ||
+			$scope.data.namaResto == null ||
+			$scope.data.alamat == null ||
+			$scope.data.jenis == null) {
+			$ionicPopup.alert({
+				title: 'Lengkapi Data',
+				template: '<center>Data belum lengkap</center>',
+				okText: 'OK',
+				okType: 'button-oren'
+			});
+		} else {
+			$http.post("https://mobilepangan.com/mangan/sendMailRecomendation?nama="+$scope.data.namaResto+"&alamat="+$scope.data.alamat+"&jenis="+$scope.data.jenis+"&kontak="+$scope.data.kontak+"&alasan="+$scope.data.alasan+"&token=717mangan"
+			).success(function(data) {
+				console.log(data);
+			}).error(function(error, status) {
+				console.log(error, status);
+			});
+			Services.rekomendasiResto($scope.data);
 
-		$ionicPopup.alert({
-			title: 'Terima Kasih',
-			template: '<center>Terima kasih telah memberikan rekomendasi</center>',
-			okText: 'OK',
-			okType: 'button-balanced'
-		});
+			$ionicPopup.alert({
+				title: 'Terima Kasih',
+				template: '<center>Terima kasih telah memberikan rekomendasi</center>',
+				okText: 'OK',
+				okType: 'button-oren'
+			});
 
-		$state.go("tabsController.jelajah");
+			$state.go("tabsController.jelajah");
+		}
 	}
 })
 
@@ -2936,33 +3111,131 @@ angular.module('app.controllers', [])
 
 	$scope.daftar = function() {
 		// send email, error tapi terkirim
-		$http.post("https://mobilepangan.com/mangan/sendNotificationMail?nama="+$scope.data.namaResto+"&kontak="+$scope.data.kontak+"&alamat="+$scope.data.alamat+"&token=717mangan"
-		).success(function(data) {
-			console.log(data);
-		}).error(function(error, status) {
-			console.log(error, status);
-		});
+		if ($scope.data.namaResto == "" ||
+			$scope.data.namaPemilik == "" ||
+			$scope.data.alamat == "" ||
+			$scope.data.kontak == "" ||
+			$scope.data.namaResto == null ||
+			$scope.data.namaPemilik == null ||
+			$scope.data.alamat == null ||
+			$scope.data.kontak == null) {
+			$ionicPopup.alert({
+				title: 'Lengkapi Data',
+				template: '<center>Data belum lengkap</center>',
+				okText: 'OK',
+				okType: 'button-oren'
+			});
+		} else {
+			$http.post("https://mobilepangan.com/mangan/sendMailRegister?nama="+$scope.data.namaResto+"&namapemilik="+$scope.data.namaPemilik+"&alamat="+$scope.data.alamat+"&kontak="+$scope.data.kontak+"&deskripsi="+$scope.data.deskripsi+"&token=717mangan"
+			).success(function(data) {
+				console.log(data);
+			}).error(function(error, status) {
+				console.log(error, status);
+			});
+			Services.daftarResto($scope.data);
 
-		$ionicPopup.alert({
-			title: 'Mendaftar',
-			template: '<center>Kami akan segera menghubungi anda</center>',
-			okText: 'OK',
-			okType: 'button-balanced'
-		});
+			$ionicPopup.alert({
+				title: 'Mendaftar',
+				template: '<center>Kami akan segera menghubungi anda</center>',
+				okText: 'OK',
+				okType: 'button-oren'
+			});
 
-		$state.go("tabsController.jelajah");		
+			$state.go("tabsController.jelajah");
+		}		
 	}
 })
 
-.controller('rincianTransaksiCtrl', function($scope, $state, $stateParams, Services,$ionicHistory){
-	$scope.profilKurir=function(){
-		console.log("profil kurir");
-		$state.go('tabsController.profilKurir');
+.controller('rincianTransaksiCtrl', function($scope, $state, $stateParams, Services, $ionicLoading, $ionicPopup, $ionicHistory){
+	$ionicLoading.show({
+      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+      duration: 5000
+    });
+
+	$scope.$on('$ionicView.enter', function() {
+		$scope.getTransaksiDetails();
+	});
+
+    $scope.getTransaksiDetails = function() {
+    	console.log($stateParams.kurir, $stateParams.indexTransaksi);
+    	Services.getTransaksiDetails($stateParams.kurir, $stateParams.indexTransaksi).then(function(detailTransaksi) {
+    		$scope.detailTransaksi = detailTransaksi;
+    		console.log(detailTransaksi);
+    	}, function(err) {
+    		console.log(err);
+    	});
+    }
+
+    $scope.cancelTransaction = function() {
+    	$ionicPopup.confirm({
+			title: 'Batalkan Pesanan',
+			template: '<center>Apakah anda yakin ingin membatalkan pesanan anda?</center>',
+			okText: 'Ya',
+			cancelText: 'Tidak',
+			okType: 'button-clear',
+			cancelType: 'button-oren'
+		}).then(function(res) {
+			console.log('button tapped');
+
+			if(res) {
+				// batalkan pesanan
+				Services.getTransaksiDetails($stateParams.kurir, $stateParams.indexTransaksi).then(function(detailTransaksi) {
+					if (detailTransaksi.status == "process" || detailTransaksi.status == "done" || detailTransaksi.status == "cancel") {
+						$ionicPopup.alert({
+							title: 'Gagal',
+							template: '<center>Sepertinya pesanan kamu telah diproses kurir, silahkan hubungi kurir untuk membatalkan</center>',
+							okText: 'OK',
+							okType: 'button-oren'
+						});
+					} else {
+						Services.changeStatus($scope.detailTransaksi.kurir, $scope.detailTransaksi.indexTransaksi).then(function() {
+							Services.deleteQueue($scope.detailTransaksi.kurir, $scope.detailTransaksi.indexTransaksi).then(function() {
+								Services.addCancel($scope.detailTransaksi.indexUser, $scope.detailTransaksi.indexTransaksi);
+								$ionicPopup.alert({
+									title: 'Dibatalkan',
+									template: '<center>Pesanan berhasil dibatalkan</center>',
+									okText: 'OK',
+									okType: 'button-oren'
+								}).then(function() {
+									$ionicHistory.goBack();
+								});
+								console.log('order cancel');
+							}, function(err) {
+								console.log(err);
+							});
+						}, function(err) {
+							console.log('error change status : '+err);
+						});
+					}
+				})
+			} else {
+				// Tidak di tap
+			}
+		});
+    }
+
+	$scope.getDate = function(timestamp) {
+		var x = new Date(timestamp);
+		var hours  = x.getHours();
+		var minute = "0"+x.getMinutes();
+		var time = hours+'.'+minute.substr(-2);
+		return time;
 	}
-})
-
-.controller('profilKurirCtrl', function($scope, $state, $stateParams, Services){
-
+	
+	$scope.getTime = function(timestamp){
+	  var a = new Date(timestamp);
+	  var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+	  var days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+	  var day = days[a.getDay()];
+	  var year = a.getFullYear();
+	  var month = months[a.getMonth()];
+	  var date = a.getDate();
+	  var hour = a.getHours();
+	  var min = a.getMinutes();
+	  var sec = a.getSeconds();
+	  var time = day+', '+date + ' ' + month + ' ' + year ;
+	  return time;
+	}
 })
 
 .controller('adsController', function($scope, $state) {
@@ -2979,4 +3252,8 @@ angular.module('app.controllers', [])
 
 		return null;
 	}
+})
+
+.controller('profilKurirCtrl', function($scope, $state, $stateParams, Services){
+
 });

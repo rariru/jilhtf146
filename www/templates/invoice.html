@@ -68,7 +68,7 @@
         		<label class="item-input mangan-menu" style="margin-left: 18px;"><button class="button button-clear button-oren button-small button-outline" style="" ng-click="pickLocation()">Pilih Alamat Pengiriman</button></label>
                 <label class="item-input mangan-menu">
                     <i class="mangan-invoice-icon icon ion-compose"></i>
-                    <span class="mangan-line"><input type="text" placeholder="Detail Alamat" required></span>
+                    <span class="mangan-line"><input type="text" placeholder="Detail Alamat" ng-model="transaksi.alamatUserDetail" required></span>
                 </label>
         		<label class="item-input mangan-menu">
         			<i class="mangan-invoice-icon icon ion-ios-telephone"></i>
@@ -80,13 +80,11 @@
                 </label>
         		<label class="item-input item-select mangan-menu">
 				    <i class="mangan-invoice-icon icon ion-android-bicycle"></i>
-				    <!-- <span class=""><p class="input-label" style="color:#a3a3a3;">Kurir</p></span> -->
-				    <select ng-model="transaksi.kurir">
-                        <option selected>Pilih Kurir</option>
-                        <option value="maskurir">Maskurir</option>
-				        <option value="esd">ESD</option>
+				    <p class="item-text-wrap"><span class="input-label" style="color:#a3a3a3;">Kurir</span></p>
+				    <select ng-model="transaksi.kurir" ng-change="setFeeDelivery(transaksi.kurir)">
+                      <option value="maskurir">Maskurir (Mulai Rp 9000)</option>
+                      <option value="esd">ESD (Mulai Rp 9000)</option>
 				    </select>
-
 				</label>
 			</div>
 
@@ -102,6 +100,9 @@
 					<div class="col col-75"><h3>Ongkos Kirim</h3></div>
 					<div class="col"><h3>Rp {{transaksi.feedelivery}}</h3></div>
 				</div>
+                <div class="row">
+                    <div class="col"><p>Tarif merupakan tarif dasar kurir dan bisa berubah tergantung jarak dan kebijakan kurir</p></div>
+                </div>
 			</div>
 			<div class="item mangan-menu" style="border-left: 1px solid rgb(230,231,232);border-right: 1px solid rgb(230,231,232); margin-bottom: 5px;">
 				<div class="row">
