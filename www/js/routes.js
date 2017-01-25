@@ -267,6 +267,7 @@ angular.module('app.routes', ['ionicUIRouter'])
 
   .state('tabsController.invoice',{
     url: '/invoice',
+    cache: false,
     views: {
       'tab1':{
         templateUrl:'templates/invoice.html',
@@ -375,6 +376,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         templateUrl: 'templates/rincianTransaksi.html',
         controller: 'rincianTransaksiCtrl'
       }
+    },
+    params : {
+      kurir : null,
+      indexTransaksi : null
     }
   })
 

@@ -9,9 +9,10 @@
             </label>
         </form>
         <!-- If transaksi done, ng-hide -->
-        <div class="list" style="" ng-click="transaksi()";>
-            <div class="item mangan-menu item-text-wrap item-icon-right" style="background-color: #ff6a32;">
-                <p style="color:white; font-weight: 300">1 Pesanan sedang dalam proses</p>
+        <div class="list" style="" ng-click="transaksi()">
+            <div class="item mangan-menu item-text-wrap item-icon-right" style="background-color: #ff6a32;" ng-show="queue.length > 0 || process.length > 0" ion-ripple>
+                <p style="color:white; font-weight: 300" ng-show="queue.length > 0">{{queue.length}} Pesanan sedang dalam queue</p>
+                <p style="color:white; font-weight: 300" ng-show="process.length > 0">{{process.length}} Pesanan sedang dalam process</p>
                 <i class="icon ion-ios-arrow-right" style="font-size: 30px; color: white;"></i>
             </div>
         </div>
@@ -31,7 +32,7 @@
             </div>
         </div>
 
-        <div class="list">
+        <div class="list" ng-hide="true">
           <label class="item item-input item-select" style="">
             <div class="input-label">
               Lihat Kota Lain
