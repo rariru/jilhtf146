@@ -1,14 +1,14 @@
 <ion-view id="page3">
     <ion-nav-title>{{category}}</ion-nav-title>
 
-    <ion-content lazy-scroll padding="true" class="has-header">
+    <ion-content lazy-scroll class="has-header">
         <ion-refresher
             pulling-text="Lepas untuk memperbarui"
             on-refresh="getRestorans()"
             spinner = "ripple" >
         </ion-refresher>
 
-        <div class="card mangan-card" ng-show="dataUser" >
+        <div class="list" ng-show="dataUser" >
             <a class="mangan-menu item" style="background-color:#f9f9f9;border-top:0px;border-left:0px;border-right:0px;" ng-click="openProfile()" ion-ripple>
                 <center><img ng-src="{{dataUser.photoUrl}}" width="30%" height="auto" style="margin-bottom: 5px; border-radius: 50%;"></center>
                 <center><h2>{{dataUser.name}}</h2></center>
@@ -46,7 +46,7 @@
             </div>
         </div>
 
-        <div class="list card mangan-restorans" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true track by restoran.index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
+        <div class="list card mangan-restorans" padding="true" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true track by restoran.index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
             <div class="mangan-list-header">
                 <div class="row mangan-nama-resto" style="z-index: 999;">
                     <span class="col col-75">{{restoran.namaResto}}</span>

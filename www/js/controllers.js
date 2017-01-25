@@ -2954,7 +2954,14 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('rincianTransaksiCtrl', function($scope, $state, $stateParams, Services){
+.controller('rincianTransaksiCtrl', function($scope, $state, $stateParams, Services,$ionicHistory){
+	$scope.profilKurir=function(){
+		console.log("profil kurir");
+		$state.go('tabsController.profilKurir');
+	}
+})
+
+.controller('profilKurirCtrl', function($scope, $state, $stateParams, Services){
 
 })
 

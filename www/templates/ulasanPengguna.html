@@ -34,11 +34,15 @@
                     {{jmlReview}} Ulasan
                 </ion-item>
 
+                 <ion-item class="mangan-menu item-text-wrap" style="border-left:1px solid rgb(230,231,232);border-right:1px solid rgb(230,231,232);">
+                    <p style="text-align: center;">Belum Ada Ulasan Untuk Kuliner Ini. Jadilah Pengulas Pertama!</p>
+                </ion-item>
+
                 <ion-item class="mangan-menu item-avatar item-text-wrap" style="border-left:1px solid rgb(230,231,232);border-right:1px solid rgb(230,231,232);" ng-repeat="review in reviews | orderObjectBy: 'tglReview' :true">
                     <img class="mangan-ulasan-resto" src={{review.userPhotoUrl}} style="margin-top:6px;">
-                        <h2 style="color: rgb(1,177,178); font-weight: bold;">{{review.username}}</h2>
+                        <h2 style="color: rgb(1,177,178);">{{review.username}}</h2>
                         <h3 style="color: #ff6a32;">{{review.titleReview}}</h3>
-                        <p style="color:black;">{{review.review}}</p>
+                        <p style="">{{review.review}}</p>
                 </ion-item>
             </ion-list>
         </div>

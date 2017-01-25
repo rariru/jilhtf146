@@ -9742,7 +9742,18 @@ p {
   padding: 8px 0 5px 10px;
   width: 100%;
   height: auto;
-  font-size: 20px; }
+  font-size: 18px;
+  line-height: 1.5; }
+
+.mangan-nama-restoran {
+  color: #4d544d;
+  background-color: #f5f5f5;
+  padding: 8px 0 5px 10px;
+  width: 100%;
+  height: auto;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: bold; }
 
 .mangan-list-header {
   position: relative;
@@ -9763,10 +9774,10 @@ p {
   /*padding-top: 5px;*/
   border-top: 0;
   border-bottom: 1px solid #e6e7e8;
-  border-left: 1px solid #e6e7e8;
-  border-right: 1px solid #e6e7e8;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px; }
+  /*border-left: 1px solid rgb(230,231,232);
+	border-right: 1px solid rgb(230,231,232);
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;*/ }
 
 .mangan-detail-keterangan {
   background-color: #e6e7e8;
@@ -9788,8 +9799,8 @@ p {
   margin: 0;
   padding: 0;
   display: block;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px; }
+  /*border-top-right-radius: 5px;
+	border-top-left-radius: 5px;*/ }
 
 .mangan-image-review {
   width: 100%;
@@ -9923,17 +9934,19 @@ p {
   border-bottom: 1px solid #e6e7e8; }
 
 .mangan-keterangan-buka {
-  color: #01b1b2;
-  font-weight: bold;
+  color: #4d544d;
+  /*font-weight: bold;*/
   font-size: 14px;
+  /*font-weight: normal;*/
   width: 100%;
-  height: auto;
-  padding: 10px;
-  padding-left: 15px;
+  line-height: 1.5;
+  /*height: auto;*/
+  padding: 10px 10px 10px 15px;
+  /*padding-left: 15px; */
   border: 1px solid #e6e7e8; }
 
 .mangan-keterangan-buka > i {
-  color: white; }
+  color: #4d544d; }
 
 .mangan-keterangan-teks {
   font-size: 14px;
@@ -9969,7 +9982,7 @@ p {
   background-color: #01b2b1;
   padding: 10px;
   color: white;
-  font-size: 18px; }
+  font-size: 16px; }
 
 .mangan-kontak-header > p {
   margin-bottom: 0; }
@@ -9982,14 +9995,15 @@ p {
   text-decoration: none; }
 
 .mangan-kontak-icon {
-  font-size: 15px;
-  color: orangered; }
+  padding-right: 5px;
+  font-size: 20px;
+  color: #4d544d; }
 
 .mangan-invoice-icon {
   margin-right: 10px;
   margin-left: -5px;
   font-size: 20px;
-  color: orangered; }
+  color: #4d544d; }
 
 .mangan-button-menumakanan {
   background: #e6e7e8;
@@ -10033,7 +10047,21 @@ p {
 .mangan-menu p {
   /*color: #78715f;*/
   color: black;
-  font-weight: 300; }
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.5; }
+
+.mangan-menu select {
+  /*color: #78715f;*/
+  color: black;
+  font-weight: 300;
+  font-size: 14px; }
+
+.mangan-menu .input-label {
+  /*color: #78715f;*/
+  color: black;
+  font-weight: 300;
+  font-size: 14px; }
 
 .mangan-menu > h3 > a {
   text-decoration: none; }
