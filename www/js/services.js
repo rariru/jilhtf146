@@ -590,6 +590,12 @@ angular.module('app.services', [])
 		);
 	}
 
+	this.getKurir = function() {
+		return promiseValue(
+			ongkir
+		);
+	}
+
 	function promiseAdded(obj) {
 		var promise = $q.defer();
 

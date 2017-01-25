@@ -2510,7 +2510,14 @@ angular.module('app.controllers', [])
 		$scope.transaksi.totalHarga = totalHarga();
 	}
 
+	$scope.getKurir = function(){
+		Services.getKurir().then(function(listKurir) {
+			$scope.listKurir = listKurir;
+		})
+	}
+
 	$scope.invoice();
+	$scope.getKurir();
 
 	function jumlah() {
 		var jumlah = 0;
