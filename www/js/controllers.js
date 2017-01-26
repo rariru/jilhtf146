@@ -3252,4 +3252,8 @@ angular.module('app.controllers', [])
 
 		return null;
 	}
+})
+
+.controller('profilKurirCtrl', function($scope, $state, $stateParams, Services){
+
 });

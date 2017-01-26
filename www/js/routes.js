@@ -361,6 +361,24 @@ angular.module('app.routes', ['ionicUIRouter'])
     }
   })
 
+  .state('tabsController.profilKurir', {
+    url: '/profilKurir',
+    views: {
+      'tab1':{
+        templateUrl:'templates/profilKurir.html',
+        controller:'profilKurirCtrl'
+      },
+      'tab2':{
+        templateUrl:'templates/profilKurir.html',
+        controller:'profilKurirCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/profilKurir.html',
+        controller: 'profilKurirCtrl'
+      }
+    }
+  })
+
    .state('tabsController.rincianTransaksi', {
     url: '/rincianTransaksi',
     views: {
