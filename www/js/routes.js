@@ -267,6 +267,7 @@ angular.module('app.routes', ['ionicUIRouter'])
 
   .state('tabsController.invoice',{
     url: '/invoice',
+    cache: false,
     views: {
       'tab1':{
         templateUrl:'templates/invoice.html',
@@ -356,6 +357,24 @@ angular.module('app.routes', ['ionicUIRouter'])
       'tab3': {
         templateUrl: 'templates/daftar.html',
         controller: 'daftarCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.profilKurir', {
+    url: '/profilKurir',
+    views: {
+      'tab1':{
+        templateUrl:'templates/profilKurir.html',
+        controller:'profilKurirCtrl'
+      },
+      'tab2':{
+        templateUrl:'templates/profilKurir.html',
+        controller:'profilKurirCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/profilKurir.html',
+        controller: 'profilKurirCtrl'
       }
     }
   })

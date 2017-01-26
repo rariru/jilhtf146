@@ -8,13 +8,16 @@
 
         <div class="card mangan-card">
             <div class="row kontak-header">
-                <span class="col col-70"><p>Ulasan dari Pengguna</p></span>
+                <span class="col col-70"><p>ULASAN PENGGUNA</p></span>
                 <i class="mangan-invoice-icon icon ion-compose" style="font-size:30px; color: white; padding-left:10px;" ng-click="openRating()"></i>
             </div>
 
             <ion-list>
-                <ion-item class="mangan-menu item-text-wrap" style="border-left:1px solid rgb(230,231,232);border-right:1px solid rgb(230,231,232);">
-                    <center><h2 style="font-size: 18px; font-weight: bold; color: rgb(1,177,178); margin-bottom: 10px;">{{namaResto}}</h2></center>
+                <ion-item class="item-text-wrap " style="border-left:1px solid rgb(230,231,232);border-right:1px solid rgb(230,231,232);">
+                    <div class="" style="background-color: white; color: #4d544d; font-size: 18px; font-weight: bold;">
+                        <span class="col" style="text-align: center; margin-bottom: 10px;">{{namaResto}}</span>
+                    </div>
+                    <!-- <center><h2 style="font-size: 18px; font-weight: bold; color: rgb(1,177,178); margin-bottom: 10px;">{{namaResto}}</h2></center> -->
                     <!-- <p>Rating: 5 <i class="icon ion-android-star" style="color: orangered"></i></p> -->
                     <div class="row">
                         <!-- <span class="col col-20" style="padding:0;"></span> -->
@@ -34,11 +37,15 @@
                     {{jmlReview}} Ulasan
                 </ion-item>
 
+                 <ion-item class="mangan-menu item-text-wrap" style="border-left:1px solid rgb(230,231,232);border-right:1px solid rgb(230,231,232);">
+                    <p style="text-align: center;">Belum Ada Ulasan Untuk Kuliner Ini. </br> Jadilah Pengulas Pertama!</p>
+                </ion-item>
+
                 <ion-item class="mangan-menu item-avatar item-text-wrap" style="border-left:1px solid rgb(230,231,232);border-right:1px solid rgb(230,231,232);" ng-repeat="review in reviews | orderObjectBy: 'tglReview' :true">
                     <img class="mangan-ulasan-resto" src={{review.userPhotoUrl}} style="margin-top:6px;">
-                        <h2 style="color: rgb(1,177,178); font-weight: bold;">{{review.username}}</h2>
+                        <h2 style="color: rgb(1,177,178);">{{review.username}}</h2>
                         <h3 style="color: #ff6a32;">{{review.titleReview}}</h3>
-                        <p style="color:black;">{{review.review}}</p>
+                        <p style="">{{review.review}}</p>
                 </ion-item>
             </ion-list>
         </div>
