@@ -1,5 +1,5 @@
 <ion-view title="Ulasan Menu" id="ulasanMenu">
-    <ion-content lazy-scroll padding="true" class="has-header">
+    <ion-content lazy-scroll class="has-header">
         <ion-refresher
             pulling-text="Lepas untuk memperbarui"
             on-refresh="getMenu()"
@@ -10,14 +10,14 @@
             <div class="list" ng-show="selectedMenu.review" >
                 <div class="item item-avatar item-icon-right" style="border: 0px; padding-bottom:0px; background-color:rgb(1,177,178);">
                     <img class="mangan-ulasan-resto" src="{{selectedMenu.reviewer.foto}}">
-                    <h2 style="color: white; font-weight: bold;">{{ selectedMenu.reviewer.nama }}</h2>
-                    <p style="color: white;">Diulas oleh team MANGAN</p>
+                    <h2 style="color: white; font-weight: bold;">Diulas oleh {{ selectedMenu.reviewer.nama }}</h2>
+                    <p style="color: white;">Tim MANGAN</p>
                         <!-- <button class="mangan-tombol-aksi">
                             <i class="icon ion-android-share-alt" style="color: white; font-size: 25px;"></i>
                         </button> -->
                     <!-- <p>Diulas pada 8 Agustus</p> -->
                 </div>
-                <div class="mangan-keterangan item-body" style="margin-bottom: 10px; border-bottom-right-radius: 5px; border-bottom-left-radius: 5px;">
+                <div class="mangan-keterangan item-body" style="">
                     <div class="mangan-review-title">
                         {{ selectedMenu.namaMenu }}
                         <!-- <span class="mangan-tag-review mangan-tag-menumakanan">Khas</span> -->
