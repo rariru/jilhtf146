@@ -164,6 +164,7 @@ angular.module('app.controllers', [])
 				Services.getNewRestorans(flag).then(function(restorans) {
 					if(restorans) {
 						loadFlag = true;
+						$scope.nodata = false;
 
 						$scope.restorans = restorans;
 
@@ -185,7 +186,7 @@ angular.module('app.controllers', [])
 			case 'delivery' : {
 				Services.getAllRestorans(flag).then(function(restorans) {
 					if(!$scope.restorans) {
-						$scope.restorans = [];
+						$scope.restorans = {};
 					}
 
 					if(restorans) {
@@ -204,7 +205,14 @@ angular.module('app.controllers', [])
 
 						var i=0;
 						for(var id in restorans) {
-							$scope.restorans[id] = restorans[id];
+							// yg di bawah ini cuma bisa kalai id-nya berupa angka, karena $scope.restorans bentuknya adalah array
+							// kalau id bukan angka,misal "miherbal", $scope.restorans bentuknya harus object '$scope.restorans = {}'
+							// biar bisa pakai cara di bawah ini: *note ini dalam hal assigning,kalau akses $scope.restorans[id] mau id ne angka apa kalimat gamasalah
+							// $scope.restorans[id] = restorans[id];
+							// kalo yg ini cara aman
+							if(!(id in restorans)) {
+								$scope.restorans.push(restorans[id]);
+							}
 
 							// console.log(restorans[id].tglInput);
 							if(restorans[id].tglInput < flag) {
@@ -213,7 +221,7 @@ angular.module('app.controllers', [])
 							}
 						}
 						// $scope.restorans.push.apply($scope.restorans, restorans);
-					} else {
+					} else if ($scope.restorans.length <= 0) {
 						$scope.nodata = true;
 					}
 					
@@ -246,22 +254,30 @@ angular.module('app.controllers', [])
 				// console.log('halo');
 				Services.getAllRestorans(flag).then(function(restorans) {
 					if(!$scope.restorans) {
-						$scope.restorans = [];
+						$scope.restorans = {};
 					}
 
 					if(restorans) {
+						console.log("adaresto");
 						loadFlag = true;
 						$scope.nodata = false;
 
 						var n = 0;
 						for(var id in restorans) {
 							n++;
+							console.log(id);
 						}
 
 						var i=0;
 						for(var id in restorans) {
-							$scope.restorans[id] = restorans[id];
-
+							// yg di bawah ini cuma bisa kalai id-nya berupa angka, karena $scope.restorans bentuknya adalah array
+							// kalau id bukan angka,misal "miherbal", $scope.restorans bentuknya harus object '$scope.restorans = {}'
+							// biar bisa pakai cara di bawah ini: *note ini dalam hal assigning,kalau akses $scope.restorans[id] mau id ne angka apa kalimat gamasalah
+							// $scope.restorans[id] = restorans[id];
+							// kalo yg ini cara aman
+							if(!(id in $scope.restorans)) {
+								$scope.restorans[id] = restorans[id];
+							}
 							// console.log(restorans[id].tglInput);
 							if(restorans[id].tglInput < flag) {
 								flag = restorans[id].tglInput;
@@ -269,7 +285,8 @@ angular.module('app.controllers', [])
 							}
 						}
 						// $scope.restorans.push.apply($scope.restorans, restorans);
-					} else {
+					} else if ($scope.restorans.length <= 0) {
+						console.log("gaada resto");
 						$scope.nodata = true;
 					}
 					
@@ -304,12 +321,13 @@ angular.module('app.controllers', [])
 					if(restorans) {
 						loadFlag = true;
 
-						$scope.restorans = [];
+						$scope.restorans = {};
 
 						for(var r in restorans) {
 							// console.log(r);
 							Services.getRestoranDetails(r).then(function(restoran) {
-								$scope.restorans.push(restoran);
+								// $scope.restorans.push(restoran);
+								$scope.restorans[restoran.index] = restoran;
 
 								$ionicLoading.hide();
 								$scope.$broadcast('scroll.refreshComplete');
@@ -835,7 +853,7 @@ angular.module('app.controllers', [])
     });
     // set default selected city to Surakarta,
     // though the default city has been set in Services
-	$scope.selectedCity = $localStorage.location? $localStorage.location: 'Surakarta';
+	$scope.selectedCity = $localStorage.location? $localStorage.location: '';
 
 	console.log("localStorage token "+$localStorage.token);
 
@@ -952,7 +970,7 @@ angular.module('app.controllers', [])
 			$scope.dataUser = "";
 		}
 
-		if ($localStorage.location == null) {
+		if ($localStorage.location == null || $localStorage.location == '') {
 			console.log("localStorage.location null");
 		    $scope.setLocation();
 		} else {
@@ -1124,7 +1142,7 @@ angular.module('app.controllers', [])
 				} else {
 					//pick location
 					// console.log('tampilkan popup lokasi');
-					// $scope.modal.show();
+					$scope.modal.show();
 				}
 			}).error(function(error) {
 				console.log('data error : '+error);
@@ -1133,7 +1151,7 @@ angular.module('app.controllers', [])
 			//pick location
 			// console.log("could not get location");
 			// console.log('tampilkan popup lokasi');
-			// $scope.modal.show();
+			$scope.modal.show();
 			
 			// show dialog to pick city manually 
 
