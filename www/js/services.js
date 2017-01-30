@@ -407,7 +407,7 @@ angular.module('app.services', [])
 			'email': dataUser.email,
 			'fb_id': dataUser.id,
 			'name': dataUser.name,
-			'photoUrl': dataUser.picture.data.url,
+			'photoUrl': dataUser.picture.data.url || null,
 			'device_token' : $localStorage.token,
 			'dateRegister': firebase.database.ServerValue.TIMESTAMP,
 			'dateUpdatedData': firebase.database.ServerValue.TIMESTAMP
@@ -435,13 +435,13 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
-	this.updateUserDataFB = function(userData) {
+	this.updateUserDataLogin = function(userData) {
 		var promise = $q.defer();
 
 		user.child(userData.id).update({
 			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
 			'name' : userData.name,
-			'photoUrl' : userData.photoUrl || userData.picture.data.url || null,
+			'photoUrl' : userData.photoUrl || userData.picture.data.url || userData.picture || null,
 			'device_token' : $localStorage.token
 		}).then(function(result) {
 			promise.resolve(true);
@@ -456,9 +456,9 @@ angular.module('app.services', [])
 		user.child(dataUser.id).set({
 			'index': dataUser.id,
 			'email': dataUser.email,
-			'gpluslink': dataUser.link,
+			'gpluslink': dataUser.link || null,
 			'name': dataUser.name,
-			'photoUrl': dataUser.picture,
+			'photoUrl': dataUser.picture || null,
 			'dateRegister': firebase.database.ServerValue.TIMESTAMP,
 			'dateUpdatedData': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
@@ -594,6 +594,12 @@ angular.module('app.services', [])
 		return promiseValue(
 			ongkir
 		);
+	}
+
+	this.getKurirDetail = function(kurir) {
+		return promiseValue(
+			ongkir.child(kurir)
+		);	
 	}
 
 	// DAFTAR& REKOMENDASI

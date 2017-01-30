@@ -6,12 +6,12 @@
             spinner = "ripple" >
         </ion-refresher>
         <!-- content -->
-            <img ng-src="{{selectedMenu.reviewGambar}}" class="mangan-image-4_3">
-            <div class="list" ng-show="selectedMenu.review" >
+            <div class="list" ng-show="selectedMenu.review" ng-show="loadFlag">
+                <img ng-src="{{selectedMenu.reviewGambar}}" class="mangan-image-4_3">
                 <div class="item item-avatar item-icon-right" style="border: 0px; padding-bottom:0px; background-color:rgb(1,177,178);">
                     <img class="mangan-ulasan-resto" src="{{selectedMenu.reviewer.foto}}">
                     <h2 style="color: white; font-weight: bold;">Diulas oleh {{ selectedMenu.reviewer.nama }}</h2>
-                    <p style="color: white;">Tim MANGAN</p>
+                    <p style="color: white;">Host Kuliner MANGAN</p>
                         <!-- <button class="mangan-tombol-aksi">
                             <i class="icon ion-android-share-alt" style="color: white; font-size: 25px;"></i>
                         </button> -->
@@ -20,9 +20,10 @@
                 <div class="mangan-keterangan item-body" style="">
                     <div class="mangan-review-title">
                         {{ selectedMenu.namaMenu }}
-                        <!-- <span class="mangan-tag-review mangan-tag-menumakanan">Khas</span> -->
                     </div>
-                    <h5 style="color: rgb(1,177,178);">{{ selectedMenu.harga | currency:'Rp ':2 }}</h5>
+                    <span ng-show="selectedMenu.tag" class="mangan-tag-menumakanan" style="color:rgb(1,177,178);">{{ selectedMenu.tag }}</span>
+                    <h5 ng-show="(menu.harga % 1) == 0" style="color: rgb(1,177,178);">{{ selectedMenu.harga | currency:'Rp ':2 }}</h5>
+                    <h5 ng-hide="(menu.harga % 1) == 0" style="color: rgb(1,177,178);">{{ selectedMenu.harga }}</h5>
                     <div class="mangan-keterangan-teks" ng-bind-html="selectedMenu.review">
                         <!-- {{ selectedMenu.review }} -->
                     </div>

@@ -305,7 +305,8 @@ angular.module('app.routes', ['ionicUIRouter'])
     },
     params: {
       namaResto: null,
-      indexResto: null
+      indexResto: null,
+      compose: null
     }
   })
 
