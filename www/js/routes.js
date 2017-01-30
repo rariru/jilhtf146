@@ -305,7 +305,8 @@ angular.module('app.routes', ['ionicUIRouter'])
     },
     params: {
       namaResto: null,
-      indexResto: null
+      indexResto: null,
+      compose: null
     }
   })
 
@@ -357,6 +358,24 @@ angular.module('app.routes', ['ionicUIRouter'])
       'tab3': {
         templateUrl: 'templates/daftar.html',
         controller: 'daftarCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.profilKurir', {
+    url: '/profilKurir',
+    views: {
+      'tab1':{
+        templateUrl:'templates/profilKurir.html',
+        controller:'profilKurirCtrl'
+      },
+      'tab2':{
+        templateUrl:'templates/profilKurir.html',
+        controller:'profilKurirCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/profilKurir.html',
+        controller: 'profilKurirCtrl'
       }
     }
   })
