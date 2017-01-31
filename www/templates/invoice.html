@@ -67,11 +67,11 @@
         		</label>
         		<label class="item-input mangan-menu" style="margin-left: 18px;"><button class="button button-clear button-oren button-small button-outline" style="" ng-click="pickLocation()">Pilih Alamat Pengiriman</button></label>
                 <label class="item-input mangan-menu">
-                    <i class="mangan-invoice-icon icon ion-compose"></i>
+                    <i class="mangan-invoice-icon icon ion-ios-location"></i>
                     <span class="mangan-line"><input type="text" placeholder="Detail Alamat" ng-model="transaksi.alamatUserDetail" required></span>
                 </label>
         		<label class="item-input mangan-menu">
-        			<i class="mangan-invoice-icon icon ion-ios-telephone"></i>
+        			<i class="mangan-invoice-icon icon ion-android-call"></i>
         			<span class="mangan-line"><input type="number" placeholder="Telepon" ng-model="transaksi.noTelpUser" required></span>
         		</label>
                 <label class="item-input mangan-menu">
@@ -95,7 +95,7 @@
         	</div>
         	<div class="item item-text-wrap mangan-menu" style="border-left: 1px solid rgb(230,231,232);border-right: 1px solid rgb(230,231,232);">
 	        	<div class="row">
-					<div class="col col-75"><h3>Total Pesanan</h3></div>
+					<div class="col col-75"><h3>Sub Total</h3></div>
 					<div class="col"><h3>Rp {{transaksi.jumlah}}</h3></div>
 				</div>
 				<div class="row">
@@ -103,7 +103,7 @@
 					<div class="col"><h3>Rp {{transaksi.feedelivery}}</h3></div>
 				</div>
                 <div class="row">
-                    <div class="col"><p><b>Keterangan :</b></p></div>
+                    <div class="col"><h3>Keterangan Ongkos Kirim:</h3></div>
                 </div>
                 <div class="row">
                     <div class="col"><p>{{kurirDetail.keterangan}}</p></div>

@@ -2088,7 +2088,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('loginCtrl', function($scope, $state, $ionicLoading, Services, $ionicHistory, $cordovaOauth, $localStorage, $http, Analytics) {
+.controller('loginCtrl', function($scope, $state, $ionicLoading, Services, $ionicHistory, $cordovaOauth, $localStorage, $http, Analytics, $ionicPopup, $cordovaToast) {
 	$scope.fblogin = function() {
 		$cordovaOauth.facebook(1764800933732733, ["email", "user_birthday", "user_location"]).then(function(result) {
 			console.log(result.access_token);
@@ -2121,6 +2121,7 @@ angular.module('app.controllers', [])
 	firebase.auth().onAuthStateChanged(function(user) {
 		// logged in
 		if (user) {
+			makeToast('Berhasil Login');
 			user.providerData.forEach(function(profile) {
 				if (profile.providerId === "facebook.com") {
 					// cek if data already stored
@@ -2213,7 +2214,16 @@ angular.module('app.controllers', [])
 		} else {
 			console.log('not logged in');
 		}
-	});
+	})
+
+	function makeToast(_message) {
+		window.plugins.toast.showWithOptions({
+			message: _message,
+			duration: 1500,
+			position: 'bottom',
+			addPixelsY: -40
+		});
+	};
 })
 
 .controller('profilCtrl', function($scope, $state, $ionicLoading, Services, $http, $localStorage, $ionicHistory, $ionicModal, $cordovaGeolocation, $ionicPopup, $cordovaToast, Analytics) {
@@ -3219,6 +3229,10 @@ angular.module('app.controllers', [])
 				})
 			}
 		});
+    }
+
+    $scope.call = function(tel) {
+		window.open('tel:'+tel, '_system', 'location=yes');
     }
 
 	$scope.getDate = function(timestamp) {

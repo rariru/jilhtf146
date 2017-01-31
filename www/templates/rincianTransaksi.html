@@ -47,7 +47,7 @@
         			<span style="width: 100%">{{detailTransaksi.alamatUser}}</span>
         		</label>
         		<label class="item-input mangan-menu">
-        			<i class="mangan-invoice-icon icon ion-ios-telephone"></i>
+        			<i class="mangan-invoice-icon icon ion-android-call"></i>
         			<span style="width: 100%">{{detailTransaksi.noTelpUser}}</span>
         		</label>
                 <label class="item-input mangan-menu">
@@ -65,17 +65,17 @@
             </div>
             
             <div class="item item-text-wrap mangan-menu" style="border-left: 1px solid rgb(230,231,232);border-right: 1px solid rgb(230,231,232);">
-                <h3>{{getTime(detailTransaksi.tgl)}}</h3>
+                <h3 style="color: #4d544d;">{{getTime(detailTransaksi.tgl)}}</h3>
                 <label class="item-input mangan-menu">
-                    <i class="mangan-invoice-icon icon ion-android-time"></i>
+                    <i class="mangan-invoice-icon icon ion-clock"></i>
                     <span style="width: 100%">Dipesan pada : {{getDate(detailTransaksi.tgl)}}</span>
                 </label>
                 <label class="item-input mangan-menu" ng-show="detailTransaksi.timeProcess">
-                    <i class="mangan-invoice-icon icon ion-android-time"></i>
+                    <i class="mangan-invoice-icon icon ion-clock"></i>
                     <span style="width: 100%">Diproses kurir pada : {{getDate(detailTransaksi.timeProcess)}}</span>
                 </label>
                 <label class="item-input mangan-menu" ng-show="detailTransaksi.statusUpdateTime && detailTransaksi.status == 'done'">
-                    <i class="mangan-invoice-icon icon ion-android-time"></i>
+                    <i class="mangan-invoice-icon icon ion-clock"></i>
                     <span style="width: 100%">Selesai pada : {{getDate(detailTransaksi.statusUpdateTime)}}</span>
                 </label>
             </div>
@@ -103,12 +103,13 @@
     </ion-content>
 
     <div style="height:auto; background-color:; position:fixed; bottom:0px;left:0px;right:0px;" ng-hide='detailTransaksi.status == "queue" || detailTransaksi.status == "cancel"'> 
-        <div class="item item-avatar item-icon-right mangan-menu" style="box-shadow: 0px 0px 10px 2px rgba(136,136,136,1); border-top:0;">
+        <div class="item item-avatar mangan-menu" style="box-shadow: 0px 0px 10px 2px rgba(136,136,136,1); border-top:0;">
             <img src="{{detailTransaksi.kurirPhotoUrl}}" style="margin-top:5px;">
             <h3>{{detailTransaksi.namaKurir}}</h3>
             <p><span class="kapital">{{detailTransaksi.kurir}}</span></p>
             <h3 ng-show='detailTransaksi.status == "done"'>Selesai diantarkan, terima kasih</h3>
-            <a href="tel:{{detailTransaksi.kontakKurir}}" class="button button-small button-oren icon-left ion-ios-telephone" ng-click="kontak()" ng-hide='detailTransaksi.status == "done"'>Hubungi Kurir</a>
+            <button class="button button-small button-oren" ng-click="call(detailTransaksi.kontakKurir)" ng-hide='detailTransaksi.status == "done"'><i class="icon ion-android-call" style="padding-right: 5px;"></i>HUBUNGI KURIR</button>
+           <!--  <a href="tel:{{detailTransaksi.kontakKurir}}" class="button button-small button-oren icon-left ion-android-call" ng-click="kontak()" ng-hide='detailTransaksi.status == "done"'>Hubungi Kurir</a> -->
         </div>
     </div>
     <button class="button button-full button-oren" ng-click="cancelTransaction()" ng-show='detailTransaksi.status == "queue"' style="position:fixed; border-top-right-radius:0px; border-top-left-radius:0px;border-bottom-right-radius:0px;border-bottom-left-radius:0px;margin-bottom:0px; bottom:0px;left:0px;right:0px;box-shadow: 0px 0px 10px 2px rgba(136,136,136,1);" ion-ripple>Batalkan Pesanan</button>
