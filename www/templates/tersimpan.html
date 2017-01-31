@@ -46,9 +46,10 @@
             </div>
         </div>
 
-        <div class="kontak-header">
+        <div class="kontak-header" style="margin-bottom: 10px;" ng-show="!restorans || restorans.length > 0">
                 <p>KULINER TERSIMPAN</p>
         </div>
+
         <div class="list card mangan-restorans" padding="true" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true track by restoran.index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
             <div class="mangan-list-header">
                 <div class="row mangan-nama-resto" style="z-index: 999;">
