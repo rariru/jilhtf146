@@ -17,16 +17,18 @@
                         </button> -->
                     <!-- <p>Diulas pada 8 Agustus</p> -->
                 </div>
-                <div class="mangan-keterangan item-body" style="">
+                <div class="mangan-keterangan-teks item-body" style="">
                     <div class="mangan-review-title">
                         {{ selectedMenu.namaMenu }}
                     </div>
-                    <span ng-show="selectedMenu.tag" class="mangan-tag-menumakanan" style="color:rgb(1,177,178);">{{ selectedMenu.tag }}</span>
-                    <h5 ng-show="(menu.harga % 1) == 0" style="color: rgb(1,177,178);">{{ selectedMenu.harga | currency:'Rp ':2 }}</h5>
-                    <h5 ng-hide="(menu.harga % 1) == 0" style="color: rgb(1,177,178);">{{ selectedMenu.harga }}</h5>
-                    <div class="mangan-keterangan-teks" ng-bind-html="selectedMenu.review">
+                    <h5 ng-show="(selectedMenu.harga % 1) == 0" style="margin-top:0; color: rgb(1,177,178);">{{ selectedMenu.harga | currency:'Rp ':2 }}</h5>
+                    <h5 ng-hide="(selectedMenu.harga % 1) == 0" style="margin-top:0; color: rgb(1,177,178);">{{ selectedMenu.harga }}</h5>
+                    <span ng-show="selectedMenu.tag" class="mangan-tag-menumakanan" style="padding-top: 0; color:rgb(1,177,178);">{{ selectedMenu.tag }}</span>
+                </div>
+                <div class="mangan-keterangan-teks item-body" ng-bind-html="selectedMenu.review">
                         <!-- {{ selectedMenu.review }} -->
-                    </div>
+                </div>
+
                 </div>
             </div>
     </ion-content>

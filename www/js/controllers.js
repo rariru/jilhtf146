@@ -959,22 +959,22 @@ angular.module('app.controllers', [])
     _waitForAnalytics();
 
     $scope.$on('$ionicView.enter', function() {
-    	// analytics.trackView('Jelajah');
+    	Analytics.logView('Jelajah');
     	// console.log('trackView, Jelajah');
-	    function _waitForAnalytics(){
-	        if(typeof analytics !== 'undefined'){
-	            analytics.startTrackerWithId(config.analytics);
-	            // pindah di on enter
-			    // analytics.trackView('Jelajah');
-			    Analytics.logView('Jelajah');
-	        }
-	        else{
-	            setTimeout(function(){
-	                _waitForAnalytics();
-	            },10000);
-	        }
-	    };
-	    _waitForAnalytics();
+	    // function _waitForAnalytics(){
+	    //     if(typeof analytics !== 'undefined'){
+	    //         analytics.startTrackerWithId(config.analytics);
+	    //         // pindah di on enter
+			  //   // analytics.trackView('Jelajah');
+			  //   Analytics.logView('Jelajah');
+	    //     }
+	    //     else{
+	    //         setTimeout(function(){
+	    //             _waitForAnalytics();
+	    //         },10000);
+	    //     }
+	    // };
+	    // _waitForAnalytics();
 
 		var user = firebase.auth().currentUser;
 		if (user) {
@@ -1829,7 +1829,7 @@ angular.module('app.controllers', [])
 
 	$scope.$on('$ionicView.enter', function() {
 		Analytics.logView('Terdekat');
-		Analytics.logEvent('Terdekat', 'Kuliner Terdekat', $scope.category);\
+		Analytics.logEvent('Terdekat', 'Kuliner Terdekat', $scope.category);
 	});
 
 	//////////////////////////////////////////////////////////////////
@@ -2539,7 +2539,7 @@ angular.module('app.controllers', [])
     	$scope.invoice();
 		$scope.getKurir();
 		Analytics.logView('Pesan', 'Invoice');
-		Analytics.logEvent('Pesan', 'Invoice', $scope.transaksi.indexUser);
+		Analytics.logEvent('Pesan', 'Invoice '+$scope.transaksi.indexUser, $scope.transaksi.indexResto);
     });
 
 	function jumlah() {
@@ -3058,7 +3058,7 @@ angular.module('app.controllers', [])
 
 .controller('rekomendasiCtrl', function($scope, $state, $stateParams, Services, $http, $ionicPopup, Analytics){
 	$scope.$on('$ionicView.enter', function() {
-		Analytics.logView('Rekomendasikan'+ 'Rekomendasikan Restoran');
+		Analytics.logView('Rekomendasikan Restoran');
 	});
 
 	$scope.data = [];
@@ -3100,7 +3100,7 @@ angular.module('app.controllers', [])
 
 .controller('daftarCtrl', function($scope, $state, $stateParams, Services, $http, $ionicPopup, Analytics){
 	$scope.$on('$ionicView.enter', function() {
-		Analytics.logView('Daftar'+ 'Pendaftaran Restoran');
+		Analytics.logView('Pendaftaran Restoran');
 	});
 
 	$scope.data = [];
