@@ -82,8 +82,10 @@
 				    <i class="mangan-invoice-icon icon ion-android-bicycle"></i>
 				    <div class="input-label">Kurir</div>
 				    <select ng-model="transaksi.kurir" ng-change="setFeeDelivery(transaksi.kurir)">
-                      <option value="maskurir">Maskurir (Mulai Rp 9000)</option>
+<!--                       <option value="maskurir">Maskurir (Mulai Rp 9000)</option>
                       <option value="esd">ESD (Mulai Rp 9000)</option>
+                      <option value="kurma">Kurma</option> -->
+                      <option ng-repeat="kurir in listKurir" value="{{kurir.index}}">{{kurir.nama}} (Mulai Rp {{kurir.ongkir}})</option>
 				    </select>
 				</label>
 			</div>
@@ -101,7 +103,10 @@
 					<div class="col"><h3>Rp {{transaksi.feedelivery}}</h3></div>
 				</div>
                 <div class="row">
-                    <div class="col"><p>Tarif merupakan tarif dasar kurir dan bisa berubah tergantung jarak dan kebijakan kurir</p></div>
+                    <div class="col"><p><b>Keterangan :</b></p></div>
+                </div>
+                <div class="row">
+                    <div class="col"><p>{{kurirDetail.keterangan}}</p></div>
                 </div>
 			</div>
 			<div class="item mangan-menu" style="border-left: 1px solid rgb(230,231,232);border-right: 1px solid rgb(230,231,232); margin-bottom: 5px;">
