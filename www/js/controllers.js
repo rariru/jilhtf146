@@ -1007,7 +1007,8 @@ angular.module('app.controllers', [])
 
 		if ($localStorage.location == null || $localStorage.location == '') {
 			console.log("localStorage.location null");
-		    $scope.setLocation();
+			//hidupkan untuk popup lokasi pilihan user
+		    // $scope.setLocation();
 		} else {
 			console.log($localStorage.location);
 		}
@@ -1840,7 +1841,7 @@ angular.module('app.controllers', [])
 
 	$scope.$on('$ionicView.enter', function() {
 		Analytics.logView('Terdekat');
-		Analytics.logEvent('Terdekat', 'Kuliner Terdekat', $scope.category);\
+		Analytics.logEvent('Terdekat', 'Kuliner Terdekat', $scope.category);
 	});
 
 	//////////////////////////////////////////////////////////////////
