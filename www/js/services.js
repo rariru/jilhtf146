@@ -1,19 +1,19 @@
 // Initialize Firebase
 // mangan
-var config = {
-	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
-	authDomain: "project-1449647215698534337.firebaseapp.com",
-	databaseURL: "https://project-1449647215698534337.firebaseio.com",
-	storageBucket: "project-1449647215698534337.appspot.com"
-};
+// var config = {
+// 	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
+// 	authDomain: "project-1449647215698534337.firebaseapp.com",
+// 	databaseURL: "https://project-1449647215698534337.firebaseio.com",
+// 	storageBucket: "project-1449647215698534337.appspot.com"
+// };
 
 // ryou
-// var config = {
-// 	apiKey: "AIzaSyBvDJSC5qe1AfnNbEZOiqw3GUFjvb4i3go",
-//     authDomain: "project-7791088175021720001.firebaseapp.com",
-//     databaseURL: "https://project-7791088175021720001.firebaseio.com",
-//     storageBucket: "project-7791088175021720001.appspot.com",
-// };
+var config = {
+	apiKey: "AIzaSyBvDJSC5qe1AfnNbEZOiqw3GUFjvb4i3go",
+    authDomain: "project-7791088175021720001.firebaseapp.com",
+    databaseURL: "https://project-7791088175021720001.firebaseio.com",
+    storageBucket: "project-7791088175021720001.appspot.com",
+};
 
 // hamzah ManganBak
 // var config = {
@@ -47,8 +47,8 @@ angular.module('app.services', [])
 		indexes: [],
 		maxSaved: 5,
 		token: null,
-		location: 'Surakarta', // default location,
-		indexUser: 'uyehh'
+		location: '', // default location,
+		indexUser: ''
 	});
 
 	this.getVersion = function() {
@@ -667,14 +667,14 @@ angular.module('app.services', [])
 	{
 		// console.log('try get resto');
 		// return restoran.child($localStorage.location);
-		return restoran;
+		// return restoran;
 
 		//next utk 2 kota
-		// if($localStorage.location == 'Surakarta') {
-		// 	return firebase.database().ref('dataResto');
-		// } else if($localStorage.location == 'Yogyakarta') {
-		// 	return firebase.database().ref('dataRestoJogya');
-		// }
+		if($localStorage.location == 'Surakarta') {
+			return firebase.database().ref('dataResto');
+		} else if($localStorage.location == 'Yogyakarta') {
+			return firebase.database().ref('dataRestoJogja');
+		}
 	}
 })
 

@@ -147,6 +147,8 @@ angular.module('app.controllers', [])
 				Services.getNewRestorans(flag).then(function(restorans) {
 					if(restorans) {
 						loadFlag = true;
+						$scope.nodata = false;
+
 						$scope.restorans = restorans;
 						$ionicLoading.hide();
 						$scope.$broadcast('scroll.refreshComplete');
@@ -164,7 +166,7 @@ angular.module('app.controllers', [])
 			case 'delivery' : {
 				Services.getAllRestorans(flag).then(function(restorans) {
 					if(!$scope.restorans) {
-						$scope.restorans = [];
+						$scope.restorans = {};
 					}
 					if(restorans) {
 						loadFlag = true;
@@ -181,13 +183,15 @@ angular.module('app.controllers', [])
 
 						var i=0;
 						for(var id in restorans) {
-							$scope.restorans[id] = restorans[id];
+							if(!(id in $scope.restorans)) {
+								$scope.restorans[id] = restorans[id];
+							}
 
 							if(restorans[id].tglInput < flag) {
 								flag = restorans[id].tglInput;
 							}
 						}
-					} else {
+					} else if ($scope.restorans.length <= 0) {
 						$scope.nodata = true;
 					}
 					
@@ -218,27 +222,33 @@ angular.module('app.controllers', [])
 			case 'all' : {
 				Services.getAllRestorans(flag).then(function(restorans) {
 					if(!$scope.restorans) {
-						$scope.restorans = [];
+						$scope.restorans = {};
 					}
 
 					if(restorans) {
+						console.log("adaresto");
 						loadFlag = true;
 						$scope.nodata = false;
 
 						var n = 0;
 						for(var id in restorans) {
 							n++;
+							console.log(id);
 						}
 
 						var i=0;
 						for(var id in restorans) {
-							$scope.restorans[id] = restorans[id];
-
+							if(!(id in $scope.restorans)) {
+								$scope.restorans[id] = restorans[id];
+							}
+							// console.log(restorans[id].tglInput);
+              
 							if(restorans[id].tglInput < flag) {
 								flag = restorans[id].tglInput;
 							}
 						}
-					} else {
+					} else if ($scope.restorans.length <= 0) {
+						console.log("gaada resto");
 						$scope.nodata = true;
 					}
 					
@@ -271,11 +281,12 @@ angular.module('app.controllers', [])
 					if(restorans) {
 						loadFlag = true;
 
-						$scope.restorans = [];
+						$scope.restorans = {};
 
 						for(var r in restorans) {
 							Services.getRestoranDetails(r).then(function(restoran) {
-								$scope.restorans.push(restoran);
+								// $scope.restorans.push(restoran);
+								$scope.restorans[restoran.index] = restoran;
 
 								$ionicLoading.hide();
 								$scope.$broadcast('scroll.refreshComplete');
@@ -877,7 +888,7 @@ angular.module('app.controllers', [])
     });
     // set default selected city to Surakarta,
     // though the default city has been set in Services
-	$scope.selectedCity = $localStorage.location? $localStorage.location: 'Surakarta';
+	$scope.selectedCity = $localStorage.location? $localStorage.location: '';
 
 	console.log("localStorage token "+$localStorage.token);
 
@@ -994,7 +1005,7 @@ angular.module('app.controllers', [])
 			$scope.dataUser = "";
 		}
 
-		if ($localStorage.location == null) {
+		if ($localStorage.location == null || $localStorage.location == '') {
 			console.log("localStorage.location null");
 		    $scope.setLocation();
 		} else {
@@ -1156,7 +1167,7 @@ angular.module('app.controllers', [])
 				} else {
 					//pick location
 					// console.log('tampilkan popup lokasi');
-					// $scope.modal.show();
+					$scope.modal.show();
 				}
 			}).error(function(error) {
 				console.log('data error : '+error);
@@ -1165,7 +1176,7 @@ angular.module('app.controllers', [])
 			//pick location
 			// console.log("could not get location");
 			// console.log('tampilkan popup lokasi');
-			// $scope.modal.show();
+			$scope.modal.show();
 			
 			// show dialog to pick city manually 
 
