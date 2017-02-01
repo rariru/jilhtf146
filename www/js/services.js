@@ -670,11 +670,13 @@ angular.module('app.services', [])
 		return restoran;
 
 		//next utk 2 kota
-		// if($localStorage.location == 'Surakarta') {
-		// 	return firebase.database().ref('dataResto');
-		// } else if($localStorage.location == 'Yogyakarta') {
-		// 	return firebase.database().ref('dataRestoJogja');
-		// }
+		if($localStorage.location == 'Surakarta') {
+			return firebase.database().ref('dataResto');
+		} else if($localStorage.location == 'Yogyakarta') {
+			return firebase.database().ref('dataRestoJogja');
+		} else {
+			return firebase.database().ref('dataResto');
+		}
 	}
 })
 
