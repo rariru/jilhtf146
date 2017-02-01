@@ -322,7 +322,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup, $timeout, Analytics, $cordovaSocialSharing) {
+.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup, $timeout, Analytics, $cordovaSocialSharing, $ionicHistory, $ionicPopup) {
 	var loadFlag = false;
 	$scope.loadFlag = false;
 	var loadingIndicator = $ionicLoading.show({
@@ -343,6 +343,17 @@ angular.module('app.controllers', [])
 		// analytics.trackEvent('Kuliner', 'Informasi', $stateParams.index, 5);
 		Analytics.logEvent('Kuliner', 'Informasi', $stateParams.index)
 		console.log('trackEvent, Kuliner, Informasi, '+$stateParams.index);
+		var forwardView = $ionicHistory.forwardView();
+		if (forwardView) {
+			if (forwardView.title == "Pesan") {
+				$ionicPopup.alert({
+					title: 'Pesanan Dibatalkan',
+					template: '<center>Dengan Meninggalkan Halaman Tadi, Maka Daftar Pesanan Anda Akan Dibatalkan</center>',
+					okText: 'OK',
+					okType: 'button-oren'
+				});
+			}
+		}
 	});
 
 	$scope.restoran = null;
@@ -2376,7 +2387,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('pesanCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout, $ionicHistory, Analytics, $localStorage) {
+.controller('pesanCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout, $ionicHistory, Analytics, $localStorage, $ionicPlatform) {
 	var loadingIndicator = $ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
     });
