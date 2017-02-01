@@ -667,7 +667,7 @@ angular.module('app.services', [])
 	{
 		// console.log('try get resto');
 		// return restoran.child($localStorage.location);
-		// return restoran;
+		return restoran;
 
 		//next utk 2 kota
 		if($localStorage.location == 'Surakarta') {
