@@ -25,7 +25,7 @@
 
 
         <div class="list card">
-            <div class="item item-body mangan-menu" ng-repeat="promo in promos | orderObjectBy: 'tglInput' :true track by promo.index" ng-click="openPromo(promo.indexResto)" style="border: 1px solid rgb(230,231,232)">
+            <div class="item item-body mangan-menu" ng-repeat="promo in promos | orderObjectBy: 'tglInput' :true track by promo.index" ng-click="openPromo(promo.indexResto)" style="border: 1px solid rgb(230,231,232)" ng-show="promo.show">
                 <img class="mangan-image-4_3" src="{{promo.url}}">
                 <h2 style="font-weight: bold;">{{promo.namaPromo}}</h2>
                 <h2>{{promo.resto}}</h2>
