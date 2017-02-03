@@ -39,6 +39,7 @@ var user = firebase.database().ref('user');
 var transaksi = firebase.database().ref('transaksi');
 var queue = firebase.database().ref('status').child('queue');
 var ongkir = firebase.database().ref('ongkir');
+var settings = firebase.database().ref('settings');
 
 angular.module('app.services', [])
 
@@ -399,6 +400,12 @@ angular.module('app.services', [])
 		)
 	}
 
+	this.getSettingsDelivery = function(){
+		return promiseValue(
+			settings.child('delivery')
+		);
+	}
+
 	this.addUserData = function(dataUser) {
 		var promise = $q.defer();
 
@@ -459,6 +466,7 @@ angular.module('app.services', [])
 			'gpluslink': dataUser.link || null,
 			'name': dataUser.name,
 			'photoUrl': dataUser.picture || null,
+			'device_token' : $localStorage.token,
 			'dateRegister': firebase.database.ServerValue.TIMESTAMP,
 			'dateUpdatedData': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
