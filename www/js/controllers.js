@@ -322,7 +322,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup, $timeout, Analytics, $cordovaSocialSharing) {
+.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup, $timeout, Analytics, $cordovaSocialSharing, $ionicHistory, $ionicPopup) {
 	var loadFlag = false;
 	$scope.loadFlag = false;
 	var loadingIndicator = $ionicLoading.show({
@@ -343,6 +343,17 @@ angular.module('app.controllers', [])
 		// analytics.trackEvent('Kuliner', 'Informasi', $stateParams.index, 5);
 		Analytics.logEvent('Kuliner', 'Informasi', $stateParams.index)
 		console.log('trackEvent, Kuliner, Informasi, '+$stateParams.index);
+		// var forwardView = $ionicHistory.forwardView();
+		// if (forwardView) {
+		// 	if (forwardView.title == "Pesan") {
+		// 		$ionicPopup.alert({
+		// 			title: 'Pesanan Dibatalkan',
+		// 			template: '<center>Dengan Meninggalkan Halaman Tadi, Maka Daftar Pesanan Anda Akan Dibatalkan</center>',
+		// 			okText: 'OK',
+		// 			okType: 'button-oren'
+		// 		});
+		// 	}
+		// }
 	});
 
 	$scope.restoran = null;
@@ -622,29 +633,42 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.pesan = function() {
-		// analytics.trackEvent('Coming Soon', 'Pesan', 'Tombol Pesan', 5);
-		Analytics.logEvent('Coming Soon', 'Pesan', 'Tombol Pesan');
-		console.log('trackEvent, Coming Soon, Pesan, Tombol Pesan');
+		Services.getSettingsDelivery().then(function(settings) {
+			if (settings) {
+				if (settings.status) {
+					// analytics.trackEvent('Coming Soon', 'Pesan', 'Tombol Pesan', 5);
+					Analytics.logEvent('Coming Soon', 'Pesan', 'Tombol Pesan');
+					console.log('trackEvent, Coming Soon, Pesan, Tombol Pesan');
 
-		///////////////////
-		// fitur pesan
-		if ($scope.restoran.delivery) {
-			var user = firebase.auth().currentUser;
-			if (user) {
-				$state.go('tabsController.pesan', {'index': $scope.restoran.index});
-			} else {
-				$state.go('login');
+					///////////////////
+					// fitur pesan
+					if ($scope.restoran.delivery) {
+						var user = firebase.auth().currentUser;
+						if (user) {
+							$state.go('tabsController.pesan', {'index': $scope.restoran.index});
+						} else {
+							$state.go('login');
+						}
+					} else {
+						//////////////////
+						// tidak mendukung pesan antar
+						$ionicPopup.alert({
+							title: 'Oops',
+							template: '<center>Maaf kuliner ini belum mendukung pesan antar</center>',
+							okText: 'OK',
+							okType: 'button-oren'
+						});
+					}
+				} else {
+					$ionicPopup.alert({
+						title: 'Pemberitahuan',
+						template: '<center>'+settings.message+'</center>',
+						okText: 'OK',
+						okType: 'button-oren'
+					});
+				}
 			}
-		} else {
-			//////////////////
-			// tidak mendukung pesan antar
-			$ionicPopup.alert({
-				title: 'Oops',
-				template: '<center>Maaf kuliner ini belum mendukung pesan antar</center>',
-				okText: 'OK',
-				okType: 'button-oren'
-			});
-		}
+		})
 	};
 
 	$scope.ulasanPengguna = function(compose) {
@@ -1007,7 +1031,8 @@ angular.module('app.controllers', [])
 
 		if ($localStorage.location == null || $localStorage.location == '') {
 			console.log("localStorage.location null");
-		    $scope.setLocation();
+			//hidupkan untuk popup lokasi pilihan user
+		    // $scope.setLocation();
 		} else {
 			console.log($localStorage.location);
 		}
@@ -1167,7 +1192,7 @@ angular.module('app.controllers', [])
 				} else {
 					//pick location
 					// console.log('tampilkan popup lokasi');
-					$scope.modal.show();
+					// $scope.modal.show();
 				}
 			}).error(function(error) {
 				console.log('data error : '+error);
@@ -1176,7 +1201,7 @@ angular.module('app.controllers', [])
 			//pick location
 			// console.log("could not get location");
 			// console.log('tampilkan popup lokasi');
-			$scope.modal.show();
+			// $scope.modal.show();
 			
 			// show dialog to pick city manually 
 
@@ -2376,7 +2401,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('pesanCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout, $ionicHistory, Analytics, $localStorage) {
+.controller('pesanCtrl', function($scope, $stateParams, Services, $ionicModal, $ionicLoading, $cordovaToast, $ionicPopup, $state, $timeout, $ionicHistory, Analytics, $localStorage, $ionicPlatform) {
 	var loadingIndicator = $ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
     });
@@ -2393,6 +2418,15 @@ angular.module('app.controllers', [])
     $scope.$on('$ionicView.enter', function() {
     	Analytics.logView('Pesan');
 	    Analytics.logEvent('Pesan', 'Lihat Menu', $stateParams.index);
+    });
+
+	$scope.$on('$ionicView.leave', function() {
+		$ionicPopup.alert({
+			title: 'Pesanan Dibatalkan',
+			template: '<center>Dengan Meninggalkan Halaman Tadi, Maka Daftar Pesanan Anda Akan Dibatalkan</center>',
+			okText: 'OK',
+			okType: 'button-oren'
+		});
     });
 
     Services.getRestoranDetails($stateParams.index).then(function(restoran) {
@@ -2552,7 +2586,12 @@ angular.module('app.controllers', [])
 
 	$scope.getKurir = function(){
 		Services.getKurir().then(function(listKurir) {
-			$scope.listKurir = listKurir;
+			$scope.listKurir = [];
+			for(var r in listKurir){
+				if (listKurir[r].show) {
+					$scope.listKurir.push(listKurir[r]);
+				}
+			}
 		})
 	}
 
