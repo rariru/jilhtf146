@@ -19,9 +19,13 @@
                 <span class="col" style="text-align: center;">{{restoran.namaResto}}</span>
             </div>
             <!-- Tombol Aksi -->
-            <div class="row">
-                <button ng-show="restoran.noTelp" ng-click="call(restoran.noTelp)" class="button button-small button-outline button-block button-oren" style="display: block; margin: auto;  margin-right: 5px; width: 50%"><i class="icon ion-android-call" style="padding-right: 5px;"></i>HUBUNGI</button>
-                <button ng-click="navigate(restoran.index)" ng-show="restoran.map.lat || restoran.map.lat != ''" class="button button-small button-block button-oren" style="display: block; margin: auto; width: 50%"><i class="icon ion-android-locate" style="padding-right: 5px;"></i>MENUJU LOKASI</button>
+            <div class="row" style="">
+                <div class="col col-50" style="position: relative">
+                    <button ng-show="restoran.noTelp" ng-click="call(restoran.noTelp)" class="button button-small button-outline button-oren" style="width: 100%;" ion-ripple><i class="icon ion-android-call" style="padding-right: 5px;"></i>HUBUNGI</button>
+                </div>
+                <div class="col col-50" style="position: relative">
+                    <button ng-click="navigate(restoran.index)" ng-show="restoran.map.lat || restoran.map.lat != ''" class="button button-small button-oren" style="width: 100%;" ion-ripple><i class="icon ion-android-locate" style="padding-right: 5px;"></i>MENUJU LOKASI</button>
+                </div>
             </div>
             <!-- Informasi Pendukung -->
             <div class="mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'" style="border: 0;">
