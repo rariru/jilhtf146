@@ -2421,12 +2421,17 @@ angular.module('app.controllers', [])
     });
 
 	$scope.$on('$ionicView.leave', function() {
-		$ionicPopup.alert({
-			title: 'Pesanan Dibatalkan',
-			template: '<center>Dengan Meninggalkan Halaman Tadi, Maka Daftar Pesanan Anda Akan Dibatalkan</center>',
-			okText: 'OK',
-			okType: 'button-oren'
-		});
+		var forwardView = $ionicHistory.forwardView();
+		if (forwardView) {
+			if (forwardView.title != "Invoice") {
+				$ionicPopup.alert({
+					title: 'Pesanan Dibatalkan',
+					template: '<center>Dengan Meninggalkan Halaman Tadi, Maka Daftar Pesanan Anda Akan Dibatalkan</center>',
+					okText: 'OK',
+					okType: 'button-oren'
+				});
+			}
+		}
     });
 
     Services.getRestoranDetails($stateParams.index).then(function(restoran) {
@@ -2762,8 +2767,8 @@ angular.module('app.controllers', [])
 				okType: 'button-oren',
 				cancelType: 'button-clear'
 			}).then(function(res) {
-				Analytics.logEvent('Pesan', 'Checkout', $scope.transaksi.indexUser);
 				if(res) {
+					Analytics.logEvent('Pesan', 'Checkout', $scope.transaksi.indexUser);
 					Services.addTransaction($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, $scope.transaksi).then(function() {
 						Services.addQueue($scope.transaksi.kurir, $scope.transaksi.indexTransaksi).then(function() {
 							var notificationData = {
