@@ -714,6 +714,26 @@ angular.module('app.services', [])
 			firebase.database().ref('analytics/'+ branch).set(newValue);
 		});
 	}
+
+	function addValueArr(trackName, branch) {
+		var path = trackName;
+		for (var i = 0; i < branch.length; i++) {
+			var sub = "/"+ branch[i];
+			path += sub;
+		}
+
+		firebase.database().ref('analytics/'+ path).once('value', function(_value) {
+			var newValue = _value.val();
+			// console.log('_value: '+ _value.val());
+			if(typeof newValue === 'number' && newValue >= 1) {
+				newValue++;
+			} else {
+				newValue = 1;
+			}
+			// console.log('newValue: '+ newValue);
+			firebase.database().ref('analytics/'+ branch).set(newValue);
+		});
+	}
 })
 
 .service('ManganAds', function() {
