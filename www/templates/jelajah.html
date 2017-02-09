@@ -19,13 +19,13 @@
 
         <div class="list" style="">
             <div class="item item-text-wrap item-thumbnail-right mangan-menu" style="border: none; margin:10px 15px 0 15px;">
-                <img class="mangan-greeting-gambar" ng-src="{{dataUser.photoUrl}}" style="">
+                <img class="mangan-greeting-gambar" ng-src="{{dataUser.photoUrl}}">
                 <h2 ng-show="!dataUser.name" style="font-size: 24px; color: rgb(1,177,178);">Halo Foodies</h2>
                 <h2 ng-show="dataUser.name" style="font-size: 24px; color: rgb(1,177,178);">Halo {{dataUser.name}}</h2>
                 <p style="font-size: 16px;">Kamu lapar? Mau makan apa hari ini?</p>
                 <!-- Kalo diklik masuk ke map terdekat dari lokasi user-->
-                <a href="" ng-show="lokasiUser" style="color: orangered; text-decoration: none;"><i class="icon ion-ios-location" style="padding-right:5px"></i>{{lokasiUser}}</a>
-                <a href="" ng-show="!lokasiUser" style="color: orangered; text-decoration: none;"><i class="icon ion-ios-location" style="padding-right:5px"></i>Lokasi tidak ditemukan</a>
+                <p ng-show="lokasiUser" style="color: orangered; text-decoration: none;"><i class="icon ion-ios-location" style="padding-right:5px"></i>{{lokasiUser}}</p>
+                <p ng-click="greeting()" ng-show="!lokasiUser" style="color: orangered; text-decoration: none;"><i class="icon ion-ios-location" style="padding-right:5px"></i>Lokasi tidak ditemukan</p>
             </div>
             <div style="width: 100%; margin-bottom: 10px; padding-left: 25px;">
                 <button ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" id="mangan-button-pesan" class="button button-oren button-small button-outline" ng-click="pesan()" style="width:30%; margin: 0 2px;" ion-ripple>JELAJAHI</button>
@@ -44,12 +44,6 @@
             </select>
           </label>
         </div>
-
-<!--         <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
-            <ion-slide-page ng-repeat="slider in sliders">
-                <img ng-src="{{ slider.url }}" style="width: 100%; display: block;">
-            </ion-slide-page>
-        </ion-slides> -->
 
         <!-- Kategori    -->
         <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
@@ -127,7 +121,7 @@
        
         </div> -->
 
-        <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
+<!--         <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
             <ion-slide-page>
                 <img src="img/slider4.jpg" style="width: 100%; display: block;">
             </ion-slide-page>
@@ -143,8 +137,15 @@
             <ion-slide-page>
                 <img src="img/slider1.jpg" style="width: 100%; display: block;">
             </ion-slide-page>
+        </ion-slides> -->
+
+        <!-- Slider Dinamis -->
+        <ion-slides ng-show="sliders || sliders.length > 0" options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
+            <ion-slide-page ng-repeat="slider in sliders">
+                <img ng-src="{{ slider.url }}" style="width: 100%; display: block;">
+            </ion-slide-page>
         </ion-slides>
-        
+
         <!-- Kategori    -->
         <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
             <h4 style="background: white; padding-left: 10px; width: 100%; margin: 15px 0; color: rgb(1,177,178);">BY CATEGORY</h4>

@@ -1032,12 +1032,13 @@ angular.module('app.controllers', [])
 		if ($localStorage.location == null || $localStorage.location == '') {
 			console.log("localStorage.location null");
 			//hidupkan untuk popup lokasi pilihan user
-		    // $scope.setLocation();
+		    $scope.setLocation();
 		} else {
 			console.log($localStorage.location);
 		}
 
 		$scope.greeting();
+		$scope.getSliders();
     });
 
 	$scope.options = {
@@ -1081,17 +1082,19 @@ angular.module('app.controllers', [])
 		$state.go("tabsController.daftar");
 	}
 
-	Services.getSliders().then(function(sliders) {
-		if (sliders) {
-			$scope.sliders = sliders;
-		} else {
+	$scope.getSliders = function() {
+		Services.getSliders().then(function(sliders) {
+			if (sliders) {
+				$scope.sliders = sliders;
+			} else {
+				// makeToast('Error koneksi tidak stabil', 1500, 'bottom');
+				console.log('Tidak ada slider');
+			}
+		}, function(err) {
 			makeToast('Error koneksi tidak stabil', 1500, 'bottom');
-			console.log('Error fetch data');
-		}
-	}, function(err) {
-		makeToast('Error koneksi tidak stabil', 1500, 'bottom');
-		console.log(err);
-	});
+			console.log(err);
+		});
+	}
 
 	function makeToast(_message) {
 		window.plugins.toast.showWithOptions({
@@ -1135,8 +1138,8 @@ angular.module('app.controllers', [])
 		};
 
 		var options = {
-			timeout: 5000,
-			enableHighAccuracy: true
+			timeout: 10000,
+			enableHighAccuracy: false
 		};
 
 		$cordovaGeolocation.getCurrentPosition(options).then(function(position) {
@@ -1252,6 +1255,19 @@ angular.module('app.controllers', [])
 			console.log('error get transactions :'+err);
 			$scope.$broadcast('scroll.refreshComplete');
 		})
+	}
+
+	$scope.profil = function() {
+		var user = firebase.auth().currentUser;
+		if (user) {
+			$state.go('tabsController.tersimpan');
+		} else {
+			$state.go('login');
+		}
+	}
+
+	$scope.terdekat = function() {
+		$state.go('tabsController.terdekat');
 	}
 })
 
@@ -2122,7 +2138,11 @@ angular.module('app.controllers', [])
 			firebase.auth().signInWithCredential(credential).catch(function(error) {
 				console.log('Error : '+JSON.stringify(error));
 			});
-			$ionicHistory.goBack();
+			$ionicLoading.show({
+		      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+		      duration: 5000
+		    });
+			// $ionicHistory.goBack();
 		}, function(err) {
 			console.log('Error oAuth favebook: '+err);
 		})
@@ -2136,7 +2156,11 @@ angular.module('app.controllers', [])
 			firebase.auth().signInWithCredential(credential).catch(function(error) {
 				console.log("Error : "+JSON.stringify(error));
 			});
-			$ionicHistory.goBack();
+			$ionicLoading.show({
+		      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+		      duration: 5000
+		    });
+			// $ionicHistory.goBack();
 		}, function(err) {
 			console.log('Error oAuth google: '+err);
 		})
@@ -2146,51 +2170,53 @@ angular.module('app.controllers', [])
 	firebase.auth().onAuthStateChanged(function(user) {
 		// logged in
 		if (user) {
-			makeToast('Berhasil Login');
+			console.log("uid: "+user.uid);
+			$scope.user = user;
 			user.providerData.forEach(function(profile) {
 				if (profile.providerId === "facebook.com") {
 					// cek if data already stored
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
-							console.log(JSON.stringify(user));
+							// dataUser registered, update data
+							makeToast('Berhasil Login');
 							$http.get("https://graph.facebook.com/v2.8/me?fields=name,location,birthday,gender,picture.type(large){url},age_range,email,about", {params :{
 								access_token : $localStorage.fbaccesstoken,
 								format : "json"
 							}}).then(function(result) {
 								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
-								console.log(JSON.stringify(result.data));
-								Services.updateUserDataLogin($scope.dataUser).then(function(user) {
-									console.log(user);
-								}, function(err) {
-									console.log(err);
-								})
-							})
-							// update user data?
-							// data already added to database
+								Services.updateUserDataLogin($scope.dataUser, $scope.user);
+							});
 						} else {
-							// create new data in firebase from facebook
+							// create new data in firebase from Facebook
 							$http.get("https://graph.facebook.com/v2.8/me?fields=name,location,birthday,gender,picture.type(large){url},age_range,email,about", {params :{
 								access_token : $localStorage.fbaccesstoken,
 								format : "json"
 							}}).then(function(result) {
 								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
-								console.log(JSON.stringify(result.data));
-								Services.addUserData($scope.dataUser).then(function(user) {
+								Services.addUserData($scope.dataUser, $scope.user).then(function(user) {
+									makeToast('Berhasil Login');
 									console.log(user);
 								}, function(err) {
-									console.log(err);
+									firebase.auth().signOut().then(function() {
+										makeToast('Login gagal, coba dengan email lain');
+									});
 								})
-							})
+							});
 						}
 					}, function(err) {
-						console.log("error cekUserData(): "+err);
+						// error check user data
+						firebase.auth().signOut();
+						makeToast('Login gagal, koneksi tidak stabil');
 					})
+					$ionicLoading.hide();
+					$ionicHistory.goBack();
 				} else if (profile.providerId === "google.com") {
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
-							console.log(JSON.stringify(user));
+							// dataUser registered, update data
+							makeToast('Berhasil Login');
 							$http.get("https://www.googleapis.com/userinfo/v2/me?fields=email,family_name,gender,given_name,hd,id,link,locale,name,picture,verified_email", {
 								headers :{
 									"Authorization" : "Bearer "+$localStorage.googleaccesstoken
@@ -2198,19 +2224,9 @@ angular.module('app.controllers', [])
 							}).then(function(result) {
 								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
-								console.log(JSON.stringify(result.data));
-								Services.updateUserDataLogin($scope.dataUser).then(function(user) {
-									console.log(user);
-								}, function(err) {
-									console.log(err);
-								})
-							}, function(err) {
-								console.log('error get from google apis: '+JSON.stringify(err));
-							})
-							// update user data?
-							// data already added to database
+								Services.updateUserDataLogin($scope.dataUser, $scope.user);
+							});
 						} else {
-							console.log('tryna get from google apis');
 							// create new data in firebase from Google
 							$http.get("https://www.googleapis.com/userinfo/v2/me?fields=email,family_name,gender,given_name,hd,id,link,locale,name,picture,verified_email", {
 								headers :{
@@ -2219,25 +2235,30 @@ angular.module('app.controllers', [])
 							}).then(function(result) {
 								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
-								console.log(JSON.stringify(result.data));
-								Services.addUserDataByGoogle($scope.dataUser).then(function(user) {
-									console.log(user);
+								Services.addUserDataByGoogle($scope.dataUser, $scope.user).then(function(user) {
+									makeToast('Berhasil Login');
 								}, function(err) {
-									console.log(err);
+									firebase.auth().signOut().then(function() {
+										makeToast('Login gagal, coba dengan email lain');
+									});
 								})
-							}, function(err) {
-								console.log('error get from google apis: '+JSON.stringify(err));
-							})
+							});
 						}
 					}, function(err) {
-						console.log("error cekUserData(): "+err);
+						// error check user data
+						firebase.auth().signOut();
+						makeToast('Login gagal, koneksi tidak stabil');
 					})
+					$ionicLoading.hide();
+					$ionicHistory.goBack();
 				}  else {
-					console.log('logged in with provider :'+profile.providerId);
+					// login dengan cara lain, harusnya tidak terjadi
+					firebase.auth().signOut();
+					makeToast('Login gagal, coba dengan email lain');
+					$ionicLoading.hide();
+					$ionicHistory.goBack();
 				}
 			});
-		} else {
-			console.log('not logged in');
 		}
 	})
 
@@ -2595,6 +2616,7 @@ angular.module('app.controllers', [])
 			for(var r in listKurir){
 				if (listKurir[r].show) {
 					$scope.listKurir.push(listKurir[r]);
+					console.log("listKurir[r] adalah :"+JSON.stringify(listKurir[r]));
 				}
 			}
 		})
