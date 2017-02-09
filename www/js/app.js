@@ -12,7 +12,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
   version: 100018
 })
 
-.run(function($ionicPlatform, config) {
+.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -31,6 +31,54 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     //   console.log("Google Analytics Unavailable");
     // }
 
+    window.FirebasePlugin.getToken(function(token) {
+      $localStorage.token = token;
+      console.log('device token : '+token);
+    }, function(err) {
+      console.log('err get token : '+err);
+    })
+
+    window.FirebasePlugin.onTokenRefresh(function(token) {
+      $localStorage.token = token;
+      console.log('device token refresh : '+token);
+    }, function(err) {
+      console.log('err get token : '+err);
+    })
+
+    window.FirebasePlugin.onNotificationOpen(function(notification) {
+      // if notification received in background, on tap, it didn't open the app! how frustating
+
+      // Check notification Body (notification from us)
+      // From us, there is body attribute
+      if (notification.body) {
+        // Foreground, tap = false
+        if (notification.tap == false) {
+          $ionicPopup.alert({
+            title: notification.title,
+            template: notification.body,
+            okText: 'OK',
+            okType: 'button-oren'
+          });
+        }
+        // Background
+        else if(notification.tap == true) {
+          $ionicPopup.alert({
+            title: notification.title,
+            template: notification.body,
+            okText: 'OK',
+            okType: 'button-oren'
+          });
+        }
+      } else {
+        // do nothing, not from us
+        console.log('wild notification content :'+JSON.stringify(notification));
+      }
+    }, function(err) {
+      console.log(err);
+    })
+
+    window.FirebasePlugin.subscribe("mangan");
+
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
             // analytics.debugMode();
@@ -43,8 +91,12 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
         }
     };
     _waitForAnalytics();
-    
   });
+
+  if (ionic.Platform.isIOS()) {
+    window.FirebasePlugin.grantPermission();
+    console.log("iOS permission granted");
+  }
 })
 
 .config(['$ionicConfigProvider', function($ionicConfigProvider) {
@@ -71,4 +123,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
       if(reverse) filtered.reverse();
       return filtered;
     };
-});
+})
+
+
+
+

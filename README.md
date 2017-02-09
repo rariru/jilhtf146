@@ -12,14 +12,6 @@ want fast?
 
 	`cordova plugin add cordova-plugin-geolocation`
 
-* cordova-plugin-google-analytics 0.7.1 "Google Universal Analytics Plugin"
-
-	`cordova plugin add mp-cordova-plugin-google-analytics@0.7.1`
-
-* cordova-plugin-googleplayservices 19.0.3 "Google Play Services for Android"
-
-	`npm install cordova-plugin-googleplayservices@19.0.3`
-
 * cordova-plugin-inappbrowser 1.4.0 "InAppBrowser"
 
 	`cordova plugin add cordova-plugin-inappbrowser`
@@ -55,6 +47,19 @@ want fast?
 * ngStorage (https://github.com/gsklee/ngStorage)
 	
 	`bower install ngstorage`
+* cordova-plugin-firebase
+
+	`cordova plugin add cordova-plugin-firebase@0.1.18 --save`
+
+# REMOVED PLUGIN
+
+* cordova-plugin-google-analytics 0.7.1 "Google Universal Analytics Plugin"
+
+	`cordova plugin add mp-cordova-plugin-google-analytics@0.7.1`
+
+* cordova-plugin-googleplayservices 19.0.3 "Google Play Services for Android"
+
+	`npm install cordova-plugin-googleplayservices@19.0.3`
 
 
 # version
@@ -72,3 +77,10 @@ want fast?
 * rekomendasi kuliner terdekat
 * promo notification
 * upgrade UI
+
+## 1.3.0
+* not listed yet
+
+## 1.4.0
+* pesan antar
+* push notification

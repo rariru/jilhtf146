@@ -22,17 +22,16 @@
             </ion-item>
         </ion-list> -->
 
+
+
         <div class="list card">
-            <div class="item item-body" ng-repeat="promo in promos | orderObjectBy: 'tglInput' :true track by promo.index" ng-click="openPromo(promo.indexResto)" style="border: 1px solid rgb(230,231,232)">
-                <img class="full-image" src="{{promo.url}}">
-                <h2>{{promo.namaPromo}}</h2>
+            <div class="item item-body mangan-menu" ng-repeat="promo in promos | orderObjectBy: 'tglInput' :true track by promo.index" ng-click="openPromo(promo.indexResto)" style="border: 1px solid rgb(230,231,232)" ng-show="promo.show">
+                <img class="mangan-image-4_3" src="{{promo.url}}">
+                <h2 style="font-weight: bold;">{{promo.namaPromo}}</h2>
                 <h2>{{promo.resto}}</h2>
-                <p>
-                    {{promo.keterangan}}
-                </p>
-                <p>
-                    <a class="subdued">Valid sampai : {{promo.valid}}</a>
-                </p>
+                <p>{{promo.keterangan}}</p>
+                <p style="color: orangered;">Valid hingga : {{promo.valid}}</p>
+                
             </div>
         </div>
     </ion-content>

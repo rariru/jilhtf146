@@ -1,4 +1,4 @@
-<ion-view id="pesan">
+<ion-view id="ulasanpengguna">
     <ion-nav-title>{{namaResto}}</ion-nav-title>
     <ion-content lazy-scroll padding="true" class="has-header">
         <ion-refresher
@@ -8,16 +8,16 @@
 
         <div class="card mangan-card">
             <div class="row kontak-header">
-                <span class="col col-70"><p>Ulasan dari Pengguna</p></span>
+                <span class="col col-70"><p>ULASAN PENGGUNA</p></span>
                 <i class="mangan-invoice-icon icon ion-compose" style="font-size:30px; color: white; padding-left:10px;" ng-click="openRating()"></i>
             </div>
 
             <ion-list>
-                <ion-item class="mangan-menu" style="border-left:1px solid rgb(230,231,232);border-right:1px solid rgb(230,231,232);">
-                    <center><h2 style="font-size: 18px; font-weight: bold; color: rgb(1,177,178); margin-bottom: 10px;">{{namaResto}}</h2></center>
-                    <!-- <p>Rating: 5 <i class="icon ion-android-star" style="color: orangered"></i></p> -->
+                <ion-item class="item-text-wrap " style="border-left:1px solid rgb(230,231,232);border-right:1px solid rgb(230,231,232);">
+                    <div class="" style="background-color: white; color: #4d544d; font-size: 18px; font-weight: bold;">
+                        <span class="col" style="text-align: center; margin-bottom: 10px;">{{namaResto}}</span>
+                    </div>
                     <div class="row">
-                        <!-- <span class="col col-20" style="padding:0;"></span> -->
                         <span class="col" style="padding:0; text-align:center;">
                             <img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDQyIDQyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0MiA0MjsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxnPgoJPGNpcmNsZSBzdHlsZT0iZmlsbDojRkJEOTcxOyIgY3g9IjIxIiBjeT0iMjEiIHI9IjIxIi8+Cgk8Y2lyY2xlIHN0eWxlPSJmaWxsOiNBRjgwNjY7IiBjeD0iMTMiIGN5PSIxMy41IiByPSIzLjUiLz4KCTxjaXJjbGUgc3R5bGU9ImZpbGw6I0FGODA2NjsiIGN4PSIyOSIgY3k9IjEzLjUiIHI9IjMuNSIvPgoJPHBhdGggc3R5bGU9ImZpbGw6I0YwQzQxOTsiIGQ9Ik0zMiwzNWMtMC41NTIsMC0xLTAuNDQ4LTEtMWMwLTUuNTE0LTQuNDg2LTEwLTEwLTEwcy0xMCw0LjQ4Ni0xMCwxMGMwLDAuNTUyLTAuNDQ4LDEtMSwxICAgcy0xLTAuNDQ4LTEtMWMwLTYuNjE3LDUuMzgzLTEyLDEyLTEyczEyLDUuMzgzLDEyLDEyQzMzLDM0LjU1MiwzMi41NTIsMzUsMzIsMzV6Ii8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==" style="width:30px; height:30px;" /><br><p style="color:#ff6a32;">{{jmlSad}} Sad</p></br>
                         </span>
@@ -34,11 +34,15 @@
                     {{jmlReview}} Ulasan
                 </ion-item>
 
+                 <ion-item class="mangan-menu item-text-wrap" style="border-left:1px solid rgb(230,231,232);border-right:1px solid rgb(230,231,232);" ng-hide="reviews || reviews.length > 0">
+                    <p style="text-align: center;">Belum Ada Ulasan Untuk Kuliner Ini. </br> Jadilah Pengulas Pertama!</p>
+                </ion-item>
+
                 <ion-item class="mangan-menu item-avatar item-text-wrap" style="border-left:1px solid rgb(230,231,232);border-right:1px solid rgb(230,231,232);" ng-repeat="review in reviews | orderObjectBy: 'tglReview' :true">
                     <img class="mangan-ulasan-resto" src={{review.userPhotoUrl}} style="margin-top:6px;">
-                        <h2 style="color: rgb(1,177,178); font-weight: bold;">{{review.username}}</h2>
+                        <h2 style="color: rgb(1,177,178);">{{review.username}}</h2>
                         <h3 style="color: #ff6a32;">{{review.titleReview}}</h3>
-                        <p style="color:black;">{{review.review}}</p>
+                        <p style="">{{review.review}}</p>
                 </ion-item>
             </ion-list>
         </div>

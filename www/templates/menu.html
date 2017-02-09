@@ -1,31 +1,34 @@
 <ion-view title="Ulasan Menu" id="ulasanMenu">
-    <ion-content lazy-scroll padding="true" class="has-header">
+    <ion-content lazy-scroll class="has-header">
         <ion-refresher
             pulling-text="Lepas untuk memperbarui"
             on-refresh="getMenu()"
             spinner = "ripple" >
         </ion-refresher>
         <!-- content -->
-            <img ng-src="{{selectedMenu.reviewGambar}}" class="mangan-image-4_3">
-            <div class="list" ng-show="selectedMenu.review" style="border: 1px solid rgb(230,231,232);border-bottom-left-radius:5px;border-bottom-right-radius:5px;">
+            <div class="list" ng-show="selectedMenu.review" ng-show="loadFlag">
+                <img ng-src="{{selectedMenu.reviewGambar}}" class="mangan-image-4_3">
                 <div class="item item-avatar item-icon-right" style="border: 0px; padding-bottom:0px; background-color:rgb(1,177,178);">
                     <img class="mangan-ulasan-resto" src="{{selectedMenu.reviewer.foto}}">
-                    <h2 style="color: white; font-weight: bold;">{{ selectedMenu.reviewer.nama }}</h2>
-                    <p style="color: white;">Diulas oleh team MANGAN</p>
+                    <h2 style="color: white; font-weight: bold;">Diulas oleh {{ selectedMenu.reviewer.nama }}</h2>
+                    <p style="color: white;">Host Kuliner MANGAN</p>
                         <!-- <button class="mangan-tombol-aksi">
                             <i class="icon ion-android-share-alt" style="color: white; font-size: 25px;"></i>
                         </button> -->
                     <!-- <p>Diulas pada 8 Agustus</p> -->
                 </div>
-                <div class="mangan-keterangan item-body">
+                <div class="mangan-keterangan-teks item-body mangan-menu" style="">
                     <div class="mangan-review-title">
                         {{ selectedMenu.namaMenu }}
-                        <!-- <span class="mangan-tag-review mangan-tag-menumakanan">Khas</span> -->
                     </div>
-                    <h5 style="color: rgb(1,177,178);">{{ selectedMenu.harga | currency:'Rp ':2 }}</h5>
-                    <div class="mangan-keterangan-teks" ng-bind-html="selectedMenu.review">
+                    <h5 ng-show="(selectedMenu.harga % 1) == 0" style="margin-top:0; margin-bottom: 5px; color: rgb(1,177,178);">{{ selectedMenu.harga | currency:'Rp ':2 }}</h5>
+                    <h5 ng-hide="(selectedMenu.harga % 1) == 0" style="margin-top:0; margin-bottom: 5px; color: rgb(1,177,178);">{{ selectedMenu.harga }}</h5>
+                    <span ng-show="selectedMenu.tag" class="mangan-tag-menumakanan" style="padding-top: 0; color:rgb(1,177,178);">{{ selectedMenu.tag }}</span>
+                </div>
+                <div class="mangan-keterangan-teks item-body" ng-bind-html="selectedMenu.review" style="">
                         <!-- {{ selectedMenu.review }} -->
-                    </div>
+                </div>
+
                 </div>
             </div>
     </ion-content>

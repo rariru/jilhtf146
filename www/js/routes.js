@@ -267,6 +267,7 @@ angular.module('app.routes', ['ionicUIRouter'])
 
   .state('tabsController.invoice',{
     url: '/invoice',
+    cache: false,
     views: {
       'tab1':{
         templateUrl:'templates/invoice.html',
@@ -304,7 +305,8 @@ angular.module('app.routes', ['ionicUIRouter'])
     },
     params: {
       namaResto: null,
-      indexResto: null
+      indexResto: null,
+      compose: null
     }
   })
 
@@ -321,6 +323,82 @@ angular.module('app.routes', ['ionicUIRouter'])
         templateUrl: 'templates/profil.html',
         controller: 'profilCtrl'
       }
+    }
+  })
+
+  .state('tabsController.rekomendasi',{
+    url:'/rekomendasi',
+    views:{
+      'tab1': {
+        templateUrl: 'templates/rekomendasi.html',
+        controller: 'rekomendasiCtrl'
+      },
+      'tab2': {
+        templateUrl: 'templates/rekomendasi.html',
+        controller: 'rekomendasiCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/rekomendasi.html',
+        controller: 'rekomendasiCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.daftar',{
+    url:'/daftar',
+    views:{
+      'tab1': {
+        templateUrl: 'templates/daftar.html',
+        controller: 'daftarCtrl'
+      },
+      'tab2': {
+        templateUrl: 'templates/daftar.html',
+        controller: 'daftarCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/daftar.html',
+        controller: 'daftarCtrl'
+      }
+    }
+  })
+
+  .state('tabsController.profilKurir', {
+    url: '/profilKurir',
+    views: {
+      'tab1':{
+        templateUrl:'templates/profilKurir.html',
+        controller:'profilKurirCtrl'
+      },
+      'tab2':{
+        templateUrl:'templates/profilKurir.html',
+        controller:'profilKurirCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/profilKurir.html',
+        controller: 'profilKurirCtrl'
+      }
+    }
+  })
+
+   .state('tabsController.rincianTransaksi', {
+    url: '/rincianTransaksi',
+    views: {
+      'tab1':{
+        templateUrl:'templates/rincianTransaksi.html',
+        controller:'rincianTransaksiCtrl'
+      },
+      'tab2':{
+        templateUrl:'templates/rincianTransaksi.html',
+        controller:'rincianTransaksiCtrl'
+      },
+      'tab3': {
+        templateUrl: 'templates/rincianTransaksi.html',
+        controller: 'rincianTransaksiCtrl'
+      }
+    },
+    params : {
+      kurir : null,
+      indexTransaksi : null
     }
   })
 
@@ -341,6 +419,7 @@ angular.module('app.routes', ['ionicUIRouter'])
       }
     }
   });
+
 
   $urlRouterProvider.otherwise('/page1/page2');
 

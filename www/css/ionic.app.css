@@ -9742,7 +9742,18 @@ p {
   padding: 8px 0 5px 10px;
   width: 100%;
   height: auto;
-  font-size: 20px; }
+  font-size: 18px;
+  line-height: 1.5; }
+
+.mangan-nama-restoran {
+  color: #4d544d;
+  background-color: #f5f5f5;
+  padding: 8px 0 5px 10px;
+  width: 100%;
+  height: auto;
+  font-size: 18px;
+  line-height: 1.5;
+  font-weight: bold; }
 
 .mangan-list-header {
   position: relative;
@@ -9751,7 +9762,10 @@ p {
 .mangan-selengkapnya {
   width: 100%;
   height: auto;
-  border: 1px solid #e6e7e8;
+  border-right: 1px solid #e6e7e8;
+  border-left: 1px solid #e6e7e8;
+  border-bottom: 1px solid #e6e7e8;
+  border-top: 0;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px; }
 
@@ -9760,10 +9774,10 @@ p {
   /*padding-top: 5px;*/
   border-top: 0;
   border-bottom: 1px solid #e6e7e8;
-  border-left: 1px solid #e6e7e8;
-  border-right: 1px solid #e6e7e8;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px; }
+  /*border-left: 1px solid rgb(230,231,232);
+	border-right: 1px solid rgb(230,231,232);
+	border-bottom-right-radius: 5px;
+	border-bottom-left-radius: 5px;*/ }
 
 .mangan-detail-keterangan {
   background-color: #e6e7e8;
@@ -9785,8 +9799,8 @@ p {
   margin: 0;
   padding: 0;
   display: block;
-  border-top-right-radius: 5px;
-  border-top-left-radius: 5px; }
+  /*border-top-right-radius: 5px;
+	border-top-left-radius: 5px;*/ }
 
 .mangan-image-review {
   width: 100%;
@@ -9875,8 +9889,8 @@ p {
 
 /*.card .item{
 	// border: 2.5px solid rgb(230, 231, 232);
-	border-left: 5px solid rgb(230, 231, 232);
-	border-right: 5px solid rgb(230, 231, 232);
+	border-left: 1px solid #e6e7e8;
+	border-right: 1px solid #e6e7e8;
 }*/
 .card .item:first-child {
   /*// border: 5px solid rgb(230, 231, 232);*/
@@ -9916,25 +9930,28 @@ p {
 .mangan-keterangan {
   padding: 15px;
   border-left: 1px solid #e6e7e8;
-  border-right: 1px solid #e6e7e8; }
+  border-right: 1px solid #e6e7e8;
+  border-bottom: 1px solid #e6e7e8; }
 
 .mangan-keterangan-buka {
-  color: #01b1b2;
-  font-weight: bold;
+  color: #4d544d;
+  /*font-weight: bold;*/
   font-size: 14px;
+  /*font-weight: normal;*/
   width: 100%;
-  height: auto;
-  padding: 10px;
-  padding-left: 15px;
+  line-height: 1.5;
+  /*height: auto;*/
+  padding: 10px 10px 10px 15px;
+  /*padding-left: 15px; */
   border: 1px solid #e6e7e8; }
 
 .mangan-keterangan-buka > i {
-  color: white; }
+  color: #4d544d; }
 
 .mangan-keterangan-teks {
   font-size: 14px;
-  text-align: justify;
-  line-height: 16px; }
+  line-height: 1.5;
+  font-weight: 300; }
 
 .mangan-tombol-aksi {
   background: none;
@@ -9965,7 +9982,7 @@ p {
   background-color: #01b2b1;
   padding: 10px;
   color: white;
-  font-size: 18px; }
+  font-size: 16px; }
 
 .mangan-kontak-header > p {
   margin-bottom: 0; }
@@ -9978,14 +9995,15 @@ p {
   text-decoration: none; }
 
 .mangan-kontak-icon {
-  font-size: 15px;
-  color: orangered; }
+  padding-right: 5px;
+  font-size: 20px;
+  color: #4d544d; }
 
 .mangan-invoice-icon {
   margin-right: 10px;
   margin-left: -5px;
   font-size: 20px;
-  color: orangered; }
+  color: #4d544d; }
 
 .mangan-button-menumakanan {
   background: #e6e7e8;
@@ -10013,14 +10031,37 @@ p {
 .mangan-menu > img {
   margin-top: -5px; }
 
+.mangan-menu span {
+  color: black;
+  font-weight: 300; }
+
 .mangan-menu > h2 {
   padding-top: 5px; }
 
 .mangan-menu > h3 {
   color: #01b2b1; }
 
+.mangan-menu > h5 {
+  color: #78715f; }
+
 .mangan-menu p {
-  color: #01b2b1; }
+  /*color: #78715f;*/
+  color: black;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 1.5; }
+
+.mangan-menu select {
+  /*color: #78715f;*/
+  color: black;
+  font-weight: 300;
+  font-size: 14px; }
+
+.mangan-menu .input-label {
+  /*color: #78715f;*/
+  color: black;
+  font-weight: 300;
+  font-size: 14px; }
 
 .mangan-menu > h3 > a {
   text-decoration: none; }
@@ -10095,9 +10136,9 @@ p {
 .mangan-menu-navigasi {
   bottom: 0;
   width: 100%;
-  height: 12%;
+  /*height: %;*/
   text-align: center;
-  padding: 8px;
+  /*padding: 8px;*/
   position: fixed;
   background-color: #01b2b1; }
 
@@ -10106,7 +10147,7 @@ p {
   width: 100%; }
 
 #mangan-peta {
-  height: 88%;
+  height: 100%;
   width: 100%; }
 
 .ionic_ratings .icon {
@@ -10257,7 +10298,8 @@ p {
   font-size: 16px; }
 
 .mangan-card {
-  border-radius: 8px; }
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px; }
 
 .tab-nav {
   -webkit-box-shadow: 0px 0px 10px 2px #888888;
@@ -10266,6 +10308,12 @@ p {
 
 .mangan-tombol {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
+
+.kapital {
+  display: inline-block; }
+
+.kapital:first-letter {
+  text-transform: uppercase; }
 
 .login {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#01b2b1+0,f28509+100 */
@@ -10320,6 +10368,10 @@ p {
 .card .item:last-child, .list-inset .item:last-child, .padding > .list .item:last-child {
   border-bottom-right-radius: 0;
   border-bottom-left-radius: 0; }
+
+.card .item:first-child, .list-inset .item:first-child, .padding > .list .item:first-child {
+  border-top-right-radius: 0;
+  border-top-left-radius: 0; }
 
 input[disabled],
 select[disabled],
