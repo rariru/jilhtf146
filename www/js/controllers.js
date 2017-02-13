@@ -1031,7 +1031,7 @@ angular.module('app.controllers', [])
 
 		if ($localStorage.location == null || $localStorage.location == '') {
 			console.log("localStorage.location null");
-			//hidupkan untuk popup lokasi pilihan user
+			//hidupkan untuk pilih lokasi, otomatis, atau lewat pupup
 		    $scope.setLocation();
 		} else {
 			console.log($localStorage.location);
@@ -2692,61 +2692,124 @@ angular.module('app.controllers', [])
 			});
 		});
 
-
 		function showMap() {
 			console.log('pusat: '+ coords.latitude, coords.longitude);
-			var latlon = new google.maps.LatLng(coords.latitude, coords.longitude);
+			if (coords.latitude && coords.longitude) {
+				var latlon = new google.maps.LatLng(coords.latitude, coords.longitude);
+			} else {
+				var latlon = new google.maps.LatLng(-7.569527, 110.830289);
+			}
+
 			var mapOptions = { center: latlon, zoom: 15, mapTypeId: google.maps.MapTypeId.ROADMAP };
 			
 			$scope.map = new google.maps.Map(document.getElementById('mangan-peta'), mapOptions);
 
-			var userMarker = new google.maps.Marker({
-				map: $scope.map,
-				icon: 'img/marker.png',
-				position: latlon,
-				draggable: true
-			})
+			// create input search
+			var input = (document.getElementById('pac-input'));
+			var autocomplete = new google.maps.places.Autocomplete(input);
+			autocomplete.bindTo('bounds', $scope.map);
+			// $scope.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-			$scope.mapUser = {
-				'lat' : coords.latitude,
-				'long' : coords.longitude
-			}
-
-			$scope.getAddress(coords.latitude, coords.longitude);
-			$scope.transaksi.mapUser = $scope.mapUser;
-
-			var infoWindow = new google.maps.InfoWindow({
-				content: '<div id="content">Lokasi Anda Sekarang</div>',
-				maxWidth: 500
+			var infowindow = new google.maps.InfoWindow();
+			var marker = new google.maps.Marker({
+				map: $scope.map
 			});
 
-			infoWindow.open($scope.mapUser, userMarker);
-
-			$http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+coords.latitude+","+coords.longitude+"&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ").success(function(result) {
-				$scope.alamatUser = result.results[0].formatted_address;
-				$scope.transaksi.alamatUser = $scope.alamatUser;
-				infoWindow.setContent($scope.transaksi.alamatUser);
-			}).error(function(error) {
-				console.log('data error : '+error);
+			google.maps.event.addListener(marker, 'click', function() {
+				infowindow.open($scope.map, marker);
 			});
 
-			google.maps.event.addListener(userMarker, 'dragend', function(evt) {
-				$scope.mapUser = {
-					'lat' : evt.latLng.lat(),
-					'long' : evt.latLng.lng()
+			google.maps.event.addListener(autocomplete, 'place_changed', function() {
+				console.log('changed')
+				infowindow.close();
+				var place = autocomplete.getPlace();
+				if (!place.geometry) {
+					return;
 				}
-				$scope.getAddress(evt.latLng.lat(), evt.latLng.lng());
-				updateInfoWindow();
-				$scope.transaksi.mapUser = $scope.mapUser;
-			})
-			// });
 
-			function updateInfoWindow() {
-				infoWindow.setContent($scope.transaksi.alamatUser);
+				if (place.geometry.viewport) {
+					$scope.map.fitBounds(place.geometry.viewport);
+				} else {
+					$scope.map.setCenter(place.geometry.location);
+					$scope.map.setZoom(17);
+				}
+
+				coords.latitude = place.geometry.location.lat();
+				coords.longitude = place.geometry.location.lng();
+
+				showMap();
+			});
+
+			if (coords.latitude && coords.longitude) {
+				var userMarker = new google.maps.Marker({
+					map: $scope.map,
+					icon: 'img/marker.png',
+					position: latlon,
+					draggable: true
+				})
+
+				$scope.mapUser = {
+					'lat' : coords.latitude,
+					'long' : coords.longitude
+				}
+
+				$scope.getAddress(coords.latitude, coords.longitude);
+				$scope.transaksi.mapUser = $scope.mapUser;
+
+				var infoWindow = new google.maps.InfoWindow({
+					content: '<div id="content">Lokasi Anda Sekarang</div>',
+					maxWidth: 500
+				});
+
+				infoWindow.open($scope.mapUser, userMarker);
+
+				$http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+coords.latitude+","+coords.longitude+"&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ").success(function(result) {
+					$scope.alamatUser = result.results[0].formatted_address;
+					$scope.transaksi.alamatUser = $scope.alamatUser;
+					infoWindow.setContent($scope.transaksi.alamatUser);
+				}).error(function(error) {
+					console.log('data error : '+error);
+				});
+
+				google.maps.event.addListener(userMarker, 'dragend', function(evt) {
+					$scope.mapUser = {
+						'lat' : evt.latLng.lat(),
+						'long' : evt.latLng.lng()
+					}
+					$scope.getAddress(evt.latLng.lat(), evt.latLng.lng());
+					updateInfoWindow();
+					$scope.transaksi.mapUser = $scope.mapUser;
+				})
+				// });
+
+				function updateInfoWindow() {
+					infoWindow.setContent($scope.transaksi.alamatUser);
+				}
 			}
 		}
 		$scope.maps.show();
 	}
+
+    $scope.disableTap = function() {
+	    var input = event.target;
+
+	    // Get the predictions element
+	    var container = document.getElementsByClassName('pac-container');
+	    container = angular.element(container);
+
+	    // Apply css to ensure the container overlays the other elements, and
+	    // events occur on the element not behind it
+	    container.css('z-index', '5000');
+	    container.css('pointer-events', 'auto');
+
+	    // Disable ionic data tap
+	    container.attr('data-tap-disabled', 'true');
+
+	    // Leave the input field if a prediction is chosen
+	    container.on('click', function(){
+	        input.blur();
+	    });
+    };
 
 	$scope.checkout = function() {
 		$scope.maps.remove();
@@ -2806,8 +2869,7 @@ angular.module('app.controllers', [])
 									"indexTransaksi": $scope.transaksi.indexTransaksi
 								},
 								"to":"/topics/"+$scope.transaksi.kurir,
-								"priority":"high",
-								"restricted_package_name":"com.manganindonesia.kurma"
+								"priority":"high"
 							}
 
 							$http.post('https://fcm.googleapis.com/fcm/send', notificationData, {

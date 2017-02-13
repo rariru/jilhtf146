@@ -85,5 +85,6 @@
   <allow-navigation href="http://192.168.100.4:8100"/>
   <allow-navigation href="http://192.168.100.7:8101"/>
   <allow-navigation href="http://192.168.8.102:8100"/>
+  <allow-navigation href="http://192.168.8.102:8101"/>
   <plugin name="cordova-plugin-firebase" spec="~0.1.18"/>
 </widget>
