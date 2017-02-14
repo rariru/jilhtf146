@@ -2057,7 +2057,7 @@ angular.module('app.controllers', [])
 	$scope.getMenu();
 })
 
-.controller('promoCtrl', function($scope, $state, $ionicLoading, $cordovaToast, Services, $timeout, $localStorage, Analytics) {
+.controller('promoCtrl', function($scope, $state, $ionicLoading, $cordovaToast, Services, $timeout, $localStorage, Analytics, $ionicModal) {
 	var loadFlag = false;
 	var loadingIndicator = $ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
@@ -2102,6 +2102,16 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.getPromos();
+
+	$ionicModal.fromTemplateUrl('templates/promoModal.html', {
+		scope: $scope,
+		animation: 'slide-in-up' 
+	}).then(function(modal) { $scope.modal = modal; });
+
+	$scope.openModal = function(index) {
+		$scope.selectedPromo = $scope.promos[index];
+		$scope.modal.show();
+	}
 
 	function makeToast(_message) {
 		window.plugins.toast.showWithOptions({

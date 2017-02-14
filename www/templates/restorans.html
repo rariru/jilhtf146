@@ -20,7 +20,7 @@
             <center><a ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" class="button button-oren button-small button-outline" ion-ripple>JELAJAHI</a></center>
         </div>
 
-        <div class="list card mangan-restorans" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true track by $index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
+        <div class="list card mangan-restorans" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true track by $index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'" style="padding:0;" >
 <!--             <a class="" ng-controller="adsController" ng-show="$index%adsCounter == 0 && $index!=0">
                 <img image-lazy-src="{{showRowAds($index%5 == 0 && $index!=0)}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50">
             </a> -->
