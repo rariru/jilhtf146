@@ -20,7 +20,6 @@ $positive: orangered !default;
 $button-small-height: 30px !default;
 $item-padding: 10px !default;
 $button-border-radius:  0px !default;
-$card-box-shadow: 0 -1px -1px rgba(0, 0, 0, 0.3) !default;
 // The path for our ionicons font files, relative to the built CSS in www/css
 $ionicons-font-path: "../lib/ionic/fonts" !default;
 
@@ -46,7 +45,7 @@ p {
 	position:absolute;
 	bottom: 0;
 	padding: 8px 0 5px 10px; 
-	width: 100%; 
+	/*width: 100%; */
 	height: auto; 
 	font-size: 18px;
 	line-height: 1.5;
@@ -71,12 +70,12 @@ p {
 .mangan-selengkapnya{
 	width: 100%;
 	height: auto;
-	border-right: 1px solid rgb(230,231,232);
+	/*border-right: 1px solid rgb(230,231,232);
 	border-left: 1px solid rgb(230,231,232);
 	border-bottom: 1px solid rgb(230,231,232);
 	border-top: 0;
 	border-bottom-left-radius: 5px;
-	border-bottom-right-radius: 5px;
+	border-bottom-right-radius: 5px;*/
 }
 
 .mangan-detail-review {
@@ -268,8 +267,8 @@ p {
 
 .mangan-keterangan {
 	padding: 15px;
-	border-left: 1px solid rgb(230,231,232);
-	border-right: 1px solid rgb(230,231,232);
+	/*border-left: 1px solid rgb(230,231,232);
+	border-right: 1px solid rgb(230,231,232);*/
 	border-bottom: 1px solid rgb(230,231,232);
 }
 
@@ -284,7 +283,7 @@ p {
 	/*height: auto;*/
 	padding: 10px 10px 10px 15px;
 	/*padding-left: 15px; */
-	border: 1px solid rgb(230,231,232);
+	border-bottom: 1px solid rgb(230,231,232);
 	// margin-bottom: 10px;
 	// border-radius: 5px;
 	// border: 2px solid orange;
@@ -430,15 +429,15 @@ p {
 
 .mangan-menu select{
 	/*color: #78715f;*/
-	color: black;
+	/*color: black;
 	font-weight: 300;
-	font-size: 14px;
+	font-size: 14px;*/
 }
 
 .mangan-menu .input-label{
 	/*color: #78715f;*/
-	color: black;
-	font-weight: 300;
+	/*color: black;
+	font-weight: 300;*/
 	font-size: 14px;
 }
 
@@ -810,8 +809,8 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', end
 .mangan-bottom {
 	text-align: center;
 	padding: 0 10px;
-     border-top-right-radius: 0; 
-     border-top: 0;
+    border-top-right-radius: 0; 
+    border-top: 0;
 }
 
 

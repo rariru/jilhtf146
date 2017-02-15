@@ -1,7 +1,7 @@
 <ion-view view-title="Profil" id="profil">
   <ion-content>
     <div id="content" style="position: relative;">
-      <div class="mangan-card">
+      <div class="list">
         <div id="profile-image">
           <center>
             <img ng-src="{{dataUser.photoUrl}}" width="30%" height="auto" style="margin-top:20px; margin-bottom: 5px; border-radius: 50%;">
@@ -9,20 +9,20 @@
           <h3 style="text-align: center;">{{dataUser.name}}</h3>
         </div>
       </div>
-      <div class="card" style="margin: 0; border-radius: 0;">
-        <div class="kontak-header">
-          <p>PROFIL</p>
+      <div class="list card" style="margin: 0; padding:0; border-radius: 0;">
+        <div class="item kontak-header">
+          PROFIL
         </div>
 
-        <div class="item item-text-wrap mangan-menu" style="border:0;">   
+        <div class="item item-text-wrap mangan-menu" style="border: 0;">   
           <label class="item-input mangan-menu">
             <i class="mangan-invoice-icon icon ion-ios-person"></i>
-            <span class="mangan-line"><input type="text" style="font-size: 16px;" ng-model="dataUser.name"></span>
+            <input type="text" style="" ng-model="dataUser.name">
           </label>
           
           <label class="item-input mangan-menu">
             <i class="mangan-invoice-icon icon ion-ios-email"></i>
-            <span class="mangan-line"><input type="text" style="font-size: 16px;" ng-model="dataUser.email" readonly></span>
+            <input type="text" style="" ng-model="dataUser.email" readonly>
           </label>
         
 <!--           <label class="item-input mangan-menu">
@@ -34,19 +34,21 @@
 
           <label class="item-input mangan-menu">
             <i class="mangan-invoice-icon icon ion-android-call"></i>
-            <span class="mangan-line"><input type="number" style="font-size: 16px;" ng-model="dataUser.noTelpUser"></span>
+            <input type="number" placeholder="Nomor Telepon" style="" ng-model="dataUser.noTelpUser">
           </label>
 
-          <label class="item-input mangan-menu">
+          <!-- <label class="item-input mangan-menu">
             <i class="mangan-invoice-icon icon ion-ios-chatboxes"></i>
-            <span class="mangan-line"><input type="text" style="font-size: 16px;" ng-model="dataUser.lineUsername" placeholder="LINE username"></span>
-          </label>
+            <input type="text" style="font-size: 16px;" ng-model="dataUser.lineUsername" placeholder="LINE username">
+          </label> -->
         </div>
       </div>
-      <div class="card" style="margin-bottom: 0;">
-        <button class="button button-block button-oren button-outline" ng-click="updateUserData()">Simpan</button>
-        <center><button class="button button-clear button-balanced" ng-click="signOut()">Log Out</button></center>
-      </div>
+
+      <div class="mangan-bottom" style="margin-bottom: 0;">
+          <button class="button button-block button-oren button-outline" ng-click="updateUserData()">Simpan</button>
+          <center><button class="button button-clear button-balanced" ng-click="signOut()">Log Out</button></center>
+        </div>
+      
     </div>
   </ion-content>
 </ion-view>

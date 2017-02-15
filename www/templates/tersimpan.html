@@ -41,12 +41,11 @@
             <center><i class="ion-android-favorite" style="color:#c85054;"></i></center>
             <p style="margin-bottom: 10px;">Ups, Sepertinya Anda belum menyimpan apapun</p>
             <div class="row">
-                <button ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" class="button button-oren button-small button-outline" style="width: 50%; display: block; margin: auto;" ng-hide="!dataUser || dataUser == null" ion-ripple>JELAJAHI</button>
-                <div class="col col-50" style="position: relative;" ng-show="!dataUser || dataUser == null">
-                    <button ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" class="button button-oren button-small button-outline" style="width: 100%;" ion-ripple>JELAJAHI</button>
+                <div class="col col-50" style="position: relative">
+                    <button ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" class="button button-oren button-small button-outline" style="width:100%;" ion-ripple>JELAJAHI</button>
                 </div>
-                <div class="col col-50" style="position: relative;" ng-show="!dataUser || dataUser == null">
-                    <button class="button button-oren button-small"  style="width: 100%;" ng-click="login()" ion-ripple>LOGIN</button>
+                <div class="col col-50" style="position: relative">
+                    <button ng-show="!dataUser || dataUser == null" class="button button-oren button-small"  style="width: 100%;" ng-click="login()" ion-ripple>LOGIN</button>
                 </div>
             </div>
         </div>
