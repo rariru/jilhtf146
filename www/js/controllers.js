@@ -693,7 +693,7 @@ angular.module('app.controllers', [])
 
 	$scope.shareRestoran = function(index) {
 		var resto = $scope.restoran;
-		var link = 'Download apliasinya bit.ly/download-mangan untuk Android dan bit.ly/download-mangan-ios untuk iPhone';
+		var link = 'Selengkapnya di aplikasi MANGAN https://mobilepangan.com/'+resto.index;
 		var gambar = null;
 		var textshared = resto.namaResto+" - "+resto.keteranganResto+" Buka di aplikasi MANGAN untuk info selengkapnya.";
 
@@ -1268,6 +1268,10 @@ angular.module('app.controllers', [])
 
 	$scope.terdekat = function() {
 		$state.go('tabsController.terdekat');
+	}
+
+	$scope.gotoURL = function(url) {
+		window.open(url, '_system', 'location=yes');
 	}
 })
 

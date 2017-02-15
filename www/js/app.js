@@ -12,7 +12,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
   version: 100018
 })
 
-.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage) {
+.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage, $timeout) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -91,7 +91,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
         }
     };
     _waitForAnalytics();
-  });
+  })
 
   if (ionic.Platform.isIOS()) {
     window.FirebasePlugin.grantPermission();
