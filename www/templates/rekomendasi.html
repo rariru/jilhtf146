@@ -5,32 +5,22 @@
             spinner = "ripple" >
         </ion-refresher> -->
 
-        <div class="card mangan-card">
-        
-            <div class="kontak-header">
-                <p>REKOMENDASI</p>
+        <div class="list card" style="padding:0;"> 
+            <div class="item item-divider kontak-header" style="border:0;">
+                REKOMENDASIKAN
             </div>
-            
-            <!-- <div class="item item-text-wrap mangan-menu" style="background-color:#f9f9f9;  border-left: 1px solid #e6e7e8;border-right: 1px solid #e6e7e8;">
-                <p style="text-align: justify;">Rekomendasikan tempat kuliner favoritmu sekarang untuk kami ulas dan biarkan orang lain juga mencobanya!</p>
-            </div> -->
-            <div class="item item-text-wrap mangan-menu" style="border-left: 1px solid #e6e7e8;border-right: 1px solid #e6e7e8;">
+            <div class="item item-text-wrap mangan-menu" style="border:0;">
                 <label class="item-input mangan-menu">
                     <i class="mangan-invoice-icon icon ion-android-restaurant"></i>
-                    <span class="mangan-line"><input type="text" placeholder="Nama Kuliner" ng-model="data.namaResto"></span>
+                    <input type="text" placeholder="Nama Kuliner" ng-model="data.namaResto" required>
                 </label>
                 <label class="item-input mangan-menu">
                     <i class="mangan-invoice-icon icon ion-ios-location"></i>
-                    <span class="mangan-line"><input type="text" placeholder="Alamat Kuliner" ng-model="data.alamat"></span>
+                    <input type="text" placeholder="Alamat Kuliner" ng-model="data.alamat" required>
                 </label>
-                <!-- <label class="item-input mangan-menu" style="margin-left: 18px;"><button class="button button-clear button-balanced button-small button-outline" style="font-size: 12px; color:rgb(1,175,177); text-decoration:none;" ng-click="pickLocation()">Pilih Lokasi</button></label> -->
-<!--                 <label class="item-input mangan-menu">
-                    <i class="mangan-invoice-icon icon ion-ios-telephone"></i>
-                    <span class="mangan-line"><input type="number" placeholder="Nomor Telepon Kuliner" ng-model="data.kontak"></span>
-                </label> -->
                 <label class="item-input item-select mangan-menu" required>
                     <i class="mangan-invoice-icon icon ion-coffee"></i>
-                    <span class=""><p class="input-label" style="color:#a3a3a3;">Kategori</p></span>
+                    <div class="input-label" style="">Kategori</div>
                     <select ng-model="data.jenis">
                       <option value="Restoran/Cafe">Restoran/Cafe</option>
                       <option value="Warung Makan">Warung Makan</option>
@@ -41,11 +31,11 @@
                 </label>
                 <label class="item-input mangan-menu">
                     <i class="mangan-invoice-icon icon ion-android-call"></i>
-                    <span class="mangan-line"><input type="number" placeholder="Kontak anda" ng-model="data.kontak"></span>
+                    <input type="number" placeholder="Kontak anda" ng-model="data.kontak" required>
                 </label>
                 <label class="item-input mangan-menu">
                     <i class="mangan-invoice-icon icon ion-compose"></i>
-                    <span class="mangan-line"><input type="text" placeholder="Deskripsi Kuliner" ng-model="data.alasan"></span>
+                    <input type="text" placeholder="Deskripsi Kuliner" ng-model="data.alasan" required>
                 </label>
             </div>
         </div>

@@ -142,9 +142,14 @@
         <!-- Slider Dinamis -->
         <ion-slides ng-show="sliders || sliders.length > 0" options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
             <ion-slide-page ng-repeat="slider in sliders">
-                <img ng-src="{{ slider.url }}" style="width: 100%; display: block;">
+                <img ng-src="{{ slider.url }}" style="width: 100%; display: block;" ng-click="gotoURL(slider.linkUrl)">
             </ion-slide-page>
         </ion-slides>
+                <div class="list">
+                  <div class="item item-divider" style="background-color: #3498db">
+                    <p style="text-align: right; color: white;"><i class="icon ion-chevron-left"></i> Click slider to see more</p>
+                  </div>
+                </div>
 
         <!-- Kategori    -->
         <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">

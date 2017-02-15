@@ -693,7 +693,7 @@ angular.module('app.controllers', [])
 
 	$scope.shareRestoran = function(index) {
 		var resto = $scope.restoran;
-		var link = 'Download apliasinya bit.ly/download-mangan untuk Android dan bit.ly/download-mangan-ios untuk iPhone';
+		var link = 'Selengkapnya di aplikasi MANGAN https://mobilepangan.com/'+resto.index;
 		var gambar = null;
 		var textshared = resto.namaResto+" - "+resto.keteranganResto+" Buka di aplikasi MANGAN untuk info selengkapnya.";
 
@@ -1268,6 +1268,10 @@ angular.module('app.controllers', [])
 
 	$scope.terdekat = function() {
 		$state.go('tabsController.terdekat');
+	}
+
+	$scope.gotoURL = function(url) {
+		window.open(url, '_system', 'location=yes');
 	}
 })
 
@@ -2073,7 +2077,7 @@ angular.module('app.controllers', [])
 	$scope.getMenu();
 })
 
-.controller('promoCtrl', function($scope, $state, $ionicLoading, $cordovaToast, Services, $timeout, $localStorage, Analytics) {
+.controller('promoCtrl', function($scope, $state, $ionicLoading, $cordovaToast, Services, $timeout, $localStorage, Analytics, $ionicModal) {
 	var loadFlag = false;
 	var loadingIndicator = $ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
@@ -2118,6 +2122,16 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.getPromos();
+
+	$ionicModal.fromTemplateUrl('templates/promoModal.html', {
+		scope: $scope,
+		animation: 'slide-in-up' 
+	}).then(function(modal) { $scope.modal = modal; });
+
+	$scope.openModal = function(index) {
+		$scope.selectedPromo = $scope.promos[index];
+		$scope.modal.show();
+	}
 
 	function makeToast(_message) {
 		window.plugins.toast.showWithOptions({
