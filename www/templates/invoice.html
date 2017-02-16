@@ -86,8 +86,6 @@
 				    <i class="mangan-invoice-icon icon ion-android-bicycle"></i>
 				    <div class="input-label">Kurir</div>
 				    <select ng-model="transaksi.kurir" ng-change="setFeeDelivery(transaksi.kurir)">
-                        <!-- <option value="maskurir">Maskurir (Mulai Rp 9000)</option>
-                        <option value="esd">ESD (Mulai Rp 9000)</option> -->
                         <option ng-repeat="kurir in listKurir" value="{{kurir.index}}">{{kurir.nama}} (Mulai Rp {{kurir.ongkir}})</option>
 				    </select>
 				</label>

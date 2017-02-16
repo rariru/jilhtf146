@@ -693,7 +693,7 @@ angular.module('app.controllers', [])
 
 	$scope.shareRestoran = function(index) {
 		var resto = $scope.restoran;
-		var link = 'Download apliasinya bit.ly/download-mangan untuk Android dan bit.ly/download-mangan-ios untuk iPhone';
+		var link = 'Selengkapnya di aplikasi MANGAN https://mobilepangan.com/'+resto.index;
 		var gambar = null;
 		var textshared = resto.namaResto+" - "+resto.keteranganResto+" Buka di aplikasi MANGAN untuk info selengkapnya.";
 
@@ -1031,13 +1031,14 @@ angular.module('app.controllers', [])
 
 		if ($localStorage.location == null || $localStorage.location == '') {
 			console.log("localStorage.location null");
-			//hidupkan untuk popup lokasi pilihan user
-		    // $scope.setLocation();
+			//hidupkan untuk pilih lokasi, otomatis, atau lewat pupup
+		    $scope.setLocation();
 		} else {
 			console.log($localStorage.location);
 		}
 
 		$scope.greeting();
+		$scope.getSliders();
     });
 
 	$scope.options = {
@@ -1081,17 +1082,19 @@ angular.module('app.controllers', [])
 		$state.go("tabsController.daftar");
 	}
 
-	Services.getSliders().then(function(sliders) {
-		if (sliders) {
-			$scope.sliders = sliders;
-		} else {
+	$scope.getSliders = function() {
+		Services.getSliders().then(function(sliders) {
+			if (sliders) {
+				$scope.sliders = sliders;
+			} else {
+				// makeToast('Error koneksi tidak stabil', 1500, 'bottom');
+				console.log('Tidak ada slider');
+			}
+		}, function(err) {
 			makeToast('Error koneksi tidak stabil', 1500, 'bottom');
-			console.log('Error fetch data');
-		}
-	}, function(err) {
-		makeToast('Error koneksi tidak stabil', 1500, 'bottom');
-		console.log(err);
-	});
+			console.log(err);
+		});
+	}
 
 	function makeToast(_message) {
 		window.plugins.toast.showWithOptions({
@@ -1135,8 +1138,8 @@ angular.module('app.controllers', [])
 		};
 
 		var options = {
-			timeout: 5000,
-			enableHighAccuracy: true
+			timeout: 10000,
+			enableHighAccuracy: false
 		};
 
 		$cordovaGeolocation.getCurrentPosition(options).then(function(position) {
@@ -1252,6 +1255,23 @@ angular.module('app.controllers', [])
 			console.log('error get transactions :'+err);
 			$scope.$broadcast('scroll.refreshComplete');
 		})
+	}
+
+	$scope.profil = function() {
+		var user = firebase.auth().currentUser;
+		if (user) {
+			$state.go('tabsController.tersimpan');
+		} else {
+			$state.go('login');
+		}
+	}
+
+	$scope.terdekat = function() {
+		$state.go('tabsController.terdekat');
+	}
+
+	$scope.gotoURL = function(url) {
+		window.open(url, '_system', 'location=yes');
 	}
 })
 
@@ -2132,7 +2152,11 @@ angular.module('app.controllers', [])
 			firebase.auth().signInWithCredential(credential).catch(function(error) {
 				console.log('Error : '+JSON.stringify(error));
 			});
-			$ionicHistory.goBack();
+			$ionicLoading.show({
+		      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+		      duration: 5000
+		    });
+			// $ionicHistory.goBack();
 		}, function(err) {
 			console.log('Error oAuth favebook: '+err);
 		})
@@ -2146,7 +2170,11 @@ angular.module('app.controllers', [])
 			firebase.auth().signInWithCredential(credential).catch(function(error) {
 				console.log("Error : "+JSON.stringify(error));
 			});
-			$ionicHistory.goBack();
+			$ionicLoading.show({
+		      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+		      duration: 5000
+		    });
+			// $ionicHistory.goBack();
 		}, function(err) {
 			console.log('Error oAuth google: '+err);
 		})
@@ -2156,51 +2184,53 @@ angular.module('app.controllers', [])
 	firebase.auth().onAuthStateChanged(function(user) {
 		// logged in
 		if (user) {
-			makeToast('Berhasil Login');
+			console.log("uid: "+user.uid);
+			$scope.user = user;
 			user.providerData.forEach(function(profile) {
 				if (profile.providerId === "facebook.com") {
 					// cek if data already stored
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
-							console.log(JSON.stringify(user));
+							// dataUser registered, update data
+							makeToast('Berhasil Login');
 							$http.get("https://graph.facebook.com/v2.8/me?fields=name,location,birthday,gender,picture.type(large){url},age_range,email,about", {params :{
 								access_token : $localStorage.fbaccesstoken,
 								format : "json"
 							}}).then(function(result) {
 								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
-								console.log(JSON.stringify(result.data));
-								Services.updateUserDataLogin($scope.dataUser).then(function(user) {
-									console.log(user);
-								}, function(err) {
-									console.log(err);
-								})
-							})
-							// update user data?
-							// data already added to database
+								Services.updateUserDataLogin($scope.dataUser, $scope.user);
+							});
 						} else {
-							// create new data in firebase from facebook
+							// create new data in firebase from Facebook
 							$http.get("https://graph.facebook.com/v2.8/me?fields=name,location,birthday,gender,picture.type(large){url},age_range,email,about", {params :{
 								access_token : $localStorage.fbaccesstoken,
 								format : "json"
 							}}).then(function(result) {
 								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
-								console.log(JSON.stringify(result.data));
-								Services.addUserData($scope.dataUser).then(function(user) {
+								Services.addUserData($scope.dataUser, $scope.user).then(function(user) {
+									makeToast('Berhasil Login');
 									console.log(user);
 								}, function(err) {
-									console.log(err);
+									firebase.auth().signOut().then(function() {
+										makeToast('Login gagal, coba dengan email lain');
+									});
 								})
-							})
+							});
 						}
 					}, function(err) {
-						console.log("error cekUserData(): "+err);
+						// error check user data
+						firebase.auth().signOut();
+						makeToast('Login gagal, koneksi tidak stabil');
 					})
+					$ionicLoading.hide();
+					$ionicHistory.goBack();
 				} else if (profile.providerId === "google.com") {
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
-							console.log(JSON.stringify(user));
+							// dataUser registered, update data
+							makeToast('Berhasil Login');
 							$http.get("https://www.googleapis.com/userinfo/v2/me?fields=email,family_name,gender,given_name,hd,id,link,locale,name,picture,verified_email", {
 								headers :{
 									"Authorization" : "Bearer "+$localStorage.googleaccesstoken
@@ -2208,19 +2238,9 @@ angular.module('app.controllers', [])
 							}).then(function(result) {
 								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
-								console.log(JSON.stringify(result.data));
-								Services.updateUserDataLogin($scope.dataUser).then(function(user) {
-									console.log(user);
-								}, function(err) {
-									console.log(err);
-								})
-							}, function(err) {
-								console.log('error get from google apis: '+JSON.stringify(err));
-							})
-							// update user data?
-							// data already added to database
+								Services.updateUserDataLogin($scope.dataUser, $scope.user);
+							});
 						} else {
-							console.log('tryna get from google apis');
 							// create new data in firebase from Google
 							$http.get("https://www.googleapis.com/userinfo/v2/me?fields=email,family_name,gender,given_name,hd,id,link,locale,name,picture,verified_email", {
 								headers :{
@@ -2229,25 +2249,30 @@ angular.module('app.controllers', [])
 							}).then(function(result) {
 								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
-								console.log(JSON.stringify(result.data));
-								Services.addUserDataByGoogle($scope.dataUser).then(function(user) {
-									console.log(user);
+								Services.addUserDataByGoogle($scope.dataUser, $scope.user).then(function(user) {
+									makeToast('Berhasil Login');
 								}, function(err) {
-									console.log(err);
+									firebase.auth().signOut().then(function() {
+										makeToast('Login gagal, coba dengan email lain');
+									});
 								})
-							}, function(err) {
-								console.log('error get from google apis: '+JSON.stringify(err));
-							})
+							});
 						}
 					}, function(err) {
-						console.log("error cekUserData(): "+err);
+						// error check user data
+						firebase.auth().signOut();
+						makeToast('Login gagal, koneksi tidak stabil');
 					})
+					$ionicLoading.hide();
+					$ionicHistory.goBack();
 				}  else {
-					console.log('logged in with provider :'+profile.providerId);
+					// login dengan cara lain, harusnya tidak terjadi
+					firebase.auth().signOut();
+					makeToast('Login gagal, coba dengan email lain');
+					$ionicLoading.hide();
+					$ionicHistory.goBack();
 				}
 			});
-		} else {
-			console.log('not logged in');
 		}
 	})
 
@@ -2431,12 +2456,17 @@ angular.module('app.controllers', [])
     });
 
 	$scope.$on('$ionicView.leave', function() {
-		$ionicPopup.alert({
-			title: 'Pesanan Dibatalkan',
-			template: '<center>Dengan Meninggalkan Halaman Tadi, Maka Daftar Pesanan Anda Akan Dibatalkan</center>',
-			okText: 'OK',
-			okType: 'button-oren'
-		});
+		var forwardView = $ionicHistory.forwardView();
+		if (forwardView) {
+			if (forwardView.title != "Invoice") {
+				$ionicPopup.alert({
+					title: 'Pesanan Dibatalkan',
+					template: '<center>Dengan Meninggalkan Halaman Tadi, Maka Daftar Pesanan Anda Akan Dibatalkan</center>',
+					okText: 'OK',
+					okType: 'button-oren'
+				});
+			}
+		}
     });
 
     Services.getRestoranDetails($stateParams.index).then(function(restoran) {
@@ -2600,6 +2630,7 @@ angular.module('app.controllers', [])
 			for(var r in listKurir){
 				if (listKurir[r].show) {
 					$scope.listKurir.push(listKurir[r]);
+					console.log("listKurir[r] adalah :"+JSON.stringify(listKurir[r]));
 				}
 			}
 		})
@@ -2675,61 +2706,124 @@ angular.module('app.controllers', [])
 			});
 		});
 
-
 		function showMap() {
 			console.log('pusat: '+ coords.latitude, coords.longitude);
-			var latlon = new google.maps.LatLng(coords.latitude, coords.longitude);
+			if (coords.latitude && coords.longitude) {
+				var latlon = new google.maps.LatLng(coords.latitude, coords.longitude);
+			} else {
+				var latlon = new google.maps.LatLng(-7.569527, 110.830289);
+			}
+
 			var mapOptions = { center: latlon, zoom: 15, mapTypeId: google.maps.MapTypeId.ROADMAP };
 			
 			$scope.map = new google.maps.Map(document.getElementById('mangan-peta'), mapOptions);
 
-			var userMarker = new google.maps.Marker({
-				map: $scope.map,
-				icon: 'img/marker.png',
-				position: latlon,
-				draggable: true
-			})
+			// create input search
+			var input = (document.getElementById('pac-input'));
+			var autocomplete = new google.maps.places.Autocomplete(input);
+			autocomplete.bindTo('bounds', $scope.map);
+			// $scope.map.controls[google.maps.ControlPosition.TOP_LEFT].push(input);
 
-			$scope.mapUser = {
-				'lat' : coords.latitude,
-				'long' : coords.longitude
-			}
-
-			$scope.getAddress(coords.latitude, coords.longitude);
-			$scope.transaksi.mapUser = $scope.mapUser;
-
-			var infoWindow = new google.maps.InfoWindow({
-				content: '<div id="content">Lokasi Anda Sekarang</div>',
-				maxWidth: 500
+			var infowindow = new google.maps.InfoWindow();
+			var marker = new google.maps.Marker({
+				map: $scope.map
 			});
 
-			infoWindow.open($scope.mapUser, userMarker);
-
-			$http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+coords.latitude+","+coords.longitude+"&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ").success(function(result) {
-				$scope.alamatUser = result.results[0].formatted_address;
-				$scope.transaksi.alamatUser = $scope.alamatUser;
-				infoWindow.setContent($scope.transaksi.alamatUser);
-			}).error(function(error) {
-				console.log('data error : '+error);
+			google.maps.event.addListener(marker, 'click', function() {
+				infowindow.open($scope.map, marker);
 			});
 
-			google.maps.event.addListener(userMarker, 'dragend', function(evt) {
-				$scope.mapUser = {
-					'lat' : evt.latLng.lat(),
-					'long' : evt.latLng.lng()
+			google.maps.event.addListener(autocomplete, 'place_changed', function() {
+				console.log('changed')
+				infowindow.close();
+				var place = autocomplete.getPlace();
+				if (!place.geometry) {
+					return;
 				}
-				$scope.getAddress(evt.latLng.lat(), evt.latLng.lng());
-				updateInfoWindow();
-				$scope.transaksi.mapUser = $scope.mapUser;
-			})
-			// });
 
-			function updateInfoWindow() {
-				infoWindow.setContent($scope.transaksi.alamatUser);
+				if (place.geometry.viewport) {
+					$scope.map.fitBounds(place.geometry.viewport);
+				} else {
+					$scope.map.setCenter(place.geometry.location);
+					$scope.map.setZoom(17);
+				}
+
+				coords.latitude = place.geometry.location.lat();
+				coords.longitude = place.geometry.location.lng();
+
+				showMap();
+			});
+
+			if (coords.latitude && coords.longitude) {
+				var userMarker = new google.maps.Marker({
+					map: $scope.map,
+					icon: 'img/marker.png',
+					position: latlon,
+					draggable: true
+				})
+
+				$scope.mapUser = {
+					'lat' : coords.latitude,
+					'long' : coords.longitude
+				}
+
+				$scope.getAddress(coords.latitude, coords.longitude);
+				$scope.transaksi.mapUser = $scope.mapUser;
+
+				var infoWindow = new google.maps.InfoWindow({
+					content: '<div id="content">Lokasi Anda Sekarang</div>',
+					maxWidth: 500
+				});
+
+				infoWindow.open($scope.mapUser, userMarker);
+
+				$http.get("https://maps.googleapis.com/maps/api/geocode/json?latlng="+coords.latitude+","+coords.longitude+"&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ").success(function(result) {
+					$scope.alamatUser = result.results[0].formatted_address;
+					$scope.transaksi.alamatUser = $scope.alamatUser;
+					infoWindow.setContent($scope.transaksi.alamatUser);
+				}).error(function(error) {
+					console.log('data error : '+error);
+				});
+
+				google.maps.event.addListener(userMarker, 'dragend', function(evt) {
+					$scope.mapUser = {
+						'lat' : evt.latLng.lat(),
+						'long' : evt.latLng.lng()
+					}
+					$scope.getAddress(evt.latLng.lat(), evt.latLng.lng());
+					updateInfoWindow();
+					$scope.transaksi.mapUser = $scope.mapUser;
+				})
+				// });
+
+				function updateInfoWindow() {
+					infoWindow.setContent($scope.transaksi.alamatUser);
+				}
 			}
 		}
 		$scope.maps.show();
 	}
+
+    $scope.disableTap = function() {
+	    var input = event.target;
+
+	    // Get the predictions element
+	    var container = document.getElementsByClassName('pac-container');
+	    container = angular.element(container);
+
+	    // Apply css to ensure the container overlays the other elements, and
+	    // events occur on the element not behind it
+	    container.css('z-index', '5000');
+	    container.css('pointer-events', 'auto');
+
+	    // Disable ionic data tap
+	    container.attr('data-tap-disabled', 'true');
+
+	    // Leave the input field if a prediction is chosen
+	    container.on('click', function(){
+	        input.blur();
+	    });
+    };
 
 	$scope.checkout = function() {
 		$scope.maps.remove();
@@ -2772,8 +2866,8 @@ angular.module('app.controllers', [])
 				okType: 'button-oren',
 				cancelType: 'button-clear'
 			}).then(function(res) {
-				Analytics.logEvent('Pesan', 'Checkout', $scope.transaksi.indexUser);
 				if(res) {
+					Analytics.logEvent('Pesan', 'Checkout', $scope.transaksi.indexUser);
 					Services.addTransaction($scope.transaksi.kurir, $scope.transaksi.indexTransaksi, $scope.transaksi).then(function() {
 						Services.addQueue($scope.transaksi.kurir, $scope.transaksi.indexTransaksi).then(function() {
 							var notificationData = {
@@ -2789,8 +2883,7 @@ angular.module('app.controllers', [])
 									"indexTransaksi": $scope.transaksi.indexTransaksi
 								},
 								"to":"/topics/"+$scope.transaksi.kurir,
-								"priority":"high",
-								"restricted_package_name":"com.manganindonesia.kurma"
+								"priority":"high"
 							}
 
 							$http.post('https://fcm.googleapis.com/fcm/send', notificationData, {
