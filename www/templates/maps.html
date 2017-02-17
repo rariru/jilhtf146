@@ -4,13 +4,19 @@
 			<h1 class="title">Pilih Lokasi</h1>
 			<!-- <button class="button button-primary" ng-click="maps.hide()"><span class="icon ion-close"></span></button> -->
 		</ion-header-bar>
+		<ion-content lazy-scroll has-header="true" padding="true">
+			<div class="list" style="background-color: rgb(1, 178, 177); margin-bottom: 0px">
+	            <label class="item item-input" name="Pencarian" style="border: 5px solid rgb(1, 178, 177); padding: 0; border-right: 6px solid rgb(1, 178, 177); border-left: 6px solid rgb(1, 178, 177); border-radius: 12px;">
+	                <div style="min-height: 37px; min-width: 37px; background-color: rgb(230, 231, 232); text-align:center; margin-right: 10px;">
+	                    <i class="icon ion-search placeholder-icon" style="font-size: 20px; line-height: 40px;"></i>
+	                </div>
+	                <input id="pac-input" type="text" placeholder="Cari Lokasi" style="font-size: 14px;" data-tap-disabled="true" ng-model="search" ng-change='disableTap()'>
+	            </label>
+	        </div>
 
-		<ion-content lazy-scroll has-header="true" padding="true" id="mangan-peta" map>
-<!-- 			<div class="mangan-container">
-	            <div id="mangan-peta" style="height: 480px" map>
-	            	
-	            </div>
-	        </div> -->
+            <div id="mangan-peta" data-tap-disabled="true">
+            	
+            </div>
 		</ion-content>
 		<ion-footer-bar align-title="center" class="bar-balanced">       
             <button class="button button-small" ng-click="maps.hide()" style="margin: auto;" ion-ripple><i class="icon ion-ios-location"></i> Gunakan Lokasi</button>

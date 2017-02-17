@@ -1,11 +1,11 @@
 // Initialize Firebase
 // mangan
-var config = {
-	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
-	authDomain: "project-1449647215698534337.firebaseapp.com",
-	databaseURL: "https://project-1449647215698534337.firebaseio.com",
-	storageBucket: "project-1449647215698534337.appspot.com"
-};
+// var config = {
+// 	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
+// 	authDomain: "project-1449647215698534337.firebaseapp.com",
+// 	databaseURL: "https://project-1449647215698534337.firebaseio.com",
+// 	storageBucket: "project-1449647215698534337.appspot.com"
+// };
 
 // ryou
 // var config = {
@@ -16,13 +16,13 @@ var config = {
 // };
 
 // hamzah ManganBak
-// var config = {
-//     apiKey: "AIzaSyB1U7icSEQX4ZTCdsRHxDUFieD-r7sDFKA",
-//     authDomain: "manganbak.firebaseapp.com",
-//     databaseURL: "https://manganbak.firebaseio.com",
-//     storageBucket: "manganbak.appspot.com",
-//     messagingSenderId: "374536724800"
-// };
+var config = {
+    apiKey: "AIzaSyB1U7icSEQX4ZTCdsRHxDUFieD-r7sDFKA",
+    authDomain: "manganbak.firebaseapp.com",
+    databaseURL: "https://manganbak.firebaseio.com",
+    storageBucket: "manganbak.appspot.com",
+    messagingSenderId: "374536724800"
+};
 
 firebase.initializeApp(config);
 
@@ -35,7 +35,7 @@ var keyword = firebase.database().ref('keywordResto');
 var slider = firebase.database().ref('slider');
 var promo = firebase.database().ref('promo');
 var version = firebase.database().ref('version');
-var user = firebase.database().ref('user');
+var refUser = firebase.database().ref('user');
 var transaksi = firebase.database().ref('transaksi');
 var queue = firebase.database().ref('status').child('queue');
 var ongkir = firebase.database().ref('ongkir');
@@ -354,7 +354,7 @@ angular.module('app.services', [])
 
 		var logged = firebase.auth().currentUser;
 		if(logged) {
-			user.child($localStorage.indexUser +"/search").push({
+			refUser.child($localStorage.indexUser +"/search").push({
 				'keyword': query,
 				'timestamp': firebase.database.ServerValue.TIMESTAMP
 			});
@@ -390,13 +390,13 @@ angular.module('app.services', [])
 
 	this.cekUserData = function(email) {
 		return promiseValue(
-			user.orderByChild('email').equalTo(email)
+			refUser.orderByChild('email').equalTo(email)
 		)
 	}
 
 	this.getProfileByUid = function(uid) {
 		return promiseValue(
-			user.child(uid)
+			refUser.child(uid)
 		)
 	}
 
@@ -406,12 +406,14 @@ angular.module('app.services', [])
 		);
 	}
 
-	this.addUserData = function(dataUser) {
+	this.addUserData = function(dataUser, user) {
+		console.log('SERVICES, user.uid : '+ user.uid);
 		var promise = $q.defer();
 
-		user.child(dataUser.id).set({
+		refUser.child(dataUser.id).set({
+			'uid': user.uid,
 			'index': dataUser.id,
-			'email': dataUser.email,
+			'email': dataUser.email || null,
 			'fb_id': dataUser.id,
 			'name': dataUser.name,
 			'photoUrl': dataUser.picture.data.url || null,
@@ -428,7 +430,7 @@ angular.module('app.services', [])
 	this.updateUserData = function(userData) {
 		var promise = $q.defer();
 
-		user.child(userData.index).update({
+		refUser.child(userData.index).update({
 			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
 			'noTelpUser' : userData.noTelpUser,
 			'name' : userData.name,
@@ -442,10 +444,11 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
-	this.updateUserDataLogin = function(userData) {
+	this.updateUserDataLogin = function(userData, user) {
 		var promise = $q.defer();
 
-		user.child(userData.id).update({
+		refUser.child(userData.id).update({
+			'uid' : user.uid,
 			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
 			'name' : userData.name,
 			'photoUrl' : userData.photoUrl || userData.picture.data.url || userData.picture || null,
@@ -457,10 +460,11 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
-	this.addUserDataByGoogle = function(dataUser) {
+	this.addUserDataByGoogle = function(dataUser, user) {
 		var promise = $q.defer();
 
-		user.child(dataUser.id).set({
+		refUser.child(dataUser.id).set({
+			'uid': user.uid,
 			'index': dataUser.id,
 			'email': dataUser.email,
 			'gpluslink': dataUser.link || null,
@@ -535,7 +539,7 @@ angular.module('app.services', [])
 	this.addHistory = function(index, idTransaksi, kurir) {
 		var promise = $q.defer();
 
-		user.child(index +'/transaksi/'+ idTransaksi).set({
+		refUser.child(index +'/transaksi/'+ idTransaksi).set({
 			'indexTransaksi' : idTransaksi,
 			'kurir' : kurir
 		}).then(function(result) {
@@ -548,7 +552,7 @@ angular.module('app.services', [])
 	this.getHistory = function(index) {
 		console.log("nilai index uid : "+index);
 		return promiseValue(
-			user.child(index +'/transaksi')
+			refUser.child(index +'/transaksi')
 		);
 	}
 
@@ -586,7 +590,7 @@ angular.module('app.services', [])
 	this.addCancel = function(indexUser, indexTransaksi) {
 		var promise = $q.defer();
 
-		user.child(indexUser +'/cancel/'+indexTransaksi).set({
+		refUser.child(indexUser +'/cancel/'+indexTransaksi).set({
 			'indexTransaksi' : indexTransaksi,
 			'timestamp' : firebase.database.ServerValue.TIMESTAMP
 		})

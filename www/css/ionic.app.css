@@ -6595,7 +6595,7 @@ button.item.item-button-right {
 .card {
   padding-top: 1px;
   padding-bottom: 1px;
-  box-shadow: 0 -1px -1px rgba(0, 0, 0, 0.3); }
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3); }
   .card .item {
     border-left: 0;
     border-right: 0; }
@@ -9740,7 +9740,7 @@ p {
   position: absolute;
   bottom: 0;
   padding: 8px 0 5px 10px;
-  width: 100%;
+  /*width: 100%; */
   height: auto;
   font-size: 18px;
   line-height: 1.5; }
@@ -9762,12 +9762,12 @@ p {
 .mangan-selengkapnya {
   width: 100%;
   height: auto;
-  border-right: 1px solid #e6e7e8;
-  border-left: 1px solid #e6e7e8;
-  border-bottom: 1px solid #e6e7e8;
-  border-top: 0;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px; }
+  /*border-right: 1px solid rgb(230,231,232);
+	border-left: 1px solid rgb(230,231,232);
+	border-bottom: 1px solid rgb(230,231,232);
+	border-top: 0;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;*/ }
 
 .mangan-detail-review {
   color: black;
@@ -9929,8 +9929,8 @@ p {
 
 .mangan-keterangan {
   padding: 15px;
-  border-left: 1px solid #e6e7e8;
-  border-right: 1px solid #e6e7e8;
+  /*border-left: 1px solid rgb(230,231,232);
+	border-right: 1px solid rgb(230,231,232);*/
   border-bottom: 1px solid #e6e7e8; }
 
 .mangan-keterangan-buka {
@@ -9943,7 +9943,7 @@ p {
   /*height: auto;*/
   padding: 10px 10px 10px 15px;
   /*padding-left: 15px; */
-  border: 1px solid #e6e7e8; }
+  border-bottom: 1px solid #e6e7e8; }
 
 .mangan-keterangan-buka > i {
   color: #4d544d; }
@@ -10053,14 +10053,14 @@ p {
 
 .mangan-menu select {
   /*color: #78715f;*/
-  color: black;
-  font-weight: 300;
-  font-size: 14px; }
+  /*color: black;
+	font-weight: 300;
+	font-size: 14px;*/ }
 
 .mangan-menu .input-label {
   /*color: #78715f;*/
-  color: black;
-  font-weight: 300;
+  /*color: black;
+	font-weight: 300;*/
   font-size: 14px; }
 
 .mangan-menu > h3 > a {
@@ -10147,7 +10147,7 @@ p {
   width: 100%; }
 
 #mangan-peta {
-  height: 100%;
+  height: 90%;
   width: 100%; }
 
 .ionic_ratings .icon {
@@ -10387,3 +10387,38 @@ input[type="checkbox"][disabled],
 input[type="radio"][readonly],
 input[type="checkbox"][readonly] {
   background-color: transparent; }
+
+.controls {
+  border: 1px solid transparent;
+  border-radius: 2px 0 0 2px;
+  box-sizing: border-box;
+  position: absolute;
+  line-height: 22px; }
+
+#pac-input {
+  background-color: #fff;
+  font-family: Roboto;
+  font-size: 15px;
+  font-weight: 300;
+  padding: 0 11px 0 13px;
+  text-overflow: ellipsis;
+  width: 90%;
+  margin-bottom: 0;
+  line-height: 15px; }
+
+#pac-input:focus {
+  border-color: #4d90fe; }
+
+.pac-container {
+  font-family: Roboto;
+  z-index: 1051 !important; }
+
+#type-selector {
+  color: #fff;
+  background-color: #4d90fe;
+  padding: 5px 11px 0px 11px; }
+
+#type-selector label {
+  font-family: Roboto;
+  font-size: 13px;
+  font-weight: 200; }
