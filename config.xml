@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <widget android-versionCode="104028" id="com.manganindonesia.mangan" version="1.4.2" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Mangan</name>
-  <description>
-    Aplikasi Destinasi, Rekomendasi dan Informasi Wisata Kuliner Indonesia.
+  <description>&#xD;
+    Aplikasi Destinasi, Rekomendasi dan Informasi Wisata Kuliner Indonesia.&#xD;
   </description>
-  <author email="contact@mobilepangan.com" href="http://mobilepangan.com/">
-    Mangan Indonesia
+  <author email="contact@mobilepangan.com" href="http://mobilepangan.com/">&#xD;
+    Mangan Indonesia&#xD;
   </author>
   <content src="index.html"/>
   <access origin="*"/>
@@ -84,5 +84,7 @@
   <allow-navigation href="http://192.168.100.14:8100"/>
   <allow-navigation href="http://192.168.100.4:8100"/>
   <allow-navigation href="http://192.168.100.7:8101"/>
+  <allow-navigation href="http://192.168.8.102:8100"/>
+  <allow-navigation href="http://192.168.8.102:8101"/>
   <plugin name="cordova-plugin-firebase" spec="~0.1.18"/>
 </widget>

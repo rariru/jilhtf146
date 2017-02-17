@@ -13,13 +13,13 @@
     <div ng-show="notfound" class="mangan-nodata">
         <center><i class="ion-sad-outline"></i></center>
         <p>Ups, Sepertinya Belum Ada Kuliner Disini</p>
-        <center><button class="button button-oren button-outline" style="width: 50%; display: block; margin: 10px auto;" ng-click="rekomendasikan()" ion-ripple>REKOMENDASIKAN</button></center>
+        <center><button class="button button-oren button-small button-outline" style="width: 50%; display: block; margin: 10px auto;" ng-click="rekomendasikan()" ion-ripple>REKOMENDASIKAN</button></center>
     </div>
     
-        <div class="list card" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'" ion-ripple>
+        <div class="list card mangan-restorans" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'" style="padding:0;" ion-ripple>
             <div class="mangan-list-header" ion-ripple>
-                <div class="row mangan-nama-resto">
-                    <span class="col">{{restoran.namaResto}}</span>
+                <div class="row mangan-nama-resto"style="z-index: 9999;">
+                    <span class="col" style="padding: 0;">{{restoran.namaResto}}</span>
                     <!-- <span class="col mangan-rating-nilai" ng-show="restoran.rating && restoran.rating != 'null'">{{restoran.rating}}
                         <i class="mangan-rating-icon icon ion-star" style="color:yellow; font-size: 20px;"></i>
                     </span> -->
