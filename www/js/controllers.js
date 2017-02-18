@@ -748,11 +748,29 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.call = function(tel) {
-		window.open('tel:'+tel, '_system', 'location=yes');
+		if (tel) {
+			window.open('tel:'+tel, '_system', 'location=yes');			
+		} else {
+			$ionicPopup.alert({
+				title: 'Perhatian',
+				template: '<center>Nomor telepon tidak tersedia</center>',
+				okText: 'OK',
+				okType: 'button-oren'
+			});
+		}
 	}
 
 	$scope.navigate = function(index) {
-		$state.go('tabsController.peta', { 'index': index } )
+		if ($scope.restoran.map) {
+			$state.go('tabsController.peta', { 'index': index } )			
+		} else {
+			$ionicPopup.alert({
+				title: 'Perhatian',
+				template: '<center>Lokasi tidak tersedia</center>',
+				okText: 'OK',
+				okType: 'button-oren'
+			});
+		}
 	}
 
 	function makeToast(_message) {
@@ -2077,7 +2095,7 @@ angular.module('app.controllers', [])
 	$scope.getMenu();
 })
 
-.controller('promoCtrl', function($scope, $state, $ionicLoading, $cordovaToast, Services, $timeout, $localStorage, Analytics, $ionicModal) {
+.controller('promoCtrl', function($scope, $state, $ionicLoading, $cordovaToast, Services, $timeout, $localStorage, Analytics, $ionicModal, $cordovaSocialSharing) {
 	var loadFlag = false;
 	var loadingIndicator = $ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
@@ -2131,6 +2149,28 @@ angular.module('app.controllers', [])
 	$scope.openModal = function(index) {
 		$scope.selectedPromo = $scope.promos[index];
 		$scope.modal.show();
+	}
+
+	$scope.sharePromo = function(selectedPromo) {
+		var link = selectedPromo.extUrl;
+		var gambar = selectedPromo.sharedImg;
+		var textshared = selectedPromo.namaPromo+' - '+selectedPromo.keterangan+" - Valid hingga : "+selectedPromo.valid+" Nantikan promo menarik lainnya di Aplikasi MANGAN";
+
+		$cordovaSocialSharing.share(textshared, selectedPromo.keterangan, gambar, link)
+		.then(function(result) {
+			makeToast('Berhasil membagikan', 1500, 'bottom');
+		}, function(err) {
+			makeToast('Gagal membagikan', 1500, 'bottom');
+		});
+	}
+
+	$scope.gotoUrl = function(url) {
+		window.open(url, '_system', 'location=yes');
+	}
+
+	$scope.restoran = function(index) {
+		$state.go('tabsController.restoran', {'index': index});
+		$scope.modal.hide();
 	}
 
 	function makeToast(_message) {
@@ -2698,12 +2738,11 @@ angular.module('app.controllers', [])
 		}, function(error) {
 			$ionicPopup.alert({
 				title: 'Lokasi Tidak Ditemukan',
-				template: '<center>Nyalakan setting GPS anda</center>',
+				template: '<center>Nyalakan setting GPS anda atau gunakan pencarian lokasi</center>',
 				okText: 'OK',
 				okType: 'button-oren'
-			}).then(function(res) {
-				showMap();
 			});
+			showMap();
 		});
 
 		function showMap() {
@@ -2748,6 +2787,7 @@ angular.module('app.controllers', [])
 					$scope.map.setZoom(17);
 				}
 
+				coords = {};
 				coords.latitude = place.geometry.location.lat();
 				coords.longitude = place.geometry.location.lng();
 
