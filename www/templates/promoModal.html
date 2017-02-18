@@ -24,19 +24,19 @@
 		<div style="height:auto; position:fixed; bottom:0px;left:0px;right:0px;"> 
 			<div class="item mangan-menu" style="box-shadow: 0px 0px 10px 2px rgba(136,136,136,1); border-top:0;">
 	        	<div class="row" style="padding: 0;">
-                	<!-- <div class="col col-20" style="padding:0;"></div> -->
-	                <div class="col" style="padding:0; position:relative;" ion-ripple>
-	                    <button class="mangan-tombol-aksi" ng-click="">
+                	<div style="padding:0;"></div>
+	                <div class="col" style="padding:0; text-align: center;" ion-ripple>
+	                    <button class="mangan-tombol-aksi" ng-click="sharePromo(selectedPromo)">
 	                        <i class="mangan-icon icon ion-android-share-alt"></i>
 	                    </button>
 	                </div>
-	                 <div class="col" style="padding:0; position:relative;" ion-ripple>
-	                    <button class="mangan-tombol-aksi" ng-click="">
+	                 <div class="col" style="padding:0; text-align: center;" ng-show="selectedPromo.extUrl" ion-ripple>
+	                    <button class="mangan-tombol-aksi" ng-click="gotoUrl(selectedPromo.extUrl)">
 	                        <i class="mangan-icon icon ion-link"></i>
 	                    </button>
 	                </div>
-	                <div class="col" style="padding:0; position:relative;" ion-ripple>
-	                    <button class="mangan-tombol-aksi" ng-click="">
+	                <div class="col" style="padding:0; text-align: center;" ng-show="selectedPromo.indexResto" ion-ripple>
+	                    <button class="mangan-tombol-aksi" ng-click="restoran(selectedPromo.indexResto)">
 	                        <i class="mangan-icon icon icon ion-chevron-right"></i>
 	                    </button>
 	                </div>
