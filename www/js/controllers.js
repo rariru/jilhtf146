@@ -322,7 +322,7 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup, $timeout, Analytics, $cordovaSocialSharing, $ionicHistory, $ionicPopup) {
+.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup, $timeout, Analytics, $cordovaSocialSharing, $ionicHistory, $ionicPopup, $cordovaAppVersion) {
 	var loadFlag = false;
 	$scope.loadFlag = false;
 	var loadingIndicator = $ionicLoading.show({
@@ -337,23 +337,10 @@ angular.module('app.controllers', [])
     }, 10000);
 
 	$scope.$on('$ionicView.enter', function() {
-		// analytics.trackView('Kuliner');
 		Analytics.logView('Kuliner');
 		console.log('trackView, Kuliner');
-		// analytics.trackEvent('Kuliner', 'Informasi', $stateParams.index, 5);
 		Analytics.logEvent('Kuliner', 'Informasi', $stateParams.index)
 		console.log('trackEvent, Kuliner, Informasi, '+$stateParams.index);
-		// var forwardView = $ionicHistory.forwardView();
-		// if (forwardView) {
-		// 	if (forwardView.title == "Pesan") {
-		// 		$ionicPopup.alert({
-		// 			title: 'Pesanan Dibatalkan',
-		// 			template: '<center>Dengan Meninggalkan Halaman Tadi, Maka Daftar Pesanan Anda Akan Dibatalkan</center>',
-		// 			okText: 'OK',
-		// 			okType: 'button-oren'
-		// 		});
-		// 	}
-		// }
 	});
 
 	$scope.restoran = null;
@@ -370,12 +357,6 @@ angular.module('app.controllers', [])
 				$scope.restoran = restoran;
 				loadFlag = true;
 				$scope.loadFlag = true;
-				// pindah di on enter
-				//
-				// analytics.trackView('Kuliner');
-				// console.log('trackView, Kuliner');
-				// analytics.trackEvent('Kuliner', 'Informasi', $stateParams.index, 5);
-				// console.log('trackEvent, Kuliner, Informasi, '+$stateParams.index);
 
 				Services.getRestoranMenus($stateParams.index).then(function(menus) {
 					if(menus) {
@@ -622,8 +603,7 @@ angular.module('app.controllers', [])
 
 		// Coming Soon
 		// analytics.trackEvent('Coming Soon', 'Ulasan Pengguna', 'Tombol Ulasan', 10);
-		Analytics.logEvent('Coming Soon', 'Ulasan Pengguna', 'Tombol Ulasan');
-		console.log('trackEvent, Coming Soon, Ulasan Pengguna, Tombol Ulasan');
+		Analytics.logEvent('Rating Review', 'Ulasan Pengguna', 'Tombol Ulasan');
 		var user = firebase.auth().currentUser;
 		if (user) {
 			$scope.modalRating.show();
@@ -633,42 +613,71 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.pesan = function() {
-		Services.getSettingsDelivery().then(function(settings) {
-			if (settings) {
-				if (settings.status) {
-					// analytics.trackEvent('Coming Soon', 'Pesan', 'Tombol Pesan', 5);
-					Analytics.logEvent('Coming Soon', 'Pesan', 'Tombol Pesan');
-					console.log('trackEvent, Coming Soon, Pesan, Tombol Pesan');
+	    Services.getVersion().then(function(version) {
+	    	if (version) {
+	    		// if (config.version < version) {
+	    		$cordovaAppVersion.getVersionCode().then(function(currentVersion) {
+					$ionicLoading.hide();
 
-					///////////////////
-					// fitur pesan
-					if ($scope.restoran.delivery) {
-						var user = firebase.auth().currentUser;
-						if (user) {
-							$state.go('tabsController.pesan', {'index': $scope.restoran.index});
-						} else {
-							$state.go('login');
-						}
-					} else {
-						//////////////////
-						// tidak mendukung pesan antar
-						$ionicPopup.alert({
-							title: 'Oops',
-							template: '<center>Maaf kuliner ini belum mendukung pesan antar</center>',
-							okText: 'OK',
-							okType: 'button-oren'
+	    			if (parseInt(currentVersion) < version) {
+				    	$ionicPopup.alert({
+							title: 'Update Aplikasi',
+							template: '<center>Update Aplikasi untuk melanjutkan</center>',
+							okText: 'Update',
+							okType: 'button-oren',
+						}).then(function(res) {
+							if(res) {
+								Analytics.logEvent('Update', 'Tombol Update', 'Update Pesan Antar');
+								window.open('https://play.google.com/store/apps/details?id=com.manganindonesia.mangan', '_system', 'location=yes');
+							}
 						});
-					}
-				} else {
-					$ionicPopup.alert({
-						title: 'Pemberitahuan',
-						template: '<center>'+settings.message+'</center>',
-						okText: 'OK',
-						okType: 'button-oren'
-					});
-				}
-			}
-		})
+		    		} else {
+						Services.getSettingsDelivery().then(function(settings) {
+							if (settings) {
+								if (settings.status) {
+									Analytics.logEvent('Pesan Antar', 'Pesan', 'Tombol Pesan');
+									console.log('trackEvent, Coming Soon, Pesan, Tombol Pesan');
+
+									///////////////////
+									// fitur pesan
+									if ($scope.restoran.delivery) {
+										var user = firebase.auth().currentUser;
+										if (user) {
+											$state.go('tabsController.pesan', {'index': $scope.restoran.index});
+										} else {
+											$state.go('login');
+										}
+									} else {
+										//////////////////
+										// tidak mendukung pesan antar
+										$ionicPopup.alert({
+											title: 'Oops',
+											template: '<center>Maaf kuliner ini belum mendukung pesan antar</center>',
+											okText: 'OK',
+											okType: 'button-oren'
+										});
+									}
+								} else {
+									$ionicPopup.alert({
+										title: 'Pemberitahuan',
+										template: '<center>'+settings.message+'</center>',
+										okText: 'OK',
+										okType: 'button-oren'
+									});
+								}
+							}
+						})
+		    		}
+	    		}, function(error) {
+	    			console.log('error get version: '+ error);
+	    		});
+	    	} else {
+	    		console.log('error get version');
+	    		$ionicLoading.hide();
+	    	}
+	    }, function(err) {
+	    	console.log(err);
+	    });
 	};
 
 	$scope.ulasanPengguna = function(compose) {
@@ -1059,10 +1068,12 @@ angular.module('app.controllers', [])
 		$scope.getSliders();
     });
 
-	$scope.options = {
+	$scope.sliderOptions = {
 		loop: true,
 		autoplay: true,
-		speed: 3000,
+		speed: 1000,
+		pagination: false,
+		freeMode: true
 	};
 
 	$scope.user = {};
@@ -1288,8 +1299,11 @@ angular.module('app.controllers', [])
 		$state.go('tabsController.terdekat');
 	}
 
-	$scope.gotoURL = function(url) {
-		window.open(url, '_system', 'location=yes');
+	$scope.gotoURL = function(index, url) {
+		if (url) {
+			Analytics.logEvent('Ads', 'Slider', index)
+			window.open(url, '_system', 'location=yes');
+		}
 	}
 })
 

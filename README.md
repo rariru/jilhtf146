@@ -51,6 +51,9 @@ want fast?
 
 	`cordova plugin add cordova-plugin-firebase@0.1.18 --save`
 
+* cordova-plugin-app-version
+	`cordova plugin add cordova-plugin-app-version`
+
 # REMOVED PLUGIN
 
 * cordova-plugin-google-analytics 0.7.1 "Google Universal Analytics Plugin"
