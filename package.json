@@ -29,7 +29,8 @@
     "cordova-plugin-inappbrowser",
     "cordova-plugin-firebase@0.1.18",
     "cordova-plugin-firebase@~0.1.18",
-    "ionic-plugin-deeplinks"
+    "ionic-plugin-deeplinks",
+    "cordova-plugin-app-version"
   ],
   "cordovaPlatforms": [
     "android"

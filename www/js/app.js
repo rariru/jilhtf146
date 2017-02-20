@@ -99,11 +99,12 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
   }
 })
 
-.config(['$ionicConfigProvider', function($ionicConfigProvider) {
+.config(function($ionicConfigProvider) {
 
     // $ionicConfigProvider.tabs.position('bottom'); // other values: top
     $ionicConfigProvider.navBar.alignTitle('center');
-}])
+    $ionicConfigProvider.scrolling.jsScrolling(false);
+})
 
 // http://justinklemm.com/angularjs-filter-ordering-objects-ngrepeat/
 .filter('orderObjectBy', function() {
