@@ -233,7 +233,7 @@ angular.module('app.controllers', [])
 						var n = 0;
 						for(var id in restorans) {
 							n++;
-							console.log(id);
+							// console.log(id);
 						}
 
 						var i=0;
@@ -1896,6 +1896,7 @@ angular.module('app.controllers', [])
 
 .controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading, Analytics) {
 	$scope.category = 'Terdekat';
+	$scope.restoranList = {};
 
 	$ionicLoading.show({
 		template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
@@ -2001,7 +2002,7 @@ angular.module('app.controllers', [])
 				for(var r in restorans) {
 					var location = restorans[r].map;
 					if(location.lat < sw.lat() || location.lat > ne.lat()) {
-						console.log(sw.lat() +' | '+ location.lat +' | '+ ne.lat());
+						// console.log(sw.lat() +' | '+ location.lat +' | '+ ne.lat());
 						delete restorans[r];
 					}
 				}
@@ -2018,7 +2019,7 @@ angular.module('app.controllers', [])
 
 						if(lat && lon) {
 							var rLatlon = new google.maps.LatLng(lat, lon);
-							console.log(lat+' | '+lon);
+							// console.log(lat+' | '+lon);
 
 							var marker = new google.maps.Marker({
 								map: $scope.map,
@@ -2039,6 +2040,21 @@ angular.module('app.controllers', [])
 					}
 				}
 				console.log(i +"/"+ j);
+
+				// add to restorans list untuk keperluan listing restoran terdekat
+				// jika konsepnya me-list SEMUA restoran yg di load gunakan atribut jarak pada $scope.restoranList
+				// namun jika hanya me-list restoran yg muncul di view (kita kan kalo geser map, marker restoran yg gaada di map diilangin)
+				//		gunakan atribut jarak pada $scope.restorans
+				// btw. menghitung jarak nya offline pake Haversine formula, soale aku liat di gmap retrieve data ne
+				//		harus nunggu konek dulu (kyk promise). Tapi nek semisal ternyata dari gmap bisa lsg retrieve jarak
+				//		berarti ganti fungsi gmap tsb aja
+				// for (var key in restorans) {
+				// 	if (restorans.hasOwnProperty(key)) {
+				// 		$scope.restoranList[key] = restorans[key];
+				// 		$scope.restoranList[key].jarak = getDistance(coords.latitude, coords.longitude, restorans[key].map.lat, restorans[key].map.long);
+				// 		console.log('dist-'+ key +' : '+ $scope.restoranList[key].jarak);
+				// 	}
+				// }
 			} else {
 				console.log('no resto');
 			}
@@ -2057,6 +2073,24 @@ angular.module('app.controllers', [])
 			$ionicLoading.hide();
 		});
 	}
+
+	function rad(x) {
+		return x * Math.PI / 180;
+	};
+	// haversine formula LOL
+	// http://stackoverflow.com/questions/1502590/calculate-distance-between-two-points-in-google-maps-v3
+	function getDistance(lat1, lon1, lat2, lon2) {
+		var R = 6378137; // Earth’s mean radius in meter
+		var dLat = rad(lat2 - lat1);
+		var dLong = rad(lon2 - lon1);
+		var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+		Math.cos(rad(lat1)) * Math.cos(rad(lat2)) *
+		Math.sin(dLong / 2) * Math.sin(dLong / 2);
+		var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+		var d = R * c;
+		// console.log(lat1 +' | '+ lon1 +' | '+ lat2 +' | '+ lon2 +' | '+ d);
+		return d; // returns the distance in meter
+	};
 
 	function addInfoWindow(marker, message, index) {
 		// console.log('waaaahaa');
@@ -2680,7 +2714,14 @@ angular.module('app.controllers', [])
     	$scope.invoice();
 		$scope.getKurir();
 		Analytics.logView('Pesan', 'Invoice');
-		Analytics.logEvent('Pesan', 'Invoice '+$scope.transaksi.indexUser, $scope.transaksi.indexResto);
+		// Analytics.logEvent('Pesan', 'Invoice '+$scope.transaksi.indexUser, $scope.transaksi.indexResto);
+		// new API using array
+		var branch = [];
+		branch.push('Pesan');
+		branch.push('Invoice');
+		branch.push($scope.transaksi.indexUser);
+		branch.push($scope.transaksi.indexResto);
+		Analytics.logEventArr(branch);
     });
 
 	function jumlah() {
