@@ -5,14 +5,14 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ngStorage', 'ionic-ratings', 'ionicLazyLoad', 'ionMDRipple', 'ngCordovaOauth'])
+angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ngStorage', 'ionic-ratings', 'ionicLazyLoad', 'ionMDRipple', 'ngCordovaOauth', 'ionic.native'])
 
 .constant('config', {
   analytics: 'UA-82447017-1',
   version: 100018
 })
 
-.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage, $timeout) {
+.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage, $timeout, $cordovaDeeplinks, $state) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -91,6 +91,28 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
         }
     };
     _waitForAnalytics();
+
+    $cordovaDeeplinks.route({
+      '/promos': {
+        parent: 'tabsController.promo'
+      }
+    }).subscribe(function(match) {
+      console.log('match');
+      // One of our routes matched, we will quickly navigate to our parent
+      // view to give the user a natural back button flow
+      $timeout(function() {
+        $state.go(match.$route.parent, match.$args);
+
+        // Finally, we will navigate to the deeplink page. Now the user has
+        // the 'product' view visibile, and the back button goes back to the
+        // 'products' view.
+        $timeout(function() {
+          $state.go(match.$route.target, match.$args);
+        }, 800);
+      }, 100); // Timeouts can be tweaked to customize the feel of the deeplink
+    }, function(nomatch) {
+      console.warn('No match', JSON.stringify(nomatch));
+    });
   })
 
   if (ionic.Platform.isIOS()) {
@@ -99,11 +121,12 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
   }
 })
 
-.config(['$ionicConfigProvider', function($ionicConfigProvider) {
+.config(function($ionicConfigProvider) {
 
     // $ionicConfigProvider.tabs.position('bottom'); // other values: top
     $ionicConfigProvider.navBar.alignTitle('center');
-}])
+    $ionicConfigProvider.scrolling.jsScrolling(false);
+})
 
 // http://justinklemm.com/angularjs-filter-ordering-objects-ngrepeat/
 .filter('orderObjectBy', function() {
