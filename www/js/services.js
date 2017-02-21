@@ -94,6 +94,7 @@ angular.module('app.services', [])
 		return promiseValue(
 			restoranKota().orderByChild('tglInput').endAt(startDate).limitToLast(10)
 			);
+		// return ServiceRestoran.getAllRestorans();
 	}
 
 	this.getRestoranDetails = function(id) {
@@ -692,17 +693,68 @@ angular.module('app.services', [])
 	}
 })
 
+// .service('ServiceRestoran', function($localStorage) {
+// 	var restoransRef = {};
+// 	var restorans = {};
+// 	var kota = $localStorage.location;
+// 	if (!restoransRef[kota]) {
+// 		if($localStorage.location == 'Yogyakarta') {
+// 			restoransRef['Yogyakarta'] = firebase.database().ref('dataRestoJogja');
+// 		} else {
+// 			restoransRef['Surakarta'] = firebase.database().ref('dataResto');
+// 		}
+
+// 		restoransRef[kota].on('child_added', function(data) {
+// 			if (!restoransRef[kota]) {
+// 				restorans[kota] = {};
+// 			}
+
+// 			restorans[kota][data.key] = data.val();
+// 		});
+
+// 		restoransRef[kota].on('child_changed', function(data) {
+// 			restorans[kota][data.key] = data.val();
+// 		});
+
+// 		restoransRef[kota].on('child_removed', function(data) {
+// 			delete restorans[kota][data.key];
+// 		});
+// 	}
+
+// 	this.getAllRestorans = function() {
+// 		return restorans[kota];
+// 	}
+// })
+
 .service('Analytics', function() {
 
 	this.logView = function(viewName) {
-		addValue('trackView/'+ viewName);
+		// addValue('trackView/'+ viewName);
+		var branch = [];
+		branch.push(viewName);
+		this.logViewArr(branch);
 	}
 
 	this.logEvent = function(category, action, label) {
-		if(label)
-			addValue('trackEvent/'+ category +'/'+ action +'/'+ label);
-		else
-			addValue('trackEvent/'+ category +'/'+ action);
+		var branch = [];
+		branch.push(category);
+		branch.push(action);
+		if(label) {
+			// addValue('trackEvent/'+ category +'/'+ action +'/'+ label);
+			branch.push(label);
+		}
+		// else {
+		// 	addValue('trackEvent/'+ category +'/'+ action);
+		// }
+		this.logEventArr(branch);
+	}
+
+	this.logViewArr = function(branch) {
+		addValueArr('trackView', branch);
+	}
+
+	this.logEventArr = function(branch) {
+		addValueArr('trackEvent', branch);
 	}
 	
 	function addValue(branch) {
@@ -716,6 +768,26 @@ angular.module('app.services', [])
 			}
 			// console.log('newValue: '+ newValue);
 			firebase.database().ref('analytics/'+ branch).set(newValue);
+		});
+	}
+
+	function addValueArr(trackName, branch) {
+		var path = trackName;
+		for (var i = 0; i < branch.length; i++) {
+			var sub = "/"+ branch[i];
+			path += sub;
+		}
+		// console.log(path);
+		firebase.database().ref('analytics/'+ path).once('value', function(_value) {
+			var newValue = _value.val();
+			// console.log('_value: '+ _value.val());
+			if(typeof newValue === 'number' && newValue >= 1) {
+				newValue++;
+			} else {
+				newValue = 1;
+			}
+			// console.log('newValue: '+ newValue);
+			firebase.database().ref('analytics/'+ path).set(newValue);
 		});
 	}
 })
