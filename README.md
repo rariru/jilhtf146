@@ -51,6 +51,13 @@ want fast?
 
 	`cordova plugin add cordova-plugin-firebase@0.1.18 --save`
 
+* cordova-plugin-app-version
+	`cordova plugin add cordova-plugin-app-version`
+
+* ionic-plugin-deeplinks
+	`cordova plugin add ionic-plugin-deeplinks --variable URL_SCHEME=myapp --variable DEEPLINK_SCHEME=https --variable DEEPLINK_HOST=example.com`
+	this plugin require ionic-native. Learn more at https://github.com/driftyco/ionic-plugin-deeplinks
+
 # REMOVED PLUGIN
 
 * cordova-plugin-google-analytics 0.7.1 "Google Universal Analytics Plugin"
@@ -60,6 +67,10 @@ want fast?
 * cordova-plugin-googleplayservices 19.0.3 "Google Play Services for Android"
 
 	`npm install cordova-plugin-googleplayservices@19.0.3`
+
+# IONIC NATIVE (start from version 1.4.3)
+	`npm install ionic-native --save`
+then copy ionic-native folder from node_modules/ to lib/. And add link script in index.html. Last, inject the ionic.native module in angular.module on app.js. Read more at https://www.npmjs.com/package/ionic-native
 
 
 # version
@@ -84,3 +95,17 @@ want fast?
 ## 1.4.0
 * pesan antar
 * push notification
+
+### 1.4.1
+* not listed yet
+
+### 1.4.2
+* not listed yet
+
+### 1.4.3
+* ionic-native (feel the power of native API's)
+* deeplinks!!
+* Google Maps Places, so you can search location
+* Bug fixing
+* Analytics Improvements
+* Promo and Slider (hope this can bring money to us) - we running out of money tbh T.T

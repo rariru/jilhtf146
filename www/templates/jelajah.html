@@ -28,8 +28,8 @@
                 <p ng-click="greeting()" ng-show="!lokasiUser" style="color: orangered; text-decoration: none;"><i class="icon ion-ios-location" style="padding-right:5px"></i>Lokasi tidak ditemukan</p>
             </div>
             <div style="width: 100%; margin-bottom: 10px; padding-left: 25px;">
-                <button ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" id="mangan-button-pesan" class="button button-oren button-small button-outline" ng-click="pesan()" style="width:30%; margin: 0 2px;" ion-ripple>JELAJAHI</button>
-                <button ng-show="!dataUser || dataUser == null" ui-sref="login" class="button button-oren button-small" style="width:30%;" ion-ripple>LOGIN</button> 
+                <button ng-click="jelajah()" u id="mangan-button-pesan" class="button button-oren button-small button-outline" style="width:30%; margin: 0 2px;" ion-ripple>JELAJAHI</button>
+                <button ng-show="!dataUser || dataUser == null" ng-click="login()" class="button button-oren button-small" style="width:30%;" ion-ripple>LOGIN</button> 
             </div>
         </div>
       
@@ -65,7 +65,7 @@
 
          <div class="row gallery" style="margin-bottom: 10px;" ion-ripple>
             <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
-                <a ui-sref="tabsController.restorans({category: 'all', 'name': 'Semua Kuliner'})">
+                <a ui-sref="tabsController.restorans({category: 'delivery', 'name': 'Laper Mager'})">
                     <!-- <div class="mangan-kategori">FOOD DELIVERY</div> -->
                     <img src="img/delivery.jpg" class="mangan-image-jelajah">
                 </a>
@@ -140,16 +140,22 @@
         </ion-slides> -->
 
         <!-- Slider Dinamis -->
-        <ion-slides ng-show="sliders || sliders.length > 0" options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
-            <ion-slide-page ng-repeat="slider in sliders">
-                <img ng-src="{{ slider.url }}" style="width: 100%; display: block;" ng-click="gotoURL(slider.linkUrl)">
-            </ion-slide-page>
-        </ion-slides>
-                <div class="list">
+        <ion-slides ng-show="sliders || sliders.length > 0" options="sliderOptions" class="row" style="width: 100%; padding: 0; height: 35%; margin-bottom: 0px">
+            <ion-slide-page ng-repeat="slider in sliders" ng-click="gotoURL(slider.index, slider.linkUrl, slider.tel)" ion-ripple>
+
+                <img ng-src="{{ slider.url }}" style="width: 100%; display: block;">
+                <div class="list" ng-show="slider.linkUrl">
                   <div class="item item-divider" style="background-color: #3498db">
-                    <p style="text-align: right; color: white;">Click slider to see more <i class="icon ion-chevron-right"></i> </p>
+                    <p style="text-align: right; color: white;">Selengkapnya<i class="icon ion-chevron-right" style="margin-left: 5px;"></i></p>
                   </div>
                 </div>
+                <div class="list" ng-hide="slider.linkUrl">
+                  <div class="item item-divider" style="background-color: #3498db">
+                    <p style="text-align: right; color: white;">Selanjutnya<i class="icon ion-chevron-right" style="margin-left: 5px;"></i></p>
+                  </div>
+                </div>
+            </ion-slide-page>
+        </ion-slides>
 
         <!-- Kategori    -->
         <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
@@ -247,10 +253,6 @@
             </div>
         </div>
 
-<!--         <div class="mangan-menu-selengkapnya">
-            <button id="button-rekomendasi" class="button button-positive button-small" ng-click="rekomendasikan()" ion-ripple>REKOMENDASIKAN</button>
-            <button id="button-daftar" class="button button-positive button-small" ng-click="daftar()" ion-ripple>PENDAFTARAN</button>
-        </div> -->
         <div class="mangan-bottom">
             <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
                 <h5 style="font-weight: 300; background: white; padding-left: 10px; width: 100%;">Tidak menemukan yang kamu sukai?</h5>
@@ -264,9 +266,5 @@
             </div>
             <button id="button-daftar" class="button button-block button-oren button-outline" ng-click="daftar()" ion-ripple>DAFTAR KULINER</button>
         </div>
-        <!-- <div class="row" style="width: 100%; padding: 0;"> -->
-        <!-- ion slides awal -->
-
-        <!-- </div> -->
     </ion-content>
 </ion-view>
