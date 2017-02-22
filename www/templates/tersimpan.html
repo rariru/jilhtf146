@@ -64,8 +64,11 @@
             </div>
         </div>
 
-        <div class="kontak-header" style="margin-bottom: 10px;" ng-show="!restorans || restorans.length > 0">
+        <!-- <div class="kontak-header" style="margin-bottom: 10px;" ng-show="!restorans || restorans.length > 0">
                 <p>KULINER TERSIMPAN</p>
+        </div> -->
+        <div style="" ng-show="!restorans || restorans.length > 0">
+            <h4 style="background: white; padding-left: 10px; width: 100%; margin: 15px 0; color: rgb(1,177,178);">KULINER TERSIMPAN</h4>
         </div>
 
         <div class="list card mangan-restorans" padding="true" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true track by restoran.index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
