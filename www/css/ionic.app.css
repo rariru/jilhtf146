@@ -10244,8 +10244,8 @@ p {
   background-color: #ff6a32;
   border-color: transparent;
   color: #fff;
-  overflow: hidden;
-  white-space: nowrap;
+  /*overflow: hidden;
+    white-space: nowrap;*/
   border-radius: 2px; }
 
 .button.button-oren:hover {
