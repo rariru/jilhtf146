@@ -30,9 +30,17 @@ angular.module('app.controllers', [])
 	var failCounter = 0;
 
 	$scope.$on('$ionicView.enter', function() {
-		Analytics.logView('Kategori'+ $scope.category);
-		console.log('trackView, Kategori, '+$scope.category);
-		Analytics.logEvent('Kategori', 'Kategori Kuliner', $scope.category);
+		// Analytics.logView('Kategori'+ $scope.category);
+		// console.log('trackView, Kategori, '+$scope.category);
+
+		// trackView
+		var branchView = [];
+		branchView.push('Kategori');
+		branchView.push($scope.category);
+		Analytics.logViewArr(branchView);
+
+		// trackEvent
+		Analytics.logEvent('Kategori',  $scope.category);
 		console.log('trackEvent, Kategori Kuliner, '+$scope.category);
 
 		failCounter = 0;
@@ -555,7 +563,7 @@ angular.module('app.controllers', [])
 		$scope.selectedMenu = $scope.menus[index];
 		console.log($scope.selectedMenu);
 		if (!$scope.selectedMenu.review) {
-			$scope.modalMenuGambar.show();
+			// $scope.modalMenuGambar.show();
 		}else{
 			// $scope.modalMenu.show();
 			$state.go('tabsController.ulasanMenu', {'selectedMenu': $scope.selectedMenu});
@@ -792,6 +800,10 @@ angular.module('app.controllers', [])
 		}
 	}
 
+	$scope.openMenuBook = function(index) {
+		$state.go('tabsController.menus', {'index': index});
+	}
+
 	function makeToast(_message) {
 		window.plugins.toast.showWithOptions({
 			message: _message,
@@ -819,7 +831,7 @@ angular.module('app.controllers', [])
     $scope.$on('$ionicView.enter', function() {
     	$scope.getMenus();
     	// analytics.trackView('Menu Kuliner');
-    	Analytics.logView('Menu Kuliner');
+    	Analytics.logView('Buku Menu');
 	    console.log('trackView, Menu Kuliner');
 	    // analytics.trackEvent('Menu', 'Lihat Menu', $stateParams.index, 5);
 	    Analytics.logEvent('Menu', 'Lihat Menu', $stateParams.index);
@@ -942,18 +954,35 @@ angular.module('app.controllers', [])
 	console.log("localStorage token "+$localStorage.token);
 
 	firebase.auth().onAuthStateChanged(function(user) {
-		$scope.queue = [];
-		$scope.process = [];
 		if (user) {
 			user.providerData.forEach(function(profile) {
 				if (profile.providerId === "facebook.com") {
 					$scope.getProfileByUid(profile.uid);
-					$scope.getOrder(profile.uid);
+					Analytics.logEvent('User', $localStorage.indexUser, 'Jelajah');
+					var branchEvent = [];
+					branchEvent.push('User');
+					branchEvent.push($localStorage.indexUser);
+					branchEvent.push('Auth');
+					branchEvent.push('Facebook');
+					Analytics.logEventArr(branchEvent);
 				} else if (profile.providerId === "google.com") {
 					$scope.getProfileByUid(profile.uid);
-					$scope.getOrder(profile.uid);
+					Analytics.logEvent('User', $localStorage.indexUser, 'Jelajah');
+					branchEvent.push('User');
+					branchEvent.push($localStorage.indexUser);
+					branchEvent.push('Auth');
+					branchEvent.push('Google');
+					Analytics.logEventArr(branchEvent);
 				} else {
 					console.log('logged in with another provider');
+				}
+				if ($scope.queue == 'undefined' || $scope.process == 'undefined') {
+					$scope.getOrder(profile.uid);
+				} else {
+					$scope.queue.$destroy();
+					$scope.process.$destroy();
+					console.log('wis enek');
+					$scope.getOrder(profile.uid);
 				}
 			});
 		} else {
@@ -978,8 +1007,20 @@ angular.module('app.controllers', [])
 					}).then(function(res) {
 						if(res) {
 							Analytics.logEvent('Jelajah', 'Update', 'Update');
+							var branchEvent = [];
+							branchEvent.push('User');
+							branchEvent.push($localStorage.indexUser? $localStorage.indexUser : $localStorage.token);
+							branchEvent.push('Update');
+							branchEvent.push('Update');
+							Analytics.logEventArr(branchEvent);
 							window.open('https://play.google.com/store/apps/details?id=com.manganindonesia.mangan', '_system', 'location=yes');
 						} else {
+							var branchEvent = [];
+							branchEvent.push('User');
+							branchEvent.push($localStorage.indexUser? $localStorage.indexUser : $localStorage.token);
+							branchEvent.push('Update');
+							branchEvent.push('Nanti');
+							Analytics.logEventArr(branchEvent);
 							Analytics.logEvent('Jelajah', 'Update', 'Nanti');
 						}
 					});
@@ -1036,17 +1077,21 @@ angular.module('app.controllers', [])
 			user.providerData.forEach(function(profile) {
 				if (profile.providerId === "facebook.com") {
 					$scope.getProfileByUid(profile.uid);
-					$scope.getOrder(profile.uid);
+					Analytics.logEvent('User', $localStorage.indexUser, 'Jelajah');
 				} else if (profile.providerId === "google.com") {
 					$scope.getProfileByUid(profile.uid);
-					$scope.getOrder(profile.uid);
+					Analytics.logEvent('User', $localStorage.indexUser, 'Jelajah');
 				} else {
 					console.log('logged in with another provider');
 				}
+				$scope.queue = [];
+				$scope.process = [];
+				$scope.getOrder(profile.uid);
 			});
 		} else {
 			console.log('not logged in');
 			$scope.dataUser = "";
+			Analytics.logEvent('User', $localStorage.token, 'Jelajah');
 		}
 
 		if ($localStorage.location == null || $localStorage.location == '') {
@@ -1062,11 +1107,32 @@ angular.module('app.controllers', [])
     });
 
 	$scope.sliderOptions = {
-		loop: true,
-		autoplay: true,
+		loop: false,
+		// autoplay: true,
 		speed: 1000,
-		pagination: false
+		// pagination: false
+
+		onInit: function() {
+			console.log('init slider');
+			Analytics.logEvent('Ads', 'Slider', 'Loaded');
+		},
+
+		onSlideChangeEnd: function(index) {
+			Analytics.logEvent('Ads', 'Slider', 'Loaded');
+			console.log(console.log(index));
+			$scope.slideChange(index);
+		}
 	};
+
+	$scope.slideChange = function(index) {
+		var branchEvent = [];
+			branchEvent.push('Ads');
+			branchEvent.push('Slider');
+			branchEvent.push('Loaded');
+			branchEvent.push(index.activeIndex);
+		Analytics.logEventArr(branchEvent);
+		console.log('slide Change :'+index.activeIndex);
+	}
 
 	$scope.user = {};
 
@@ -1111,6 +1177,11 @@ angular.module('app.controllers', [])
 		Services.getSliders().then(function(sliders) {
 			if (sliders) {
 				$scope.sliders = sliders;
+				var image = [];
+				for(var r in sliders) {
+					image.push(sliders[r].url);
+				}
+				$scope.image = image;
 				Analytics.logEvent('Ads', 'Slider', 'Loaded');
 			} else {
 				Analytics.logEvent('Ads', 'Slider', 'Not Load');
@@ -1251,7 +1322,7 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.getOrder = function(uid) {
-		console.log(uid);
+		console.log('get order');
 		$scope.queue = [];
 		$scope.process = [];
 		var date = new Date();
@@ -2172,6 +2243,7 @@ angular.module('app.controllers', [])
 	}).then(function(modal) { $scope.modal = modal; });
 
 	$scope.openModal = function(index) {
+		Analytics.logView('Detail Promo');
 		Analytics.logEvent('Promo', 'Click', index);
 		console.log('Promo, Click, '+index);
 		$scope.selectedPromo = $scope.promos[index];
@@ -2539,7 +2611,8 @@ angular.module('app.controllers', [])
 
     $scope.$on('$ionicView.enter', function() {
     	Analytics.logView('Pesan');
-	    Analytics.logEvent('Pesan', 'Lihat Menu', $stateParams.index);
+	    // Analytics.logEvent('Pesan', 'Lihat Menu', $stateParams.index);
+	    Analytics.logEvent('Kuliner', $stateParams.index, 'Lihat Menu');
     });
 
 	$scope.$on('$ionicView.leave', function() {
@@ -2726,15 +2799,16 @@ angular.module('app.controllers', [])
 	$scope.$on('$ionicView.enter', function() {
     	$scope.invoice();
 		$scope.getKurir();
-		Analytics.logView('Pesan', 'Invoice');
+		Analytics.logView('Invoice');
 		// Analytics.logEvent('Pesan', 'Invoice '+$scope.transaksi.indexUser, $scope.transaksi.indexResto);
 		// new API using array
 		var branch = [];
 		branch.push('Pesan');
 		branch.push('Invoice');
-		branch.push($scope.transaksi.indexUser);
 		branch.push($scope.transaksi.indexResto);
+		branch.push($scope.transaksi.indexUser);
 		Analytics.logEventArr(branch);
+		Analytics.logEvent('Kuliner', $scope.transaksi.indexResto, 'Invoice');
     });
 
 	function jumlah() {
@@ -2896,6 +2970,7 @@ angular.module('app.controllers', [])
 			}
 		}
 		$scope.maps.show();
+		Analytics.logView('Pilih Lokasi Pengiriman');
 	}
 
     $scope.disableTap = function() {
@@ -3120,7 +3195,7 @@ angular.module('app.controllers', [])
 			$scope.openRating();
 		}
 
-		Analytics.logView('Kuliner', 'Ulasan Pengguna');
+		Analytics.logView('Ulasan Pengguna');
 		Analytics.logEvent('Kuliner', 'Ulasan Pengguna', $stateParams.indexResto);
 	});
 
@@ -3296,9 +3371,11 @@ angular.module('app.controllers', [])
 	}).then(function(modal) { $scope.modalRating = modal; });
 
 	$scope.openRating = function() {
+		Analytics.logView('Tulis Ulasan');
 		Analytics.logEvent('Ulasan Pengguna', 'Tombol Ulasan Pengguna', 'Buka Form Ulasan Pengguna');
 		var user = firebase.auth().currentUser;
 		if (user) {
+			Analytics.logEvent('Tulis Ulasan');
 			$scope.modalRating.show();
 		} else {
 			$state.go('login');
@@ -3411,7 +3488,7 @@ angular.module('app.controllers', [])
 
 	$scope.$on('$ionicView.enter', function() {
 		$scope.getTransaksiDetails();
-		Analytics.logView('Rincian Transaksi'+ $stateParams.indexTransaksi);
+		Analytics.logView('Rincian Transaksi');
 		Analytics.logEvent('Transaksi', 'Rincian Transaksi', $stateParams.indexTransaksi);
 	});
 

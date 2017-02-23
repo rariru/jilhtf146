@@ -121,7 +121,7 @@
        
         </div> -->
 
-<!--         <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
+<!--         <ion-slides options="sliderOptions" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
             <ion-slide-page>
                 <img src="img/slider4.jpg" style="width: 100%; display: block;">
             </ion-slide-page>
@@ -141,9 +141,9 @@
 
         <!-- Slider Dinamis -->
         <ion-slides ng-show="sliders || sliders.length > 0" options="sliderOptions" class="row" style="width: 100%; padding: 0; height: 35%; margin-bottom: 0px">
-            <ion-slide-page ng-repeat="slider in sliders" ng-click="gotoURL(slider.index, slider.linkUrl, slider.tel)" ion-ripple>
+            <ion-slide-page ng-repeat="slider in sliders" ng-click="gotoURL(slider.index, slider.linkUrl, slider.tel)" on-swipe-left="next()" on-swipe-right="previous()" ion-ripple>
 
-                <img ng-src="{{ slider.url }}" style="width: 100%; display: block;">
+                <img ng-src="{{ image[$index] }}" style="width: 100%; display: block;">
                 <div class="list" ng-show="slider.linkUrl">
                   <div class="item item-divider" style="background-color: #3498db">
                     <p style="text-align: right; color: white;">Selengkapnya<i class="icon ion-chevron-right" style="margin-left: 5px;"></i></p>

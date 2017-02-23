@@ -1,11 +1,11 @@
 // Initialize Firebase
 // mangan
-var config = {
-	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
-	authDomain: "project-1449647215698534337.firebaseapp.com",
-	databaseURL: "https://project-1449647215698534337.firebaseio.com",
-	storageBucket: "project-1449647215698534337.appspot.com"
-};
+// var config = {
+// 	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
+// 	authDomain: "project-1449647215698534337.firebaseapp.com",
+// 	databaseURL: "https://project-1449647215698534337.firebaseio.com",
+// 	storageBucket: "project-1449647215698534337.appspot.com"
+// };
 
 // ryou
 // var config = {
@@ -16,13 +16,13 @@ var config = {
 // };
 
 // hamzah ManganBak
-// var config = {
-//     apiKey: "AIzaSyB1U7icSEQX4ZTCdsRHxDUFieD-r7sDFKA",
-//     authDomain: "manganbak.firebaseapp.com",
-//     databaseURL: "https://manganbak.firebaseio.com",
-//     storageBucket: "manganbak.appspot.com",
-//     messagingSenderId: "374536724800"
-// };
+var config = {
+    apiKey: "AIzaSyB1U7icSEQX4ZTCdsRHxDUFieD-r7sDFKA",
+    authDomain: "manganbak.firebaseapp.com",
+    databaseURL: "https://manganbak.firebaseio.com",
+    storageBucket: "manganbak.appspot.com",
+    messagingSenderId: "374536724800"
+};
 
 firebase.initializeApp(config);
 
@@ -758,7 +758,7 @@ angular.module('app.services', [])
 	}
 	
 	function addValue(branch) {
-		firebase.database().ref('analytics/'+ branch).once('value', function(_value) {
+		firebase.database().ref('analyticsV2/'+ branch).once('value', function(_value) {
 			var newValue = _value.val();
 			// console.log('_value: '+ _value.val());
 			if(typeof newValue === 'number' && newValue >= 1) {
@@ -767,7 +767,7 @@ angular.module('app.services', [])
 				newValue = 1;
 			}
 			// console.log('newValue: '+ newValue);
-			firebase.database().ref('analytics/'+ branch).set(newValue);
+			firebase.database().ref('analyticsV2/'+ branch).set(newValue);
 		});
 	}
 
@@ -778,7 +778,7 @@ angular.module('app.services', [])
 			path += sub;
 		}
 		// console.log(path);
-		firebase.database().ref('analytics/'+ path).once('value', function(_value) {
+		firebase.database().ref('analyticsV2/'+ path).once('value', function(_value) {
 			var newValue = _value.val();
 			// console.log('_value: '+ _value.val());
 			if(typeof newValue === 'number' && newValue >= 1) {
@@ -787,7 +787,7 @@ angular.module('app.services', [])
 				newValue = 1;
 			}
 			// console.log('newValue: '+ newValue);
-			firebase.database().ref('analytics/'+ path).set(newValue);
+			firebase.database().ref('analyticsV2/'+ path).set(newValue);
 		});
 	}
 })
