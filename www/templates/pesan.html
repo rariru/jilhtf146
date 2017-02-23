@@ -1,6 +1,6 @@
 <ion-view id="pesan" title="Pesan">
     <ion-nav-title>{{restoran.namaResto}}</ion-nav-title>
-    <ion-content lazy-scroll class="has-header has-footer">
+    <ion-content lazy-scroll overflow-scroll="false" class="has-header has-footer">
         <ion-refresher
             on-refresh="getMenus()"
             spinner = "ripple" >
