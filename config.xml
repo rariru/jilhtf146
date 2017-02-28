@@ -88,6 +88,9 @@
   <allow-navigation href="http://192.168.8.102:8101"/>
   <allow-navigation href="http://192.168.100.3:8101"/>
   <allow-navigation href="http://192.168.8.105:8100"/>
+  <allow-navigation href="http://192.168.100.13:8100"/>
+  <allow-navigation href="http://192.168.8.101:8100"/>
+  <allow-navigation href="http://192.168.8.100:8100"/>
   <plugin name="cordova-plugin-firebase" spec="~0.1.18"/>
   <plugin name="ionic-plugin-deeplinks" source="npm">
     <param name="URL_SCHEME" value="mangan"/>

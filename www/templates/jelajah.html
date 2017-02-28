@@ -5,7 +5,7 @@
                 <div style="min-height: 37px; min-width: 37px; background-color: rgb(230, 231, 232); text-align:center; margin-right: 10px;">
                     <i class="icon ion-search placeholder-icon" style="font-size: 20px; line-height: 40px;"></i>
                 </div>
-                <input type="search" placeholder="Cari" ng-model="user.query" style="font-size: 14px;" ion-ripple>
+                <input type="search" placeholder="Cari" ng-model="user.query" ng-focus="typeSearch()" style="font-size: 14px;" ion-ripple>
             </label>
         </form>
         <!-- If transaksi done, ng-hide -->
@@ -140,7 +140,7 @@
         </ion-slides> -->
 
         <!-- Slider Dinamis -->
-        <ion-slides ng-show="sliders || sliders.length > 0" options="sliderOptions" class="row" style="width: 100%; padding: 0; height: 35%; margin-bottom: 0px">
+        <ion-slides ng-show="sliders || sliders.length > 0" options="sliderOptions" class="row" style="width: 100%; padding: 0; height: 170px; margin-bottom: 0px">
             <ion-slide-page ng-repeat="slider in sliders" ng-click="gotoURL(slider.index, slider.linkUrl, slider.tel)" on-swipe-left="next()" on-swipe-right="previous()" ion-ripple>
 
                 <img ng-src="{{ image[$index] }}" style="width: 100%; display: block;">

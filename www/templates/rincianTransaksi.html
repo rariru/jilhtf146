@@ -40,15 +40,15 @@
         			<i class="mangan-invoice-icon icon ion-ios-location"></i>
                     <textarea readonly="true" rows="3" style="" ng-model="detailTransaksi.alamatUser"></textarea>
         		</label>
-                <label class="item-input item-text-wrap mangan-menu">
-                    <i class="mangan-invoice-icon icon ion-ios-location"></i>
+                <label class="item-input item-text-wrap mangan-menu" ng-show="detailTransaksi.alamatUserDetail">
+                    <!-- <i class="mangan-invoice-icon icon ion-ios-location"></i> -->
                     <textarea readonly="true" style="" ng-model="detailTransaksi.alamatUserDetail"></textarea>
                 </label>
         		<label class="item-input item-text-wrap mangan-menu">
         			<i class="mangan-invoice-icon icon ion-android-call"></i>
                     <input type="text" readonly="true" style="" ng-model="detailTransaksi.noTelpUser">
         		</label>
-                <label class="item-input item-text-wrap mangan-menu">
+                <label class="item-input item-text-wrap mangan-menu" ng-show="detailTransaksi.lineUsername">
                     <i class="mangan-invoice-icon icon ion-ios-chatboxes"></i>
                     <input type="text" readonly="true" style="" ng-model="detailTransaksi.lineUsername">
                 </label>
