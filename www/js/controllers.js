@@ -3590,7 +3590,7 @@ angular.module('app.controllers', [])
 							}}).then(function(result) {
 								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
-								Services.updateUserDataLogin($scope.dataUser, $scope.user);
+								Services.updateUserDataLoginFb($scope.dataUser, $scope.user);
 							});
 						} else {
 							// create new data in firebase from Facebook
@@ -3658,7 +3658,7 @@ angular.module('app.controllers', [])
 							}).then(function(result) {
 								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
-								Services.updateUserDataLogin($scope.dataUser, $scope.user);
+								Services.updateUserDataLoginGoogle($scope.dataUser, $scope.user);
 							});
 						} else {
 							// create new data in firebase from Google

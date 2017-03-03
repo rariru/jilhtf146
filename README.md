@@ -70,7 +70,7 @@ want fast?
 
 # IONIC NATIVE (start from version 1.4.3)
 
-	`npm install ionic-native --save`
+	npm install ionic-native --save
 	
 then copy ionic-native folder from node_modules/ to lib/. And add link script in index.html. Last, inject the ionic.native module in angular.module on app.js. Read more at https://www.npmjs.com/package/ionic-native
 
@@ -111,3 +111,4 @@ then copy ionic-native folder from node_modules/ to lib/. And add link script in
 * Bug fixing
 * Analytics Improvements
 * Promo and Slider (hope this can bring money to us) - we running out of money tbh T.T
+* UI Improvement

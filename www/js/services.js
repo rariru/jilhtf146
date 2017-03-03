@@ -445,14 +445,30 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
-	this.updateUserDataLogin = function(userData, user) {
+	this.updateUserDataLoginGoogle = function(userData, user) {
 		var promise = $q.defer();
 
 		refUser.child(userData.id).update({
 			'uid' : user.uid,
 			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
 			'name' : userData.name,
-			'photoUrl' : userData.photoUrl || userData.picture.data.url || userData.picture || null,
+			'photoUrl' : userData.photoUrl ||  userData.picture || null,
+			'device_token' : $localStorage.token
+		}).then(function(result) {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.updateUserDataLoginFb = function(userData, user) {
+		var promise = $q.defer();
+
+		refUser.child(userData.id).update({
+			'uid' : user.uid,
+			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
+			'name' : userData.name,
+			'photoUrl' : userData.photoUrl || userData.picture.data.url || null,
 			'device_token' : $localStorage.token
 		}).then(function(result) {
 			promise.resolve(true);
