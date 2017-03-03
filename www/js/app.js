@@ -12,7 +12,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
   version: 100018
 })
 
-.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage, $timeout, $cordovaDeeplinks, $state) {
+.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage, $timeout, $cordovaDeeplinks, $state, Analytics) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -50,6 +50,8 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 
       // Check notification Body (notification from us)
       // From us, there is body attribute
+      Analytics.logEvent('Ads', 'Notification', notification.index);
+      console.log(notification.index);
       if (notification.body) {
         // Foreground, tap = false
         if (notification.tap == false) {
@@ -58,6 +60,10 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
             template: notification.body,
             okText: 'OK',
             okType: 'button-oren'
+          }).then(function(res) {
+            if (res && notification.restoran) {
+              $state.go('tabsController.restoran', {'index': notification.restoran});
+            }
           });
         }
         // Background
@@ -67,6 +73,10 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
             template: notification.body,
             okText: 'OK',
             okType: 'button-oren'
+          }).then(function(res) {
+            if (res && notification.restoran) {
+              $state.go('tabsController.restoran', {'index': notification.restoran});
+            }
           });
         }
       } else {

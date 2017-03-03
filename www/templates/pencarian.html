@@ -24,7 +24,7 @@
                         <i class="mangan-rating-icon icon ion-star" style="color:yellow; font-size: 20px;"></i>
                     </span> -->
                 </div>
-                <a ui-sref="tabsController.restoran({index: restoran.index})"><img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50"></a>
+                <img image-lazy-src="{{restoran.gambar[0]}}" ng-click="openRestoran(restoran.index, true)" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50">
             </div>
                 <a ui-sref="tabsController.restoran({index: restoran.index})">
                     <div class="row mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'">
@@ -64,7 +64,7 @@
                     </button>
                 </span>
                  <span class="col col-25" style="padding:0;" ion-ripple>
-                    <button class="mangan-tombol-aksi" ui-sref="tabsController.restoran({index: restoran.index})">
+                    <button class="mangan-tombol-aksi" ng-click="openRestoran(restoran.index, false)">
                         <i class="mangan-icon icon ion-more"></i>
                     </button>
                 </span>
