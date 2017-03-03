@@ -1885,9 +1885,10 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading, Analytics) {
+.controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading, Analytics, $http, GoogleMaps) {
 	$scope.category = 'Terdekat';
 	$scope.restoranList = {};
+	$scope.nodata = true;
 
 	$ionicLoading.show({
 		template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
@@ -2039,13 +2040,35 @@ angular.module('app.controllers', [])
 				// btw. menghitung jarak nya offline pake Haversine formula, soale aku liat di gmap retrieve data ne
 				//		harus nunggu konek dulu (kyk promise). Tapi nek semisal ternyata dari gmap bisa lsg retrieve jarak
 				//		berarti ganti fungsi gmap tsb aja
-				// for (var key in restorans) {
-				// 	if (restorans.hasOwnProperty(key)) {
-				// 		$scope.restoranList[key] = restorans[key];
-				// 		$scope.restoranList[key].jarak = getDistance(coords.latitude, coords.longitude, restorans[key].map.lat, restorans[key].map.long);
-				// 		console.log('dist-'+ key +' : '+ $scope.restoranList[key].jarak);
-				// 	}
-				// }
+				for (var key in restorans) {
+					if (restorans.hasOwnProperty(key)) {
+						
+						$scope.nodata = false;
+						$scope.restoranList[key] = restorans[key];
+						$scope.restoranList[key].jarak = getDistance(coords.latitude, coords.longitude, restorans[key].map.lat, restorans[key].map.long);
+
+						var oLat = coords.latitude;
+						var oLong = coords.longitude;
+						var dLat = restorans[key].map.lat;
+						var dLong = restorans[key].map.long;
+						var url = 'https://maps.googleapis.com/maps/api/distancematrix/';
+						var type = 'json';
+						var key = 'AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ';
+						$http.get(url+type+'?origins='+oLat+','+oLong+'&destinations='+dLat+','+dLong+'&key='+key).then(function(result) {
+							console.log('data success');
+							// $scope.restoranList[key].jarak = result.rows[0].elements[0].distance.text;
+							$scope.restoranList[key].jarak = result.rows[0].elements[0].distance.value;
+							// $scope.distanceInMeter = result.rows[0].elements[0].distance.value;
+							// $scope.duration = result.rows[0].elements[0].duration.text;
+							// $scope.durationInSecond = result.rows[0].elements[0].duration.value;
+						}, function(error) {
+							console.log('error: '+ JSON.stringify(error));
+							
+						});
+						// console.log(url+type+'?origins='+oLat+','+oLong+'&destinations='+dLat+','+dLong+'&key='+key);
+						// console.log('dist-'+ key +' : '+ $scope.restoranList[key].jarak);
+					}
+				}
 			} else {
 				console.log('no resto');
 			}
