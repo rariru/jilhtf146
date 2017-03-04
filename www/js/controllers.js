@@ -3047,14 +3047,14 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading, Analytics, $http, $localStorage) {
+.controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading, Analytics, $http, GoogleMaps, $localStorage) {
 	$scope.category = 'Terdekat';
 	$scope.restoranList = {};
 	$scope.nodata = true;
 
 	$ionicLoading.show({
 		template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
-		timeout: 10000
+		timeout: 5000
 	});
 
 	$scope.$on('$ionicView.enter', function() {

@@ -1,5 +1,5 @@
 <ion-view view-title="Profil" id="profil">
-  <ion-content>
+  <ion-content overflow-scroll="false" class="has-header">
     <div id="content" style="position: relative;">
       <div class="list">
         <div id="profile-image">
@@ -37,10 +37,10 @@
             <input type="number" placeholder="Nomor Telepon" style="" ng-model="dataUser.noTelpUser">
           </label>
 
-          <!-- <label class="item-input mangan-menu">
+          <label class="item-input mangan-menu">
             <i class="mangan-invoice-icon icon ion-ios-chatboxes"></i>
-            <input type="text" style="font-size: 16px;" ng-model="dataUser.lineUsername" placeholder="LINE username">
-          </label> -->
+            <input type="text" ng-model="dataUser.lineUsername" placeholder="LINE username">
+          </label>
         </div>
       </div>
 
