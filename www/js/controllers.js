@@ -3047,15 +3047,14 @@ angular.module('app.controllers', [])
 	}
 })
 
-
-.controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading, Analytics, $http, GoogleMaps, $localStorage) {
+.controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading, Analytics, $http, $localStorage) {
 	$scope.category = 'Terdekat';
 	$scope.restoranList = {};
 	$scope.nodata = true;
 
 	$ionicLoading.show({
 		template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
-		timeout: 5000
+		timeout: 10000
 	});
 
 	$scope.$on('$ionicView.enter', function() {
@@ -3080,7 +3079,7 @@ angular.module('app.controllers', [])
 	};
 
 	var options = {
-		timeout: 5000,
+		timeout: 10000,
 		enableHighAccuracy: true
 	};
 
@@ -3168,6 +3167,17 @@ angular.module('app.controllers', [])
 	}
 
 	function addMarkers() {
+		// $http.get('https://maps.googleapis.com/maps/api/distancematrix/json?origins=-7.5652923,110.8107396&destinations=-7.563843,110.81101&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ').success(function(result) {
+		// 					console.log('data success');
+		// 					alert(JSON.stringify(result));
+		// 					// $scope.restoranList[key].jarak = result.rows[0].elements[0].distance.text;
+		// 					$scope.restoranList[key].jarak = result.rows[0].elements[0].distance.value;
+		// 					// $scope.distanceInMeter = result.rows[0].elements[0].distance.value;
+		// 					// $scope.duration = result.rows[0].elements[0].duration.text;
+		// 					// $scope.durationInSecond = result.rows[0].elements[0].duration.value;
+		// 				}).error(function(error) {
+		// 					alert('error: '+ JSON.stringify(error));
+		// 				});
 
 		// $ionicLoading.show({
 		// 	template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
@@ -3244,26 +3254,31 @@ angular.module('app.controllers', [])
 						
 						$scope.nodata = false;
 						$scope.restoranList[key] = restorans[key];
-						$scope.restoranList[key].jarak = getDistance(coords.latitude, coords.longitude, restorans[key].map.lat, restorans[key].map.long);
+						// $scope.restoranList[key].jarak = getDistance(coords.latitude, coords.longitude, restorans[key].map.lat, restorans[key].map.long);
+						// $scope.restoranList[key].jarak = 0;
 
 						var oLat = coords.latitude;
 						var oLong = coords.longitude;
 						var dLat = restorans[key].map.lat;
 						var dLong = restorans[key].map.long;
-						var url = 'https://maps.googleapis.com/maps/api/distancematrix/';
-						var type = 'json';
-						var key = 'AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ';
-						$http.get(url+type+'?origins='+oLat+','+oLong+'&destinations='+dLat+','+dLong+'&key='+key).then(function(result) {
-							console.log('data success');
-							// $scope.restoranList[key].jarak = result.rows[0].elements[0].distance.text;
-							$scope.restoranList[key].jarak = result.rows[0].elements[0].distance.value;
-							// $scope.distanceInMeter = result.rows[0].elements[0].distance.value;
-							// $scope.duration = result.rows[0].elements[0].duration.text;
-							// $scope.durationInSecond = result.rows[0].elements[0].duration.value;
-						}, function(error) {
-							console.log('error: '+ JSON.stringify(error));
-							
-						});
+						// $scope.restoranList[key].jarak = getDistanceMatrix(oLat, oLong, dLat, dLong);
+						getDistanceMatrix(oLat, oLong, dLat, dLong, key);
+
+						// var url = 'https://maps.googleapis.com/maps/api/distancematrix/';
+						// var type = 'json';
+						// var key = 'AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ';
+						// $http.get(url+type+'?origins='+oLat+','+oLong+'&destinations='+dLat+','+dLong+'&key='+key).then(function(result) {
+						// 	console.log('data success');
+						// 	// $scope.restoranList[key].jarak = result.rows[0].elements[0].distance.text;
+						// 	$scope.restoranList[key].jarak = result.rows[0].elements[0].distance.value;
+						// 	alert(JSON.stringify(result));
+						// 	// $scope.distanceInMeter = result.rows[0].elements[0].distance.value;
+						// 	// $scope.duration = result.rows[0].elements[0].duration.text;
+						// 	// $scope.durationInSecond = result.rows[0].elements[0].duration.value;
+						// }, function(error) {
+						// 	console.log('error: '+ JSON.stringify(error));
+						// 	alert('ALERT');
+						// });
 						// console.log(url+type+'?origins='+oLat+','+oLong+'&destinations='+dLat+','+dLong+'&key='+key);
 						// console.log('dist-'+ key +' : '+ $scope.restoranList[key].jarak);
 					}
@@ -3284,6 +3299,21 @@ angular.module('app.controllers', [])
 			console.log(reason);
 
 			$ionicLoading.hide();
+		});
+	}
+
+	function getDistanceMatrix(oLat, oLong, dLat, dLong, keyResto) {
+		var url = 'https://maps.googleapis.com/maps/api/distancematrix/';
+		var type = 'json';
+		var key = 'AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ';
+		$http.get(url+type+'?origins='+oLat+','+oLong+'&destinations='+dLat+','+dLong+'&key='+key).success(function(result) {
+			// alert(result.rows[0].elements[0].distance.value);
+			// var distance = result.rows[0].elements[0].distance.value;
+			$scope.restoranList[keyResto].jarak = result.rows[0].elements[0].distance.value;
+		}).error(function(error) {
+			console.log('error: '+ JSON.stringify(error));
+			// alert('ALERT');
+			$scope.restoranList[keyResto].jarak = getDistance(oLat, oLong, dLat,dLong);
 		});
 	}
 
@@ -4872,6 +4902,7 @@ angular.module('app.controllers', [])
 		$scope.sadSelected = true;
 		$scope.happySelected = false;
 		$scope.favoriteSelected = false;
+		$scope.user.rating = 1;
 	};
 
 	$scope.happyFeedbackCallback = function() {
@@ -4879,6 +4910,7 @@ angular.module('app.controllers', [])
 		$scope.sadSelected = false;
 		$scope.happySelected = true;
 		$scope.favoriteSelected = false;
+		$scope.user.rating = 3;
 	};
 
 	$scope.favoriteFeedbackCallback = function() {
@@ -4886,6 +4918,7 @@ angular.module('app.controllers', [])
 		$scope.sadSelected = false;
 		$scope.happySelected = false;
 		$scope.favoriteSelected = true;
+		$scope.user.rating = 5;
 	};
 
 	$scope.saveRatingReview = function() {
@@ -4906,12 +4939,14 @@ angular.module('app.controllers', [])
 						$scope.dataUser = dataUser;
 						console.log(JSON.stringify(dataUser));
 						Services.updateRatingReview(
+							$scope.dataUser.index,
 							$scope.indexResto, 
 							$scope.dataUser.name, 
 							$scope.dataUser.photoUrl,
 							$scope.user.rating,
 							$scope.user.titleReview,
-							$scope.user.review
+							$scope.user.review,
+							$scope.user.emoji
 						).then(function(result) {
 							if($scope.sadSelected) {
 								Services.updateJmlSad($scope.indexResto).then(function(result) {

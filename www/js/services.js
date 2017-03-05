@@ -242,7 +242,7 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
-	this.updateRatingReview = function(resto, user, userPhotoUrl, userRating, titleReview, userReview) {
+	this.updateRatingReview = function(userIndex, resto, user, userPhotoUrl, userRating, titleReview, userReview, emoji) {
 		// this.getRestoranReviews(resto).then(function(result) {
 		// 	var ratingReviews = result;
 		// 	console.log(ratingReviews);
@@ -280,11 +280,13 @@ angular.module('app.services', [])
 
 		// 2. ini versi add, 1 user bisa nambah komen berapapun
 		review.child(resto).push({
+			'indexUser': userIndex,
 			'rating': userRating,
 			'titleReview': titleReview || null,
 			'review' : userReview || null,
 			'username': user,
 			'userPhotoUrl': userPhotoUrl,
+			'emoji': emoji,
 			'tglReview': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
 			promise.resolve(true);
@@ -854,22 +856,4 @@ angular.module('app.services', [])
 		return "img/cat.jpg";
 	}
 })
-
-
-.factory('GoogleMaps', function($http){
-	var url = "https://maps.googleapis.com/maps/api/distancematrix/";
-	var type = "json";
-	var key = 'AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ';
-	return {
-		distance: function() {
-			console.log('call get');
-			return $http.get('https://maps.googleapis.com/maps/api/distancematrix/json?origins=-7.5582992,110.8570153&destinations=-7.555757,110.847021&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ', {
-				headers: {
-					'Access-Control-Allow-Origin': '*',
-					'Content-Type': 'application/json; charset=UTF-8;'
-				}
-			})
-		}
-	}
-});
 

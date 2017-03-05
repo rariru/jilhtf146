@@ -7,7 +7,7 @@
 
       
         <div class="list mangan-menu">
-          <label class="item item-input item-select" style="">
+          <label class="item item-input item-select" style="" ng-hide="true">
             <div class="input-label">
               Lihat Kota Lain
             </div>
@@ -32,7 +32,8 @@
             <div class="row">
 	            <div class="col col-25">
 	            	<div><img src="img/marker.png"></div>
-	            	<div>{{restoran.jarak/100 | number:2}} KM</div>
+                    <div ng-show="restoran.jarak >= 500">{{restoran.jarak/1000 | number:2}} km</div>
+	            	<div ng-show="restoran.jarak < 500">{{restoran.jarak | number:0}} meter</div>
 	            </div>
 	            <div class="col col-75">
 	            	<h4>{{restoran.namaResto}}</h4>
