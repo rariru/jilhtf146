@@ -111,6 +111,4 @@ then copy ionic-native folder from node_modules/ to lib/. And add link script in
 * Bug fixing
 * Analytics Improvements
 * Promo and Slider (hope this can bring money to us) - we running out of money tbh T.T
-
-### 1.4.4
 * list nearest restaurant on tab 'terdekat'

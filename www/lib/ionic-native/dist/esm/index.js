@@ -2,11 +2,15 @@ import { initAngular1 } from './ng1';
 var DEVICE_READY_TIMEOUT = 5000;
 import { ActionSheet } from './plugins/actionsheet';
 import { AdMob } from './plugins/admob';
+import { Alipay } from './plugins/alipay';
 import { AndroidFingerprintAuth } from './plugins/android-fingerprint-auth';
 import { AppAvailability } from './plugins/appavailability';
+import { Appodeal } from './plugins/appodeal';
 import { AppRate } from './plugins/apprate';
+import { AppUpdate } from './plugins/app-update';
 import { AppVersion } from './plugins/appversion';
 import { Badge } from './plugins/badge';
+import { BackgroundFetch } from './plugins/background-fetch';
 import { BackgroundGeolocation } from './plugins/background-geolocation';
 import { BackgroundMode } from './plugins/backgroundmode';
 import { Backlight } from './plugins/backlight';
@@ -14,6 +18,7 @@ import { BarcodeScanner } from './plugins/barcodescanner';
 import { Base64ToGallery } from './plugins/base64togallery';
 import { BatteryStatus } from './plugins/batterystatus';
 import { Brightness } from './plugins/brightness';
+import { BrowserTab } from './plugins/browser-tab';
 import { BLE } from './plugins/ble';
 import { BluetoothSerial } from './plugins/bluetoothserial';
 import { Broadcaster } from './plugins/broadcaster';
@@ -25,6 +30,7 @@ import { CardIO } from './plugins/card-io';
 import { Clipboard } from './plugins/clipboard';
 import { CodePush } from './plugins/code-push';
 import { Contacts } from './plugins/contacts';
+import { CouchbaseLite } from './plugins/couchbase-lite';
 import { Crop } from './plugins/crop';
 import { DatePicker } from './plugins/datepicker';
 import { DBMeter } from './plugins/dbmeter';
@@ -53,6 +59,7 @@ import { Globalization } from './plugins/globalization';
 import { GooglePlus } from './plugins/google-plus';
 import { GoogleMap } from './plugins/googlemap';
 import { GoogleAnalytics } from './plugins/googleanalytics';
+import { Gyroscope } from './plugins/gyroscope';
 import { HeaderColor } from './plugins/headercolor';
 import { Hotspot } from './plugins/hotspot';
 import { HTTP } from './plugins/http';
@@ -114,6 +121,7 @@ import { TouchID } from './plugins/touchid';
 import { TextToSpeech } from './plugins/text-to-speech';
 import { ThemeableBrowser } from './plugins/themeable-browser';
 import { TwitterConnect } from './plugins/twitter-connect';
+import { UniqueDeviceID } from './plugins/unique-device-id';
 import { Vibration } from './plugins/vibration';
 import { VideoEditor } from './plugins/video-editor';
 import { VideoPlayer } from './plugins/video-player';
@@ -124,10 +132,14 @@ import { Zip } from './plugins/zip';
 export * from './plugins/3dtouch';
 export * from './plugins/actionsheet';
 export * from './plugins/admob';
+export * from './plugins/alipay';
 export * from './plugins/android-fingerprint-auth';
 export * from './plugins/appavailability';
+export * from './plugins/appodeal';
 export * from './plugins/apprate';
+export * from './plugins/app-update';
 export * from './plugins/appversion';
+export * from './plugins/background-fetch';
 export * from './plugins/background-geolocation';
 export * from './plugins/backgroundmode';
 export * from './plugins/backlight';
@@ -138,6 +150,7 @@ export * from './plugins/batterystatus';
 export * from './plugins/ble';
 export * from './plugins/bluetoothserial';
 export * from './plugins/brightness';
+export * from './plugins/browser-tab';
 export * from './plugins/broadcaster';
 export * from './plugins/calendar';
 export * from './plugins/call-number';
@@ -147,6 +160,7 @@ export * from './plugins/card-io';
 export * from './plugins/clipboard';
 export * from './plugins/code-push';
 export * from './plugins/contacts';
+export * from './plugins/couchbase-lite';
 export * from './plugins/crop';
 export * from './plugins/datepicker';
 export * from './plugins/dbmeter';
@@ -175,6 +189,7 @@ export * from './plugins/globalization';
 export * from './plugins/google-plus';
 export * from './plugins/googleanalytics';
 export * from './plugins/googlemap';
+export * from './plugins/gyroscope';
 export * from './plugins/headercolor';
 export * from './plugins/hotspot';
 export * from './plugins/http';
@@ -236,6 +251,7 @@ export * from './plugins/themeable-browser';
 export * from './plugins/toast';
 export * from './plugins/touchid';
 export * from './plugins/twitter-connect';
+export * from './plugins/unique-device-id';
 export * from './plugins/vibration';
 export * from './plugins/video-editor';
 export * from './plugins/video-player';
@@ -247,18 +263,23 @@ export * from './plugins/zip';
 window['IonicNative'] = {
     ActionSheet: ActionSheet,
     AdMob: AdMob,
+    Alipay: Alipay,
     AndroidFingerprintAuth: AndroidFingerprintAuth,
     AppAvailability: AppAvailability,
+    Appodeal: Appodeal,
     AppRate: AppRate,
+    AppUpdate: AppUpdate,
     AppVersion: AppVersion,
     Badge: Badge,
     BackgroundGeolocation: BackgroundGeolocation,
+    BackgroundFetch: BackgroundFetch,
     BackgroundMode: BackgroundMode,
     Backlight: Backlight,
     BarcodeScanner: BarcodeScanner,
     Base64ToGallery: Base64ToGallery,
     BatteryStatus: BatteryStatus,
     Brightness: Brightness,
+    BrowserTab: BrowserTab,
     BLE: BLE,
     BluetoothSerial: BluetoothSerial,
     Broadcaster: Broadcaster,
@@ -270,6 +291,7 @@ window['IonicNative'] = {
     Clipboard: Clipboard,
     CodePush: CodePush,
     Contacts: Contacts,
+    CouchbaseLite: CouchbaseLite,
     Crop: Crop,
     DatePicker: DatePicker,
     DBMeter: DBMeter,
@@ -297,6 +319,7 @@ window['IonicNative'] = {
     GooglePlus: GooglePlus,
     GoogleMap: GoogleMap,
     GoogleAnalytics: GoogleAnalytics,
+    Gyroscope: Gyroscope,
     HeaderColor: HeaderColor,
     Hotspot: Hotspot,
     HTTP: HTTP,
@@ -359,6 +382,7 @@ window['IonicNative'] = {
     TextToSpeech: TextToSpeech,
     ThemeableBrowser: ThemeableBrowser,
     TwitterConnect: TwitterConnect,
+    UniqueDeviceID: UniqueDeviceID,
     VideoEditor: VideoEditor,
     VideoPlayer: VideoPlayer,
     Vibration: Vibration,
