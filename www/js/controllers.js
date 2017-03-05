@@ -3047,14 +3047,14 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading, Analytics, $http, GoogleMaps, $localStorage) {
+.controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading, Analytics, $http, $localStorage) {
 	$scope.category = 'Terdekat';
 	$scope.restoranList = {};
 	$scope.nodata = true;
 
 	$ionicLoading.show({
 		template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
-		timeout: 5000
+		timeout: 10000
 	});
 
 	$scope.$on('$ionicView.enter', function() {
@@ -3261,8 +3261,8 @@ angular.module('app.controllers', [])
 						var oLong = coords.longitude;
 						var dLat = restorans[key].map.lat;
 						var dLong = restorans[key].map.long;
-						// $scope.restoranList[key].jarak = getDistanceMatrix(key, oLat, oLong, dLat, dLong);
-						getDistanceMatrix(key, oLat, oLong, dLat, dLong);
+						// $scope.restoranList[key].jarak = getDistanceMatrix(oLat, oLong, dLat, dLong);
+						getDistanceMatrix(oLat, oLong, dLat, dLong, key);
 
 						// var url = 'https://maps.googleapis.com/maps/api/distancematrix/';
 						// var type = 'json';
@@ -3302,18 +3302,18 @@ angular.module('app.controllers', [])
 		});
 	}
 
-	function getDistanceMatrix(keyResto, oLat, oLong, dLat, dLong, key) {
+	function getDistanceMatrix(oLat, oLong, dLat, dLong, keyResto) {
 		var url = 'https://maps.googleapis.com/maps/api/distancematrix/';
 		var type = 'json';
 		var key = 'AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ';
-		$scope.restoranList[keyResto].jarak = getDistance(oLat, oLong, dLat, dLong);
 		$http.get(url+type+'?origins='+oLat+','+oLong+'&destinations='+dLat+','+dLong+'&key='+key).success(function(result) {
-			alert(result.rows[0].elements[0].distance.value);
-			var distance = result.rows[0].elements[0].distance.value;
-			$scope.restoranList[keyResto].jarak = distance;
+			// alert(result.rows[0].elements[0].distance.value);
+			// var distance = result.rows[0].elements[0].distance.value;
+			$scope.restoranList[keyResto].jarak = result.rows[0].elements[0].distance.value;
 		}).error(function(error) {
 			console.log('error: '+ JSON.stringify(error));
-			alert('ALERT');
+			// alert('ALERT');
+			$scope.restoranList[keyResto].jarak = getDistance(oLat, oLong, dLat,dLong);
 		});
 	}
 
