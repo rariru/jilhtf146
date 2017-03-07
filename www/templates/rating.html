@@ -1,12 +1,15 @@
-<div class="mangan-modal-container">
-	<ion-modal-view class="mangan-modal-review" scroll="false">
+<!-- <div class="mangan-modal-container"> -->
+	<ion-modal-view class="">
 		<ion-header-bar class="bar bar-header bar-balanced">
-			<h1 class="title">Rating dan Ulasan</h1>
+			<h1 class="title">Tulis Rating dan Ulasan</h1>
 			<button class="button button-primary" ng-click="modalRating.hide()"><span class="icon ion-close"></span></button>
 		</ion-header-bar>
 
-		<ion-content has-header="true" padding="true">
-			<div class="mangan-rating">
+		<ion-content has-header="true" padding="true" overflow-scroll="false" class="has-footer">
+			<div class="item item-text-wrap mangan-rating" style="border:0;">
+				<div class="" style="background-color: white; color: #4d544d; font-size: 18px;">
+                    <span class="col" style="text-align: center; margin-bottom: 10px;">{{namaResto}}</span>
+                </div>
 				 <div class="row">
                         <span class="col" style="padding:0; text-align:center;" ng-click="sadFeedbackCallback()" ion-ripple>
                         	<img src="data:image/svg+xml;utf8;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iaXNvLTg4NTktMSI/Pgo8IS0tIEdlbmVyYXRvcjogQWRvYmUgSWxsdXN0cmF0b3IgMTguMC4wLCBTVkcgRXhwb3J0IFBsdWctSW4gLiBTVkcgVmVyc2lvbjogNi4wMCBCdWlsZCAwKSAgLS0+CjwhRE9DVFlQRSBzdmcgUFVCTElDICItLy9XM0MvL0RURCBTVkcgMS4xLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL0dyYXBoaWNzL1NWRy8xLjEvRFREL3N2ZzExLmR0ZCI+CjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgdmVyc2lvbj0iMS4xIiBpZD0iQ2FwYV8xIiB4PSIwcHgiIHk9IjBweCIgdmlld0JveD0iMCAwIDQyIDQyIiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA0MiA0MjsiIHhtbDpzcGFjZT0icHJlc2VydmUiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSI1MTJweCI+CjxnPgoJPGNpcmNsZSBzdHlsZT0iZmlsbDojRkJEOTcxOyIgY3g9IjIxIiBjeT0iMjEiIHI9IjIxIi8+Cgk8Y2lyY2xlIHN0eWxlPSJmaWxsOiNBRjgwNjY7IiBjeD0iMTMiIGN5PSIxMy41IiByPSIzLjUiLz4KCTxjaXJjbGUgc3R5bGU9ImZpbGw6I0FGODA2NjsiIGN4PSIyOSIgY3k9IjEzLjUiIHI9IjMuNSIvPgoJPHBhdGggc3R5bGU9ImZpbGw6I0YwQzQxOTsiIGQ9Ik0zMiwzNWMtMC41NTIsMC0xLTAuNDQ4LTEtMWMwLTUuNTE0LTQuNDg2LTEwLTEwLTEwcy0xMCw0LjQ4Ni0xMCwxMGMwLDAuNTUyLTAuNDQ4LDEtMSwxICAgcy0xLTAuNDQ4LTEtMWMwLTYuNjE3LDUuMzgzLTEyLDEyLTEyczEyLDUuMzgzLDEyLDEyQzMzLDM0LjU1MiwzMi41NTIsMzUsMzIsMzV6Ii8+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPGc+CjwvZz4KPC9zdmc+Cg==" style="width:30px; height:30px;" /><br><p style="color:#cecece;" ng-hide="sadSelected">Sad</p><p style="color:#ff6a32;" ng-show="sadSelected">Sad</p></br>
@@ -21,19 +24,17 @@
 			</div>
 
 			<div class="list item-text-wrap mangan-menu">
+				
 				<label class="item item-input item-stacked-label mangan-menu">
         			<span class="input-label" style="color:rgb(1,177,178); font-weight: bold;">Judul Ulasan</span><input type="text" ng-model="user.titleReview">
         		</label>
-        		<label class="item item-input item-stacked-label mangan-menu">
-        			<span class="input-label" style="color:rgb(1,177,178); font-weight: bold;">Ulasan</span><textarea rows="4" ng-model="user.review"></textarea>
+        		<label class="item item-input item-stacked-label mangan-menu" style="border-bottom:0px;">
+        			<span class="input-label" style="color:rgb(1,177,178); font-weight: bold;">Ulasan</span><textarea rows="10" ng-model="user.review"></textarea>
         		</label>
         	</div>
 		</ion-content>
 
-		<ion-footer-bar class="bar bar-footer bar-balanced">
-			<div class="mangan-review-button title">
-				<button class="button button-small" ng-click="saveRatingReview()" style="margin: auto;" ion-ripple>SIMPAN</button>
-			</div>
-		</ion-footer-bar>
+		<button class="button button-full button-balanced" ng-click="saveRatingReview()" style="position:fixed; border-top-right-radius:0px; border-top-left-radius:0px;border-bottom-right-radius:0px;border-bottom-left-radius:0px;margin-bottom:0px; bottom:0px;left:0px;right:0px;" ion-ripple>Simpan
+		</button>
 	</ion-modal-view>
-</div>
+<!-- </div> -->

@@ -148,7 +148,8 @@ angular.module('app.routes', ['ionicUIRouter'])
       }
     },
     params: {
-      index: null
+      index: null,
+      delivery: null
     }
   })
 

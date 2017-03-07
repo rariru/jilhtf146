@@ -1271,7 +1271,7 @@ angular.module('app.controllers', [])
 		}
 	}
 
-	$scope.openMenuBook = function(index) {
+	$scope.openMenuBook = function(index, delivery) {
 		// trackMerchant
 		Analytics.logMerchant(index, 'Buku Menu');
 		// trackEvent
@@ -1290,7 +1290,7 @@ angular.module('app.controllers', [])
 			index,
 			"Buku Menu"
 		]);
-		$state.go('tabsController.menus', {'index': index});
+		$state.go('tabsController.menus', {'index': index, 'delivery': delivery});
 	}
 
 	function makeToast(_message) {
@@ -1461,10 +1461,10 @@ angular.module('app.controllers', [])
 
 									///////////////////
 									// fitur pesan
-									if ($scope.restoran.delivery) {
+									if ($stateParams.delivery) {
 										var user = firebase.auth().currentUser;
 										if (user) {
-											$state.go('tabsController.pesan', {'index': $scope.restoran.index});
+											$state.go('tabsController.pesan', {'index': $stateParams.index});
 										} else {
 											$state.go('login');
 										}
@@ -3050,7 +3050,7 @@ angular.module('app.controllers', [])
 .controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading, Analytics, $http, $localStorage) {
 	$scope.category = 'Terdekat';
 	$scope.restoranList = {};
-	$scope.nodata = true;
+	$scope.nodata = false;
 
 	$ionicLoading.show({
 		template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
@@ -3115,15 +3115,15 @@ angular.module('app.controllers', [])
 			"GPS",
 			'Not Found'
 		]);
+		$ionicLoading.hide();
 
 		$ionicPopup.alert({
 			title: 'Error',
 			template: 'Tidak dapat menemukan sinyal GPS!',
 			okText: 'OK',
 			okType: 'button-oren'
-		}).then(function(res) {
-			showMap();
 		});
+		showMap();
 	});
 
 
@@ -3251,40 +3251,19 @@ angular.module('app.controllers', [])
 				//		berarti ganti fungsi gmap tsb aja
 				for (var key in restorans) {
 					if (restorans.hasOwnProperty(key)) {
-						
-						$scope.nodata = false;
 						$scope.restoranList[key] = restorans[key];
-						// $scope.restoranList[key].jarak = getDistance(coords.latitude, coords.longitude, restorans[key].map.lat, restorans[key].map.long);
-						// $scope.restoranList[key].jarak = 0;
 
 						var oLat = coords.latitude;
 						var oLong = coords.longitude;
 						var dLat = restorans[key].map.lat;
 						var dLong = restorans[key].map.long;
-						// $scope.restoranList[key].jarak = getDistanceMatrix(oLat, oLong, dLat, dLong);
 						getDistanceMatrix(oLat, oLong, dLat, dLong, key);
-
-						// var url = 'https://maps.googleapis.com/maps/api/distancematrix/';
-						// var type = 'json';
-						// var key = 'AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ';
-						// $http.get(url+type+'?origins='+oLat+','+oLong+'&destinations='+dLat+','+dLong+'&key='+key).then(function(result) {
-						// 	console.log('data success');
-						// 	// $scope.restoranList[key].jarak = result.rows[0].elements[0].distance.text;
-						// 	$scope.restoranList[key].jarak = result.rows[0].elements[0].distance.value;
-						// 	alert(JSON.stringify(result));
-						// 	// $scope.distanceInMeter = result.rows[0].elements[0].distance.value;
-						// 	// $scope.duration = result.rows[0].elements[0].duration.text;
-						// 	// $scope.durationInSecond = result.rows[0].elements[0].duration.value;
-						// }, function(error) {
-						// 	console.log('error: '+ JSON.stringify(error));
-						// 	alert('ALERT');
-						// });
-						// console.log(url+type+'?origins='+oLat+','+oLong+'&destinations='+dLat+','+dLong+'&key='+key);
-						// console.log('dist-'+ key +' : '+ $scope.restoranList[key].jarak);
 					}
 				}
+				$scope.nodata = false;
 			} else {
 				console.log('no resto');
+				$scope.nodata = true;
 			}
 
 			/////////////////////
@@ -3294,10 +3273,11 @@ angular.module('app.controllers', [])
 			// });
 
 			$ionicLoading.hide();
+			$scope.nodata = false;
 		}, function(reason) {
 			console.log('error');
 			console.log(reason);
-
+			$scope.nodata = true;
 			$ionicLoading.hide();
 		});
 	}
@@ -3338,7 +3318,7 @@ angular.module('app.controllers', [])
 	function addInfoWindow(marker, message, index) {
 		// console.log('waaaahaa');
 		var infoWindow = new google.maps.InfoWindow({
-			content: '<div style="width: auto; font-size: 14px;""><center><a ng-click="gotoRestoran('+index+')" href="#/page1/tab1/restoran/'+ index +'" style="text-decoration: none;"><b>'+ message +'</b><p>Lihat</p></a></center></div>',
+			content: '<div style="width: auto; font-size: 14px;""><center><a href="#/page1/tab1/restoran/'+ index +'" style="text-decoration: none; color:black; font-weight: 300;"><b>'+ message +'</b><p>Lihat</p></a></center></div>',
 			maxWidth: 150
 		});
 
@@ -3368,6 +3348,41 @@ angular.module('app.controllers', [])
 		google.maps.event.addDomListener(infoWindow, 'click', function() {
 			console.log(message);
 		});
+	}
+
+	$scope.openRestoran = function(index) {
+		// trackEvent
+		Analytics.logEventArr(['Buka Restoran', 'Terdekat']);
+		Analytics.logEventArr(['Terdekat', 'Buka Restoran']);
+		// trackUser Event
+		Analytics.logUserArr([
+			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+			"trackEvent",
+			"Buka Restoran",
+			"Terdekat"
+		]);
+		Analytics.logUserArr([
+			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+			"trackEvent",
+			"Terdekat",
+			"Buka Restoran"
+		]);
+		$state.go('tabsController.restoran', {index: index});
+	}
+
+
+	$scope.rekomendasikan = function() {
+		// trackEvent
+		Analytics.logEvent('Jelajah', 'Tombol Rekomendasi Restoran');
+
+		// trackUser Event
+		Analytics.logUserArr([
+					$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+					'trackEvent',
+					'Jelajah',
+					'Tombol Rekomendasi Restoran'
+				]);
+		$state.go("tabsController.rekomendasi"); 
 	}
 })
  
@@ -4903,6 +4918,7 @@ angular.module('app.controllers', [])
 		$scope.happySelected = false;
 		$scope.favoriteSelected = false;
 		$scope.user.rating = 1;
+		$scope.user.emoji = 'sad';
 	};
 
 	$scope.happyFeedbackCallback = function() {
@@ -4911,6 +4927,7 @@ angular.module('app.controllers', [])
 		$scope.happySelected = true;
 		$scope.favoriteSelected = false;
 		$scope.user.rating = 3;
+		$scope.user.emoji = 'happy';
 	};
 
 	$scope.favoriteFeedbackCallback = function() {
@@ -4919,6 +4936,7 @@ angular.module('app.controllers', [])
 		$scope.happySelected = false;
 		$scope.favoriteSelected = true;
 		$scope.user.rating = 5;
+		$scope.user.emoji = 'favorite';
 	};
 
 	$scope.saveRatingReview = function() {
@@ -5240,7 +5258,7 @@ angular.module('app.controllers', [])
 		// trackUser View
 		Analytics.logUserArr([
 					$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-					'trackEvent',
+					'trackView',
 					'Rincian Transaksi'
 				]);
 		$scope.getTransaksiDetails();
