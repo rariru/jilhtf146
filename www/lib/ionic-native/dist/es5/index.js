@@ -6,11 +6,15 @@ var ng1_1 = require('./ng1');
 var DEVICE_READY_TIMEOUT = 5000;
 var actionsheet_1 = require('./plugins/actionsheet');
 var admob_1 = require('./plugins/admob');
+var alipay_1 = require('./plugins/alipay');
 var android_fingerprint_auth_1 = require('./plugins/android-fingerprint-auth');
 var appavailability_1 = require('./plugins/appavailability');
+var appodeal_1 = require('./plugins/appodeal');
 var apprate_1 = require('./plugins/apprate');
+var app_update_1 = require('./plugins/app-update');
 var appversion_1 = require('./plugins/appversion');
 var badge_1 = require('./plugins/badge');
+var background_fetch_1 = require('./plugins/background-fetch');
 var background_geolocation_1 = require('./plugins/background-geolocation');
 var backgroundmode_1 = require('./plugins/backgroundmode');
 var backlight_1 = require('./plugins/backlight');
@@ -18,6 +22,7 @@ var barcodescanner_1 = require('./plugins/barcodescanner');
 var base64togallery_1 = require('./plugins/base64togallery');
 var batterystatus_1 = require('./plugins/batterystatus');
 var brightness_1 = require('./plugins/brightness');
+var browser_tab_1 = require('./plugins/browser-tab');
 var ble_1 = require('./plugins/ble');
 var bluetoothserial_1 = require('./plugins/bluetoothserial');
 var broadcaster_1 = require('./plugins/broadcaster');
@@ -29,6 +34,7 @@ var card_io_1 = require('./plugins/card-io');
 var clipboard_1 = require('./plugins/clipboard');
 var code_push_1 = require('./plugins/code-push');
 var contacts_1 = require('./plugins/contacts');
+var couchbase_lite_1 = require('./plugins/couchbase-lite');
 var crop_1 = require('./plugins/crop');
 var datepicker_1 = require('./plugins/datepicker');
 var dbmeter_1 = require('./plugins/dbmeter');
@@ -57,6 +63,7 @@ var globalization_1 = require('./plugins/globalization');
 var google_plus_1 = require('./plugins/google-plus');
 var googlemap_1 = require('./plugins/googlemap');
 var googleanalytics_1 = require('./plugins/googleanalytics');
+var gyroscope_1 = require('./plugins/gyroscope');
 var headercolor_1 = require('./plugins/headercolor');
 var hotspot_1 = require('./plugins/hotspot');
 var http_1 = require('./plugins/http');
@@ -118,6 +125,7 @@ var touchid_1 = require('./plugins/touchid');
 var text_to_speech_1 = require('./plugins/text-to-speech');
 var themeable_browser_1 = require('./plugins/themeable-browser');
 var twitter_connect_1 = require('./plugins/twitter-connect');
+var unique_device_id_1 = require('./plugins/unique-device-id');
 var vibration_1 = require('./plugins/vibration');
 var video_editor_1 = require('./plugins/video-editor');
 var video_player_1 = require('./plugins/video-player');
@@ -128,10 +136,14 @@ var zip_1 = require('./plugins/zip');
 __export(require('./plugins/3dtouch'));
 __export(require('./plugins/actionsheet'));
 __export(require('./plugins/admob'));
+__export(require('./plugins/alipay'));
 __export(require('./plugins/android-fingerprint-auth'));
 __export(require('./plugins/appavailability'));
+__export(require('./plugins/appodeal'));
 __export(require('./plugins/apprate'));
+__export(require('./plugins/app-update'));
 __export(require('./plugins/appversion'));
+__export(require('./plugins/background-fetch'));
 __export(require('./plugins/background-geolocation'));
 __export(require('./plugins/backgroundmode'));
 __export(require('./plugins/backlight'));
@@ -142,6 +154,7 @@ __export(require('./plugins/batterystatus'));
 __export(require('./plugins/ble'));
 __export(require('./plugins/bluetoothserial'));
 __export(require('./plugins/brightness'));
+__export(require('./plugins/browser-tab'));
 __export(require('./plugins/broadcaster'));
 __export(require('./plugins/calendar'));
 __export(require('./plugins/call-number'));
@@ -151,6 +164,7 @@ __export(require('./plugins/card-io'));
 __export(require('./plugins/clipboard'));
 __export(require('./plugins/code-push'));
 __export(require('./plugins/contacts'));
+__export(require('./plugins/couchbase-lite'));
 __export(require('./plugins/crop'));
 __export(require('./plugins/datepicker'));
 __export(require('./plugins/dbmeter'));
@@ -179,6 +193,7 @@ __export(require('./plugins/globalization'));
 __export(require('./plugins/google-plus'));
 __export(require('./plugins/googleanalytics'));
 __export(require('./plugins/googlemap'));
+__export(require('./plugins/gyroscope'));
 __export(require('./plugins/headercolor'));
 __export(require('./plugins/hotspot'));
 __export(require('./plugins/http'));
@@ -240,6 +255,7 @@ __export(require('./plugins/themeable-browser'));
 __export(require('./plugins/toast'));
 __export(require('./plugins/touchid'));
 __export(require('./plugins/twitter-connect'));
+__export(require('./plugins/unique-device-id'));
 __export(require('./plugins/vibration'));
 __export(require('./plugins/video-editor'));
 __export(require('./plugins/video-player'));
@@ -251,18 +267,23 @@ __export(require('./plugins/zip'));
 window['IonicNative'] = {
     ActionSheet: actionsheet_1.ActionSheet,
     AdMob: admob_1.AdMob,
+    Alipay: alipay_1.Alipay,
     AndroidFingerprintAuth: android_fingerprint_auth_1.AndroidFingerprintAuth,
     AppAvailability: appavailability_1.AppAvailability,
+    Appodeal: appodeal_1.Appodeal,
     AppRate: apprate_1.AppRate,
+    AppUpdate: app_update_1.AppUpdate,
     AppVersion: appversion_1.AppVersion,
     Badge: badge_1.Badge,
     BackgroundGeolocation: background_geolocation_1.BackgroundGeolocation,
+    BackgroundFetch: background_fetch_1.BackgroundFetch,
     BackgroundMode: backgroundmode_1.BackgroundMode,
     Backlight: backlight_1.Backlight,
     BarcodeScanner: barcodescanner_1.BarcodeScanner,
     Base64ToGallery: base64togallery_1.Base64ToGallery,
     BatteryStatus: batterystatus_1.BatteryStatus,
     Brightness: brightness_1.Brightness,
+    BrowserTab: browser_tab_1.BrowserTab,
     BLE: ble_1.BLE,
     BluetoothSerial: bluetoothserial_1.BluetoothSerial,
     Broadcaster: broadcaster_1.Broadcaster,
@@ -274,6 +295,7 @@ window['IonicNative'] = {
     Clipboard: clipboard_1.Clipboard,
     CodePush: code_push_1.CodePush,
     Contacts: contacts_1.Contacts,
+    CouchbaseLite: couchbase_lite_1.CouchbaseLite,
     Crop: crop_1.Crop,
     DatePicker: datepicker_1.DatePicker,
     DBMeter: dbmeter_1.DBMeter,
@@ -301,6 +323,7 @@ window['IonicNative'] = {
     GooglePlus: google_plus_1.GooglePlus,
     GoogleMap: googlemap_1.GoogleMap,
     GoogleAnalytics: googleanalytics_1.GoogleAnalytics,
+    Gyroscope: gyroscope_1.Gyroscope,
     HeaderColor: headercolor_1.HeaderColor,
     Hotspot: hotspot_1.Hotspot,
     HTTP: http_1.HTTP,
@@ -363,6 +386,7 @@ window['IonicNative'] = {
     TextToSpeech: text_to_speech_1.TextToSpeech,
     ThemeableBrowser: themeable_browser_1.ThemeableBrowser,
     TwitterConnect: twitter_connect_1.TwitterConnect,
+    UniqueDeviceID: unique_device_id_1.UniqueDeviceID,
     VideoEditor: video_editor_1.VideoEditor,
     VideoPlayer: video_player_1.VideoPlayer,
     Vibration: vibration_1.Vibration,

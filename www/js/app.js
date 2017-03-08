@@ -12,7 +12,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
   version: 100018
 })
 
-.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage, $timeout, $cordovaDeeplinks, $state) {
+.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage, $timeout, $cordovaDeeplinks, $state, Analytics) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -50,7 +50,18 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 
       // Check notification Body (notification from us)
       // From us, there is body attribute
+      console.log(notification.index);
       if (notification.body) {
+        // trackEvent
+        Analytics.logEvent('Ads', 'Notification', notification.index || 'empty');
+        // trackUser Event
+        Analytics.logUserArr([
+                $localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+                'trackEvent',
+                'Ads',
+                'Notification',
+                 notification.index || 'default'
+              ]);
         // Foreground, tap = false
         if (notification.tap == false) {
           $ionicPopup.alert({
@@ -58,6 +69,10 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
             template: notification.body,
             okText: 'OK',
             okType: 'button-oren'
+          }).then(function(res) {
+            if (res && notification.restoran) {
+              $state.go('tabsController.restoran', {'index': notification.restoran});
+            }
           });
         }
         // Background
@@ -67,6 +82,10 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
             template: notification.body,
             okText: 'OK',
             okType: 'button-oren'
+          }).then(function(res) {
+            if (res && notification.restoran) {
+              $state.go('tabsController.restoran', {'index': notification.restoran});
+            }
           });
         }
       } else {
@@ -78,6 +97,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     })
 
     window.FirebasePlugin.subscribe("mangan");
+    Analytics.logEvent('Subscribe', 'mangan');
 
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
