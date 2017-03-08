@@ -9,7 +9,7 @@
         </ion-refresher>
 
         <div class="list" ng-show="dataUser">
-            <a class="mangan-menu item" style="background:url(../img/profile1.jpg);background-position:center;background-size:cover;border-top:0px;border-left:0px;border-right:0px;" ng-click="openProfile(true)" ion-ripple>
+            <a class="mangan-menu item overlay" style="background:url(../img/profile1.jpg);background-position:center;background-size:cover;border-top:0px;border-left:0px;border-right:0px;" ng-click="openProfile(true)" ion-ripple>
                 <center><img ng-src="{{dataUser.photoUrl}}" width="30%" height="auto" style="margin-bottom: 5px; border-radius: 50%;"></center>
                 <center><h2>{{dataUser.name}}</h2></center>
                 <center><p>{{dataUser.email}}</p></center>
@@ -129,7 +129,7 @@
             <center><i class="ion-android-favorite" style="color:#c85054;"></i></center>
             <p style="margin-bottom: 10px;">Kamu belum login, ayo login dulu</p>
             <div class="row">
-                <button ng-show="!dataUser || dataUser == null" class="button button-oren button-outline"  style="width: 50%; display: block; margin: auto;" ng-click="login()" ion-ripple>LOGIN</button>
+                <button ng-show="!dataUser || dataUser == null" class="button button-oren button-small button-outline"  style="width: 50%; display: block; margin: auto;" ng-click="login()" ion-ripple>LOGIN</button>
             </div>
         </div>
     </ion-content>

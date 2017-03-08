@@ -53,7 +53,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
       console.log(notification.index);
       if (notification.body) {
         // trackEvent
-        Analytics.logEvent('Ads', 'Notification', notification.index || 'default');
+        Analytics.logEvent('Ads', 'Notification', notification.index || 'empty');
         // trackUser Event
         Analytics.logUserArr([
                 $localStorage.indexUser? $localStorage.indexUser : $localStorage.token,

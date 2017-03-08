@@ -281,12 +281,12 @@ angular.module('app.services', [])
 		// 2. ini versi add, 1 user bisa nambah komen berapapun
 		review.child(resto).push({
 			'indexUser': userIndex,
-			'rating': userRating,
+			'rating': userRating || null,
 			'titleReview': titleReview || null,
 			'review' : userReview || null,
 			'username': user,
 			'userPhotoUrl': userPhotoUrl,
-			'emoji': emoji,
+			'emoji': emoji || null,
 			'tglReview': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
 			promise.resolve(true);
