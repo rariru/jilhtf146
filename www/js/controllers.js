@@ -1038,7 +1038,7 @@ angular.module('app.controllers', [])
 
 	$scope.shareRestoran = function(index) {
 		var resto = $scope.restoran;
-		var link = 'Selengkapnya di aplikasi MANGAN https://mobilepangan.com/'+resto.index;
+		var link = 'Download apliasinya bit.ly/download-mangan untuk Android dan bit.ly/download-mangan-ios untuk iPhone';
 		var gambar = null;
 		var textshared = resto.namaResto+" - "+resto.keteranganResto+" Buka di aplikasi MANGAN untuk info selengkapnya.";
 
@@ -3066,8 +3066,8 @@ angular.module('app.controllers', [])
 					'trackView',
 					'Terdekat'
 				]);
+		$scope.getTerdekat();
 	});
-
 	//////////////////////////////////////////////////////////////////
 	//
 	// load map, use current location, if not available, use default
@@ -3084,48 +3084,51 @@ angular.module('app.controllers', [])
 	};
 
 	var openedInfo = null;
+	
+	$scope.getTerdekat = function() {
+		$cordovaGeolocation.getCurrentPosition(options).then(function(position) {
 
-	$cordovaGeolocation.getCurrentPosition(options).then(function(position) {
+			if(position) {
+				// trackEvent
+				Analytics.logEvent('Terdekat', 'GPS', 'Found');
+				// trackUser Event
+				Analytics.logUserArr([
+					$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+					"trackEvent",
+					"Terdekat",
+					"GPS",
+					'Found'
+				]);
+				console.log('position aru');
+				coords = position.coords;
+			}
 
-		if(position) {
+			showMap();
+		}, function(error) {
+			console.log("could not get location");
 			// trackEvent
-			Analytics.logEvent('Terdekat', 'GPS', 'Found');
+			Analytics.logEvent('Terdekat', 'GPS', 'Not Found');
 			// trackUser Event
 			Analytics.logUserArr([
 				$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
 				"trackEvent",
 				"Terdekat",
 				"GPS",
-				'Found'
+				'Not Found'
 			]);
-			console.log('position aru');
-			coords = position.coords;
-		}
+			$ionicLoading.hide();
 
-		showMap();
-	}, function(error) {
-		console.log("could not get location");
-		// trackEvent
-		Analytics.logEvent('Terdekat', 'GPS', 'Not Found');
-		// trackUser Event
-		Analytics.logUserArr([
-			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-			"trackEvent",
-			"Terdekat",
-			"GPS",
-			'Not Found'
-		]);
-		$ionicLoading.hide();
-
-		$ionicPopup.alert({
-			title: 'Error',
-			template: 'Tidak dapat menemukan sinyal GPS!',
-			okText: 'OK',
-			okType: 'button-oren'
+			$ionicPopup.alert({
+				title: 'Error',
+				template: 'Tidak dapat menemukan sinyal GPS!',
+				okText: 'OK',
+				okType: 'button-oren'
+			});
+			showMap();
 		});
-		showMap();
-	});
+	}
 
+	$scope.getTerdekat();
 
 	function showMap() {
 

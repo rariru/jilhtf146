@@ -9,7 +9,7 @@
         </ion-refresher>
 
         <div class="list" ng-show="dataUser">
-            <a class="mangan-menu item overlay" style="background:url(../img/profile1.jpg);background-position:center;background-size:cover;border-top:0px;border-left:0px;border-right:0px;" ng-click="openProfile(true)" ion-ripple>
+            <a class="mangan-menu item" ng-click="openProfile(true)" ion-ripple>
                 <center><img ng-src="{{dataUser.photoUrl}}" width="30%" height="auto" style="margin-bottom: 5px; border-radius: 50%;"></center>
                 <center><h2>{{dataUser.name}}</h2></center>
                 <center><p>{{dataUser.email}}</p></center>

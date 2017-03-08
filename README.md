@@ -105,11 +105,13 @@ then copy ionic-native folder from node_modules/ to lib/. And add link script in
 * not listed yet
 
 ### 1.4.3
+* Scroll bug on ICS and JB
 * ionic-native (feel the power of native API's)
 * deeplinks!!
 * Google Maps Places, so you can search location
 * Bug fixing
-* Analytics Improvements
+* Analytics switch to appLogs
 * Promo and Slider (hope this can bring money to us) - we running out of money tbh T.T
 * UI Improvement
 * list nearest restaurant on tab 'terdekat'
+* Menu Book
