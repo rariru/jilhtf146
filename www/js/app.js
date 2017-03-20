@@ -14,6 +14,28 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 
 .run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage, $timeout, $cordovaDeeplinks, $state, Analytics) {
   $ionicPlatform.ready(function() {
+    // listen to deeplinks
+    $cordovaDeeplinks.route({
+      '/kuliner/:restoranId': {
+        target: 'restoran',
+        parent: 'kuliner' 
+      }
+    }).subscribe(function(match) {
+      console.log('match : '+JSON.stringify(match));
+      $timeout(function() {
+        $state.go('tabsController.restoran', {index: match.$args.restoranId});
+      }, 100);
+      // $timeout(function() {
+      //   $state.go(match.$route.parent, match.$args);
+
+      //   $timeout(function(match) {
+      //     $state.go(match.$route.target, match.$args);
+      //   }, 800);
+      // }, 100);
+    }, function(nomatch) {
+      console.log('nomatch : '+JSON.stringify(nomatch));
+    });
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -111,28 +133,6 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
         }
     };
     _waitForAnalytics();
-
-    $cordovaDeeplinks.route({
-      '/promos': {
-        parent: 'tabsController.promo'
-      }
-    }).subscribe(function(match) {
-      console.log('match');
-      // One of our routes matched, we will quickly navigate to our parent
-      // view to give the user a natural back button flow
-      $timeout(function() {
-        $state.go(match.$route.parent, match.$args);
-
-        // Finally, we will navigate to the deeplink page. Now the user has
-        // the 'product' view visibile, and the back button goes back to the
-        // 'products' view.
-        $timeout(function() {
-          $state.go(match.$route.target, match.$args);
-        }, 800);
-      }, 100); // Timeouts can be tweaked to customize the feel of the deeplink
-    }, function(nomatch) {
-      console.warn('No match', JSON.stringify(nomatch));
-    });
   })
 
   if (ionic.Platform.isIOS()) {
