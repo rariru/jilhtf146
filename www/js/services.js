@@ -1,11 +1,11 @@
 // Initialize Firebase
 // mangan
-// var config = {
-// 	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
-// 	authDomain: "project-1449647215698534337.firebaseapp.com",
-// 	databaseURL: "https://project-1449647215698534337.firebaseio.com",
-// 	storageBucket: "project-1449647215698534337.appspot.com"
-// };
+var config = {
+	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
+	authDomain: "project-1449647215698534337.firebaseapp.com",
+	databaseURL: "https://project-1449647215698534337.firebaseio.com",
+	storageBucket: "project-1449647215698534337.appspot.com"
+};
 
 // ryou
 // var config = {
@@ -16,13 +16,13 @@
 // };
 
 // hamzah ManganBak
-var config = {
-    apiKey: "AIzaSyB1U7icSEQX4ZTCdsRHxDUFieD-r7sDFKA",
-    authDomain: "manganbak.firebaseapp.com",
-    databaseURL: "https://manganbak.firebaseio.com",
-    storageBucket: "manganbak.appspot.com",
-    messagingSenderId: "374536724800"
-};
+// var config = {
+//     apiKey: "AIzaSyB1U7icSEQX4ZTCdsRHxDUFieD-r7sDFKA",
+//     authDomain: "manganbak.firebaseapp.com",
+//     databaseURL: "https://manganbak.firebaseio.com",
+//     storageBucket: "manganbak.appspot.com",
+//     messagingSenderId: "374536724800"
+// };
 
 firebase.initializeApp(config);
 
@@ -242,7 +242,7 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
-	this.updateRatingReview = function(resto, user, userPhotoUrl, userRating, titleReview, userReview) {
+	this.updateRatingReview = function(userIndex, resto, user, userPhotoUrl, userRating, titleReview, userReview, emoji) {
 		// this.getRestoranReviews(resto).then(function(result) {
 		// 	var ratingReviews = result;
 		// 	console.log(ratingReviews);
@@ -280,11 +280,13 @@ angular.module('app.services', [])
 
 		// 2. ini versi add, 1 user bisa nambah komen berapapun
 		review.child(resto).push({
-			'rating': userRating,
+			'indexUser': userIndex,
+			'rating': userRating || null,
 			'titleReview': titleReview || null,
 			'review' : userReview || null,
 			'username': user,
 			'userPhotoUrl': userPhotoUrl,
+			'emoji': emoji || null,
 			'tglReview': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
 			promise.resolve(true);
@@ -445,14 +447,30 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
-	this.updateUserDataLogin = function(userData, user) {
+	this.updateUserDataLoginGoogle = function(userData, user) {
 		var promise = $q.defer();
 
 		refUser.child(userData.id).update({
 			'uid' : user.uid,
 			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
 			'name' : userData.name,
-			'photoUrl' : userData.photoUrl || userData.picture.data.url || userData.picture || null,
+			'photoUrl' : userData.photoUrl ||  userData.picture || null,
+			'device_token' : $localStorage.token
+		}).then(function(result) {
+			promise.resolve(true);
+		});
+
+		return promise.promise;
+	}
+
+	this.updateUserDataLoginFb = function(userData, user) {
+		var promise = $q.defer();
+
+		refUser.child(userData.id).update({
+			'uid' : user.uid,
+			'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
+			'name' : userData.name,
+			'photoUrl' : userData.photoUrl || userData.picture.data.url || null,
 			'device_token' : $localStorage.token
 		}).then(function(result) {
 			promise.resolve(true);
@@ -838,22 +856,4 @@ angular.module('app.services', [])
 		return "img/cat.jpg";
 	}
 })
-
-
-.factory('GoogleMaps', function($http){
-	var url = "https://maps.googleapis.com/maps/api/distancematrix/";
-	var type = "json";
-	var key = 'AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ';
-	return {
-		distance: function() {
-			console.log('call get');
-			return $http.get('https://maps.googleapis.com/maps/api/distancematrix/json?origins=-7.5582992,110.8570153&destinations=-7.555757,110.847021&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ', {
-				headers: {
-					'Access-Control-Allow-Origin': '*',
-					'Content-Type': 'application/json; charset=UTF-8;'
-				}
-			})
-		}
-	}
-});
 

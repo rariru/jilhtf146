@@ -42,8 +42,10 @@
 
                 <ion-item class="item item-avatar item-text-wrap mangan-menu" style="border: 0;" ng-repeat="review in reviews | orderObjectBy: 'tglReview' :true">
                     <img class="mangan-ulasan-resto" src={{review.userPhotoUrl}} style="margin-top:6px;">
-                        <h2 style="color: rgb(1,177,178);">{{review.username}}</h2>
-                        <h3 style="color: #ff6a32;">{{review.titleReview}}</h3>
+                        <h2 style="color: rgb(1,177,178);">
+                            {{review.username}} <span ng-show="review.emoji">-</span> <span ng-show="review.emoji" class="kapital">{{review.emoji}}</span>
+                        </h2>
+                        <h3 style="color: #ff6a32;"">{{review.titleReview}}</p></h3>
                         <p style="">{{review.review}}</p>
                 </ion-item>
             </ion-list>

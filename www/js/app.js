@@ -50,9 +50,18 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 
       // Check notification Body (notification from us)
       // From us, there is body attribute
-      Analytics.logEvent('Ads', 'Notification', notification.index);
       console.log(notification.index);
       if (notification.body) {
+        // trackEvent
+        Analytics.logEvent('Ads', 'Notification', notification.index || 'empty');
+        // trackUser Event
+        Analytics.logUserArr([
+                $localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+                'trackEvent',
+                'Ads',
+                'Notification',
+                 notification.index || 'default'
+              ]);
         // Foreground, tap = false
         if (notification.tap == false) {
           $ionicPopup.alert({
@@ -88,6 +97,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     })
 
     window.FirebasePlugin.subscribe("mangan");
+    Analytics.logEvent('Subscribe', 'mangan');
 
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
