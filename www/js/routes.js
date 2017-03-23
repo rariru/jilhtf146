@@ -316,6 +316,12 @@ angular.module('app.routes', ['ionicUIRouter'])
     controller: 'loginCtrl'
   })
 
+  .state('kota', {
+    url: '/kota-page',
+    templateUrl: 'templates/kota.html',
+    controller: 'kotaCtrl'
+  })
+
   .state('tabsController.profil', {
     url: '/profil',
     views: {

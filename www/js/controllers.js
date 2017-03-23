@@ -3594,4 +3594,8 @@ angular.module('app.controllers', [])
 
 .controller('profilKurirCtrl', function($scope, $state, $stateParams, Services, Analytics){
 
+})
+
+.controller('kotaCtrl', function($scope, $state, $stateParams, Services, Analytics){
+
 });
