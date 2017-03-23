@@ -37,7 +37,7 @@
                     <i class="mangan-kontak-icon icon ion-ios-location"></i>
                         {{restoran.alamat}}
                 </p>
-                <p style="text-align: center;"><span><a href="tel:{{restoran.noTelp}}" ng-show="restoran.noTelp && restoran.noTelp != 'null'" style="text-decoration: none; color: #4d544d; text-align:;">
+                <p style="text-align: center;"><span><a ng-show="restoran.noTelp && restoran.noTelp != 'null'" style="text-decoration: none; color: #4d544d; text-align:;">
                     <i class="mangan-kontak-icon icon ion-android-call"></i>
                     {{restoran.noTelp}}
                 </span></p></a>
@@ -107,7 +107,7 @@
                     <h2 style="margin-left: 10px;">Ulasan dari Pengguna</h2>
                     <i class="icon mangan-kontak-icon ion-ios-arrow-forward" style="color: rgb(1,177,178); opacity: 0.5; "></i>
                 </div>
-                <div class="item mangan-menu item-icon-left item-icon-right" style="border:0;" ng-click="openMenuBook(restoran.index)" ion-ripple>
+                <div class="item mangan-menu item-icon-left item-icon-right" style="border:0;" ng-click="openMenuBook(restoran.index, restoran.delivery)" ion-ripple>
                     <i class="mangan-kontak-icon icon ion-ios-book-outline"></i>
                     <h2 style="margin-left: 10px;">Buku Menu</h2>
                     <i class="icon mangan-kontak-icon ion-ios-arrow-forward" style="color: rgb(1,177,178); opacity: 0.5; "></i>
