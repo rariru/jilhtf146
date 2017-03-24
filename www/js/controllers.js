@@ -1512,16 +1512,21 @@ angular.module('app.controllers', [])
 })
   
 .controller('jelajahCtrl', function($scope, $ionicSlideBoxDelegate, Services, $state, $ionicLoading, $cordovaToast, $cordovaGoogleAnalytics, config, $ionicPopup, $cordovaAppVersion, $cordovaGeolocation, $http, $ionicHistory, Analytics, $ionicModal, $localStorage) {
+	// check firebase
+	if (firebase == 'undefined') {
+		console.log('Error firebase undefined');
+		makeToast('Error koneksi tidak stabil', 1500, 'bottom');
+	}
+
+	// loading
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
       duration: 1000
     });
-    // set default selected city to Surakarta,
-    // though the default city has been set in Services
-	$scope.selectedCity = $localStorage.location? $localStorage.location: '';
 
-	console.log("localStorage token "+$localStorage.token);
+	$scope.user = {};
 
+	// listen to auth change
 	firebase.auth().onAuthStateChanged(function(user) {
 		if (user) {
 			user.providerData.forEach(function(profile) {
@@ -1548,6 +1553,7 @@ angular.module('app.controllers', [])
 		}
 	})
 
+	// check version
     Services.getVersion().then(function(version) {
     	if (version) {
     		$cordovaAppVersion.getVersionCode().then(function(currentVersion) {
@@ -1600,6 +1606,8 @@ angular.module('app.controllers', [])
     	console.log(err);
     });
 
+
+    // deprecated Google Analytics
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
             analytics.startTrackerWithId(config.analytics);
@@ -1614,9 +1622,12 @@ angular.module('app.controllers', [])
     };
     _waitForAnalytics();
 
+    // to do when enter view
     $scope.$on('$ionicView.enter', function() {
+    	// define variable queue and process
 		$scope.queue = [];
 		$scope.process = [];
+
 		// trackView
     	Analytics.logView('Jelajah');
 
@@ -1626,22 +1637,8 @@ angular.module('app.controllers', [])
     	    		'trackView',
     	    		'Jelajah'
     	    	]);
-    	// console.log('trackView, Jelajah');
-	    // function _waitForAnalytics(){
-	    //     if(typeof analytics !== 'undefined'){
-	    //         analytics.startTrackerWithId(config.analytics);
-	    //         // pindah di on enter
-			  //   // analytics.trackView('Jelajah');
-			  //   Analytics.logView('Jelajah');
-	    //     }
-	    //     else{
-	    //         setTimeout(function(){
-	    //             _waitForAnalytics();
-	    //         },10000);
-	    //     }
-	    // };
-	    // _waitForAnalytics();
 
+    	// check current user and get data transaksi
 		var user = firebase.auth().currentUser;
 		if (user) {
 			user.providerData.forEach(function(profile) {
@@ -1661,18 +1658,22 @@ angular.module('app.controllers', [])
 			$scope.dataUser = "";
 		}
 
+		// REMOVE SOON check city
 		if ($localStorage.location == null || $localStorage.location == '') {
 			console.log("localStorage.location null");
-			//hidupkan untuk pilih lokasi, otomatis, atau lewat pupup
+			// go to state pick city
 		    $scope.setLocation();
+		    // $state.go('kota');
 		} else {
 			console.log($localStorage.location);
 		}
 
+		// call greeting and getSlider
 		$scope.greeting();
-		$scope.getSliders();
+		// $scope.getSliders();
     });
 
+    // set slider option
 	$scope.sliderOptions = {
 		loop: false,
 		// autoplay: true,
@@ -1689,6 +1690,7 @@ angular.module('app.controllers', [])
 		}
 	};
 
+	// start Slider
 	$scope.initSlide = function() {
 		Services.getSliders().then(function(sliders) {
 			if (sliders) {
@@ -1711,6 +1713,7 @@ angular.module('app.controllers', [])
 		});
 	}
 
+	// listen to slider change
 	$scope.slideChange = function(index) {
 		// trackEvent
 		var branchEvent = [];
@@ -1731,13 +1734,7 @@ angular.module('app.controllers', [])
 				]);
 	}
 
-	$scope.user = {};
-
-	if (firebase == 'undefined') {
-		console.log('Error firebase undefined');
-		makeToast('Error koneksi tidak stabil', 1500, 'bottom');
-	}
-
+	// get data of current user
 	$scope.getProfileByUid = function(uid) {
 		Services.getProfileByUid(uid).then(function(dataUser) {
 			if (dataUser) {
@@ -1749,6 +1746,7 @@ angular.module('app.controllers', [])
 		})
 	}
 
+	// search
 	$scope.searchQuery = function() {
 		if ($scope.user.query == null) {
 			console.log($scope.user.query);
@@ -1768,6 +1766,7 @@ angular.module('app.controllers', [])
 		}
 	};
 
+	// give recomendation
 	$scope.rekomendasikan = function() {
 		// trackEvent
 		Analytics.logEvent('Jelajah', 'Tombol Rekomendasi Restoran');
@@ -1782,20 +1781,7 @@ angular.module('app.controllers', [])
 		$state.go("tabsController.rekomendasi"); 
 	}
 
-	$scope.transaksi = function() {
-		// trackEvent
-		Analytics.logEvent('Jelajah', 'Notifikasi Transaksi');
-
-		// trackUser Event
-		Analytics.logUserArr([
-					$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-					'trackEvent',
-					'Jelajah',
-					'Notifikasi Transaksi'
-				]);
-		$state.go('tabsController.transaksi');
-	}
-
+	// registration
 	$scope.daftar = function() {
 		// trackEvent
 		Analytics.logEvent('Jelajah', 'Tombol Daftar Restoran');
@@ -1810,6 +1796,22 @@ angular.module('app.controllers', [])
 		$state.go("tabsController.daftar");
 	}
 
+	// go to transaksi
+	$scope.transaksi = function() {
+		// trackEvent
+		Analytics.logEvent('Jelajah', 'Notifikasi Transaksi');
+
+		// trackUser Event
+		Analytics.logUserArr([
+					$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+					'trackEvent',
+					'Jelajah',
+					'Notifikasi Transaksi'
+				]);
+		$state.go('tabsController.transaksi');
+	}
+
+	// get Sliders
 	$scope.getSliders = function() {
 		Services.getSliders().then(function(sliders) {
 			if (sliders) {
@@ -1869,6 +1871,7 @@ angular.module('app.controllers', [])
 		});
 	}
 
+	// toast function
 	function makeToast(_message) {
 		window.plugins.toast.showWithOptions({
 			message: _message,
@@ -1896,6 +1899,7 @@ angular.module('app.controllers', [])
 	// 	$ionicLoading.hide();
 	// });
 
+	// REMOVE SOON - modal to pick location
 	$ionicModal.fromTemplateUrl('templates/pickLocation.html', {
 		scope: $scope,
 		animation: 'slide-in-up'
@@ -1913,6 +1917,7 @@ angular.module('app.controllers', [])
 			enableHighAccuracy: false
 		};
 
+		// if found, pop up a confirmation to use current location. If yes, set the localStorage.location
 		$cordovaGeolocation.getCurrentPosition(options).then(function(position) {
 			if(position) {
 				coords = position.coords;
@@ -1924,19 +1929,10 @@ angular.module('app.controllers', [])
 			});
 		}, function(error) {
 			console.log("could not get location");
-			// show dialog to pick city manually 
-
-			// $ionicPopup.alert({
-			// 	title: 'Error',
-			// 	template: 'Tidak dapat menemukan sinyal GPS!',
-			// 	okText: 'OK',
-			// 	okType: 'button-oren'
-			// }).then(function(res) {
-			// 	showMap();
-			// });
 		});
 	}
 
+	// REMOVE SOON
 	$scope.setLocation = function() {
 		var coords = {
 			latitude: -7.569527,
@@ -1990,12 +1986,14 @@ angular.module('app.controllers', [])
 		});
 	}
 
+	// REMOVE SOON
 	$scope.pilihKota = function(kota) {
 		console.log(kota);
 		$localStorage.location = kota;
 		$scope.modal.hide();
 	}
 
+	// getOrder List
 	$scope.getOrder = function(uid) {
 		console.log('get order');
 		$scope.queue = [];
@@ -2025,6 +2023,7 @@ angular.module('app.controllers', [])
 		})
 	}
 
+	// banner action
 	$scope.gotoURL = function(index, url, tel) {
 		if (url) {
 			// trackEvent
@@ -2057,6 +2056,7 @@ angular.module('app.controllers', [])
 		}
 	}
 
+	// go to newest Kuliner
 	$scope.jelajah = function() {
 		// trackEvent
 		Analytics.logEvent('Jelajah', 'Tombol Jelajah');
@@ -2070,6 +2070,7 @@ angular.module('app.controllers', [])
 		$state.go('tabsController.restorans', {category: 'all', 'name': 'Terbaru'});
 	}
 
+	// to login page
 	$scope.login = function() {
 		// trackEvent
 		Analytics.logEvent('Jelajah', 'Tombol Login');
@@ -2083,6 +2084,7 @@ angular.module('app.controllers', [])
 		$state.go("login");
 	}
 
+	// i'm typing....
 	$scope.typeSearch = function() {
 		// trackEvent
 		Analytics.logEvent('Jelajah', 'Ketik Pencarian');
