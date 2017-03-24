@@ -1,0 +1,62 @@
+<ion-view id="wizard-page" hide-nav-bar="true">
+
+  <!-- <ion-nav-buttons side="left">
+    <button class="button button-positive button-clear no-animation" ng-click="startApp()" ng-show="!slideIndex">Skip</button>
+    <button class="button button-positive button-clear no-animation" ng-click="previous()" ng-show="slideIndex > 0">Previous</button>
+  </ion-nav-buttons> -->
+
+  <!-- <ion-nav-buttons side="right"> 
+    <button class="button button-positive button-clear no-animation" ng-click="next()" ng-show="slideIndex != 2">Next</button>
+    <button class="button button-positive button-clear no-animation" ng-click="startApp()" ng-show="slideIndex == 2">Mulai Kulineran!</button>
+  </ion-nav-buttons> -->
+  
+
+  <ion-slide-box on-slide-changed="slideChanged(index)">
+    <!-- first slide -->
+    <ion-slide>
+      <div class="list mangan-menu" style="margin-bottom:0; padding:0; background-color: black;">
+        <div style="position: absolute; z-index: 9999; top: 60px;">
+          <img src="img/manganstd.png" width="20%">
+          <h2 style="color: white;">Hai Foodies!</h2>
+          <h4 style="color: white;"><span style="font-weight: bold; color: orangered">JELAJAHI </span> Kekayaan Kuliner Indonesia</h4>
+        </div>
+        <img src="img/slide1.jpg" style="height: 100%; width: 100%; opacity: 0.8">
+      </div>
+    </ion-slide>
+
+    <!-- next slide -->
+    <ion-slide>
+      <div class="list mangan-menu" style="margin-bottom:0; padding:0; background-color: black;">
+        <div style="position: absolute; z-index: 9999; top: 60px;">
+          <img src="img/manganstd.png" width="20%">
+          <h2 style="color: white;"></h2>
+          <h4 style="color: white;">Kunjungi Kuliner <span style="font-weight: bold; color: orangered">TERDEKAT</span> dari lokasimu</h4>
+        </div>
+        <img src="img/slide2.jpg" style="height: 100%; width: 100%; opacity: 0.8">
+      </div>
+    </ion-slide>
+
+    <!-- last slide -->
+    <ion-slide class="login overlay">
+      <div class="list mangan-menu" style="margin-bottom:0; padding:0; background-color: black;">
+        <div style="position: absolute; z-index: 9999; top: 60px;">
+          <img src="img/manganstd.png" width="20%">
+          <h2 style="color: white;"></h2>
+          <p style="color: white;"><span style="font-weight: bold; color: orangered">BERGABUNG</span> untuk memesan, berkomentar dan memberikan ulasan untuk kamu bagikan kepada orang lain</p>
+
+          <div class="bottom-content row" style="margin-top: 50%;">
+            <div class="col col-bottom">
+                <button class="google-sign-in button button-block" ng-click="googlelogin()" style="background-color: #DD4B39">
+                    <i class="ion-social-google" style="margin-right: 10px;"></i>Log in with Google
+                </button>
+                <button class="facebook-sign-in button button-block" ng-click="fblogin()">
+                    <i class="ion-social-facebook" style="margin-right: 10px;"></i>Log in with Facebook
+                </button>
+            </div>
+          </div>
+        </div>
+        <!-- <img src="img/slide2.jpg" style="height: 100%; width: 100%; opacity: 0.8"> -->
+      </div>
+    </ion-slide>
+  </ion-slide-box>
+</ion-view>
