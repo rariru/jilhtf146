@@ -317,6 +317,18 @@ angular.module('app.routes', ['ionicUIRouter'])
     controller: 'loginCtrl'
   })
 
+  .state('kota', {
+    url: '/kota-page',
+    templateUrl: 'templates/kota.html',
+    controller: 'kotaCtrl'
+  })
+
+  .state('wizard', {
+    url: '/wizard-page',
+    templateUrl: 'templates/wizard.html',
+    controller: 'wizardCtrl'
+  })
+
   .state('tabsController.profil', {
     url: '/profil',
     views: {
@@ -422,6 +434,6 @@ angular.module('app.routes', ['ionicUIRouter'])
   });
 
 
-  $urlRouterProvider.otherwise('/page1/page2');
+  $urlRouterProvider.otherwise('/wizard-page');
 
 });

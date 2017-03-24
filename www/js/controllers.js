@@ -2094,6 +2094,10 @@ angular.module('app.controllers', [])
 					'Ketik Pencarian'
 				]);
 	}
+
+	$scope.pickCity = function(kota) {
+		$state.go("kota");
+	}
 })
 
 .controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, $state, Services, $cordovaToast, $cordovaSocialSharing, config, $timeout, Analytics, $localStorage) {
@@ -5444,4 +5448,27 @@ angular.module('app.controllers', [])
 
 .controller('profilKurirCtrl', function($scope, $state, $stateParams, Services, Analytics, $localStorage){
 
+})
+
+.controller('kotaCtrl', function($scope, $state, $stateParams, Services, Analytics){
+
+})
+
+.controller('wizardCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
+ 
+  // Called to navigate to the main app
+  $scope.startApp = function() {
+    $state.go('tabsController.jelajah');
+  };
+  $scope.next = function() {
+    $ionicSlideBoxDelegate.next();
+  };
+  $scope.previous = function() {
+    $ionicSlideBoxDelegate.previous();
+  };
+
+  // Called each time the slide changes
+  $scope.slideChanged = function(index) {
+    $scope.slideIndex = index;
+  };
 });
