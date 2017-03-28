@@ -1518,6 +1518,11 @@ angular.module('app.controllers', [])
 		makeToast('Error koneksi tidak stabil', 1500, 'bottom');
 	}
 
+	if ($localStorage.welcome == null) {
+		console.log('welcome: '+$localStorage.welcome);
+		$state.go('wizard');
+	}
+
 	// loading
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
@@ -5456,21 +5461,244 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('wizardCtrl', function($scope, $state, $ionicSlideBoxDelegate) {
- 
-  // Called to navigate to the main app
-  $scope.startApp = function() {
-    $state.go('tabsController.jelajah');
-  };
-  $scope.next = function() {
-    $ionicSlideBoxDelegate.next();
-  };
-  $scope.previous = function() {
-    $ionicSlideBoxDelegate.previous();
-  };
+.controller('wizardCtrl', function($scope, $state, $ionicSlideBoxDelegate, $localStorage, $cordovaOauth) {
+	// Called to navigate to the main app
+	$scope.startApp = function() {
+		$state.go('tabsController.jelajah');
+	};
 
-  // Called each time the slide changes
-  $scope.slideChanged = function(index) {
-    $scope.slideIndex = index;
-  };
+	$scope.next = function() {
+		$ionicSlideBoxDelegate.next();
+	};
+
+	$scope.previous = function() {
+		$ionicSlideBoxDelegate.previous();
+	};
+
+	// Called each time the slide changes
+	$scope.slideChanged = function(index) {
+		$scope.slideIndex = index;
+	};
+
+	$scope.endWizard = function() {
+		$localStorage.welcome = true;
+		$state.go('tabsController.jelajah');
+	}
+
+	$scope.fblogin = function() {
+		$cordovaOauth.facebook(1764800933732733, ["email", "user_birthday", "user_location"]).then(function(result) {
+			console.log(result.access_token);
+			$localStorage.fbaccesstoken = result.access_token;
+			var credential = firebase.auth.FacebookAuthProvider.credential($localStorage.fbaccesstoken);
+			firebase.auth().signInWithCredential(credential).catch(function(error) {
+				console.log('Error : '+JSON.stringify(error));
+			});
+			$ionicLoading.show({
+		      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
+		    });
+			// $ionicHistory.goBack();
+		}, function(err) {
+			console.log('Error oAuth facebook: '+err);
+		})
+	}
+
+	$scope.googlelogin = function() {
+		$cordovaOauth.google("1054999345220-m4vlisv7o0na684cgcg13s1tj2t4v447.apps.googleusercontent.com", ["email", "profile"]).then(function(result) {
+			$localStorage.googleidtoken = result.id_token;
+			$localStorage.googleaccesstoken = result.access_token;
+			var credential = firebase.auth.GoogleAuthProvider.credential($localStorage.googleidtoken);
+			firebase.auth().signInWithCredential(credential).catch(function(error) {
+				console.log("Error : "+JSON.stringify(error));
+			});
+			$ionicLoading.show({
+		      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
+		    });
+			// $ionicHistory.goBack();
+		}, function(err) {
+			console.log('Error oAuth google: '+err);
+		})
+	}
+
+	// listen to auth change
+	firebase.auth().onAuthStateChanged(function(user) {
+		// logged in
+		if (user) {
+			console.log("uid: "+user.uid);
+			$scope.user = user;
+			user.providerData.forEach(function(profile) {
+				if (profile.providerId === "facebook.com") {
+					// cek if data already stored
+					Services.getProfileByUid(profile.uid).then(function(user) {
+						if (user) {
+							// dataUser registered, update data
+							// trackEvent
+							Analytics.logEvent('Auth', 'Sign In', 'Facebook');
+							// trackUser Event
+							Analytics.logUserArr([
+										$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+										'trackEvent',
+										'Auth',
+										'Sign In',
+										'Facebook'
+									]);
+							makeToast('Berhasil Login');
+							$http.get("https://graph.facebook.com/v2.8/me?fields=name,location,birthday,gender,picture.type(large){url},age_range,email,about", {params :{
+								access_token : $localStorage.fbaccesstoken,
+								format : "json"
+							}}).then(function(result) {
+								$localStorage.indexUser = result.data.id;
+								$scope.dataUser = result.data;
+								Services.updateUserDataLoginFb($scope.dataUser, $scope.user);
+							});
+						} else {
+							// create new data in firebase from Facebook
+							// trackEvent
+							Analytics.logEvent('Auth', 'Sign Up', 'Facebook');
+							// trackUser Event
+							Analytics.logUserArr([
+										$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+										'trackEvent',
+										'Auth',
+										'Sign Up',
+										'Facebook'
+									]);
+							$http.get("https://graph.facebook.com/v2.8/me?fields=name,location,birthday,gender,picture.type(large){url},age_range,email,about", {params :{
+								access_token : $localStorage.fbaccesstoken,
+								format : "json"
+							}}).then(function(result) {
+								$localStorage.indexUser = result.data.id;
+								$scope.dataUser = result.data;
+								Services.addUserData($scope.dataUser, $scope.user).then(function(user) {
+									makeToast('Berhasil Login');
+									console.log(user);
+								}, function(err) {
+									firebase.auth().signOut().then(function() {
+										makeToast('Login gagal, coba dengan email lain');
+									});
+								})
+							});
+						}
+					}, function(err) {
+						// error check user data
+						// trackEvent
+						Analytics.logEvent('Auth', 'Auth Failed');
+						// trackUser Event
+						Analytics.logUserArr([
+									$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+									'trackEvent',
+									'Auth',
+									'Auth Failed'
+								]);
+						firebase.auth().signOut();
+						makeToast('Login gagal, koneksi tidak stabil');
+					})
+					$ionicLoading.hide();
+					$ionicHistory.goBack();
+				} else if (profile.providerId === "google.com") {
+					Services.getProfileByUid(profile.uid).then(function(user) {
+						if (user) {
+							// dataUser registered, update data
+							// trackEvent
+							Analytics.logEvent('Auth', 'Sign In', 'Google');
+							// trackUser Event
+							Analytics.logUserArr([
+										$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+										'trackEvent',
+										'Auth',
+										'Sign In',
+										'Google'
+									]);
+							makeToast('Berhasil Login');
+							$http.get("https://www.googleapis.com/userinfo/v2/me?fields=email,family_name,gender,given_name,hd,id,link,locale,name,picture,verified_email", {
+								headers :{
+									"Authorization" : "Bearer "+$localStorage.googleaccesstoken
+								}
+							}).then(function(result) {
+								$localStorage.indexUser = result.data.id;
+								$scope.dataUser = result.data;
+								Services.updateUserDataLoginGoogle($scope.dataUser, $scope.user);
+							});
+						} else {
+							// create new data in firebase from Google
+							// trackEvent
+							Analytics.logEvent('Auth', 'Sign Up', 'Google');
+							// trackUser Event
+							Analytics.logUserArr([
+										$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+										'trackEvent',
+										'Auth',
+										'Sign Up',
+										'Google'
+									]);
+							$http.get("https://www.googleapis.com/userinfo/v2/me?fields=email,family_name,gender,given_name,hd,id,link,locale,name,picture,verified_email", {
+								headers :{
+									"Authorization" : "Bearer "+$localStorage.googleaccesstoken
+								}
+							}).then(function(result) {
+								$localStorage.indexUser = result.data.id;
+								$scope.dataUser = result.data;
+								Services.addUserDataByGoogle($scope.dataUser, $scope.user).then(function(user) {
+									makeToast('Berhasil Login');
+								}, function(err) {
+									firebase.auth().signOut().then(function() {
+										makeToast('Login gagal, coba dengan email lain');
+									});
+								})
+							});
+						}
+					}, function(err) {
+						// error check user data
+						// trackEvent
+						Analytics.logEvent('Auth', 'Auth Failed');
+						// trackUser Event
+						Analytics.logUserArr([
+									$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+									'trackEvent',
+									'Auth',
+									'Auth Failed'
+								]);
+						firebase.auth().signOut();
+						makeToast('Login gagal, koneksi tidak stabil');
+					})
+					$ionicLoading.hide();
+					$ionicHistory.goBack();
+				}  else {
+					// login dengan cara lain, harusnya tidak terjadi
+					// trackEvent
+					Analytics.logEvent('Auth', 'Auth Failed');
+					// trackUser Event
+					Analytics.logUserArr([
+								$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+								'trackEvent',
+								'Auth',
+								'Auth Failed'
+							]);
+					firebase.auth().signOut();
+					makeToast('Login gagal, coba dengan email lain');
+					$ionicLoading.hide();
+					$ionicHistory.goBack();
+				}
+			});
+		}
+	})
+
+
 });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
