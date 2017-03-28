@@ -1687,7 +1687,7 @@ angular.module('app.controllers', [])
 						if (!result) {
 							alert("silahkan pilih kota");
 							console.log("idx: "+ indexUser);
-							$state.go('tabsController.kota');
+							$state.go('kota');
 						}
 						// if (result) {
 						// 	if (!result.hasOwnProperty('pickLocation')) {
