@@ -17,6 +17,16 @@ angular.module('app.routes', ['ionicUIRouter'])
       }
     }
   })
+
+  .state('tabsController.pickLocation', {
+    url: '/pickLocation',
+    views: {
+      'tab1': {
+        templateUrl: 'templates/pickLocation.html',
+        controller: 'pickLocationCtrl'
+      }
+    }
+  })
     
   .state('tabsController.pencarian', {
     url: '/pencarian',
