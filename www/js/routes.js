@@ -17,16 +17,6 @@ angular.module('app.routes', ['ionicUIRouter'])
       }
     }
   })
-
-  .state('tabsController.pickLocation', {
-    url: '/pickLocation',
-    views: {
-      'tab1': {
-        templateUrl: 'templates/pickLocation.html',
-        controller: 'pickLocationCtrl'
-      }
-    }
-  })
     
   .state('tabsController.pencarian', {
     url: '/pencarian',
@@ -325,6 +315,18 @@ angular.module('app.routes', ['ionicUIRouter'])
     url: '/login-page',
     templateUrl: 'templates/login.html',
     controller: 'loginCtrl'
+  })
+
+  .state('kota', {
+    url: '/kota-page',
+    templateUrl: 'templates/kota.html',
+    controller: 'kotaCtrl'
+  })
+
+  .state('wizard', {
+    url: '/wizard-page',
+    templateUrl: 'templates/wizard.html',
+    controller: 'wizardCtrl'
   })
 
   .state('tabsController.profil', {
