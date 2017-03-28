@@ -72,28 +72,6 @@
     <splash height="480" src="resources/ios/splash/Default~iphone.png" width="320"/>
   </platform>
   <icon src="resources/android/icon/drawable-xhdpi-icon.png"/>
-  <allow-navigation href="http://192.168.100.8:8100"/>
-  <allow-navigation href="http://192.168.100.12:8100"/>
-  <allow-navigation href="http://192.168.100.7:8100"/>
-  <allow-navigation href="http://192.168.100.6:8101"/>
-  <allow-navigation href="http://192.168.100.6:8100"/>
-  <allow-navigation href="http://192.168.100.10:8100"/>
-  <allow-navigation href="http://172.20.10.11:8100"/>
-  <allow-navigation href="http://192.168.100.11:8100"/>
-  <allow-navigation href="http://172.20.10.11:8101"/>
-  <allow-navigation href="http://192.168.1.101:8100"/>
-  <allow-navigation href="http://192.168.100.9:8100"/>
-  <allow-navigation href="http://192.168.100.14:8100"/>
-  <allow-navigation href="http://192.168.100.4:8100"/>
-  <allow-navigation href="http://192.168.100.7:8101"/>
-  <allow-navigation href="http://192.168.8.102:8100"/>
-  <allow-navigation href="http://192.168.8.102:8101"/>
-  <allow-navigation href="http://192.168.100.3:8101"/>
-  <allow-navigation href="http://192.168.8.105:8100"/>
-  <allow-navigation href="http://192.168.100.13:8100"/>
-  <allow-navigation href="http://192.168.8.101:8100"/>
-  <allow-navigation href="http://192.168.8.100:8100"/>
-  <allow-navigation href="http://192.168.8.103:8100"/>
   <plugin name="cordova-plugin-firebase" spec="~0.1.18"/>
   <plugin name="ionic-plugin-deeplinks" source="npm">
     <param name="URL_SCHEME" value="mangan"/>

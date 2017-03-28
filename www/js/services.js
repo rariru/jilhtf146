@@ -48,7 +48,8 @@ angular.module('app.services', [])
 		indexes: [],
 		maxSaved: 5,
 		token: null,
-		location: '', // default location,
+		location: null, // default location,
+		welcome: null,
 		indexUser: ''
 	});
 
