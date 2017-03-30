@@ -434,6 +434,6 @@ angular.module('app.routes', ['ionicUIRouter'])
   });
 
 
-  $urlRouterProvider.otherwise('/wizard-page');
+  $urlRouterProvider.otherwise('/page1/page2');
 
 });
