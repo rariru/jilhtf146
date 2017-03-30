@@ -329,6 +329,12 @@ angular.module('app.routes', ['ionicUIRouter'])
     controller: 'wizardCtrl'
   })
 
+  .state('dataUser', {
+    url: '/dataUser-page',
+    templateUrl: 'templates/dataUser.html',
+    controller: 'dataUserCtrl'
+  })
+
   .state('tabsController.profil', {
     url: '/profil',
     views: {
@@ -434,6 +440,6 @@ angular.module('app.routes', ['ionicUIRouter'])
   });
 
 
-  $urlRouterProvider.otherwise('/wizard-page');
+  $urlRouterProvider.otherwise('/page1/page2');
 
 });

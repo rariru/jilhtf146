@@ -5,7 +5,7 @@ angular.module('app.controllers', [])
 	$scope.badge = $localStorage.badge;
 })
 
-.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing, $timeout, Analytics, $state, $localStorage) {
+.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing, $timeout, Analytics, $state, $localStorage, $ionicSlideBoxDelegate) {
 	var loadFlag = false;
 	$scope.nodata = false;
 	$scope.notersimpan = false;
@@ -476,6 +476,18 @@ angular.module('app.controllers', [])
 			addPixelsY: -40
 		});
 	}
+
+	$scope.next = function() {
+    $ionicSlideBoxDelegate.next();
+  	};
+  	$scope.previous = function() {
+    $ionicSlideBoxDelegate.previous();
+  	};
+
+  	// Called each time the slide changes
+  	$scope.slideChanged = function(index) {
+    $scope.slideIndex = index;
+  }
 })
 
 .controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup, $timeout, Analytics, $cordovaSocialSharing, $ionicHistory, $ionicPopup, $cordovaAppVersion, $localStorage) {
@@ -2097,6 +2109,10 @@ angular.module('app.controllers', [])
 
 	$scope.pickCity = function(kota) {
 		$state.go("kota");
+	}
+
+	$scope.dataUserPage = function(dataUser) {
+		$state.go("dataUser");
 	}
 })
 
@@ -5471,4 +5487,9 @@ angular.module('app.controllers', [])
   $scope.slideChanged = function(index) {
     $scope.slideIndex = index;
   };
+})
+
+.controller('dataUserCtrl', function($scope, $state, $stateParams, Services, Analytics) {
+ 
 });
+

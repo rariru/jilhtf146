@@ -75,6 +75,11 @@ p {
 	width: auto;
 }
 
+.slider-pager .slider-pager-page{
+	color: #008d8e;
+	opacity: 0.3;
+}
+
 .mangan-selengkapnya{
 	width: 100%;
 	height: auto;
@@ -143,11 +148,11 @@ p {
 }
 
 .mangan-greeting-gambar {
-	background: url('../img/cat.jpg');
+	background: url('../img/manganstd.png');
 	background-position:center;
 	background-size: cover;
 	border-radius: 50%; 
-	border: 1px solid rgba(230, 231, 232, 0.8);
+	// border: 1px solid rgba(230, 231, 232, 0.8);
 }
 
 .mangan-reviewer {
@@ -549,7 +554,7 @@ p {
 }
 
 #mangan-peta {
-	height: 90%;
+	height: 100%;
 	width: 100%;
 }
 
@@ -864,7 +869,7 @@ background-color: #fff;
 font-family: Roboto;
 font-size: 15px;
 font-weight: 300;
-padding: 0 11px 0 13px;
+padding: 0 11px 0 5px;
 text-overflow: ellipsis;
 width: 90%;
 margin-bottom: 0;

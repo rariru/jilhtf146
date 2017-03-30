@@ -29,20 +29,18 @@
       <div class="list mangan-menu" style="margin-bottom:0; padding:0; background-color: black;">
         <div style="position: absolute; z-index: 9999; top: 60px;">
           <img src="img/manganstd.png" width="20%">
-          <h2 style="color: white;"></h2>
           <h4 style="color: white;">Kunjungi Kuliner <span style="font-weight: bold; color: orangered">TERDEKAT</span> dari lokasimu</h4>
         </div>
         <img src="img/slide2.jpg" style="height: 100%; width: 100%; opacity: 0.8">
       </div>
     </ion-slide>
 
-    <!-- last slide -->
+    <!-- 3rd slide -->
     <ion-slide class="login overlay">
       <div class="list mangan-menu" style="margin-bottom:0; padding:0; background-color: black;">
-        <div style="position: absolute; z-index: 9999; top: 60px;">
+        <div style="position: absolute; z-index: 9999; top: 60px; padding: 5px;">
           <img src="img/manganstd.png" width="20%">
-          <h2 style="color: white;"></h2>
-          <p style="color: white;"><span style="font-weight: bold; color: orangered">BERGABUNG</span> untuk memesan, berkomentar dan memberikan ulasan untuk kamu bagikan kepada orang lain</p>
+          <p style="font-size: 16px; color: white;"><span style="font-size: 18px; font-weight: bold; color: orangered">BERGABUNG</span> untuk memesan, berkomentar dan memberikan ulasan untuk kamu bagikan kepada orang lain</p>
 
           <div class="bottom-content row" style="margin-top: 50%;">
             <div class="col col-bottom">
@@ -54,9 +52,39 @@
                 </button>
             </div>
           </div>
+            <button class="button" ng-click="startApp()" ng-show="!slideIndex">Skip</button>sss
         </div>
         <!-- <img src="img/slide2.jpg" style="height: 100%; width: 100%; opacity: 0.8"> -->
       </div>
     </ion-slide>
+
+    <!-- 4th slide : input form  -->
+    <!-- <ion-slide>
+     <div class="list mangan-menu" style="margin-bottom:0; padding:0; background-color: black;">
+        <div style="position: absolute; z-index: 9999; top: 60px; padding: 5px;">
+          <img src="img/manganstd.png" width="20%">
+          <p style="font-size: 16px; color: white;"><span style="font-size: 18px; font-weight: bold; color: orangered">BERGABUNG</span> untuk memesan, berkomentar dan memberikan ulasan untuk kamu bagikan kepada orang lain</p>
+
+
+          <div class="list card">
+            <label class="item item-input">
+              <input type="text" placeholder="Birthday">
+            </label>
+            <label class="item item-input item-select">
+              <div class="input-label" style="width: 0;">Gender</div>
+              <select>
+                <option>Male</option>
+                <option>Female</option>
+              </select>
+            </label>
+            <label class="item item-input">
+              <input type="text" placeholder="Birthday">
+            </label>
+          </div>
+        </div>
+          <img src="img/slide2.jpg" style="height: 100%; width: 100%; opacity: 0.8">
+      </div>
+    </ion-slide> -->
+
   </ion-slide-box>
 </ion-view>

@@ -1,26 +1,30 @@
-<ion-view title="Jelajah" hide-back-button="true" id="page2">
+<ion-view hide-back-button="true" id="page2">
+<ion-nav-title side="secondary"><button class="mangan-tombol-aksi" ng-click="pickCity()" ion-ripple><span style="color: white; font-size: 16px; margin-right: 10px;">Kamu Melihat : Surakarta <i class="ion-ios-arrow-down"></i></span></button></ion-nav-title>  
+    
     <ion-content padding="false" overflow-scroll="false" class="has-header">
-        <form class="list" ng-submit="searchQuery()" style="background-color: rgb(1, 178, 177); margin-bottom: 0px">
-            <label class="item item-input" name="Pencarian" style="border: 5px solid rgb(1, 178, 177); padding: 0; border-right: 6px solid rgb(1, 178, 177); border-left: 6px solid rgb(1, 178, 177); border-radius: 12px;">
-                <div style="min-height: 37px; min-width: 37px; background-color: rgb(230, 231, 232); text-align:center; margin-right: 10px;">
-                    <i class="icon ion-search placeholder-icon" style="font-size: 20px; line-height: 40px;"></i>
+        <!-- If transaksi done, ng-hide -->
+        <div class="list" style="" ng-click="transaksi()" style="border: 0;">
+            <div class="item mangan-menu item-text-wrap item-icon-right" style="border:0; background-color: #ff7846;" ng-show="queue.length > 0 || process.length > 0" ion-ripple>
+                <p style="color:white; font-weight: 300" ng-show="queue.length > 0">{{queue.length}} Pesanan sedang dalam Queue</p>
+                <p style="color:white; font-weight: 300" ng-show="process.length > 0">{{process.length}} Pesanan sedang dalam Process</p>
+                <i class="icon ion-ios-arrow-right" style="font-size: 20px; color: white;"></i>
+            </div>
+        </div>
+
+        <form class="list list-inset" ng-submit="searchQuery()" style="margin-top:10px;">
+            <label class="item item-input" name="Pencarian" style="padding: 0; border-radius: 5px;">
+                <div style="min-height: 37px; min-width: 37px; background-color: #f2f3f3; text-align:center; margin-right: 10px;">
+                    <i class="icon ion-ios-search placeholder-icon" style="font-size: 20px; line-height: 40px;"></i>
                 </div>
                 <input type="search" placeholder="Cari" ng-model="user.query" ng-focus="typeSearch()" style="font-size: 14px;" ion-ripple>
             </label>
         </form>
-        <!-- If transaksi done, ng-hide -->
-        <div class="list" style="" ng-click="transaksi()">
-            <div class="item mangan-menu item-text-wrap item-icon-right" style="background-color: #ff6a32;" ng-show="queue.length > 0 || process.length > 0" ion-ripple>
-                <p style="color:white; font-weight: 300" ng-show="queue.length > 0">{{queue.length}} Pesanan sedang dalam queue</p>
-                <p style="color:white; font-weight: 300" ng-show="process.length > 0">{{process.length}} Pesanan sedang dalam process</p>
-                <i class="icon ion-ios-arrow-right" style="font-size: 30px; color: white;"></i>
-            </div>
-        </div>
+        
 
         <div class="list" style="">
             <div class="item item-text-wrap item-thumbnail-right mangan-menu" style="border: none; margin:10px 15px 0 15px;">
                 <img class="mangan-greeting-gambar" ng-src="{{dataUser.photoUrl}}">
-                <h2 ng-show="!dataUser.name" style="font-size: 24px; color: rgb(1,177,178);">Halo Foodies</h2>
+                <h2 ng-show="!dataUser.name" style="font-size: 24px; color: rgb(1,177,178);">Halo MangBro</h2>
                 <h2 ng-show="dataUser.name" style="font-size: 24px; color: rgb(1,177,178);">Halo {{dataUser.name}}</h2>
                 <p style="font-size: 16px;">Kamu lapar? Mau makan apa hari ini?</p>
                 <!-- Kalo diklik masuk ke map terdekat dari lokasi user-->
@@ -33,8 +37,8 @@
             </div>
         </div>
       
-        <div class="list mangan-menu mangan-bottom">
-        <button ng-click="pickCity()" class="button button-block button-oren button-outline" ion-ripple>Jelajahi Kuliner di Kota Lainnya</button>
+        <!-- <div class="list mangan-menu mangan-bottom"> -->
+        <button ng-click="dataUserPage()" class="button button-block button-oren button-outline" ion-ripple>Data User</button>
           <!-- <label class="item item-input item-select" style="">
             <div class="input-label">
               Lihat Kota Lain
@@ -44,7 +48,7 @@
               <option>Yogyakarta</option>
             </select>
           </label> -->
-        </div>
+        <!-- </div> -->
 
         <!-- Kategori    -->
         <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
@@ -268,4 +272,5 @@
             <button id="button-daftar" class="button button-block button-oren button-outline" ng-click="daftar()" ion-ripple>DAFTAR KULINER</button>
         </div>
     </ion-content>
+
 </ion-view>
