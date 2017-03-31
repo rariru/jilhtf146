@@ -1565,7 +1565,7 @@ angular.module('app.controllers', [])
 			});
 		} else {
 			$scope.dataUser = {
-				'photoUrl' : 'img/cat.jpg'
+				'photoUrl' : 'img/manganstd.png'
 			};
 		}
 	})
@@ -1641,6 +1641,7 @@ angular.module('app.controllers', [])
 
     // to do when enter view
     $scope.$on('$ionicView.enter', function() {
+    		$scope.selectedCity = $localStorage.location;
     	// define variable queue and process
 		$scope.queue = [];
 		$scope.process = [];

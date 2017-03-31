@@ -1,5 +1,5 @@
 <ion-view id="page10">
-    <ion-nav-title>{{restoran.namaResto}}</ion-nav-title>
+    <ion-nav-title>{{restoran.selectedCity}}</ion-nav-title>
     <ion-content lazy-scroll overflow-scroll="false" class="has-header has-footer">
         <!-- pull to refresh -->
         <ion-refresher
@@ -10,7 +10,7 @@
 
         <!-- all information, show if flag true -->
         <div class="list" ng-show="loadFlag" style="position: relative; -webkit-backface-visibility: hidden;">
-            <!-- Image header -->
+            <!-- Image header slider have 5 photos -->
 
             
                 <ion-slide-box on-slide-changed="slideChanged(index)">
