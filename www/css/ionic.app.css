@@ -9766,6 +9766,10 @@ p {
   position: relative;
   width: auto; }
 
+.slider-pager .slider-pager-page {
+  color: #008d8e;
+  opacity: 0.3; }
+
 .mangan-selengkapnya {
   width: 100%;
   height: auto;
@@ -9827,11 +9831,10 @@ p {
   background-position: center; }
 
 .mangan-greeting-gambar {
-  background: url("../img/cat.jpg");
+  background: url("../img/manganstd.png");
   background-position: center;
   background-size: cover;
-  border-radius: 50%;
-  border: 1px solid rgba(230, 231, 232, 0.8); }
+  border-radius: 50%; }
 
 .mangan-reviewer {
   background: url("../img/user.png");
@@ -10154,7 +10157,7 @@ p {
   width: 100%; }
 
 #mangan-peta {
-  height: 90%;
+  height: 100%;
   width: 100%; }
 
 .ionic_ratings .icon {
@@ -10322,6 +10325,58 @@ p {
 .kapital:first-letter {
   text-transform: uppercase; }
 
+.wizardSlide1 {
+  background: url("../img/slide1.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', endColorstr='#f28509',GradientType=0 ); }
+  .wizardSlide1 .top-wizard {
+    height: 66%; }
+    .wizardSlide1 .top-wizard .app-copy {
+      text-align: center;
+      padding-top: 13vh; }
+    .wizardSlide1 .top-wizard .app-logo {
+      font-size: 40px;
+      font-family: sans-serif;
+      font-weight: 600;
+      color: #FFFFFF;
+      letter-spacing: 8px;
+      text-transform: uppercase; }
+    .wizardSlide1 .top-wizard .app-tagline {
+      font-size: 16px;
+      margin-top: 0px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.95); }
+  .wizardSlide1 .bottom-wizard {
+    height: 34%; }
+
+.wizardSlide2 {
+  background: url("../img/slide2.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', endColorstr='#f28509',GradientType=0 ); }
+  .wizardSlide2 .top-wizard {
+    height: 66%; }
+    .wizardSlide2 .top-wizard .app-copy {
+      text-align: center;
+      padding-top: 13vh; }
+    .wizardSlide2 .top-wizard .app-logo {
+      font-size: 40px;
+      font-family: sans-serif;
+      font-weight: 600;
+      color: #FFFFFF;
+      letter-spacing: 8px;
+      text-transform: uppercase; }
+    .wizardSlide2 .top-wizard .app-tagline {
+      font-size: 16px;
+      margin-top: 0px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.95); }
+  .wizardSlide2 .bottom-wizard {
+    height: 34%; }
+
 .login {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#01b2b1+0,f28509+100 */
   background: url("../img/login.jpg");
@@ -10403,7 +10458,7 @@ input[type="checkbox"][readonly] {
   font-family: Roboto;
   font-size: 15px;
   font-weight: 300;
-  padding: 0 11px 0 13px;
+  padding: 0 11px 0 5px;
   text-overflow: ellipsis;
   width: 90%;
   margin-bottom: 0;
