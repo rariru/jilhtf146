@@ -5500,18 +5500,22 @@ angular.module('app.controllers', [])
 			if (!result && typeof result !== "boolean") {
 				Services.setUserPickLocation(indexUser).then(function(result) {
 					console.log('berhasil');
-					$ionicHistory.backView().go();
+					// $ionicHistory.backView().go();
+					$state.go('tabsController.jelajah');
 				},function(reason) {
 					console.log('gagal');
-					$ionicHistory.backView().go();
+					// $ionicHistory.backView().go();
+					$state.go('tabsController.jelajah');
 				});
 			} else {
-				$ionicHistory.backView().go();
+				// $ionicHistory.backView().go();
+				$state.go('tabsController.jelajah');
 			}
 		}, function(reason) {
 			console.log('failed');
 			console.log(reason);
-			$ionicHistory.backView().go();
+			// $ionicHistory.backView().go();
+			$state.go('tabsController.jelajah');
 		});
 
 		// entah berhasil analytics set pick location atau tidak.. kembalikan user ke view sebelum ini
