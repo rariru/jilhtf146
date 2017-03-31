@@ -329,6 +329,12 @@ angular.module('app.routes', ['ionicUIRouter'])
     controller: 'wizardCtrl'
   })
 
+  .state('registration', {
+    url: '/registration',
+    templateUrl: 'templates/registration.html',
+    controller: 'registrationCtrl'
+  })
+
   .state('tabsController.profil', {
     url: '/profil',
     views: {

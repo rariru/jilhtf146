@@ -5461,7 +5461,7 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('wizardCtrl', function($scope, $state, $ionicSlideBoxDelegate, $localStorage, $cordovaOauth) {
+.controller('wizardCtrl', function($scope, $state, $ionicSlideBoxDelegate, $localStorage, $cordovaOauth, Services, $ionicLoading, $http, $cordovaToast) {
 	// Called to navigate to the main app
 	$scope.startApp = function() {
 		$state.go('tabsController.jelajah');
@@ -5532,15 +5532,15 @@ angular.module('app.controllers', [])
 						if (user) {
 							// dataUser registered, update data
 							// trackEvent
-							Analytics.logEvent('Auth', 'Sign In', 'Facebook');
+							// Analytics.logEvent('Auth', 'Sign In', 'Facebook');
 							// trackUser Event
-							Analytics.logUserArr([
-										$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-										'trackEvent',
-										'Auth',
-										'Sign In',
-										'Facebook'
-									]);
+							// Analytics.logUserArr([
+							// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+							// 			'trackEvent',
+							// 			'Auth',
+							// 			'Sign In',
+							// 			'Facebook'
+							// 		]);
 							makeToast('Berhasil Login');
 							$http.get("https://graph.facebook.com/v2.8/me?fields=name,location,birthday,gender,picture.type(large){url},age_range,email,about", {params :{
 								access_token : $localStorage.fbaccesstoken,
@@ -5553,15 +5553,15 @@ angular.module('app.controllers', [])
 						} else {
 							// create new data in firebase from Facebook
 							// trackEvent
-							Analytics.logEvent('Auth', 'Sign Up', 'Facebook');
+							// Analytics.logEvent('Auth', 'Sign Up', 'Facebook');
 							// trackUser Event
-							Analytics.logUserArr([
-										$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-										'trackEvent',
-										'Auth',
-										'Sign Up',
-										'Facebook'
-									]);
+							// Analytics.logUserArr([
+							// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+							// 			'trackEvent',
+							// 			'Auth',
+							// 			'Sign Up',
+							// 			'Facebook'
+							// 		]);
 							$http.get("https://graph.facebook.com/v2.8/me?fields=name,location,birthday,gender,picture.type(large){url},age_range,email,about", {params :{
 								access_token : $localStorage.fbaccesstoken,
 								format : "json"
@@ -5581,33 +5581,34 @@ angular.module('app.controllers', [])
 					}, function(err) {
 						// error check user data
 						// trackEvent
-						Analytics.logEvent('Auth', 'Auth Failed');
+						// Analytics.logEvent('Auth', 'Auth Failed');
 						// trackUser Event
-						Analytics.logUserArr([
-									$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-									'trackEvent',
-									'Auth',
-									'Auth Failed'
-								]);
+						// Analytics.logUserArr([
+						// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+						// 			'trackEvent',
+						// 			'Auth',
+						// 			'Auth Failed'
+						// 		]);
 						firebase.auth().signOut();
 						makeToast('Login gagal, koneksi tidak stabil');
 					})
 					$ionicLoading.hide();
-					$ionicHistory.goBack();
+					// $ionicHistory.goBack();
+					$state.go('registration');
 				} else if (profile.providerId === "google.com") {
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
 							// dataUser registered, update data
 							// trackEvent
-							Analytics.logEvent('Auth', 'Sign In', 'Google');
+							// Analytics.logEvent('Auth', 'Sign In', 'Google');
 							// trackUser Event
-							Analytics.logUserArr([
-										$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-										'trackEvent',
-										'Auth',
-										'Sign In',
-										'Google'
-									]);
+							// Analytics.logUserArr([
+							// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+							// 			'trackEvent',
+							// 			'Auth',
+							// 			'Sign In',
+							// 			'Google'
+							// 		]);
 							makeToast('Berhasil Login');
 							$http.get("https://www.googleapis.com/userinfo/v2/me?fields=email,family_name,gender,given_name,hd,id,link,locale,name,picture,verified_email", {
 								headers :{
@@ -5621,15 +5622,15 @@ angular.module('app.controllers', [])
 						} else {
 							// create new data in firebase from Google
 							// trackEvent
-							Analytics.logEvent('Auth', 'Sign Up', 'Google');
+							// Analytics.logEvent('Auth', 'Sign Up', 'Google');
 							// trackUser Event
-							Analytics.logUserArr([
-										$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-										'trackEvent',
-										'Auth',
-										'Sign Up',
-										'Google'
-									]);
+							// Analytics.logUserArr([
+							// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+							// 			'trackEvent',
+							// 			'Auth',
+							// 			'Sign Up',
+							// 			'Google'
+							// 		]);
 							$http.get("https://www.googleapis.com/userinfo/v2/me?fields=email,family_name,gender,given_name,hd,id,link,locale,name,picture,verified_email", {
 								headers :{
 									"Authorization" : "Bearer "+$localStorage.googleaccesstoken
@@ -5649,14 +5650,14 @@ angular.module('app.controllers', [])
 					}, function(err) {
 						// error check user data
 						// trackEvent
-						Analytics.logEvent('Auth', 'Auth Failed');
+						// Analytics.logEvent('Auth', 'Auth Failed');
 						// trackUser Event
-						Analytics.logUserArr([
-									$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-									'trackEvent',
-									'Auth',
-									'Auth Failed'
-								]);
+						// Analytics.logUserArr([
+						// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+						// 			'trackEvent',
+						// 			'Auth',
+						// 			'Auth Failed'
+						// 		]);
 						firebase.auth().signOut();
 						makeToast('Login gagal, koneksi tidak stabil');
 					})
@@ -5665,24 +5666,38 @@ angular.module('app.controllers', [])
 				}  else {
 					// login dengan cara lain, harusnya tidak terjadi
 					// trackEvent
-					Analytics.logEvent('Auth', 'Auth Failed');
+					// Analytics.logEvent('Auth', 'Auth Failed');
 					// trackUser Event
-					Analytics.logUserArr([
-								$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-								'trackEvent',
-								'Auth',
-								'Auth Failed'
-							]);
+					// Analytics.logUserArr([
+					// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+					// 			'trackEvent',
+					// 			'Auth',
+					// 			'Auth Failed'
+					// 		]);
 					firebase.auth().signOut();
 					makeToast('Login gagal, coba dengan email lain');
 					$ionicLoading.hide();
-					$ionicHistory.goBack();
+					// $ionicHistory.goBack();
+					$state.go('registration');
 				}
 			});
 		}
 	})
 
+	function makeToast(_message) {
+		window.plugins.toast.showWithOptions({
+			message: _message,
+			duration: 1500,
+			position: 'bottom',
+			addPixelsY: -40
+		});
+	};
+})
 
+.controller('registrationCtrl', function($state, $scope){
+	$scope.complete = function() {
+		$state.go('kota');
+	}
 });
 
 
