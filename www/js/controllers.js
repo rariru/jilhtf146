@@ -1675,6 +1675,40 @@ angular.module('app.controllers', [])
 
 		// call greeting and getSlider
 		$scope.greeting();
+		$scope.getSliders();
+
+		Services.getSettingsLocation().then(function(result) {
+			if (result) {
+				var locSettings = result;
+				if (locSettings.status) {
+					// alert("bisa pilih!");
+					var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
+					Services.isUserHasPickLocation(indexUser).then(function(result) {
+						if (!result) {
+							alert("silahkan pilih kota");
+							console.log("idx: "+ indexUser);
+							$state.go('kota');
+						}
+						// if (result) {
+						// 	if (!result.hasOwnProperty('pickLocation')) {
+						// 		// alert("blm pernah pick location");
+						// 		console.log("idx: "+ indexUser);
+						// 		$state.go('tabsController.pickLocation');
+						// 	}
+						// 	// else sudah pernah pick location
+						// } else {
+						// 	// alert("nouser found");
+						// }
+					}, function(reason) {
+						// failed get user profile
+					});
+				} else {
+					// alert("blm bisa pilih...");
+				}
+			}
+		}, function(reason) {
+			// error get settings location
+		});
 		// $scope.getSliders();
     });
 
@@ -5457,8 +5491,32 @@ angular.module('app.controllers', [])
 
 })
 
-.controller('kotaCtrl', function($scope, $state, $stateParams, Services, Analytics){
+.controller('kotaCtrl', function($scope, $state, $stateParams, Services, Analytics, $localStorage, $ionicHistory){
+	$scope.pilihKota = function(kota) {
+		$localStorage.location = kota;
+		var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
+		Services.getUserPickLocation(indexUser).then(function(result) {
+			console.log(result);
+			if (!result && typeof result !== "boolean") {
+				Services.setUserPickLocation(indexUser).then(function(result) {
+					console.log('berhasil');
+					$ionicHistory.backView().go();
+				},function(reason) {
+					console.log('gagal');
+					$ionicHistory.backView().go();
+				});
+			} else {
+				$ionicHistory.backView().go();
+			}
+		}, function(reason) {
+			console.log('failed');
+			console.log(reason);
+			$ionicHistory.backView().go();
+		});
 
+		// entah berhasil analytics set pick location atau tidak.. kembalikan user ke view sebelum ini
+		// $ionicHistory.backView().go();
+	}
 })
 
 .controller('wizardCtrl', function($scope, $state, $ionicSlideBoxDelegate, $localStorage, $cordovaOauth) {
