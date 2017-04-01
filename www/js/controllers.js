@@ -5,7 +5,7 @@ angular.module('app.controllers', [])
 	$scope.badge = $localStorage.badge;
 })
 
-.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing, $timeout, Analytics, $state, $localStorage) {
+.controller('restoransCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicTabsDelegate, $cordovaSocialSharing, $timeout, Analytics, $state, $localStorage, $ionicSlideBoxDelegate) {
 	var loadFlag = false;
 	$scope.nodata = false;
 	$scope.notersimpan = false;
@@ -476,6 +476,18 @@ angular.module('app.controllers', [])
 			addPixelsY: -40
 		});
 	}
+
+	$scope.next = function() {
+    $ionicSlideBoxDelegate.next();
+  	};
+  	$scope.previous = function() {
+    $ionicSlideBoxDelegate.previous();
+  	};
+
+  	// Called each time the slide changes
+  	$scope.slideChanged = function(index) {
+    $scope.slideIndex = index;
+  }
 })
 
 .controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup, $timeout, Analytics, $cordovaSocialSharing, $ionicHistory, $ionicPopup, $cordovaAppVersion, $localStorage) {
@@ -1518,8 +1530,8 @@ angular.module('app.controllers', [])
 		makeToast('Error koneksi tidak stabil', 1500, 'bottom');
 	}
 
-	if ($localStorage.welcome == null) {
-		console.log('welcome: '+$localStorage.welcome);
+	if ($localStorage.wizard == null) {
+		console.log('wizard: '+$localStorage.welcome);
 		$state.go('wizard');
 	}
 
@@ -1553,7 +1565,7 @@ angular.module('app.controllers', [])
 			});
 		} else {
 			$scope.dataUser = {
-				'photoUrl' : 'img/cat.jpg'
+				'photoUrl' : 'img/manganstd.png'
 			};
 		}
 	})
@@ -1629,6 +1641,7 @@ angular.module('app.controllers', [])
 
     // to do when enter view
     $scope.$on('$ionicView.enter', function() {
+    		$scope.selectedCity = $localStorage.location;
     	// define variable queue and process
 		$scope.queue = [];
 		$scope.process = [];
@@ -1680,12 +1693,14 @@ angular.module('app.controllers', [])
 		Services.getSettingsLocation().then(function(result) {
 			if (result) {
 				var locSettings = result;
-				if (locSettings.status) {
+				$scope.locSettings = locSettings.status;
+				console.log('$scope.locSettings :'+$scope.locSettings);
+				if (locSettings.status == true) {
 					// alert("bisa pilih!");
 					var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
 					Services.isUserHasPickLocation(indexUser).then(function(result) {
 						if (!result) {
-							alert("silahkan pilih kota");
+							// alert("silahkan pilih kota");
 							console.log("idx: "+ indexUser);
 							$state.go('kota');
 						}
@@ -2138,6 +2153,10 @@ angular.module('app.controllers', [])
 
 	$scope.pickCity = function(kota) {
 		$state.go("kota");
+	}
+
+	$scope.dataUserPage = function(dataUser) {
+		$state.go("dataUser");
 	}
 })
 
@@ -5523,8 +5542,26 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('wizardCtrl', function($scope, $state, $ionicSlideBoxDelegate, $localStorage, $cordovaOauth, Services, $ionicLoading, $http, $cordovaToast) {
+.controller('wizardCtrl', function($scope, $state, $ionicSlideBoxDelegate, $localStorage, $cordovaOauth, Services, $ionicLoading, $http, $cordovaToast, $ionicPlatform) {
+	firebase.auth().signOut();
 	// Called to navigate to the main app
+
+	// $scope.$on('$ionicView.leave', function() {
+	// 	console.log('LEAVE');
+	// 	$localStorage.wizard = true;
+ //    });
+
+	$scope.$on("$ionicView.beforeLeave", function(){
+		console.log('LEAVE');
+		$localStorage.wizard = true;
+	});
+
+
+	// $scope.$on('$stateChangeStart', function () {
+	// 	$localStorage.wizard = true;
+	// 	console.log('LEAVE');
+	// });
+
 	$scope.startApp = function() {
 		$state.go('tabsController.jelajah');
 	};
@@ -5543,7 +5580,6 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.endWizard = function() {
-		$localStorage.welcome = true;
 		$state.go('tabsController.jelajah');
 	}
 
@@ -5756,26 +5792,11 @@ angular.module('app.controllers', [])
 	};
 })
 
-.controller('registrationCtrl', function($state, $scope){
+.controller('registrationCtrl', function($state, $scope, $localStorage){
 	$scope.complete = function() {
 		$state.go('kota');
+		$localStorage.welcome = true;
 	}
 });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 

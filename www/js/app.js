@@ -12,7 +12,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
   version: 100018
 })
 
-.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage, $timeout, $cordovaDeeplinks, $state, Analytics) {
+.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage, $timeout, $cordovaDeeplinks, $state, Analytics, $ionicHistory) {
   $ionicPlatform.ready(function() {
     // listen to deeplinks
     $cordovaDeeplinks.route({
@@ -139,6 +139,16 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     window.FirebasePlugin.grantPermission();
     console.log("iOS permission granted");
   }
+
+  $ionicPlatform.registerBackButtonAction(function (event) {
+    if ($ionicHistory.currentStateName() === 'wizard'){
+      event.preventDefault();
+    } else if($ionicHistory.currentStateName() === 'tabsController.jelajah') {
+      navigator.app.exitApp();
+    }else {
+      $ionicHistory.goBack();
+    }
+  }, 100);
 })
 
 .config(function($ionicConfigProvider) {

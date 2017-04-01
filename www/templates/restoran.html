@@ -10,10 +10,27 @@
 
         <!-- all information, show if flag true -->
         <div class="list" ng-show="loadFlag" style="position: relative; -webkit-backface-visibility: hidden;">
-            <!-- Image header -->
-            <div class="mangan-list-header">
-                <img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50">
-            </div>
+            <!-- Image header slider have 5 photos -->
+
+            
+                <ion-slide-box on-slide-changed="slideChanged(index)">
+                    <ion-slide>
+                    <div class="mangan-list-header">
+                        <img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50">
+                     </div>
+                    </ion-slide>
+                    <ion-slide>
+                    <div class="mangan-list-header">
+                        <img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50">
+                     </div>
+                    </ion-slide>
+                    <ion-slide>
+                    <div class="mangan-list-header">
+                        <img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50">
+                     </div>
+                    </ion-slide>
+                </ion-slide-box>
+           
             <!-- Nama Restoran -->
             <div class="mangan-nama-restoran">
                 <span class="col" style="text-align: center;">{{restoran.namaResto}}</span>
@@ -122,7 +139,7 @@
                     <div class="item mangan-menu" style="border:0;">
                         <h2 style="">Menu Yang Diulas</h2>
                     </div>
-                    <div class="item mangan-menu item-thumbnail-left item-icon-right item-text-wrap" style="border:0;"ng-repeat="menu in menus" ng-click="openMenu( {{ $index }} )" ng-show="menu.review && menu.review != 'null'">
+                    <div class="item mangan-menu item-thumbnail-left item-icon-right item-text-wrap" style="border:0;" ng-repeat="menu in menus" ng-click="openMenu( {{ $index }} )" ng-show="menu.review && menu.review != 'null'">
                         <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50">
                         <h3 style="color: #4d544d;">{{menu.namaMenu}}</h3>
                         <h3 ng-show="(menu.harga % 1) == 0">{{menu.harga | currency:'Rp ':2}}</h3>
