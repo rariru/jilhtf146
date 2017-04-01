@@ -721,6 +721,11 @@ angular.module('app.controllers', [])
 		animation: 'slide-in-up'
 	}).then(function(modal) { $scope.modalRating = modal; });
 
+	$ionicModal.fromTemplateUrl('templates/facility.html', {
+		scope: $scope,
+		animation: 'slide-in-up'
+	}).then(function(modal) { $scope.modalFacility = modal; });
+
 	$scope.openReview = function() {
 		// trackView
 		Analytics.logView('Ulasan Kuliner');
@@ -1303,6 +1308,10 @@ angular.module('app.controllers', [])
 			"Buku Menu"
 		]);
 		$state.go('tabsController.menus', {'index': index, 'delivery': delivery});
+	}
+
+	$scope.showFacility = function() {
+		$scope.modalFacility.show();
 	}
 
 	function makeToast(_message) {

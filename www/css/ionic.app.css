@@ -10099,6 +10099,14 @@ p {
 .mangan-modal-container .modal {
   min-height: 0 !important; }
 
+.mangan-modal-facility {
+  width: 90%;
+  height: 50%;
+  top: 20%;
+  bottom: 20%;
+  right: 5%;
+  left: 5%; }
+
 .mangan-modal {
   width: 90%;
   height: 60%;
@@ -10326,7 +10334,7 @@ p {
   text-transform: uppercase; }
 
 .wizardSlide1 {
-  background: url("../img/slide1.jpg");
+  background: url("../img/slide2.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -10352,7 +10360,7 @@ p {
     height: 34%; }
 
 .wizardSlide2 {
-  background: url("../img/slide2.jpg");
+  background: url("../img/slide3.jpg");
   background-position: center;
   background-repeat: no-repeat;
   background-size: 100%;
@@ -10490,7 +10498,7 @@ input[type="checkbox"][readonly] {
   height: 100%;
   display: block;
   z-index: -999;
-  background-color: rgba(0, 0, 0, 0.1); }
+  background-color: rgba(0, 0, 0, 0.3); }
 
 .profile {
   background: url("../img/profile1.jpg");
