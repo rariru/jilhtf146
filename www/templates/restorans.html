@@ -20,7 +20,7 @@
             <center><a ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" class="button button-oren button-small button-outline" ion-ripple>JELAJAHI</a></center>
         </div>
 
-        <div class="list card mangan-restorans" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true track by $index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'">
+        <div class="list card mangan-restorans" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true track by $index" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'" style="padding:0;" >
 <!--             <a class="" ng-controller="adsController" ng-show="$index%adsCounter == 0 && $index!=0">
                 <img image-lazy-src="{{showRowAds($index%5 == 0 && $index!=0)}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50">
             </a> -->
@@ -28,9 +28,9 @@
                 <div class="row mangan-nama-resto" style="z-index: 9999;">
                     <span class="col" style="padding: 0;">{{restoran.namaResto}}</span>
                 </div>
-                <a ui-sref="tabsController.restoran({index: restoran.index})"><img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50"></a>
+                <a ng-click="openRestoran(restoran.index, true)"><img image-lazy-src="{{restoran.gambar[0]}}" class="mangan-image-4_3" image-lazy-distance-from-bottom-to-load="50"></a>
             </div>
-                <a ui-sref="tabsController.restoran({index: restoran.index})">
+                <a ng-click="openRestoran(restoran.index)">
                     <div class="row mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'">
                         <div class="" style="">
                             <i class="mangan-kontak-icon icon ion-calendar"></i>
@@ -62,7 +62,7 @@
                     </button>
                 </span>
                  <span class="col col-25" style="padding:0;" ion-ripple>
-                    <button class="mangan-tombol-aksi" ui-sref="tabsController.restoran({index: restoran.index})">
+                    <button class="mangan-tombol-aksi" ng-click="openRestoran(restoran.index, false)">
                         <i class="mangan-icon icon ion-more"></i>
                     </button>
                 </span>

@@ -5,15 +5,37 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ngStorage', 'ionic-ratings', 'ionicLazyLoad', 'ionMDRipple', 'ngCordovaOauth'])
+angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'ngCordova', 'ngStorage', 'ionic-ratings', 'ionicLazyLoad', 'ionMDRipple', 'ngCordovaOauth', 'ionic.native'])
 
 .constant('config', {
   analytics: 'UA-82447017-1',
   version: 100018
 })
 
-.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage) {
+.run(function($ionicPlatform, config, $ionicPopup, Services, $localStorage, $timeout, $cordovaDeeplinks, $state, Analytics) {
   $ionicPlatform.ready(function() {
+    // listen to deeplinks
+    $cordovaDeeplinks.route({
+      '/kuliner/:restoranId': {
+        target: 'restoran',
+        parent: 'kuliner' 
+      }
+    }).subscribe(function(match) {
+      console.log('match : '+JSON.stringify(match));
+      $timeout(function() {
+        $state.go('tabsController.restoran', {index: match.$args.restoranId});
+      }, 100);
+      // $timeout(function() {
+      //   $state.go(match.$route.parent, match.$args);
+
+      //   $timeout(function(match) {
+      //     $state.go(match.$route.target, match.$args);
+      //   }, 800);
+      // }, 100);
+    }, function(nomatch) {
+      console.log('nomatch : '+JSON.stringify(nomatch));
+    });
+
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
@@ -50,7 +72,18 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
 
       // Check notification Body (notification from us)
       // From us, there is body attribute
+      console.log(notification.index);
       if (notification.body) {
+        // trackEvent
+        Analytics.logEvent('Ads', 'Notification', notification.index || 'empty');
+        // trackUser Event
+        Analytics.logUserArr([
+                $localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+                'trackEvent',
+                'Ads',
+                'Notification',
+                 notification.index || 'default'
+              ]);
         // Foreground, tap = false
         if (notification.tap == false) {
           $ionicPopup.alert({
@@ -58,6 +91,10 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
             template: notification.body,
             okText: 'OK',
             okType: 'button-oren'
+          }).then(function(res) {
+            if (res && notification.restoran) {
+              $state.go('tabsController.restoran', {'index': notification.restoran});
+            }
           });
         }
         // Background
@@ -67,6 +104,10 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
             template: notification.body,
             okText: 'OK',
             okType: 'button-oren'
+          }).then(function(res) {
+            if (res && notification.restoran) {
+              $state.go('tabsController.restoran', {'index': notification.restoran});
+            }
           });
         }
       } else {
@@ -78,6 +119,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
     })
 
     window.FirebasePlugin.subscribe("mangan");
+    Analytics.logEvent('Subscribe', 'mangan');
 
     function _waitForAnalytics(){
         if(typeof analytics !== 'undefined'){
@@ -91,7 +133,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
         }
     };
     _waitForAnalytics();
-  });
+  })
 
   if (ionic.Platform.isIOS()) {
     window.FirebasePlugin.grantPermission();
@@ -99,11 +141,12 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
   }
 })
 
-.config(['$ionicConfigProvider', function($ionicConfigProvider) {
+.config(function($ionicConfigProvider) {
 
     // $ionicConfigProvider.tabs.position('bottom'); // other values: top
     $ionicConfigProvider.navBar.alignTitle('center');
-}])
+    $ionicConfigProvider.scrolling.jsScrolling(false);
+})
 
 // http://justinklemm.com/angularjs-filter-ordering-objects-ngrepeat/
 .filter('orderObjectBy', function() {

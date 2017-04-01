@@ -1,40 +1,45 @@
-<ion-view title="Jelajah" hide-back-button="true" id="page2">
-    <ion-content padding="false" class="has-header">
-        <form class="list" ng-submit="searchQuery()" style="background-color: rgb(1, 178, 177); margin-bottom: 0px">
-            <label class="item item-input" name="Pencarian" style="border: 5px solid rgb(1, 178, 177); padding: 0; border-right: 6px solid rgb(1, 178, 177); border-left: 6px solid rgb(1, 178, 177); border-radius: 12px;">
-                <div style="min-height: 37px; min-width: 37px; background-color: rgb(230, 231, 232); text-align:center; margin-right: 10px;">
-                    <i class="icon ion-search placeholder-icon" style="font-size: 20px; line-height: 40px;"></i>
-                </div>
-                <input type="search" placeholder="Cari" ng-model="user.query" style="font-size: 14px;" ion-ripple>
-            </label>
-        </form>
+<ion-view hide-back-button="true" id="page2">
+<ion-nav-title><button class="mangan-tombol-aksi" ng-click="pickCity()" ion-ripple><span style="color: white; font-size: 16px; margin-right: 10px;">Kamu Melihat : {{selectedCity}} <i class="ion-ios-arrow-down"></i></span></button></ion-nav-title>  
+    
+    <ion-content padding="false" overflow-scroll="false" class="has-header">
         <!-- If transaksi done, ng-hide -->
-        <div class="list" style="" ng-click="transaksi()">
-            <div class="item mangan-menu item-text-wrap item-icon-right" style="background-color: #ff6a32;" ng-show="queue.length > 0 || process.length > 0" ion-ripple>
-                <p style="color:white; font-weight: 300" ng-show="queue.length > 0">{{queue.length}} Pesanan sedang dalam queue</p>
-                <p style="color:white; font-weight: 300" ng-show="process.length > 0">{{process.length}} Pesanan sedang dalam process</p>
-                <i class="icon ion-ios-arrow-right" style="font-size: 30px; color: white;"></i>
+        <div class="list" style="" ng-click="transaksi()" style="border: 0;">
+            <div class="item mangan-menu item-text-wrap item-icon-right" style="border:0; background-color: #ff7846;" ng-show="queue.length > 0 || process.length > 0" ion-ripple>
+                <p style="color:white; font-weight: 300" ng-show="queue.length > 0">{{queue.length}} Pesanan sedang dalam Queue</p>
+                <p style="color:white; font-weight: 300" ng-show="process.length > 0">{{process.length}} Pesanan sedang dalam Process</p>
+                <i class="icon ion-ios-arrow-right" style="font-size: 20px; color: white;"></i>
             </div>
         </div>
 
+        <form class="list list-inset" ng-submit="searchQuery()" style="margin-top:10px;">
+            <label class="item item-input" name="Pencarian" style="padding: 0; border-radius: 5px;">
+                <div style="min-height: 37px; min-width: 37px; background-color: #f2f3f3; text-align:center; margin-right: 10px;">
+                    <i class="icon ion-ios-search placeholder-icon" style="font-size: 20px; line-height: 40px;"></i>
+                </div>
+                <input type="search" placeholder="Cari" ng-model="user.query" ng-focus="typeSearch()" style="font-size: 14px;" ion-ripple>
+            </label>
+        </form>
+        
+
         <div class="list" style="">
             <div class="item item-text-wrap item-thumbnail-right mangan-menu" style="border: none; margin:10px 15px 0 15px;">
-                <img class="mangan-greeting-gambar" ng-src="{{dataUser.photoUrl}}" style="">
-                <h2 ng-show="!dataUser.name" style="font-size: 24px; color: rgb(1,177,178);">Halo Foodies</h2>
-                <h2 ng-show="dataUser.name" style="font-size: 24px; color: rgb(1,177,178);">Halo {{dataUser.name}}</h2>
+                <img class="mangan-greeting-gambar" ng-src="{{dataUser.photoUrl}}">
+                <h2 ng-show="!dataUser.name" style="font-size: 24px; color: rgb(1,177,178);">Hai</h2>
+                <h2 ng-show="dataUser.name" style="font-size: 24px; color: rgb(1,177,178);">Hai {{dataUser.name}},</h2>
                 <p style="font-size: 16px;">Kamu lapar? Mau makan apa hari ini?</p>
                 <!-- Kalo diklik masuk ke map terdekat dari lokasi user-->
-                <a href="/page2/page11" ng-show="lokasiUser" style="color: orangered; text-decoration: none;"><i class="icon ion-ios-location" style="padding-right:5px"></i>{{lokasiUser}}</a>
-                <a href="" ng-show="!lokasiUser" style="color: orangered; text-decoration: none;"><i class="icon ion-ios-location" style="padding-right:5px"></i>Lokasi tidak ditemukan</a>
+                <p ng-show="lokasiUser" style="color: orangered; text-decoration: none;"><i class="icon ion-ios-location" style="padding-right:5px"></i>{{lokasiUser}}</p>
+                <p ng-click="greeting()" ng-show="!lokasiUser" style="color: orangered; text-decoration: none;"><i class="icon ion-ios-location" style="padding-right:5px"></i>Lokasi tidak ditemukan</p>
             </div>
-            <div style="width: 100%; margin-bottom: 10px; padding-left: 25px;">
-                <button ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" id="mangan-button-pesan" class="button button-oren button-small button-outline" ng-click="pesan()" style="width:30%; margin: 0 2px;" ion-ripple>JELAJAHI</button>
-                <button ng-show="!dataUser || dataUser == null" ui-sref="login" class="button button-oren button-small" style="width:30%;" ion-ripple>LOGIN</button> 
-            </div>
+            <!-- <div style="width: 100%; margin-bottom: 10px; padding-left: 25px;">
+                <button ng-click="jelajah()" u id="mangan-button-pesan" class="button button-oren button-small button-outline" style="width:30%; margin: 0 2px;" ion-ripple>JELAJAHI</button>
+                <button ng-show="!dataUser || dataUser == null" ng-click="login()" class="button button-oren button-small" style="width:30%;" ion-ripple>LOGIN</button> 
+            </div> -->
         </div>
       
-        <div class="list mangan-menu" ng-hide="true">
-          <label class="item item-input item-select" style="">
+        <!-- <div class="list mangan-menu mangan-bottom"> -->
+        <!-- <button ng-click="dataUserPage()" class="button button-block button-oren button-outline" ion-ripple>Data User</button> -->
+          <!-- <label class="item item-input item-select" style="">
             <div class="input-label">
               Lihat Kota Lain
             </div>
@@ -42,14 +47,8 @@
               <option>Surakarta</option>
               <option>Yogyakarta</option>
             </select>
-          </label>
-        </div>
-
-<!--         <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
-            <ion-slide-page ng-repeat="slider in sliders">
-                <img ng-src="{{ slider.url }}" style="width: 100%; display: block;">
-            </ion-slide-page>
-        </ion-slides> -->
+          </label> -->
+        <!-- </div> -->
 
         <!-- Kategori    -->
         <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
@@ -71,7 +70,7 @@
 
          <div class="row gallery" style="margin-bottom: 10px;" ion-ripple>
             <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
-                <a ui-sref="tabsController.restorans({category: 'all', 'name': 'Semua Kuliner'})">
+                <a ui-sref="tabsController.restorans({category: 'delivery', 'name': 'Laper Mager'})">
                     <!-- <div class="mangan-kategori">FOOD DELIVERY</div> -->
                     <img src="img/delivery.jpg" class="mangan-image-jelajah">
                 </a>
@@ -127,7 +126,7 @@
        
         </div> -->
 
-        <ion-slides options="options" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
+<!--         <ion-slides options="sliderOptions" class="row" style="width: 100%; padding: 0; height: 125px; margin-bottom: 0px">
             <ion-slide-page>
                 <img src="img/slider4.jpg" style="width: 100%; display: block;">
             </ion-slide-page>
@@ -143,8 +142,26 @@
             <ion-slide-page>
                 <img src="img/slider1.jpg" style="width: 100%; display: block;">
             </ion-slide-page>
+        </ion-slides> -->
+
+        <!-- Slider Dinamis -->
+        <ion-slides ng-show="sliders || sliders.length > 0" options="sliderOptions" class="row" style="width: 100%; padding: 0; height: 170px; margin-bottom: 0px">
+            <ion-slide-page ng-repeat="slider in sliders" ng-click="gotoURL(slider.index, slider.linkUrl, slider.tel)" on-swipe-left="next()" on-swipe-right="previous()" ion-ripple>
+
+                <img ng-src="{{ image[$index] }}" style="width: 100%; display: block;">
+                <div class="list" ng-show="slider.linkUrl">
+                  <div class="item item-divider" style="background-color: #3498db">
+                    <p style="text-align: right; color: white;">Selengkapnya<i class="icon ion-chevron-right" style="margin-left: 5px;"></i></p>
+                  </div>
+                </div>
+                <div class="list" ng-hide="slider.linkUrl">
+                  <div class="item item-divider" style="background-color: #3498db">
+                    <p style="text-align: right; color: white;"><i class="icon ion-chevron-right" style="margin-left: 5px; color: transparent;"></i></p>
+                  </div>
+                </div>
+            </ion-slide-page>
         </ion-slides>
-        
+
         <!-- Kategori    -->
         <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
             <h4 style="background: white; padding-left: 10px; width: 100%; margin: 15px 0; color: rgb(1,177,178);">BY CATEGORY</h4>
@@ -241,10 +258,6 @@
             </div>
         </div>
 
-<!--         <div class="mangan-menu-selengkapnya">
-            <button id="button-rekomendasi" class="button button-positive button-small" ng-click="rekomendasikan()" ion-ripple>REKOMENDASIKAN</button>
-            <button id="button-daftar" class="button button-positive button-small" ng-click="daftar()" ion-ripple>PENDAFTARAN</button>
-        </div> -->
         <div class="mangan-bottom">
             <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
                 <h5 style="font-weight: 300; background: white; padding-left: 10px; width: 100%;">Tidak menemukan yang kamu sukai?</h5>
@@ -258,9 +271,6 @@
             </div>
             <button id="button-daftar" class="button button-block button-oren button-outline" ng-click="daftar()" ion-ripple>DAFTAR KULINER</button>
         </div>
-        <!-- <div class="row" style="width: 100%; padding: 0;"> -->
-        <!-- ion slides awal -->
-
-        <!-- </div> -->
     </ion-content>
+
 </ion-view>

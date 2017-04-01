@@ -1,11 +1,11 @@
-<ion-view id="pesan" title="Pesan">
+<ion-view title="Pesan" id="pesan">
     <ion-nav-title>{{restoran.namaResto}}</ion-nav-title>
-    <ion-content lazy-scroll class="has-header has-footer">
+    <ion-content lazy-scroll overflow-scroll="false" class="has-header has-footer">
         <ion-refresher
             on-refresh="getMenus()"
             spinner = "ripple" >
         </ion-refresher>
-        <div class="list">
+        <div class="list" style="position: relative;">
 
             <!-- <ion-item class="mangan-menu item-thumbnail-left assertive" style="border: 5px solid rgb(230,231,232);" ng-repeat="menu in menus" ng-click="openMenu( {{ $index }} )"> -->
             <div class="item mangan-menu item-thumbnail-left assertive item-text-wrap" ng-repeat="menu in menus" style="" ng-show="(menu.harga % 1) == 0">
