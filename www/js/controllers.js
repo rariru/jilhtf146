@@ -1530,11 +1530,6 @@ angular.module('app.controllers', [])
 		makeToast('Error koneksi tidak stabil', 1500, 'bottom');
 	}
 
-	if ($localStorage.wizard == null) {
-		console.log('wizard: '+$localStorage.welcome);
-		$state.go('wizard');
-	}
-
 	// loading
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
@@ -1641,7 +1636,7 @@ angular.module('app.controllers', [])
 
     // to do when enter view
     $scope.$on('$ionicView.enter', function() {
-    		$scope.selectedCity = $localStorage.location;
+    	$scope.selectedCity = $localStorage.location;
     	// define variable queue and process
 		$scope.queue = [];
 		$scope.process = [];
@@ -1690,40 +1685,46 @@ angular.module('app.controllers', [])
 		$scope.greeting();
 		$scope.getSliders();
 
-		Services.getSettingsLocation().then(function(result) {
-			if (result) {
-				var locSettings = result;
-				$scope.locSettings = locSettings.status;
-				console.log('$scope.locSettings :'+$scope.locSettings);
-				if (locSettings.status == true) {
-					// alert("bisa pilih!");
-					var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
-					Services.isUserHasPickLocation(indexUser).then(function(result) {
-						if (!result) {
-							// alert("silahkan pilih kota");
-							console.log("idx: "+ indexUser);
-							$state.go('kota');
-						}
-						// if (result) {
-						// 	if (!result.hasOwnProperty('pickLocation')) {
-						// 		// alert("blm pernah pick location");
-						// 		console.log("idx: "+ indexUser);
-						// 		$state.go('tabsController.pickLocation');
-						// 	}
-						// 	// else sudah pernah pick location
-						// } else {
-						// 	// alert("nouser found");
-						// }
-					}, function(reason) {
-						// failed get user profile
-					});
-				} else {
-					// alert("blm bisa pilih...");
+
+		if ($localStorage.wizard == null) {
+			console.log('wizard: '+$localStorage.welcome);
+			$state.go('wizard');
+		} else {
+			Services.getSettingsLocation().then(function(result) {
+				if (result) {
+					var locSettings = result;
+					$scope.locSettings = locSettings.status;
+					console.log('$scope.locSettings :'+$scope.locSettings);
+					if (locSettings.status == true) {
+						// alert("bisa pilih!");
+						var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
+						Services.isUserHasPickLocation(indexUser).then(function(result) {
+							if (!result) {
+								// alert("silahkan pilih kota");
+								console.log("idx: "+ indexUser);
+								$state.go('kota');
+							}
+							// if (result) {
+							// 	if (!result.hasOwnProperty('pickLocation')) {
+							// 		// alert("blm pernah pick location");
+							// 		console.log("idx: "+ indexUser);
+							// 		$state.go('tabsController.pickLocation');
+							// 	}
+							// 	// else sudah pernah pick location
+							// } else {
+							// 	// alert("nouser found");
+							// }
+						}, function(reason) {
+							// failed get user profile
+						});
+					} else {
+						// alert("blm bisa pilih...");
+					}
 				}
-			}
-		}, function(reason) {
-			// error get settings location
-		});
+			}, function(reason) {
+				// error get settings location
+			});
+		}
 		// $scope.getSliders();
     });
 
@@ -3771,7 +3772,8 @@ angular.module('app.controllers', [])
 						makeToast('Login gagal, koneksi tidak stabil');
 					})
 					$ionicLoading.hide();
-					$ionicHistory.goBack();
+					// $ionicHistory.goBack();
+					$state.go('registration');
 				} else if (profile.providerId === "google.com") {
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
@@ -3839,7 +3841,8 @@ angular.module('app.controllers', [])
 						makeToast('Login gagal, koneksi tidak stabil');
 					})
 					$ionicLoading.hide();
-					$ionicHistory.goBack();
+					// $ionicHistory.goBack();
+					$state.go('registration');
 				}  else {
 					// login dengan cara lain, harusnya tidak terjadi
 					// trackEvent
@@ -5543,7 +5546,9 @@ angular.module('app.controllers', [])
 })
 
 .controller('wizardCtrl', function($scope, $state, $ionicSlideBoxDelegate, $localStorage, $cordovaOauth, Services, $ionicLoading, $http, $cordovaToast, $ionicPlatform) {
-	firebase.auth().signOut();
+	firebase.auth().signOut().then(function() {
+		console.log('SIGNED OUT');
+	});
 	// Called to navigate to the main app
 
 	// $scope.$on('$ionicView.leave', function() {
@@ -5692,7 +5697,7 @@ angular.module('app.controllers', [])
 					})
 					$ionicLoading.hide();
 					// $ionicHistory.goBack();
-					$state.go('registration');
+					$state.go('registration', {wizard: true});
 				} else if (profile.providerId === "google.com") {
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
@@ -5760,7 +5765,8 @@ angular.module('app.controllers', [])
 						makeToast('Login gagal, koneksi tidak stabil');
 					})
 					$ionicLoading.hide();
-					$ionicHistory.goBack();
+					// $ionicHistory.goBack();
+					$state.go('registration', {wizard: true});
 				}  else {
 					// login dengan cara lain, harusnya tidak terjadi
 					// trackEvent
@@ -5775,8 +5781,7 @@ angular.module('app.controllers', [])
 					firebase.auth().signOut();
 					makeToast('Login gagal, coba dengan email lain');
 					$ionicLoading.hide();
-					// $ionicHistory.goBack();
-					$state.go('registration');
+					$ionicHistory.goBack();
 				}
 			});
 		}
@@ -5792,10 +5797,9 @@ angular.module('app.controllers', [])
 	};
 })
 
-.controller('registrationCtrl', function($state, $scope, $localStorage){
+.controller('registrationCtrl', function($state, $scope, $localStorage, $stateParams, $ionicHistory){
 	$scope.complete = function() {
-		$state.go('kota');
-		$localStorage.welcome = true;
+		$state.go('tabsController.jelajah');
 	}
 });
 
