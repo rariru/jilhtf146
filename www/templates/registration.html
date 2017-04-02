@@ -11,17 +11,17 @@
                     <div class="item item-text-wrap mangan-menu" style="">
                         <!-- date picker -->
                         <label class="item-input mangan-menu">
-                            <input type="text" placeholder="Birthday">
+                            <input type="date" ng-model="user.dateOfBirth" placeholder="Birthday" required="true">
                         </label>
                         <label class="item-input item-select mangan-menu" style="">
                             <div class="input-label" style="color: #b2b2b2; width: 0;">Gender</div>
-                            <select>
+                            <select ng-model="user.gender" required="true">
                               <option>Male</option>
                               <option>Female</option>
                             </select>
                         </label>
                         <label class="item-input mangan-menu">
-                            <input type="number" placeholder="Telepon">
+                            <input type="number" ng-model="user.phone" placeholder="Telepon">
                         </label>
                     </div>
                   </div>
