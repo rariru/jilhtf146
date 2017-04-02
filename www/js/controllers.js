@@ -1733,6 +1733,50 @@ angular.module('app.controllers', [])
 			}, function(reason) {
 				// error get settings location
 			});
+
+			// var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
+			// Services.getProfileByUid(indexUser).then(function(result) {
+			// 	if (!(result && result.hasOwnProperty('gender') && result.hasOwnProperty('dateOfBirth'))) {
+			// 		$state.go('registration');
+			// 	} else {
+			// 		Services.getSettingsLocation().then(function(result) {
+			// 			if (result) {
+			// 				var locSettings = result;
+			// 				$scope.locSettings = locSettings.status;
+			// 				console.log('$scope.locSettings :'+$scope.locSettings);
+			// 				if (locSettings.status == true) {
+			// 					// alert("bisa pilih!");
+			// 					var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
+			// 					Services.isUserHasPickLocation(indexUser).then(function(result) {
+			// 						if (!result) {
+			// 							// alert("silahkan pilih kota");
+			// 							console.log("idx: "+ indexUser);
+			// 							$state.go('kota');
+			// 						}
+			// 						// if (result) {
+			// 						// 	if (!result.hasOwnProperty('pickLocation')) {
+			// 						// 		// alert("blm pernah pick location");
+			// 						// 		console.log("idx: "+ indexUser);
+			// 						// 		$state.go('tabsController.pickLocation');
+			// 						// 	}
+			// 						// 	// else sudah pernah pick location
+			// 						// } else {
+			// 						// 	// alert("nouser found");
+			// 						// }
+			// 					}, function(reason) {
+			// 						// failed get user profile
+			// 					});
+			// 				} else {
+			// 					// alert("blm bisa pilih...");
+			// 				}
+			// 			}
+			// 		}, function(reason) {
+			// 			// error get settings location
+			// 		});
+			// 	}
+			// }, function(reason) {
+			// 	console.log("cannto retrieve profile");
+			// });
 		}
 		// $scope.getSliders();
     });
@@ -3780,9 +3824,10 @@ angular.module('app.controllers', [])
 						firebase.auth().signOut();
 						makeToast('Login gagal, koneksi tidak stabil');
 					})
-					$ionicLoading.hide();
+					// $ionicLoading.hide();
 					// $ionicHistory.goBack();
-					$state.go('registration');
+					// $state.go('registration');
+					checkWizardData();
 				} else if (profile.providerId === "google.com") {
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
@@ -3849,9 +3894,10 @@ angular.module('app.controllers', [])
 						firebase.auth().signOut();
 						makeToast('Login gagal, koneksi tidak stabil');
 					})
-					$ionicLoading.hide();
+					// $ionicLoading.hide();
 					// $ionicHistory.goBack();
-					$state.go('registration');
+					// $state.go('registration');
+					checkWizardData();
 				}  else {
 					// login dengan cara lain, harusnya tidak terjadi
 					// trackEvent
@@ -3870,7 +3916,28 @@ angular.module('app.controllers', [])
 				}
 			});
 		}
-	})
+	});
+
+	function checkWizardData() {
+		var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
+		Services.getProfileByUid(indexUser).then(function(result) {
+			if (!(result && result.hasOwnProperty('gender') && result.hasOwnProperty('dateOfBirth'))) {
+				// $ionicHistory.nextViewOptions({
+				//   disableBack: true
+				// });
+
+				$ionicLoading.hide();	
+				$state.go('registration');
+			} else {
+				$ionicLoading.hide();
+				$ionicHistory.goBack();
+			}
+		}, function(reason) {
+			console.log("cannto retrieve profile");
+			$ionicLoading.hide();
+			$ionicHistory.goBack();
+		});
+	}
 
 	function makeToast(_message) {
 		window.plugins.toast.showWithOptions({
@@ -5554,7 +5621,15 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('wizardCtrl', function($scope, $state, $ionicSlideBoxDelegate, $localStorage, $cordovaOauth, Services, $ionicLoading, $http, $cordovaToast, $ionicPlatform) {
+.controller('wizardCtrl', function($scope, $state, $ionicSlideBoxDelegate, $localStorage, $cordovaOauth, Services, $ionicLoading, $http, $cordovaToast, $ionicPlatform, $ionicHistory) {
+	$scope.$on('$ionicView.enter', function() {
+		if ($localStorage.wizard) {
+			$state.go('tabsController.jelajah');
+			return;
+		}
+	});
+
+
 	firebase.auth().signOut().then(function() {
 		console.log('SIGNED OUT');
 	});
@@ -5704,9 +5779,10 @@ angular.module('app.controllers', [])
 						firebase.auth().signOut();
 						makeToast('Login gagal, koneksi tidak stabil');
 					})
-					$ionicLoading.hide();
+					// $ionicLoading.hide();
 					// $ionicHistory.goBack();
-					$state.go('registration', {wizard: true});
+					// $state.go('registration', {wizard: true});
+					checkWizardData();
 				} else if (profile.providerId === "google.com") {
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
@@ -5772,10 +5848,11 @@ angular.module('app.controllers', [])
 						// 		]);
 						firebase.auth().signOut();
 						makeToast('Login gagal, koneksi tidak stabil');
-					})
-					$ionicLoading.hide();
+					});
+					// $ionicLoading.hide();
 					// $ionicHistory.goBack();
-					$state.go('registration', {wizard: true});
+					// $state.go('registration', {wizard: true});
+					checkWizardData();
 				}  else {
 					// login dengan cara lain, harusnya tidak terjadi
 					// trackEvent
@@ -5794,7 +5871,29 @@ angular.module('app.controllers', [])
 				}
 			});
 		}
-	})
+	});
+
+	function checkWizardData() {
+		var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
+		Services.getProfileByUid(indexUser).then(function(result) {
+			if (!(result && result.hasOwnProperty('gender') && result.hasOwnProperty('dateOfBirth'))) {
+				// $ionicHistory.nextViewOptions({
+				//   disableBack: true
+				// });
+
+				$ionicLoading.hide();	
+				$state.go('registration', {wizard: true});
+			} else {
+				$ionicLoading.hide();
+				$state.go('tabsController.jelajah');
+				console.log("we're done");
+			}
+		}, function(reason) {
+			console.log("cannto retrieve profile");
+			$ionicLoading.hide();
+			$state.go('tabsController.jelajah');
+		});
+	}
 
 	function makeToast(_message) {
 		window.plugins.toast.showWithOptions({
@@ -5806,9 +5905,28 @@ angular.module('app.controllers', [])
 	};
 })
 
-.controller('registrationCtrl', function($state, $scope, $localStorage, $stateParams, $ionicHistory){
+.controller('registrationCtrl', function($state, $scope, $localStorage, $stateParams, $ionicHistory, Services){
+	$scope.user = {
+		dateOfBirth: new Date(),
+		gender: "Male",
+		phone: null
+	};
+
 	$scope.complete = function() {
-		$state.go('tabsController.jelajah');
+		if (!($scope.user.dateOfBirth && $scope.user.gender)) {
+			alert('Tanggal lahir dan gender wajib diisi!');
+		} else {
+			var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
+			Services.addWizardData(indexUser, $scope.user.dateOfBirth, $scope.user.gender, $scope.user.phone).then(function(result) {
+				console.log("scuccess add wizard data");
+				// $state.go('tabsController.jelajah');
+				$ionicHistory.goBack();
+			}, function(reason) {
+				console.log("failed add wizard data");
+				// $state.go('tabsController.jelajah');
+				$ionicHistory.goBack();
+			});
+		}
 	}
 });
 

@@ -687,6 +687,31 @@ angular.module('app.services', [])
 		);	
 	}
 
+
+	// wizard registrasi
+	this.addWizardData = function(uid, dateOfBirth, gender, phone) {
+		var promise = $q.defer();
+
+		console.log(uid);
+		var date = new Date(dateOfBirth);
+		firebase.database().ref('user/'+ uid +'/dateOfBirth').set(date.getTime()).then(function(result) {
+			console.log(result);
+			console.log("success add dateOfBirth: "+ dateOfBirth);
+			firebase.database().ref('user/'+ uid +'/gender').set(gender).then(function() {
+				console.log("success add gender: "+ gender);
+				promise.resolve(true);
+			});
+
+			firebase.database().ref('user/'+ uid +'/phone').set(phone);
+		}, function(reason) {
+			console.log("why "+ reason);
+		});
+
+		return promise.promise;
+	}
+
+
+
 	// DAFTAR& REKOMENDASI
 	this.daftarResto = function(data) {
 		var promise = $q.defer();
