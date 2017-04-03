@@ -58,6 +58,10 @@ angular.module('app.routes', ['ionicUIRouter'])
       'tab3': {
         templateUrl: 'templates/tersimpan.html',
         controller: 'tersimpanCtrl'
+      },
+      'tab4': {
+        templateUrl: 'templates/tersimpan.html',
+        controller: 'tersimpanCtrl'
       }
     }
   })
@@ -109,6 +113,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         controller: 'restoranCtrl'
       },
       'tab3': {
+        templateUrl: 'templates/restoran.html',
+        controller: 'restoranCtrl'
+      },
+      'tab4': {
         templateUrl: 'templates/restoran.html',
         controller: 'restoranCtrl'
       }
@@ -241,6 +249,10 @@ angular.module('app.routes', ['ionicUIRouter'])
       'tab3': {
         templateUrl: 'templates/promo.html',
         controller: 'promoCtrl'
+      },
+      'tab4': {
+        templateUrl: 'templates/promo.html',
+        controller: 'promoCtrl'
       }
     }
   })
@@ -257,6 +269,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         controller: 'pesanCtrl'
       },
       'tab3':{
+        templateUrl: 'templates/pesan.html',
+        controller: 'pesanCtrl'
+      },
+      'tab4': {
         templateUrl: 'templates/pesan.html',
         controller: 'pesanCtrl'
       }
@@ -281,6 +297,10 @@ angular.module('app.routes', ['ionicUIRouter'])
       'tab3':{
         templateUrl:'templates/invoice.html',
         controller:'invoiceCtrl'
+      },
+      'tab4': {
+        templateUrl: 'templates/invoice.html',
+        controller: 'invoiceCtrl'
       }
     },
     params: {
@@ -302,6 +322,10 @@ angular.module('app.routes', ['ionicUIRouter'])
       'tab3':{
         templateUrl:'templates/ulasanPengguna.html',
         controller:'ulasanPenggunaCtrl'
+      },
+      'tab4': {
+        templateUrl: 'templates/ulasanPengguna.html',
+        controller: 'ulasanPenggunaCtrl'
       }
     },
     params: {
@@ -326,13 +350,14 @@ angular.module('app.routes', ['ionicUIRouter'])
   .state('wizard', {
     url: '/wizard-page',
     templateUrl: 'templates/wizard.html',
-    controller: 'wizardCtrl'
+    controller: 'wizardCtrl',
+    disableHardwareBackButton : true
   })
 
-  .state('dataUser', {
-    url: '/dataUser-page',
-    templateUrl: 'templates/dataUser.html',
-    controller: 'dataUserCtrl'
+  .state('registration', {
+    url: '/registration',
+    templateUrl: 'templates/registration.html',
+    controller: 'registrationCtrl'
   })
 
   .state('tabsController.profil', {
@@ -359,6 +384,10 @@ angular.module('app.routes', ['ionicUIRouter'])
       'tab3': {
         templateUrl: 'templates/rekomendasi.html',
         controller: 'rekomendasiCtrl'
+      },
+      'tab4': {
+        templateUrl: 'templates/rekomendasi.html',
+        controller: 'rekomendasiCtrl'
       }
     }
   })
@@ -375,6 +404,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         controller: 'daftarCtrl'
       },
       'tab3': {
+        templateUrl: 'templates/daftar.html',
+        controller: 'daftarCtrl'
+      },
+      'tab4': {
         templateUrl: 'templates/daftar.html',
         controller: 'daftarCtrl'
       }
@@ -395,6 +428,10 @@ angular.module('app.routes', ['ionicUIRouter'])
       'tab3': {
         templateUrl: 'templates/profilKurir.html',
         controller: 'profilKurirCtrl'
+      },
+      'tab4': {
+        templateUrl: 'templates/profilKurir.html',
+        controller: 'profilKurirCtrl'
       }
     }
   })
@@ -411,6 +448,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         controller:'rincianTransaksiCtrl'
       },
       'tab3': {
+        templateUrl: 'templates/rincianTransaksi.html',
+        controller: 'rincianTransaksiCtrl'
+      },
+      'tab4': {
         templateUrl: 'templates/rincianTransaksi.html',
         controller: 'rincianTransaksiCtrl'
       }
@@ -433,6 +474,10 @@ angular.module('app.routes', ['ionicUIRouter'])
         controller:'transaksiCtrl'
       },
       'tab3': {
+        templateUrl: 'templates/transaksi.html',
+        controller: 'transaksiCtrl'
+      },
+      'tab4': {
         templateUrl: 'templates/transaksi.html',
         controller: 'transaksiCtrl'
       }

@@ -1,5 +1,6 @@
 <ion-view hide-back-button="true" id="page2">
-<ion-nav-title><button class="mangan-tombol-aksi" ng-click="pickCity()" ion-ripple><span style="color: white; font-size: 16px; margin-right: 10px;">Kamu Melihat : {{selectedCity}} <i class="ion-ios-arrow-down"></i></span></button></ion-nav-title>  
+<ion-nav-title><button ng-show="locSettings == true" class="mangan-tombol-aksi" ng-click="pickCity()" ion-ripple><span style="color: white; font-size: 16px; margin-right: 10px;">Kamu Melihat : {{selectedCity}} <i class="ion-ios-arrow-down"></i></span></button>
+<p ng-show="!locSettings || locSettings == false">Jelajah</p></ion-nav-title>
     
     <ion-content padding="false" overflow-scroll="false" class="has-header">
         <!-- If transaksi done, ng-hide -->
