@@ -753,7 +753,7 @@ angular.module('app.controllers', [])
 		$scope.modalReview.hide();
 	};
 
-	$scope.openMenu = function(index) {
+	$scope.openMenu = function(index, indexmenu) {
 		// trackView
 		Analytics.logView('Ulasan Menu');
 		// trackEvent
@@ -773,10 +773,11 @@ angular.module('app.controllers', [])
 					'Ulasan Menu'
 				]);
 
-		$scope.selectedMenu = $scope.menus[index];
+		$scope.selectedMenu = $scope.menus[index]? $scope.menus[index] : $scope.menus[indexmenu];
 
 		// trackMerchant
-		Analytics.logMerchant($stateParams.index, 'Ulasan Menu', $scope.selectedMenu.indexmenu);
+// 		Analytics.logMerchant($stateParams.index, 'Ulasan Menu', $scope.selectedMenu.indexmenu);
+		Analytics.logMerchant($stateParams.index, 'Ulasan Menu', indexmenu);
 
 		// trackUser Merchant
 		Analytics.logUserArr([
@@ -784,7 +785,8 @@ angular.module('app.controllers', [])
 					'trackMerchant',
 					$stateParams.index,
 					'Ulasan Menu',
-					$scope.selectedMenu.indexmenu
+// 					$scope.selectedMenu.indexmenu
+					indexmenu
 				]);
 		if (!$scope.selectedMenu.review) {
 			// $scope.modalMenuGambar.show();
