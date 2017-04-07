@@ -130,7 +130,7 @@
                     <div class="item mangan-menu" style="border:0;">
                         <h2 style="">Menu Yang Diulas</h2>
                     </div>
-                    <div class="item mangan-menu item-thumbnail-left item-icon-right item-text-wrap" style="border:0;" ng-repeat="menu in menus" ng-click="openMenu(menu.indexmenu)" ng-show="menu.review && menu.review != 'null'">
+                    <div class="item mangan-menu item-thumbnail-left item-icon-right item-text-wrap" style="border:0;" ng-repeat="menu in menus" ng-click="openMenu( $index, menu.hasOwnProperty('indexmenu')? menu.indexmenu: $index )" ng-show="menu.review && menu.review != 'null'">
                         <img image-lazy-src="{{ menu.gambar }}" class="mangan-image-1_1" image-lazy-distance-from-bottom-to-load="50">
                         <h3 style="color: #4d544d;">{{menu.namaMenu}}</h3>
                         <h3 ng-show="(menu.harga % 1) == 0">{{menu.harga | currency:'Rp ':2}}</h3>

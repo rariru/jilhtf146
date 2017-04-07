@@ -757,8 +757,7 @@ angular.module('app.controllers', [])
 		$scope.modalReview.hide();
 	};
 
-	$scope.openMenu = function(index) {
-		console.log(index);
+	$scope.openMenu = function(index, indexmenu) {
 		// trackView
 		Analytics.logView('Ulasan Menu');
 		// trackEvent
@@ -781,15 +780,20 @@ angular.module('app.controllers', [])
 		// $scope.selectedMenu = $scope.menus[index];
 		// console.log($scope.selectedMenus);
 
-		for (var i in $scope.menus) {
-			if ($scope.menus[i].indexmenu == index) {
-				$scope.selectedMenu = $scope.menus[i];
-				console.log(JSON.stringify($scope.selectedMenu));
-			}
-		}
+		// // // HAMZAH
+		// for (var i in $scope.menus) {
+		// 	if ($scope.menus[i].indexmenu == index) {
+		// 		$scope.selectedMenu = $scope.menus[i];
+		// 		console.log(JSON.stringify($scope.selectedMenu));
+		// 	}
+		// }
+		// // // END HAMZAH
+
+		$scope.selectedMenu = $scope.menus[index]? $scope.menus[index] : $scope.menus[indexmenu];
 
 		// trackMerchant
-		Analytics.logMerchant($stateParams.index, 'Ulasan Menu', $scope.selectedMenu.indexmenu);
+// 		Analytics.logMerchant($stateParams.index, 'Ulasan Menu', $scope.selectedMenu.indexmenu);
+		Analytics.logMerchant($stateParams.index, 'Ulasan Menu', indexmenu);
 
 		// trackUser Merchant
 		Analytics.logUserArr([
@@ -797,7 +801,8 @@ angular.module('app.controllers', [])
 					'trackMerchant',
 					$stateParams.index,
 					'Ulasan Menu',
-					$scope.selectedMenu.indexmenu
+// 					$scope.selectedMenu.indexmenu
+					indexmenu
 				]);
 		if (!$scope.selectedMenu.review) {
 			// $scope.modalMenuGambar.show();
