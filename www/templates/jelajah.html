@@ -3,6 +3,7 @@
 <p ng-show="!locSettings || locSettings == false">Jelajah</p></ion-nav-title>
     
     <ion-content padding="false" overflow-scroll="false" class="has-header">
+    <div style="">
         <!-- If transaksi done, ng-hide -->
         <div class="list" style="" ng-click="transaksi()" style="border: 0;">
             <div class="item mangan-menu item-text-wrap item-icon-right" style="border:0; background-color: #ff7846;" ng-show="queue.length > 0 || process.length > 0" ion-ripple>
@@ -37,6 +38,7 @@
                 <button ng-show="!dataUser || dataUser == null" ng-click="login()" class="button button-oren button-small" style="width:30%;" ion-ripple>LOGIN</button> 
             </div> -->
         </div>
+    </div>
       
         <!-- <div class="list mangan-menu mangan-bottom"> -->
         <!-- <button ng-click="dataUserPage()" class="button button-block button-oren button-outline" ion-ripple>Data User</button> -->
@@ -52,10 +54,92 @@
         <!-- </div> -->
 
         <!-- Kategori    -->
-        <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
-            <h4 style="background: white; padding-left: 10px; width: 100%; margin: 15px 0; color: rgb(1,177,178);">REKOMENDASI UNTUK KAMU</h4>
+        <div>
+            <h4 style="background: white; padding-left: 10px; width: 100%; color: rgb(1,177,178);">Favorit di Surakarta</h4>
         </div>
 
+        <!-- <div class="carousel-item demo-3" ng-click="vm.onSelect({item:vm.ngModel})">
+            <div class="img-wrapper">
+                <img ng-src="{{vm.ngModel.src}}" />
+            </div>
+        </div> -->
+
+        <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="false">
+        <ion-slide style="text-align: left;">
+            <div class="row gallery">
+                <div class="jelajah-tile col col-33" style="position:relative;" ion-ripple>
+                    <a>
+                        <!-- show image [0] from any retestaurant -->
+                        <img src="img/minumanes.jpg" class="mangan-image-jelajah">
+                        <div class="col mangan-jelajah-teks" style="position:relative;" ion-ripple>
+                            <p style="font-weight:bold">Ayam Penyet Sorogenen</p>
+                            <p style="font-size: 12px;">Buka Senin-Jumat 09.00</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col col-33" style="position:relative; width:100%;" ion-ripple>
+                    <a>
+                        <img src="img/minumanes.jpg" class="mangan-image-jelajah">
+                        <div class="col mangan-jelajah-teks" style="position:relative;" ion-ripple>
+                             <p style="font-weight:bold">Markobar</p>
+                             <p style="font-size: 12px;">Buka Senin-Jumat 09.00</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col col-33" style="position:relative; width:100%;" ion-ripple>
+                    <a>
+                        <img src="img/minumanes.jpg" class="mangan-image-jelajah">
+                        <div class="col mangan-jelajah-teks" style="position:relative;" ion-ripple>
+                             <p style="font-weight:bold">Markobar</p>
+                             <p style="font-size: 12px;">Buka Senin-Jumat 09.00. Minggu Ke-II Libur</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </ion-slide>
+        <ion-slide style="text-align: left;">
+            <div class="row gallery">
+                <div class="jelajah-tile col col-33" style="position:relative;" ion-ripple>
+                    <a>
+                        <!-- show image [0] from any retestaurant -->
+                        <img src="img/minumanes.jpg" class="mangan-image-jelajah">
+                        <div class="col mangan-jelajah-teks" style="position:relative;" ion-ripple>
+                            <p style="font-weight:bold">Ayam Penyet Sorogenen</p>
+                            <p style="font-size: 12px;">Buka Senin-Jumat 09.00</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col col-33" style="position:relative; width:100%;" ion-ripple>
+                    <a>
+                        <img src="img/minumanes.jpg" class="mangan-image-jelajah">
+                        <div class="col mangan-jelajah-teks" style="position:relative;" ion-ripple>
+                             <p style="font-weight:bold">Markobar</p>
+                             <p style="font-size: 12px;">Buka Senin-Jumat 09.00</p>
+                        </div>
+                    </a>
+                </div>
+                <div class="col col-33" style="position:relative; width:100%;" ion-ripple>
+                    <a>
+                        <img src="img/minumanes.jpg" class="mangan-image-jelajah">
+                        <div class="col mangan-jelajah-teks" style="position:relative;" ion-ripple>
+                             <p style="font-weight:bold">Markobar</p>
+                             <p style="font-size: 12px;">Buka Senin-Jumat 09.00. Minggu Ke-II Libur</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </ion-slide>
+    </ion-slide-box>
+    <div class="item item-icon-right mangan-menu" style="border-bottom:0;">
+       <p>Lihat Lebih Banyak <i class="icon mangan-kontak-icon ion-ios-arrow-forward" style="color: rgb(1,177,178); opacity: 0.5;"></i></p>
+    </div>
+
+        <div class="item item-divider" style="border: 0; min-height:0; box-shadow: inset 0 0 3px rgba(136,136,136,0.3);"></div>
+
+
+        <div>
+            <h4 style="background: white; padding-left: 10px; width: 100%; color: rgb(1,177,178);">Rekomendasi Untuk Kamu</h4>
+        </div>
         <div class="row gallery" style="margin-bottom: 10px;" ion-ripple>
             <div class="jelajah-tile col col-50" style="position:relative;" ion-ripple>
                 <a ui-sref="tabsController.restorans({category: 'terbaru', 'name': 'Terbaru'})">
@@ -164,8 +248,8 @@
         </ion-slides>
 
         <!-- Kategori    -->
-        <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">
-            <h4 style="background: white; padding-left: 10px; width: 100%; margin: 15px 0; color: rgb(1,177,178);">BY CATEGORY</h4>
+        <div>
+            <h4 style="background: white; padding-left: 10px; width: 100%; color: rgb(1,177,178);">Kategori</h4>
         </div>
 
         <div class="row gallery">

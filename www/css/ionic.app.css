@@ -10006,7 +10006,7 @@ p {
 
 .mangan-kontak-icon {
   padding-right: 5px;
-  font-size: 20px;
+  font-size: 14px;
   color: #4d544d; }
 
 .mangan-invoice-icon {
@@ -10060,6 +10060,11 @@ p {
   font-weight: 300;
   font-size: 14px;
   line-height: 1.5; }
+
+.mangan-jelajah-teks {
+  color: black;
+  font-weight: 300;
+  font-size: 14px; }
 
 .mangan-menu select {
   /*color: #78715f;*/
@@ -10385,6 +10390,84 @@ p {
   .wizardSlide2 .bottom-wizard {
     height: 34%; }
 
+.wizardSlide3 {
+  background: url("../img/slide1.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', endColorstr='#f28509',GradientType=0 ); }
+  .wizardSlide3 .top-wizard {
+    height: 66%; }
+    .wizardSlide3 .top-wizard .app-copy {
+      text-align: center;
+      padding-top: 13vh; }
+    .wizardSlide3 .top-wizard .app-logo {
+      font-size: 40px;
+      font-family: sans-serif;
+      font-weight: 600;
+      color: #FFFFFF;
+      letter-spacing: 8px;
+      text-transform: uppercase; }
+    .wizardSlide3 .top-wizard .app-tagline {
+      font-size: 16px;
+      margin-top: 0px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.95); }
+  .wizardSlide3 .bottom-wizard {
+    height: 34%; }
+
+.wizardSlide4 {
+  background: url("../img/slide4.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', endColorstr='#f28509',GradientType=0 ); }
+  .wizardSlide4 .top-wizard {
+    height: 66%; }
+    .wizardSlide4 .top-wizard .app-copy {
+      text-align: center;
+      padding-top: 13vh; }
+    .wizardSlide4 .top-wizard .app-logo {
+      font-size: 40px;
+      font-family: sans-serif;
+      font-weight: 600;
+      color: #FFFFFF;
+      letter-spacing: 8px;
+      text-transform: uppercase; }
+    .wizardSlide4 .top-wizard .app-tagline {
+      font-size: 16px;
+      margin-top: 0px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.95); }
+  .wizardSlide4 .bottom-wizard {
+    height: 34%; }
+
+.wizardRegistration {
+  background: url("../img/slide8.jpg");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100%;
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', endColorstr='#f28509',GradientType=0 ); }
+  .wizardRegistration .top-wizard {
+    height: 66%; }
+    .wizardRegistration .top-wizard .app-copy {
+      text-align: center;
+      padding-top: 13vh; }
+    .wizardRegistration .top-wizard .app-logo {
+      font-size: 40px;
+      font-family: sans-serif;
+      font-weight: 600;
+      color: #FFFFFF;
+      letter-spacing: 8px;
+      text-transform: uppercase; }
+    .wizardRegistration .top-wizard .app-tagline {
+      font-size: 16px;
+      margin-top: 0px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.95); }
+  .wizardRegistration .bottom-wizard {
+    height: 34%; }
+
 .login {
   /* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#01b2b1+0,f28509+100 */
   background: url("../img/login.jpg");
@@ -10507,3 +10590,14 @@ input[type="checkbox"][readonly] {
   border-top: 0px;
   border-left: 0px;
   border-right: 0px; }
+
+.carousel-item.demo-3 .img-wrapper {
+  background-color: white;
+  width: 120px;
+  height: 80px; }
+
+.carousel-item.demo-3 img {
+  opacity: .5; }
+
+.a-carousel li.active .carousel-item.demo-3 img {
+  opacity: 1; }
