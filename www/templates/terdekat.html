@@ -5,24 +5,10 @@
             <div id="mangan-peta" data-tap-disabled="false" style="height: 100%;" ion-ripple></div>
         </div>
 
-      
-        <div class="list mangan-menu">
-          <label class="item item-input item-select" style="" ng-hide="true">
-            <div class="input-label">
-              Lihat Kota Lain
-            </div>
-            <select ng-model="selectedCity" ng-change="pilihKota(selectedCity)" style="">
-              <option>Surakarta</option>
-              <option>Yogyakarta</option>
-            </select>
-          </label>
-        </div>
-
-
         <div ng-show="nodata" class="mangan-nodata">
             <center><i class="ion-sad-outline"></i></center>
             <p style="margin-bottom: 10px;">Ups, belum ada kuliner terdekat di lokasi kamu</p>
-            <center><button class="button button-oren button-small button-outline" style="width: 50%; display: block; margin: 10px auto;" ng-click="rekomendasikan()" ion-ripple>REKOMENDASIKAN</button></center>
+            <center><button class="button button-oren button-small button-outline" style="width: 50%; display: block; margin: 10px auto;" ng-click="jelajahi()" ion-ripple>JELAJAHI</button></center>
             <!-- <center><a ui-sref="tabsController.restorans({category: 'all', 'name': 'Terbaru'})" class="button button-oren button-small button-outline" ion-ripple>JELAJAHI</a></center> -->
         </div>
 

@@ -141,7 +141,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
   }
 
   $ionicPlatform.registerBackButtonAction(function (event) {
-    if ($ionicHistory.currentStateName() === 'wizard'){
+    if ($ionicHistory.currentStateName() === 'wizard' || $ionicHistory.currentStateName() === 'registration'){
       event.preventDefault();
     } else if($ionicHistory.currentStateName() === 'tabsController.jelajah') {
       navigator.app.exitApp();

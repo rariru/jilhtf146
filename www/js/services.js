@@ -30,6 +30,15 @@ firebase.initializeApp(config);
 // dataMenu
 // dataResto
 // kategori
+// promo
+// review
+// keyword
+// slider
+// promo
+// transaksi
+// queue
+// ongkir
+// settings
 var kategori = firebase.database().ref('kategori');
 var restoran = firebase.database().ref('dataResto');
 var menu = firebase.database().ref('dataMenu');
@@ -44,6 +53,7 @@ var transaksi = firebase.database().ref('transaksi');
 var queue = firebase.database().ref('status').child('queue');
 var ongkir = firebase.database().ref('ongkir');
 var settings = firebase.database().ref('settings');
+var appVersion = firebase.database().ref('appVersion');
 
 angular.module('app.services', [])
 
@@ -58,8 +68,8 @@ angular.module('app.services', [])
 	});
 
 	this.getVersion = function() {
-		return promiseAdded(
-			version
+		return promiseValue(
+			appVersion.child('android/version')
 		);
 	}
 
@@ -292,7 +302,7 @@ angular.module('app.services', [])
 			'review' : userReview || null,
 			'username': user,
 			'userPhotoUrl': userPhotoUrl,
-			'emoji': emoji || null,
+			'emoji': emoji || 'happy',
 			'tglReview': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
 			promise.resolve(true);
@@ -387,13 +397,13 @@ angular.module('app.services', [])
 
 	this.getSliders = function() {
 		return promiseValue(
-			slider
+			getRefKota('slider')
 		);
 	}
 
 	this.getPromos = function() {
 		return promiseValue(
-			promo
+			getRefKota('promo')
 		);
 	}
 
@@ -411,7 +421,7 @@ angular.module('app.services', [])
 
 	this.getSettingsDelivery = function(){
 		return promiseValue(
-			settings.child('delivery')
+			getRefKota('settings').child('delivery')
 		);
 	}
 
@@ -702,7 +712,11 @@ angular.module('app.services', [])
 				promise.resolve(true);
 			});
 
-			firebase.database().ref('user/'+ uid +'/phone').set(phone);
+			firebase.database().ref('user/'+ uid +'/noTelpUser').set("+62"+phone);
+			refUser.child(uid).update({
+				'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
+				'device_token' : $localStorage.token
+			});
 		}, function(reason) {
 			console.log("why "+ reason);
 		});
