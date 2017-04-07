@@ -118,7 +118,6 @@ p {
 	background-position:center;
 	background-size:cover;
 	width: 100%;
-	height: auto;
 	min-height: 200px;
 	margin: 0;
 	padding: 0;
@@ -372,7 +371,7 @@ p {
 
 .mangan-kontak-icon {
 	padding-right: 5px;
-	font-size: 20px;
+	font-size: 14px;
 	color: #4d544d;
 }
 
@@ -438,6 +437,12 @@ p {
 	font-weight: 300;
 	font-size: 14px;
 	line-height: 1.5;
+}
+
+.mangan-jelajah-teks{
+	color: black;
+	font-weight: 300;
+	font-size: 14px;
 }
 
 .mangan-menu select{
@@ -846,6 +851,130 @@ p {
 	}
 }
 
+
+.wizardSlide3{
+	background: url('../img/slide1.jpg');
+	background-position:center;
+	background-repeat:no-repeat;
+	background-size:100%;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', endColorstr='#f28509',GradientType=0 );
+
+	.top-wizard
+	{
+    	height: 66%;
+    	.app-copy
+		{
+			text-align: center;
+			padding-top: 13vh;
+		}
+
+		.app-logo
+		{
+			font-size: 40px;
+			font-family: sans-serif;
+			font-weight: 600;
+			color: $welcome-color;
+			letter-spacing: 8px;
+			text-transform: uppercase;
+		}
+
+		.app-tagline
+		{
+			font-size: 16px;
+			margin-top: 0px;
+			font-weight: 500;
+			color: rgba($welcome-color, 0.95);
+		}
+    }
+
+    .bottom-wizard
+	{
+		height: 34%;
+	}
+}
+
+.wizardSlide4{
+	background: url('../img/slide4.jpg');
+	background-position:center;
+	background-repeat:no-repeat;
+	background-size:100%;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', endColorstr='#f28509',GradientType=0 );
+
+	.top-wizard
+	{
+    	height: 66%;
+    	.app-copy
+		{
+			text-align: center;
+			padding-top: 13vh;
+		}
+
+		.app-logo
+		{
+			font-size: 40px;
+			font-family: sans-serif;
+			font-weight: 600;
+			color: $welcome-color;
+			letter-spacing: 8px;
+			text-transform: uppercase;
+		}
+
+		.app-tagline
+		{
+			font-size: 16px;
+			margin-top: 0px;
+			font-weight: 500;
+			color: rgba($welcome-color, 0.95);
+		}
+    }
+
+    .bottom-wizard
+	{
+		height: 34%;
+	}
+}
+
+.wizardRegistration{
+	background: url('../img/slide8.jpg');
+	background-position:center;
+	background-repeat:no-repeat;
+	background-size:100%;
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#01b2b1', endColorstr='#f28509',GradientType=0 );
+
+	.top-wizard
+	{
+    	height: 66%;
+    	.app-copy
+		{
+			text-align: center;
+			padding-top: 13vh;
+		}
+
+		.app-logo
+		{
+			font-size: 40px;
+			font-family: sans-serif;
+			font-weight: 600;
+			color: $welcome-color;
+			letter-spacing: 8px;
+			text-transform: uppercase;
+		}
+
+		.app-tagline
+		{
+			font-size: 16px;
+			margin-top: 0px;
+			font-weight: 500;
+			color: rgba($welcome-color, 0.95);
+		}
+    }
+
+    .bottom-wizard
+	{
+		height: 34%;
+	}
+}
+
 .login
 {
 	// background-color: $background-color;
@@ -1004,6 +1133,18 @@ font-weight: 200;
 	border-right:0px;
 }
 
+.carousel-item.demo-3 .img-wrapper{
+    background-color: white;
+    width: 120px;
+    height:80px;
+}
+
+.carousel-item.demo-3 img {
+    opacity:.5;
+}
+.a-carousel li.active .carousel-item.demo-3 img{
+    opacity: 1;
+}
 
 
 

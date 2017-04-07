@@ -490,9 +490,8 @@ angular.module('app.controllers', [])
   }
 })
 
-.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup, $timeout, Analytics, $cordovaSocialSharing, $ionicHistory, $ionicPopup, $cordovaAppVersion, $localStorage) {
+.controller('restoranCtrl', function($scope, $stateParams, Services, $ionicLoading, $cordovaToast, $ionicModal, $state, $ionicPopup, $timeout, Analytics, $cordovaSocialSharing, $ionicHistory, $ionicPopup, $cordovaAppVersion, $localStorage, $ionicSlideBoxDelegate) {
 	var loadFlag = false;
-	$scope.loadFlag = false;
 	var loadingIndicator = $ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
     });
@@ -527,6 +526,7 @@ angular.module('app.controllers', [])
 	});
 
 	$scope.restoran = null;
+	$scope.restoranImg = null;
 	$scope.menus = null;
 	$scope.reviews = null;
 	$scope.user = {
@@ -538,12 +538,16 @@ angular.module('app.controllers', [])
 		Services.getRestoranDetails($stateParams.index).then(function(restoran) {
 			if(restoran) {
 				$scope.restoran = restoran;
+				$scope.restoranImg = restoran.gambar;
+				console.log(JSON.stringify(restoran.gambar));
 				loadFlag = true;
 				$scope.loadFlag = true;
+				$ionicSlideBoxDelegate.update();
 
 				Services.getRestoranMenus($stateParams.index).then(function(menus) {
 					if(menus) {
 						$scope.menus = menus;
+						console.log(JSON.stringify($scope.menus));
 						// console.log('ada menu');
 						/////////////////////////////////////////////////////////
 						//
@@ -773,10 +777,22 @@ angular.module('app.controllers', [])
 					'Ulasan Menu'
 				]);
 
+		// $scope.selectedMenu = $scope.menus[index];
+		// console.log($scope.selectedMenus);
+
+		// // // HAMZAH
+		// for (var i in $scope.menus) {
+		// 	if ($scope.menus[i].indexmenu == index) {
+		// 		$scope.selectedMenu = $scope.menus[i];
+		// 		console.log(JSON.stringify($scope.selectedMenu));
+		// 	}
+		// }
+		// // // END HAMZAH
+
 		$scope.selectedMenu = $scope.menus[index]? $scope.menus[index] : $scope.menus[indexmenu];
 
 		// trackMerchant
-// 		Analytics.logMerchant($stateParams.index, 'Ulasan Menu', $scope.selectedMenu.indexmenu);
+		// Analytics.logMerchant($stateParams.index, 'Ulasan Menu', $scope.selectedMenu.indexmenu);
 		Analytics.logMerchant($stateParams.index, 'Ulasan Menu', indexmenu);
 
 		// trackUser Merchant
@@ -785,7 +801,7 @@ angular.module('app.controllers', [])
 					'trackMerchant',
 					$stateParams.index,
 					'Ulasan Menu',
-// 					$scope.selectedMenu.indexmenu
+					// $scope.selectedMenu.indexmenu
 					indexmenu
 				]);
 		if (!$scope.selectedMenu.review) {
@@ -850,6 +866,7 @@ angular.module('app.controllers', [])
 	};
 
 	$scope.pesan = function() {
+		console.log('Pesan');
 		// trackMerchant
 		Analytics.logMerchant($stateParams.index, 'Tombol Pesan');
 		// trackEvent
@@ -871,6 +888,7 @@ angular.module('app.controllers', [])
 		]);
 
 	    Services.getVersion().then(function(version) {
+	    	console.log('Version :'+version);
 	    	if (version) {
 	    		// if (config.version < version) {
 	    		$cordovaAppVersion.getVersionCode().then(function(currentVersion) {
@@ -979,6 +997,7 @@ angular.module('app.controllers', [])
 	    		$ionicLoading.hide();
 	    	}
 	    }, function(err) {
+	    	console.log('error get version');
 	    	console.log(err);
 	    });
 	};
@@ -1544,7 +1563,7 @@ angular.module('app.controllers', [])
 	// loading
 	$ionicLoading.show({
       template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
-      duration: 1000
+      duration: 3000
     });
 
 	$scope.user = {};
@@ -1580,7 +1599,7 @@ angular.module('app.controllers', [])
     Services.getVersion().then(function(version) {
     	if (version) {
     		$cordovaAppVersion.getVersionCode().then(function(currentVersion) {
-				$ionicLoading.hide();
+				// $ionicLoading.hide();
     			if (parseInt(currentVersion) < version) {
 			    	$ionicPopup.confirm({
 						title: 'Update Aplikasi',
@@ -1623,7 +1642,7 @@ angular.module('app.controllers', [])
     		});
     	} else {
     		console.log('error get version');
-    		$ionicLoading.hide();
+    		// $ionicLoading.hide();
     	}
     }, function(err) {
     	console.log(err);
@@ -1647,6 +1666,8 @@ angular.module('app.controllers', [])
 
     // to do when enter view
     $scope.$on('$ionicView.enter', function() {
+    	$scope.getCategories();
+    	$scope.getRecomendation();
     	$scope.selectedCity = $localStorage.location;
     	// define variable queue and process
 		$scope.queue = [];
@@ -1682,16 +1703,6 @@ angular.module('app.controllers', [])
 			$scope.dataUser = "";
 		}
 
-		// REMOVE SOON check city
-		if ($localStorage.location == null || $localStorage.location == '') {
-			console.log("localStorage.location null");
-			// go to state pick city
-		    $scope.setLocation();
-		    // $state.go('kota');
-		} else {
-			console.log($localStorage.location);
-		}
-
 		// call greeting and getSlider
 		$scope.greeting();
 		$scope.getSliders();
@@ -1703,31 +1714,12 @@ angular.module('app.controllers', [])
 		} else {
 			Services.getSettingsLocation().then(function(result) {
 				if (result) {
-					var locSettings = result;
-					$scope.locSettings = locSettings.status;
-					console.log('$scope.locSettings :'+$scope.locSettings);
-					if (locSettings.status == true) {
+					$scope.locSettings = result.status;
+					if (result.status == true) {
 						// alert("bisa pilih!");
-						var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
-						Services.isUserHasPickLocation(indexUser).then(function(result) {
-							if (!result) {
-								// alert("silahkan pilih kota");
-								console.log("idx: "+ indexUser);
-								$state.go('kota');
-							}
-							// if (result) {
-							// 	if (!result.hasOwnProperty('pickLocation')) {
-							// 		// alert("blm pernah pick location");
-							// 		console.log("idx: "+ indexUser);
-							// 		$state.go('tabsController.pickLocation');
-							// 	}
-							// 	// else sudah pernah pick location
-							// } else {
-							// 	// alert("nouser found");
-							// }
-						}, function(reason) {
-							// failed get user profile
-						});
+						if (!$localStorage.location) {
+							$state.go('kota');
+						}
 					} else {
 						// alert("blm bisa pilih...");
 					}
@@ -1803,23 +1795,26 @@ angular.module('app.controllers', [])
 	// start Slider
 	$scope.initSlide = function() {
 		Services.getSliders().then(function(sliders) {
+			$scope.slider
 			if (sliders) {
 				$scope.slidersArr = [];
 				for(var r in sliders) {
 					$scope.slidersArr.push(sliders[r]);
 				}
+				// trackEvent
+				Analytics.logEventArr(['Ads', 'Slider', $scope.slidersArr[0].index, 'View']);
+				// trackUser Event
+				Analytics.logUserArr([
+							$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+							'trackEvent',
+							'Ads',
+							'Slider',
+							$scope.slidersArr[0].index,
+							'View'
+						]);
+			} else {
+				console.log('no slider');
 			}
-			// trackEvent
-			Analytics.logEventArr(['Ads', 'Slider', $scope.slidersArr[0].index, 'View']);
-			// trackUser Event
-			Analytics.logUserArr([
-						$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-						'trackEvent',
-						'Ads',
-						'Slider',
-						$scope.slidersArr[0].index,
-						'View'
-					]);
 		});
 	}
 
@@ -1924,6 +1919,7 @@ angular.module('app.controllers', [])
 	// get Sliders
 	$scope.getSliders = function() {
 		Services.getSliders().then(function(sliders) {
+			$scope.sliders = null;
 			if (sliders) {
 				$scope.sliders = sliders;
 				$scope.slidersArray = [];
@@ -2042,67 +2038,6 @@ angular.module('app.controllers', [])
 		});
 	}
 
-	// REMOVE SOON
-	$scope.setLocation = function() {
-		var coords = {
-			latitude: -7.569527,
-			longitude: 110.830289
-		};
-
-		var options = {
-			timeout: 5000,
-			enableHighAccuracy: true
-		};
-
-		$cordovaGeolocation.getCurrentPosition(options).then(function(position) {
-			if(position) {
-				coords = position.coords;
-			}
-
-			$http.get(
-					"https://maps.googleapis.com/maps/api/geocode/json?latlng="+coords.latitude+","+coords.longitude+"&key=AIzaSyDcTH7G919_ydCKS_wvqoCkyH9lFMDvhgQ"
-				).success(function(result) {
-				$localStorage.location = result.results[1].address_components[1].short_name;
-				if ($localStorage.location == "Kota Surakarta") {
-					console.log('ada di Solo');
-					// Code fetch database solo
-				} else if ($scope.kota == "Yogyakarta") {
-					console.log('ada di Jogja');
-					// Code fetch database jogja
-				} else {
-					//pick location
-					// console.log('tampilkan popup lokasi');
-					// $scope.modal.show();
-				}
-			}).error(function(error) {
-				console.log('data error : '+error);
-			});
-		}, function(error) {
-			//pick location
-			// console.log("could not get location");
-			// console.log('tampilkan popup lokasi');
-			// $scope.modal.show();
-			
-			// show dialog to pick city manually 
-
-			// $ionicPopup.alert({
-			// 	title: 'Error',
-			// 	template: 'Tidak dapat menemukan sinyal GPS!',
-			// 	okText: 'OK',
-			// 	okType: 'button-oren'
-			// }).then(function(res) {
-			// 	showMap();
-			// });
-		});
-	}
-
-	// REMOVE SOON
-	$scope.pilihKota = function(kota) {
-		console.log(kota);
-		$localStorage.location = kota;
-		$scope.modal.hide();
-	}
-
 	// getOrder List
 	$scope.getOrder = function(uid) {
 		console.log('get order');
@@ -2114,23 +2049,60 @@ angular.module('app.controllers', [])
 		Services.getHistory(uid).then(function(transactions) {
 			for (var id in transactions) {
 				Services.getTransaksiDetails(transactions[id].kurir, transactions[id].indexTransaksi).then(function(transaksi) {
-					console.log(transaksi.status);
 					if(transaksi.status == "queue") {
 						if (transaksi.tgl >= lastDayTimestamp) {
-							console.log(transaksi.tgl);
 							$scope.queue.push(transaksi);
 						}
 					} else if (transaksi.status == "process") {
 						if (transaksi.tgl >= lastDayTimestamp) {
-							console.log(transaksi.tgl);
 							$scope.process.push(transaksi);
 						}
 					}
 				});
 			}
+			$ionicLoading.hide();
 		}, function(err) {
 			console.log('error get transactions :'+err);
+			$ionicLoading.hide();
 		})
+	}
+
+	$scope.getCategories = function() {
+		Services.getCategories().then(function(category) {
+			$scope.category = category;
+		})
+	}
+
+	// Ini yang lagi mau dibikin 
+	$scope.getRecomendation = function() {
+		$scope.slideRestorans1 = {};
+		$scope.slideRestorans2 = {};
+		$scope.showRecomendation = false;
+		Services.getRecomendation(1).then(function(restorans) {
+			if (restorans) {
+				for (r in restorans) {
+					Services.getRestoranDetails(r).then(function(restoran) {
+						$scope.slideRestorans1[restoran.index] = restoran;
+					}, function(reason) {
+						console.log('error fetch data');
+					});
+				}
+				$scope.showRecomendation = true;
+			}
+		});
+		Services.getRecomendation(2).then(function(restorans) {
+			if (restorans) {
+				for (r in restorans) {
+					Services.getRestoranDetails(r).then(function(restoran) {
+						$scope.slideRestorans2[restoran.index] = restoran;
+					}, function(reason) {
+						console.log('error fetch data');
+					});
+				}
+				$scope.showRecomendation = true;
+			}
+		});
+		$ionicSlideBoxDelegate.update();
 	}
 
 	// banner action
@@ -2214,6 +2186,60 @@ angular.module('app.controllers', [])
 	$scope.dataUserPage = function(dataUser) {
 		$state.go("dataUser");
 	}
+
+	$scope.openRestoran = function(index) {
+		// // trackEvent
+		// Analytics.logEventArr(['Buka Restoran', 'Click Icon More']);
+		// Analytics.logEventArr(['Kategori', $scope.category, 'Buka Restoran', 'Click Icon More']);
+		// // trackUser Event
+		// Analytics.logUserArr([
+		// 	$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+		// 	"trackEvent",
+		// 	"Buka Restoran",
+		// 	"Click Icon More"
+		// ]);
+		// Analytics.logUserArr([
+		// 	$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+		// 	"trackEvent",
+		// 	"Kategori",
+		// 	$scope.category,
+		// 	"Buka Restoran",
+		// 	'Click Icon More'
+		// ]);
+		$state.go('tabsController.restoran', {index: index});
+	}
+
+	$scope.openAll = function() {
+		$state.go('tabsController.restorans', {category: 'all', name: 'Semua Kuliner'});
+	}
+
+	// // carousel
+	// $scope.next = function() {
+	// 	$ionicSlideBoxDelegate.next();
+	// };
+
+	// $scope.previous = function() {
+	// 	$ionicSlideBoxDelegate.previous();
+	// };
+
+	// // Called each time the slide changes
+	// $scope.slideChanged = function(index) {
+	// 	$scope.slideIndex = index;
+	// };
+
+	// // from quora well, lets try
+	// function splitIntoRows(items, itemsPerRow) {
+	//     var rslt = [];
+	//     items.forEach(function(item, index) {
+	//         var rowIndex = Math.floor(index / itemsPerRow),
+	//             colIndex = index % itemsPerRow;
+	//         if (!rslt[rowIndex]) {
+	//             rslt[rowIndex] = [];
+	//         }
+	//         rslt[rowIndex][colIndex] = item;
+	//     });
+	//     return rslt;
+	// }
 })
 
 .controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, $state, Services, $cordovaToast, $cordovaSocialSharing, config, $timeout, Analytics, $localStorage) {
@@ -2611,7 +2637,7 @@ angular.module('app.controllers', [])
 	}
 })
    
-.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading, $timeout, $localStorage, $http, $ionicHistory, Analytics, $localStorage) {
+.controller('tersimpanCtrl', function($scope, Services, $cordovaToast, $state, $cordovaSocialSharing, $ionicLoading, $timeout, $localStorage, $http, $ionicHistory, Analytics, $localStorage, $ionicPopover) {
 	$scope.category = 'Tersimpan';
 	$scope.nodata = false;
 	$scope.notersimpan = false;
@@ -3018,6 +3044,35 @@ angular.module('app.controllers', [])
 		}
 		$state.go('tabsController.restoran', {index: index});
 	}
+
+	// $ionicPopover.fromTemplateUrl('templates/popover.html', {
+	//     scope: $scope,
+	//   }).then(function(popover) {
+	//     $scope.popover = popover;
+	// });
+
+	// $scope.openPopover = function($event) {
+ //      $scope.popover.show($event);
+ //   	};
+
+ //   	$scope.closePopover = function() {
+ //   		$scope.popover.hide();
+ //   	};
+
+   	//Cleanup the popover when we're done with it!
+ //   	$scope.$on('$destroy', function() {
+ //   		$scope.popover.remove();
+ //   	});
+
+ //   	// Execute action on hide popover
+ //   	$scope.$on('popover.hidden', function() {
+ //   	// Execute action
+ //   });
+
+ //   // Execute action on remove popover
+ //   $scope.$on('popover.removed', function() {
+ //   // Execute action
+	// });
 })
 
 .controller('petaCtrl', function($scope, $state, $stateParams, Services, $cordovaToast, $cordovaGeolocation, $ionicPopup, Analytics, $localStorage) {
@@ -3178,6 +3233,29 @@ angular.module('app.controllers', [])
 	});
 
 	$scope.$on('$ionicView.enter', function() {
+		$ionicLoading.show({
+			template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+			timeout: 1000
+		});
+
+		$scope.restoranList = {};
+		coords = {}
+
+		if ($localStorage.location == "Yogyakarta") {
+			// default location yogyakarta, 0 KM
+			console.log('location yogya, on enter');
+			coords = {
+				latitude: -7.8011929,
+				longitude: 110.3640875
+			};
+		} else {
+			console.log('location solo, on enter');
+			//  default location, Surakarta
+			coords = {
+				latitude: -7.569527,
+				longitude: 110.830289
+			};
+		}
 		// trackView
 		Analytics.logView('Terdekat');
 		// trackUser View
@@ -3193,10 +3271,21 @@ angular.module('app.controllers', [])
 	// load map, use current location, if not available, use default
 	//
 	//////////////////////////////////////////////////////////////////
-	var coords = {
-		latitude: -7.569527,
-		longitude: 110.830289
-	};
+	if ($localStorage.location == "Yogyakarta") {
+		// default location yogyakarta, 0 KM
+		console.log('location yogya');
+		var coords = {
+			latitude: -7.8011929,
+			longitude: 110.3640875
+		};
+	} else {
+		//  default location, Surakarta
+		var coords = {
+			latitude: -7.569527,
+			longitude: 110.830289
+		};
+	}
+
 
 	var options = {
 		timeout: 10000,
@@ -3207,7 +3296,6 @@ angular.module('app.controllers', [])
 	
 	$scope.getTerdekat = function() {
 		$cordovaGeolocation.getCurrentPosition(options).then(function(position) {
-
 			if(position) {
 				// trackEvent
 				Analytics.logEvent('Terdekat', 'GPS', 'Found');
@@ -3222,7 +3310,6 @@ angular.module('app.controllers', [])
 				console.log('position aru');
 				coords = position.coords;
 			}
-
 			showMap();
 		}, function(error) {
 			console.log("could not get location");
@@ -3248,10 +3335,9 @@ angular.module('app.controllers', [])
 		});
 	}
 
-	$scope.getTerdekat();
+	// $scope.getTerdekat();
 
 	function showMap() {
-
 		console.log('pusat: '+ coords.latitude, coords.longitude);
 		var latlon = new google.maps.LatLng(coords.latitude, coords.longitude);
 
@@ -3321,6 +3407,7 @@ angular.module('app.controllers', [])
 		Services.getRestoransByLocation(sw.lng(), ne.lng()).then(function(restorans) {
 
 			if(restorans) {
+				console.log(JSON.stringify(restorans));
 
 				// latitude filter from these
 				for(var r in restorans) {
@@ -3383,10 +3470,15 @@ angular.module('app.controllers', [])
 						getDistanceMatrix(oLat, oLong, dLat, dLong, key);
 					}
 				}
-				$scope.nodata = false;
+
+				console.log('restoranlist :'+$scope.restoranList.length);
+
+				if ($scope.restoranList.length == 0) {
+					$scope.nodata = false;
+				}
 			} else {
-				console.log('no resto');
 				$scope.nodata = true;
+				console.log($scope.nodata, "noresto");
 			}
 
 			/////////////////////
@@ -3396,7 +3488,6 @@ angular.module('app.controllers', [])
 			// });
 
 			$ionicLoading.hide();
-			$scope.nodata = false;
 		}, function(reason) {
 			console.log('error');
 			console.log(reason);
@@ -3494,18 +3585,18 @@ angular.module('app.controllers', [])
 	}
 
 
-	$scope.rekomendasikan = function() {
+	$scope.jelajahi = function() {
 		// trackEvent
-		Analytics.logEvent('Jelajah', 'Tombol Rekomendasi Restoran');
+		Analytics.logEvent('Terdekat', 'Tombol Jelajahi');
 
 		// trackUser Event
 		Analytics.logUserArr([
 					$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
 					'trackEvent',
-					'Jelajah',
-					'Tombol Rekomendasi Restoran'
+					'Terdekat',
+					'Tombol Jelajahi'
 				]);
-		$state.go("tabsController.rekomendasi"); 
+		$state.go('tabsController.restorans', {category: 'all', 'name': 'Terbaru'});
 	}
 })
  
@@ -3541,6 +3632,8 @@ angular.module('app.controllers', [])
 					'trackView',
 					'Promo'
 				]);
+
+		$scope.getPromos();
 	});
 
 	$scope.openPromo = function(index) {
@@ -3558,6 +3651,7 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.getPromos = function() {
+    	$scope.promos = null;
 	    Services.getPromos().then(function(promos) {
 	    	loadFlag = true;
 	    	if (promos) {
@@ -5148,6 +5242,7 @@ angular.module('app.controllers', [])
 								}
 
 								$scope.refreshRatingReview();
+								$scope.user = null;
 								// trackMerchant
 								Analytics.logMerchant($stateParams.indexResto, 'Diulas Pengguna');
 								// trackUser Merchant
@@ -5588,11 +5683,20 @@ angular.module('app.controllers', [])
 })
 
 .controller('profilKurirCtrl', function($scope, $state, $stateParams, Services, Analytics, $localStorage){
-
 })
 
-.controller('kotaCtrl', function($scope, $state, $stateParams, Services, Analytics, $localStorage, $ionicHistory){
+.controller('kotaCtrl', function($scope, $state, $stateParams, Services, Analytics, $localStorage, $ionicHistory, $ionicLoading){
+	$scope.$on('$ionicView.enter', function() {
+		Analytics.logView('City');
+	});
+
 	$scope.pilihKota = function(kota) {
+		// loading
+		$ionicLoading.show({
+	      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+	      duration: 3000
+	    });
+
 		$localStorage.location = kota;
 		var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
 		Services.getUserPickLocation(indexUser).then(function(result) {
@@ -5623,58 +5727,86 @@ angular.module('app.controllers', [])
 	}
 })
 
-.controller('wizardCtrl', function($scope, $state, $ionicSlideBoxDelegate, $localStorage, $cordovaOauth, Services, $ionicLoading, $http, $cordovaToast, $ionicPlatform, $ionicHistory) {
+.controller('wizardCtrl', function($scope, $state, $ionicSlideBoxDelegate, $localStorage, $cordovaOauth, Services, $ionicLoading, $http, $cordovaToast, $ionicPlatform, $ionicHistory, Analytics) {
 	$scope.$on('$ionicView.enter', function() {
+		Analytics.logView('Wizard');
 		if ($localStorage.wizard) {
 			$state.go('tabsController.jelajah');
 			return;
 		}
 	});
 
-
 	firebase.auth().signOut().then(function() {
+		Analytics.logEventArr([
+			'Wizard',
+			'Auth',
+			'Sign Out'
+		])
 		console.log('SIGNED OUT');
 	});
-	// Called to navigate to the main app
-
-	// $scope.$on('$ionicView.leave', function() {
-	// 	console.log('LEAVE');
-	// 	$localStorage.wizard = true;
- //    });
 
 	$scope.$on("$ionicView.beforeLeave", function(){
 		console.log('LEAVE');
+		Analytics.logEventArr([
+			'Wizard',
+			'Leave'
+			])
 		$localStorage.wizard = true;
 	});
 
-
-	// $scope.$on('$stateChangeStart', function () {
-	// 	$localStorage.wizard = true;
-	// 	console.log('LEAVE');
-	// });
-
 	$scope.startApp = function() {
+		Analytics.logEventArr([
+			'Wizard',
+			'Start'
+		])
 		$state.go('tabsController.jelajah');
 	};
 
 	$scope.next = function() {
+		Analytics.logEventArr([
+			'Wizard',
+			'Next'
+		])
 		$ionicSlideBoxDelegate.next();
 	};
 
 	$scope.previous = function() {
+		Analytics.logEventArr([
+			'Wizard',
+			'Previous'
+		])
 		$ionicSlideBoxDelegate.previous();
 	};
 
 	// Called each time the slide changes
 	$scope.slideChanged = function(index) {
+		Analytics.logEventArr([
+			'Wizard',
+			'SlideChange'
+		])
+		console.log(index);
 		$scope.slideIndex = index;
 	};
 
 	$scope.endWizard = function() {
+		Analytics.logEventArr([
+			'Wizard',
+			'Skip'
+		])
 		$state.go('tabsController.jelajah');
 	}
 
 	$scope.fblogin = function() {
+		// trackEvent
+		Analytics.logEvent('Wizard', 'Tombol', 'Facebook');
+		// trackUser Event
+		Analytics.logUserArr([
+					$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+					'trackEvent',
+					'Wizard',
+					'Tombol',
+					'Facebook'
+				]);
 		$cordovaOauth.facebook(1764800933732733, ["email", "user_birthday", "user_location"]).then(function(result) {
 			console.log(result.access_token);
 			$localStorage.fbaccesstoken = result.access_token;
@@ -5683,7 +5815,8 @@ angular.module('app.controllers', [])
 				console.log('Error : '+JSON.stringify(error));
 			});
 			$ionicLoading.show({
-		      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
+		      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+		      duration: 1000
 		    });
 			// $ionicHistory.goBack();
 		}, function(err) {
@@ -5692,6 +5825,16 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.googlelogin = function() {
+		// trackEvent
+		Analytics.logEvent('Wizard', 'Tombol', 'Google');
+		// trackUser Event
+		Analytics.logUserArr([
+					$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+					'trackEvent',
+					'Wizard',
+					'Tombol',
+					'Google'
+				]);
 		$cordovaOauth.google("1054999345220-m4vlisv7o0na684cgcg13s1tj2t4v447.apps.googleusercontent.com", ["email", "profile"]).then(function(result) {
 			$localStorage.googleidtoken = result.id_token;
 			$localStorage.googleaccesstoken = result.access_token;
@@ -5700,7 +5843,8 @@ angular.module('app.controllers', [])
 				console.log("Error : "+JSON.stringify(error));
 			});
 			$ionicLoading.show({
-		      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>'
+		      template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
+		      duration: 1000
 		    });
 			// $ionicHistory.goBack();
 		}, function(err) {
@@ -5721,15 +5865,15 @@ angular.module('app.controllers', [])
 						if (user) {
 							// dataUser registered, update data
 							// trackEvent
-							// Analytics.logEvent('Auth', 'Sign In', 'Facebook');
+							Analytics.logEvent('Auth', 'Sign In', 'Facebook');
 							// trackUser Event
-							// Analytics.logUserArr([
-							// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-							// 			'trackEvent',
-							// 			'Auth',
-							// 			'Sign In',
-							// 			'Facebook'
-							// 		]);
+							Analytics.logUserArr([
+										$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+										'trackEvent',
+										'Auth',
+										'Sign In',
+										'Facebook'
+									]);
 							makeToast('Berhasil Login');
 							$http.get("https://graph.facebook.com/v2.8/me?fields=name,location,birthday,gender,picture.type(large){url},age_range,email,about", {params :{
 								access_token : $localStorage.fbaccesstoken,
@@ -5738,19 +5882,20 @@ angular.module('app.controllers', [])
 								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
 								Services.updateUserDataLoginFb($scope.dataUser, $scope.user);
+								checkWizardData($localStorage.indexUser);
 							});
 						} else {
 							// create new data in firebase from Facebook
 							// trackEvent
-							// Analytics.logEvent('Auth', 'Sign Up', 'Facebook');
+							Analytics.logEvent('Auth', 'Sign Up', 'Facebook');
 							// trackUser Event
-							// Analytics.logUserArr([
-							// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-							// 			'trackEvent',
-							// 			'Auth',
-							// 			'Sign Up',
-							// 			'Facebook'
-							// 		]);
+							Analytics.logUserArr([
+										$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+										'trackEvent',
+										'Auth',
+										'Sign Up',
+										'Facebook'
+									]);
 							$http.get("https://graph.facebook.com/v2.8/me?fields=name,location,birthday,gender,picture.type(large){url},age_range,email,about", {params :{
 								access_token : $localStorage.fbaccesstoken,
 								format : "json"
@@ -5760,6 +5905,7 @@ angular.module('app.controllers', [])
 								Services.addUserData($scope.dataUser, $scope.user).then(function(user) {
 									makeToast('Berhasil Login');
 									console.log(user);
+									checkWizardData($localStorage.indexUser);
 								}, function(err) {
 									firebase.auth().signOut().then(function() {
 										makeToast('Login gagal, coba dengan email lain');
@@ -5770,35 +5916,35 @@ angular.module('app.controllers', [])
 					}, function(err) {
 						// error check user data
 						// trackEvent
-						// Analytics.logEvent('Auth', 'Auth Failed');
+						Analytics.logEvent('Auth', 'Auth Failed');
 						// trackUser Event
-						// Analytics.logUserArr([
-						// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-						// 			'trackEvent',
-						// 			'Auth',
-						// 			'Auth Failed'
-						// 		]);
+						Analytics.logUserArr([
+									$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+									'trackEvent',
+									'Auth',
+									'Auth Failed'
+								]);
 						firebase.auth().signOut();
 						makeToast('Login gagal, koneksi tidak stabil');
 					})
 					// $ionicLoading.hide();
 					// $ionicHistory.goBack();
 					// $state.go('registration', {wizard: true});
-					checkWizardData();
+					checkWizardData($localStorage.indexUser);
 				} else if (profile.providerId === "google.com") {
 					Services.getProfileByUid(profile.uid).then(function(user) {
 						if (user) {
 							// dataUser registered, update data
 							// trackEvent
-							// Analytics.logEvent('Auth', 'Sign In', 'Google');
+							Analytics.logEvent('Auth', 'Sign In', 'Google');
 							// trackUser Event
-							// Analytics.logUserArr([
-							// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-							// 			'trackEvent',
-							// 			'Auth',
-							// 			'Sign In',
-							// 			'Google'
-							// 		]);
+							Analytics.logUserArr([
+										$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+										'trackEvent',
+										'Auth',
+										'Sign In',
+										'Google'
+									]);
 							makeToast('Berhasil Login');
 							$http.get("https://www.googleapis.com/userinfo/v2/me?fields=email,family_name,gender,given_name,hd,id,link,locale,name,picture,verified_email", {
 								headers :{
@@ -5808,19 +5954,20 @@ angular.module('app.controllers', [])
 								$localStorage.indexUser = result.data.id;
 								$scope.dataUser = result.data;
 								Services.updateUserDataLoginGoogle($scope.dataUser, $scope.user);
+								checkWizardData($localStorage.indexUser);
 							});
 						} else {
 							// create new data in firebase from Google
 							// trackEvent
-							// Analytics.logEvent('Auth', 'Sign Up', 'Google');
+							Analytics.logEvent('Auth', 'Sign Up', 'Google');
 							// trackUser Event
-							// Analytics.logUserArr([
-							// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-							// 			'trackEvent',
-							// 			'Auth',
-							// 			'Sign Up',
-							// 			'Google'
-							// 		]);
+							Analytics.logUserArr([
+										$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+										'trackEvent',
+										'Auth',
+										'Sign Up',
+										'Google'
+									]);
 							$http.get("https://www.googleapis.com/userinfo/v2/me?fields=email,family_name,gender,given_name,hd,id,link,locale,name,picture,verified_email", {
 								headers :{
 									"Authorization" : "Bearer "+$localStorage.googleaccesstoken
@@ -5830,6 +5977,7 @@ angular.module('app.controllers', [])
 								$scope.dataUser = result.data;
 								Services.addUserDataByGoogle($scope.dataUser, $scope.user).then(function(user) {
 									makeToast('Berhasil Login');
+									checkWizardData($localStorage.indexUser);
 								}, function(err) {
 									firebase.auth().signOut().then(function() {
 										makeToast('Login gagal, coba dengan email lain');
@@ -5840,32 +5988,32 @@ angular.module('app.controllers', [])
 					}, function(err) {
 						// error check user data
 						// trackEvent
-						// Analytics.logEvent('Auth', 'Auth Failed');
+						Analytics.logEvent('Auth', 'Auth Failed');
 						// trackUser Event
-						// Analytics.logUserArr([
-						// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-						// 			'trackEvent',
-						// 			'Auth',
-						// 			'Auth Failed'
-						// 		]);
+						Analytics.logUserArr([
+									$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+									'trackEvent',
+									'Auth',
+									'Auth Failed'
+								]);
 						firebase.auth().signOut();
 						makeToast('Login gagal, koneksi tidak stabil');
 					});
 					// $ionicLoading.hide();
 					// $ionicHistory.goBack();
 					// $state.go('registration', {wizard: true});
-					checkWizardData();
+					// checkWizardData($localStorage.indexUser);
 				}  else {
 					// login dengan cara lain, harusnya tidak terjadi
 					// trackEvent
-					// Analytics.logEvent('Auth', 'Auth Failed');
+					Analytics.logEvent('Auth', 'Auth Failed');
 					// trackUser Event
-					// Analytics.logUserArr([
-					// 			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-					// 			'trackEvent',
-					// 			'Auth',
-					// 			'Auth Failed'
-					// 		]);
+					Analytics.logUserArr([
+								$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+								'trackEvent',
+								'Auth',
+								'Auth Failed'
+							]);
 					firebase.auth().signOut();
 					makeToast('Login gagal, coba dengan email lain');
 					$ionicLoading.hide();
@@ -5875,9 +6023,11 @@ angular.module('app.controllers', [])
 		}
 	});
 
-	function checkWizardData() {
-		var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
+	function checkWizardData(indexUser) {
+		console.log('check wizard data :'+indexUser);
 		Services.getProfileByUid(indexUser).then(function(result) {
+			console.log(indexUser);
+			console.log(JSON.stringify(result));
 			if (!(result && result.hasOwnProperty('gender') && result.hasOwnProperty('dateOfBirth'))) {
 				// $ionicHistory.nextViewOptions({
 				//   disableBack: true
@@ -5907,23 +6057,46 @@ angular.module('app.controllers', [])
 	};
 })
 
-.controller('registrationCtrl', function($state, $scope, $localStorage, $stateParams, $ionicHistory, Services){
+.controller('registrationCtrl', function($state, $scope, $localStorage, $stateParams, $ionicHistory, Services, Analytics){
+	$scope.$on('$ionicView.enter', function() {
+		Analytics.logView('Registration');
+	});
+
 	$scope.user = {
-		dateOfBirth: new Date(),
-		gender: "Male",
+		dateOfBirth: new Date(0),
+		gender: null,
 		phone: null
 	};
 
 	$scope.complete = function() {
+		Analytics.logEventArr([
+			'Registration',
+			'Button',
+			'Complete'
+		])
 		if (!($scope.user.dateOfBirth && $scope.user.gender)) {
+			Analytics.logEventArr([
+				'Registration',
+				'Not Complete'
+			]);
 			alert('Tanggal lahir dan gender wajib diisi!');
 		} else {
 			var indexUser = $localStorage.indexUser ? $localStorage.indexUser : $localStorage.token;
 			Services.addWizardData(indexUser, $scope.user.dateOfBirth, $scope.user.gender, $scope.user.phone).then(function(result) {
 				console.log("scuccess add wizard data");
+				Analytics.logEventArr([
+					'Registration',
+					'Complete',
+					'Success'
+				]);
 				// $state.go('tabsController.jelajah');
 				$ionicHistory.goBack();
 			}, function(reason) {
+				Analytics.logEventArr([
+					'Registration',
+					'Complete',
+					'Failed'
+				]);
 				console.log("failed add wizard data");
 				// $state.go('tabsController.jelajah');
 				$ionicHistory.goBack();
