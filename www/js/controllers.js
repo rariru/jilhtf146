@@ -792,7 +792,7 @@ angular.module('app.controllers', [])
 		$scope.selectedMenu = $scope.menus[index]? $scope.menus[index] : $scope.menus[indexmenu];
 
 		// trackMerchant
-// 		Analytics.logMerchant($stateParams.index, 'Ulasan Menu', $scope.selectedMenu.indexmenu);
+		// Analytics.logMerchant($stateParams.index, 'Ulasan Menu', $scope.selectedMenu.indexmenu);
 		Analytics.logMerchant($stateParams.index, 'Ulasan Menu', indexmenu);
 
 		// trackUser Merchant
@@ -801,7 +801,7 @@ angular.module('app.controllers', [])
 					'trackMerchant',
 					$stateParams.index,
 					'Ulasan Menu',
-// 					$scope.selectedMenu.indexmenu
+					// $scope.selectedMenu.indexmenu
 					indexmenu
 				]);
 		if (!$scope.selectedMenu.review) {
@@ -1667,6 +1667,7 @@ angular.module('app.controllers', [])
     // to do when enter view
     $scope.$on('$ionicView.enter', function() {
     	$scope.getCategories();
+    	$scope.getRecomendation();
     	$scope.selectedCity = $localStorage.location;
     	// define variable queue and process
 		$scope.queue = [];
@@ -2068,9 +2069,40 @@ angular.module('app.controllers', [])
 
 	$scope.getCategories = function() {
 		Services.getCategories().then(function(category) {
-			console.log(JSON.stringify(category));
 			$scope.category = category;
 		})
+	}
+
+	// Ini yang lagi mau dibikin 
+	$scope.getRecomendation = function() {
+		$scope.slideRestorans1 = {};
+		$scope.slideRestorans2 = {};
+		$scope.showRecomendation = false;
+		Services.getRecomendation(1).then(function(restorans) {
+			if (restorans) {
+				for (r in restorans) {
+					Services.getRestoranDetails(r).then(function(restoran) {
+						$scope.slideRestorans1[restoran.index] = restoran;
+					}, function(reason) {
+						console.log('error fetch data');
+					});
+				}
+				$scope.showRecomendation = true;
+			}
+		});
+		Services.getRecomendation(2).then(function(restorans) {
+			if (restorans) {
+				for (r in restorans) {
+					Services.getRestoranDetails(r).then(function(restoran) {
+						$scope.slideRestorans2[restoran.index] = restoran;
+					}, function(reason) {
+						console.log('error fetch data');
+					});
+				}
+				$scope.showRecomendation = true;
+			}
+		});
+		$ionicSlideBoxDelegate.update();
 	}
 
 	// banner action
@@ -2155,20 +2187,59 @@ angular.module('app.controllers', [])
 		$state.go("dataUser");
 	}
 
-	// carousel
-	$scope.next = function() {
-		$ionicSlideBoxDelegate.next();
-	};
+	$scope.openRestoran = function(index) {
+		// // trackEvent
+		// Analytics.logEventArr(['Buka Restoran', 'Click Icon More']);
+		// Analytics.logEventArr(['Kategori', $scope.category, 'Buka Restoran', 'Click Icon More']);
+		// // trackUser Event
+		// Analytics.logUserArr([
+		// 	$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+		// 	"trackEvent",
+		// 	"Buka Restoran",
+		// 	"Click Icon More"
+		// ]);
+		// Analytics.logUserArr([
+		// 	$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+		// 	"trackEvent",
+		// 	"Kategori",
+		// 	$scope.category,
+		// 	"Buka Restoran",
+		// 	'Click Icon More'
+		// ]);
+		$state.go('tabsController.restoran', {index: index});
+	}
 
-	$scope.previous = function() {
-		$ionicSlideBoxDelegate.previous();
-	};
+	$scope.openAll = function() {
+		$state.go('tabsController.restorans', {category: 'all', name: 'Semua Kuliner'});
+	}
 
-	// Called each time the slide changes
-	$scope.slideChanged = function(index) {
-		$scope.slideIndex = index;
-	};
-	
+	// // carousel
+	// $scope.next = function() {
+	// 	$ionicSlideBoxDelegate.next();
+	// };
+
+	// $scope.previous = function() {
+	// 	$ionicSlideBoxDelegate.previous();
+	// };
+
+	// // Called each time the slide changes
+	// $scope.slideChanged = function(index) {
+	// 	$scope.slideIndex = index;
+	// };
+
+	// // from quora well, lets try
+	// function splitIntoRows(items, itemsPerRow) {
+	//     var rslt = [];
+	//     items.forEach(function(item, index) {
+	//         var rowIndex = Math.floor(index / itemsPerRow),
+	//             colIndex = index % itemsPerRow;
+	//         if (!rslt[rowIndex]) {
+	//             rslt[rowIndex] = [];
+	//         }
+	//         rslt[rowIndex][colIndex] = item;
+	//     });
+	//     return rslt;
+	// }
 })
 
 .controller('pencarianCtrl', function($scope, $stateParams, $ionicLoading, $state, Services, $cordovaToast, $cordovaSocialSharing, config, $timeout, Analytics, $localStorage) {
@@ -3002,7 +3073,6 @@ angular.module('app.controllers', [])
  //   $scope.$on('popover.removed', function() {
  //   // Execute action
 	// });
-
 })
 
 .controller('petaCtrl', function($scope, $state, $stateParams, Services, $cordovaToast, $cordovaGeolocation, $ionicPopup, Analytics, $localStorage) {
@@ -5613,7 +5683,6 @@ angular.module('app.controllers', [])
 })
 
 .controller('profilKurirCtrl', function($scope, $state, $stateParams, Services, Analytics, $localStorage){
-
 })
 
 .controller('kotaCtrl', function($scope, $state, $stateParams, Services, Analytics, $localStorage, $ionicHistory, $ionicLoading){

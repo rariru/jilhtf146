@@ -444,6 +444,12 @@ angular.module('app.services', [])
 			);
 	}
 
+	this.getRecomendation = function(slide) {
+		return promiseValue(
+			getRefKota('kategori/rekomendasi').orderByChild('slide').equalTo(slide)
+			);
+	}
+
 	this.setUserPickLocation = function(uid) {
 		var promise = $q.defer();
 
