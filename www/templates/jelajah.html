@@ -27,6 +27,8 @@
                 <input type="search" placeholder="Cari" ng-model="user.query" ng-focus="typeSearch()" style="font-size: 14px;" ion-ripple>
             </label>
         </form>
+
+        <div class="item item-divider" style="border: 0; min-height:0; box-shadow: inset 0 0 3px rgba(136,136,136,0.3);"></div>
         
         <div class="list" style="">
             <div class="item item-text-wrap item-thumbnail-right mangan-menu" style="border: none; margin:10px 15px 0 15px;">
@@ -44,6 +46,8 @@
             </div> -->
         </div>
     </div>
+
+    <div class="item item-divider" style="border: 0; min-height:0; box-shadow: inset 0 0 3px rgba(136,136,136,0.3);"></div>
       
         <!-- <div class="list mangan-menu mangan-bottom"> -->
         <!-- <button ng-click="dataUserPage()" class="button button-block button-oren button-outline" ion-ripple>Data User</button> -->
@@ -83,12 +87,12 @@
             </div>
         </div> -->
 
-        <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="false">
+        <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="false" auto-play="true" slide-interval="6000" does-continue="true">
             <ion-slide ng-repeat="slideRestoran in slideRestorans" style="text-align: left;">
                 <div class="row gallery">
                     <div class="jelajah-tile col col-33" style="position:relative;" ng-repeat="restoran in slideRestoran" ng-click="openRestoran(restoran.index)" ion-ripple>
                         <a>
-                            <img ng-src="{{restoran.gambar[0]}}" class="mangan-image-jelajah">
+                            <img ng-src="{{restoran.imgRec}}" class="mangan-image-jelajah">
                             <div class="col mangan-jelajah-teks" style="position:relative;" ion-ripple>
                                 <p style="font-weight:bold">{{restoran.namaResto}}</p>
                                 <p style="font-size: 12px;">{{restoran.keteranganBuka}}</p>
@@ -102,7 +106,7 @@
                 <div class="row gallery">
                     <div class="jelajah-tile col col-33" style="position:relative;" ng-repeat="restoran in slideRestorans[0]" ng-click="openRestoran(restoran.index)" ion-ripple>
                         <a>
-                            <img ng-src="{{restoran.gambar[0]}}" class="mangan-image-jelajah">
+                            <img ng-src="{{restoran.imgRec}}" class="mangan-image-jelajah">
                             <div class="col mangan-jelajah-teks" style="position:relative;" ion-ripple>
                                 <p style="font-weight:bold">{{restoran.namaResto}}</p>
                                 <p style="font-size: 12px;">{{restoran.keteranganBuka}}</p>
@@ -125,11 +129,11 @@
                 </div>
             </ion-slide> -->
         </ion-slide-box>
-    <div class="item item-icon-right mangan-menu" ng-show="showRecomendation" ng-click="openAll()" style="border-bottom:0;" ion-ripple>
-       <p>Lihat Lebih Banyak <i class="icon mangan-kontak-icon ion-ios-arrow-forward" style="color: rgb(1,177,178); opacity: 0.5;"></i></p>
-    </div>
+        <div class="item item-icon-right mangan-menu" ng-show="showRecomendation" ng-click="openAll()" style="border-bottom:0;" ion-ripple>
+           <p>Lihat Lebih Banyak <i class="icon mangan-kontak-icon ion-ios-arrow-forward" style="opacity: 0.5;"></i></p>
+        </div>
 
-        <div class="item item-divider" style="border: 0; min-height:0; box-shadow: inset 0 0 3px rgba(136,136,136,0.3);"></div>
+        <div class="item item-divider" style="border: 0; min-height:0; box-shadow: inset 0 0 3px rgba(136,136,136,0.3);" ng-show="showRecomendation"></div>
 
 
         <div>
@@ -227,22 +231,24 @@
         </ion-slides> -->
 
         <!-- Slider Dinamis -->
-        <ion-slides ng-show="sliders || sliders.length > 0" options="sliderOptions" class="row" style="width: 100%; padding: 0; height: 170px; margin-bottom: 0px">
+        <ion-slides ng-show="sliders || sliders.length > 0" options="sliderOptions" class="row" style="width: 100%; padding: 0; height: 170px; margin-bottom: 0px;">
             <ion-slide-page ng-repeat="slider in sliders" ng-click="gotoURL(slider.index, slider.linkUrl, slider.tel)" on-swipe-left="next()" on-swipe-right="previous()" ion-ripple>
 
                 <img ng-src="{{ image[$index] }}" style="width: 100%; display: block;">
-                <div class="list" ng-show="slider.linkUrl">
-                  <div class="item item-divider" style="background-color: #3498db">
-                    <p style="text-align: right; color: white;">Selengkapnya<i class="icon ion-chevron-right" style="margin-left: 5px;"></i></p>
+<!--                 <div class="list">
+                  <div class="item item-divider" style="background-color: white">
+                    <p style="text-align: right; color: black;">Selengkapnya<i class="icon ion-chevron-right" style="margin-left: 5px;"></i></p>
                   </div>
-                </div>
-                <div class="list" ng-hide="slider.linkUrl">
+                </div> -->
+            <!--                 <div class="list">
                   <div class="item item-divider" style="background-color: #3498db">
                     <p style="text-align: right; color: white;"><i class="icon ion-chevron-right" style="margin-left: 5px; color: transparent;"></i></p>
                   </div>
-                </div>
+                </div> -->
             </ion-slide-page>
         </ion-slides>
+
+        <div class="item item-divider" style="border: 0; min-height:0; box-shadow: inset 0 0 3px rgba(136,136,136,0.3);"></div>
 
         <!-- Kategori    -->
         <div>
@@ -250,7 +256,7 @@
         </div>
 
         <div class="row gallery">
-<!--             <div class="jelajah-tile col col-50" style="position:relative;" ng-hide="category.kode == 'kampusuns'" ng-repeat="category in categories">
+        <!--             <div class="jelajah-tile col col-50" style="position:relative;" ng-hide="category.kode == 'kampusuns'" ng-repeat="category in categories">
                 <a ui-sref="tabsController.restorans({'category': category.kode, 'name': category.nama})">
                     <div class="mangan-kategori">{{category.nama | uppercase}}</div>
                     <img ng-src="{{category.gambar}}" class="mangan-image-jelajah">
@@ -339,6 +345,7 @@
                 </a>
             </div>
         </div>
+        <div class="item item-divider" style="border: 0; min-height:0; box-shadow: inset 0 0 3px rgba(136,136,136,0.3);"></div>
 
         <div class="mangan-bottom">
             <div style="border-bottom: 1px solid rgba(230, 231, 232, 0.8)">

@@ -20,14 +20,18 @@
             <input type="text" style="" ng-model="dataUser.name">
           </label>
 
-          <label class="item-input mangan-menu">
+          <label class="item-input item-select mangan-menu">
             <i class="mangan-invoice-icon icon ion-ios-person"></i>
-            <input type="text" class="kapital" ng-model="dataUser.gender" readonly="">
+              <div class="input-label" style="width: 0;"><span class="kapital">{{dataUser.gender}}</span></div>
+              <select ng-model="dataUser.gender">
+                <option>Male</option>
+                <option>Female</option>
+              </select>
           </label>
           
           <label class="item-input mangan-menu">
             <i class="mangan-invoice-icon icon ion-ios-email"></i>
-            <input type="text" style="" ng-model="dataUser.email" readonly>
+            <input type="text" style="" ng-model="dataUser.email">
           </label>
         
 <!--           <label class="item-input mangan-menu">

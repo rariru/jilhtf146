@@ -8,6 +8,11 @@
             spinner = "ripple" >
         </ion-refresher>
 
+        <div ng-show="!loadFlag" class="mangan-nodata" style="margin-top: 20px;">
+            <center><i class="ion-sad-outline"></i></center>
+            <p style="margin-bottom: 10px;">Ups, kuliner ini tidak tersedia</p>
+        </div>
+
         <!-- all information, show if flag true -->
         <div class="list" ng-show="loadFlag" style="position: relative;">
             <!-- Image header slider have 5 photos -->            
@@ -102,7 +107,7 @@
                     </span>
                     
                     <!-- <span class="col" style="padding:0; text-align: center;" ion-ripple> -->
-                        <i class="icon mangan-kontak-icon ion-ios-arrow-forward" style="color: rgb(1,177,178); opacity: 0.5; "></i>
+                        <i class="icon mangan-kontak-icon ion-ios-arrow-forward" style="color: rgb(1,177,178); opacity: 0.5;" ng-show="restoran.facility"></i>
                     <!-- </span> -->
 
                    </div>
