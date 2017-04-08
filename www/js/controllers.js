@@ -1332,7 +1332,26 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.showFacility = function() {
-		$scope.modalFacility.show();
+		if ($scope.restoran.facility) {
+			Analytics.logMerchant(index, 'Fasilitas');
+			// trackEvent
+			Analytics.logEvent('Kuliner', 'Fasilitas');
+			// trackuser Event
+			Analytics.logUserArr([
+				$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+				"trackEvent",
+				"Kuliner",
+				"Fasilitas"
+			]);
+			// trackUser Merchant
+			Analytics.logUserArr([
+				$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+				"trackMerchant",
+				index,
+				"Fasilitas"
+			]);
+			$scope.modalFacility.show();			
+		}
 	}
 
 	function makeToast(_message) {
@@ -2188,24 +2207,24 @@ angular.module('app.controllers', [])
 	}
 
 	$scope.openRestoran = function(index) {
-		// // trackEvent
-		// Analytics.logEventArr(['Buka Restoran', 'Click Icon More']);
-		// Analytics.logEventArr(['Kategori', $scope.category, 'Buka Restoran', 'Click Icon More']);
-		// // trackUser Event
-		// Analytics.logUserArr([
-		// 	$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-		// 	"trackEvent",
-		// 	"Buka Restoran",
-		// 	"Click Icon More"
-		// ]);
-		// Analytics.logUserArr([
-		// 	$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
-		// 	"trackEvent",
-		// 	"Kategori",
-		// 	$scope.category,
-		// 	"Buka Restoran",
-		// 	'Click Icon More'
-		// ]);
+		// trackEvent
+		Analytics.logEventArr(['Buka Restoran', 'Rekomendasi Jelajah']);
+		Analytics.logEventArr(['Jelajah', index, 'Buka Restoran', 'Rekomendasi Jelajah']);
+		// trackUser Event
+		Analytics.logUserArr([
+			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+			"trackEvent",
+			"Buka Restoran",
+			"Rekomendasi Jelajah"
+		]);
+		Analytics.logUserArr([
+			$localStorage.indexUser? $localStorage.indexUser : $localStorage.token,
+			"trackEvent",
+			"Jelajah",
+			index,
+			"Buka Restoran",
+			'Rekomendasi Jelajah'
+		]);
 		$state.go('tabsController.restoran', {index: index});
 	}
 
