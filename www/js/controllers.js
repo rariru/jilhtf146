@@ -2075,34 +2075,66 @@ angular.module('app.controllers', [])
 
 	// Ini yang lagi mau dibikin 
 	$scope.getRecomendation = function() {
-		$scope.slideRestorans1 = {};
-		$scope.slideRestorans2 = {};
+		$scope.slideRestorans = [];
 		$scope.showRecomendation = false;
-		Services.getRecomendation(1).then(function(restorans) {
+		Services.getRecomendations().then(function(restorans) {
 			if (restorans) {
+				var slideCount = 0;
+				var i = 0;
 				for (r in restorans) {
+					console.log('r: '+ r);
 					Services.getRestoranDetails(r).then(function(restoran) {
-						$scope.slideRestorans1[restoran.index] = restoran;
+						console.log('slide: '+ slideCount +' | i: '+ i +' | '+ restoran.index);
+						if (!$scope.slideRestorans[slideCount]) {
+							var slideRestoran = {};
+							$scope.slideRestorans[slideCount] = slideRestoran;
+						}
+						$scope.slideRestorans[slideCount][restoran.index] = restoran;
+
+						i++;
+						if (i==3) {
+							i = 0;
+							slideCount++;
+							$ionicSlideBoxDelegate.update();
+						}
 					}, function(reason) {
 						console.log('error fetch data');
 					});
 				}
+
 				$scope.showRecomendation = true;
 			}
 		});
-		Services.getRecomendation(2).then(function(restorans) {
-			if (restorans) {
-				for (r in restorans) {
-					Services.getRestoranDetails(r).then(function(restoran) {
-						$scope.slideRestorans2[restoran.index] = restoran;
-					}, function(reason) {
-						console.log('error fetch data');
-					});
-				}
-				$scope.showRecomendation = true;
-			}
-		});
-		$ionicSlideBoxDelegate.update();
+		// $ionicSlideBoxDelegate.update();
+
+		// $scope.slideRestorans1 = {};
+		// $scope.slideRestorans2 = {};
+		// $scope.showRecomendation = false;
+		// Services.getRecomendation(1).then(function(restorans) {
+		// 	if (restorans) {
+		// 		for (r in restorans) {
+		// 			Services.getRestoranDetails(r).then(function(restoran) {
+		// 				$scope.slideRestorans1[restoran.index] = restoran;
+		// 			}, function(reason) {
+		// 				console.log('error fetch data');
+		// 			});
+		// 		}
+		// 		$scope.showRecomendation = true;
+		// 	}
+		// });
+		// Services.getRecomendation(2).then(function(restorans) {
+		// 	if (restorans) {
+		// 		for (r in restorans) {
+		// 			Services.getRestoranDetails(r).then(function(restoran) {
+		// 				$scope.slideRestorans2[restoran.index] = restoran;
+		// 			}, function(reason) {
+		// 				console.log('error fetch data');
+		// 			});
+		// 		}
+		// 		$scope.showRecomendation = true;
+		// 	}
+		// });
+		// $ionicSlideBoxDelegate.update();
 	}
 
 	// banner action

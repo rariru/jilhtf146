@@ -450,6 +450,10 @@ angular.module('app.services', [])
 			);
 	}
 
+	this.getRecomendations = function() {
+		return promiseValue(getRefKota('kategori/rekomendasi'));
+	}
+
 	this.setUserPickLocation = function(uid) {
 		var promise = $q.defer();
 
