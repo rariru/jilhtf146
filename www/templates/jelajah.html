@@ -68,12 +68,40 @@
                 <img ng-src="{{vm.ngModel.src}}" />
             </div>
         </div> -->
+
+        <!-- <div style="text-align: left;" ng-repeat="slideRestoran in slideRestorans">
+            <div class="row gallery">
+                <div class="jelajah-tile col col-33" style="position:relative;" ng-repeat="restoran in slideRestoran" ng-click="openRestoran(restoran.index)" ion-ripple>
+                    <a>
+                        <img ng-src="{{restoran.gambar[0]}}" class="mangan-image-jelajah">
+                        <div class="col mangan-jelajah-teks" style="position:relative;" ion-ripple>
+                            <p style="font-weight:bold">{{restoran.namaResto}}</p>
+                            <p style="font-size: 12px;">{{restoran.keteranganBuka}}</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div> -->
+
         <ion-slide-box on-slide-changed="slideChanged(index)" show-pager="false">
-            <ion-slide style="text-align: left;">
+            <ion-slide ng-repeat="slideRestoran in slideRestorans" style="text-align: left;">
                 <div class="row gallery">
-                    <div class="jelajah-tile col col-33" style="position:relative;" ng-repeat="restoran in slideRestorans1" ng-click="openRestoran(restoran.index)" ion-ripple>
+                    <div class="jelajah-tile col col-33" style="position:relative;" ng-repeat="restoran in slideRestoran" ng-click="openRestoran(restoran.index)" ion-ripple>
                         <a>
-                            <!-- show first menu img from any retestaurant -->
+                            <img ng-src="{{restoran.gambar[0]}}" class="mangan-image-jelajah">
+                            <div class="col mangan-jelajah-teks" style="position:relative;" ion-ripple>
+                                <p style="font-weight:bold">{{restoran.namaResto}}</p>
+                                <p style="font-size: 12px;">{{restoran.keteranganBuka}}</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </ion-slide>
+
+            <!-- <ion-slide style="text-align: left;">
+                <div class="row gallery">
+                    <div class="jelajah-tile col col-33" style="position:relative;" ng-repeat="restoran in slideRestorans[0]" ng-click="openRestoran(restoran.index)" ion-ripple>
+                        <a>
                             <img ng-src="{{restoran.gambar[0]}}" class="mangan-image-jelajah">
                             <div class="col mangan-jelajah-teks" style="position:relative;" ion-ripple>
                                 <p style="font-weight:bold">{{restoran.namaResto}}</p>
@@ -85,7 +113,7 @@
             </ion-slide>
             <ion-slide style="text-align: left;">
                 <div class="row gallery">
-                    <div class="jelajah-tile col col-33" style="position:relative;" ng-repeat="restoran in slideRestorans2" ion-ripple>
+                    <div class="jelajah-tile col col-33" style="position:relative;" ng-repeat="restoran in slideRestorans[1]" ion-ripple>
                         <a>
                             <img ng-src="{{restoran.gambar[0]}}" class="mangan-image-jelajah">
                             <div class="col mangan-jelajah-teks" style="position:relative;" ion-ripple>
@@ -95,7 +123,7 @@
                         </a>
                     </div>
                 </div>
-            </ion-slide>
+            </ion-slide> -->
         </ion-slide-box>
     <div class="item item-icon-right mangan-menu" ng-show="showRecomendation" ng-click="openAll()" style="border-bottom:0;" ion-ripple>
        <p>Lihat Lebih Banyak <i class="icon mangan-kontak-icon ion-ios-arrow-forward" style="color: rgb(1,177,178); opacity: 0.5;"></i></p>
