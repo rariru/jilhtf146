@@ -19,7 +19,7 @@
             </div>
         </div>
 
-        <form class="list list-inset" ng-submit="searchQuery()" style="margin-top:10px;">
+        <form class="list" ng-submit="searchQuery()" style="margin:10px;">
             <label class="item item-input" name="Pencarian" style="padding: 0; border-radius: 5px;">
                 <div style="min-height: 37px; min-width: 37px; background-color: #f2f3f3; text-align:center; margin-right: 10px;">
                     <i class="icon ion-ios-search placeholder-icon" style="font-size: 20px; line-height: 40px;"></i>
@@ -64,7 +64,7 @@
 
         <!-- Kategori    -->
         <div ng-show="showRecomendation">
-            <h4 style="background: white; padding-left: 10px; width: 100%; color: rgb(1,177,178);">Favorit di {{selectedCity}}</h4>
+            <h4 style="background: white; padding-left: 10px; width: 100%; color: rgb(1,177,178);">Favorit di {{selectedCity || 'Surakarta'}}</h4>
         </div>
 
         <!-- <div class="carousel-item demo-3" ng-click="vm.onSelect({item:vm.ngModel})">
@@ -147,7 +147,7 @@
                 </a>
             </div>
             <div class="jelajah-tile col col-50 mangan-menu" style="position:relative;" ui-sref="tabsController.restorans({category: 'terbaru', 'name': 'Terbaru'})" ion-ripple>
-                <h4 style="color: orangered; margin: 0; padding: 0; ">BARU DIULAS</h4>
+                <h4 style="color: orangered; margin: 0; padding: 0; ">Baru Diulas</h4>
                 <p>Temukan kuliner yang baru kami ulas disini</p>
             </div>
         </div>
@@ -160,7 +160,7 @@
                 </a>
             </div>
             <div class="jelajah-tile col col-50 mangan-menu" style="position:relative;" ui-sref="tabsController.restorans({category: 'delivery', 'name': 'Laper Mager'})" ion-ripple>
-                <h4 style="color: orangered; margin: 0; padding: 0; ">LAPER MAGER</h4>
+                <h4 style="color: orangered; margin: 0; padding: 0; ">Laper Mager</h4>
                 <p>Laper tapi mager? tenang, kumpulan kuliner ini bisa kamu pesan untuk diantar ke rumah</p>
             </div>
         </div>
@@ -173,7 +173,7 @@
                 </a>
             </div>
             <div class="jelajah-tile col col-50 mangan-menu" style="position:relative;" ui-sref="tabsController.restorans({category: 'kampusuns', name: 'Sekitar Kampus'})" ion-ripple>
-                <h4 style="color: orangered; margin: 0; padding: 0; ">ALA MAHASISWA</h4>
+                <h4 style="color: orangered; margin: 0; padding: 0; ">Ala Mahasiswa</h4>
                 <p>Kumpulan kuliner dekat kampus dan murah cuma disini nih</p>
             </div>
         </div>

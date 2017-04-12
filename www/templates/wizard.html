@@ -1,19 +1,7 @@
 <ion-view id="wizard-page" hide-nav-bar="true">
-
-  <!-- <ion-nav-buttons side="left">
-    <button class="button button-positive button-clear no-animation" ng-click="startApp()" ng-show="!slideIndex">Skip</button>
-    <button class="button button-positive button-clear no-animation" ng-click="previous()" ng-show="slideIndex > 0">Previous</button>
-  </ion-nav-buttons> -->
-
-  <!-- <ion-nav-buttons side="right"> 
-    <button class="button button-positive button-clear no-animation" ng-click="next()" ng-show="slideIndex != 2">Next</button>
-    <button class="button button-positive button-clear no-animation" ng-click="startApp()" ng-show="slideIndex == 2">Mulai Kulineran!</button>
-  </ion-nav-buttons> -->
-  
-
   <ion-slide-box on-slide-changed="slideChanged(index)">
     <!-- first slide -->
-    <ion-slide class="wizardSlide1 overlay">
+    <ion-slide class="wizardSlide1">
       <!-- <div class="list mangan-menu" style="margin-bottom:0; padding:0; background-color: black;"> -->
         <div class="top-wizard row">
           <div class="app-copy col col-top">
@@ -27,7 +15,7 @@
     </ion-slide>
 
     <!-- next slide -->
-    <ion-slide class="wizardSlide2 overlay">
+    <ion-slide class="wizardSlide2">
       <!-- <div class="list mangan-menu" style="margin-bottom:0; padding:0; background-color: black;"> -->
         <div class="top-wizard row">
           <div class="app-copy col col-top">
@@ -37,7 +25,7 @@
       </div>
     </ion-slide>
 
-     <ion-slide class="wizardSlide3 overlay">
+     <ion-slide class="wizardSlide3">
       <!-- <div class="list mangan-menu" style="margin-bottom:0; padding:0; background-color: black;"> -->
         <div class="top-wizard row">
           <div class="app-copy col col-top">
@@ -47,7 +35,7 @@
       </div>
     </ion-slide>
 
-    <ion-slide class="wizardSlide4 overlay">
+    <ion-slide class="wizardSlide4">
       <!-- <div class="list mangan-menu" style="margin-bottom:0; padding:0; background-color: black;"> -->
         <div class="top-wizard row">
           <div class="app-copy col col-top">

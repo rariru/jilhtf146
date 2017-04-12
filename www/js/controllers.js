@@ -2376,6 +2376,7 @@ angular.module('app.controllers', [])
 							ir = 0,
 							tr = 0; // total restoran matches found
 						for(var id in result) {
+							console.log(id)
 							// console.log(result[id].keyword);
 							if(result[id].keyword.indexOf($scope.user.query) >= 0) {
 								// console.log('HASIL:\t'+ id);
@@ -3274,8 +3275,6 @@ angular.module('app.controllers', [])
 
 .controller('terdekatCtrl', function($scope, $state, $stateParams, Services, $cordovaGeolocation, $ionicPopup, $ionicLoading, Analytics, $http, $localStorage) {
 	$scope.category = 'Terdekat';
-	$scope.restoranList = {};
-	$scope.nodata = false;
 
 	$ionicLoading.show({
 		template: '<ion-spinner icon="spiral" class="spinner-balanced"></ion-spinner>',
@@ -3289,6 +3288,7 @@ angular.module('app.controllers', [])
 		});
 
 		$scope.restoranList = {};
+		$scope.nodata = false;
 		coords = {}
 
 		if ($localStorage.location == "Yogyakarta") {
@@ -4453,7 +4453,7 @@ angular.module('app.controllers', [])
 									},
 									'namaResto' : restoran.namaResto,
 									'namaUser' : dataUser.name,
-									'noTelpUser' : 0+dataUser.noTelpUser,
+									'noTelpUser' : dataUser.noTelpUser,
 									'pesanan' : $scope.selectedMenus,
 									'status' : 'queue',
 									'processBy' : null,

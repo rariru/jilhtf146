@@ -47,6 +47,11 @@ p {
   text-align: center;
 }
 
+.slider.slides{
+	display: flex;
+	flex-direction: row;
+}
+
 .mangan-nama-resto{
 	color: white; 
 	background: rgba(0,0,0,0.6); 
