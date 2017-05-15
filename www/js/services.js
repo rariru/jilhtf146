@@ -1,11 +1,11 @@
 // Initialize Firebase
 // mangan
-// var config = {
-// 	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
-// 	authDomain: "project-1449647215698534337.firebaseapp.com",
-// 	databaseURL: "https://project-1449647215698534337.firebaseio.com",
-// 	storageBucket: "project-1449647215698534337.appspot.com"
-// };
+var config = {
+	apiKey: "AIzaSyCQz7kgKgqjOo6ptPdvEGJLxOCBKUPZEoY",
+	authDomain: "project-1449647215698534337.firebaseapp.com",
+	databaseURL: "https://project-1449647215698534337.firebaseio.com",
+	storageBucket: "project-1449647215698534337.appspot.com"
+};
 
 // ryou
 // var config = {
@@ -16,20 +16,16 @@
 // };
 
 // hamzah ManganBak
-var config = {
-    apiKey: "AIzaSyB1U7icSEQX4ZTCdsRHxDUFieD-r7sDFKA",
-    authDomain: "manganbak.firebaseapp.com",
-    databaseURL: "https://manganbak.firebaseio.com",
-    storageBucket: "manganbak.appspot.com",
-    messagingSenderId: "374536724800"
-};
+// var config = {
+//     apiKey: "AIzaSyB1U7icSEQX4ZTCdsRHxDUFieD-r7sDFKA",
+//     authDomain: "manganbak.firebaseapp.com",
+//     databaseURL: "https://manganbak.firebaseio.com",
+//     storageBucket: "manganbak.appspot.com",
+//     messagingSenderId: "374536724800"
+// };
 
 firebase.initializeApp(config);
 
-// LIST TO USE NEW REF
-// dataMenu
-// dataResto
-// kategori
 var kategori = firebase.database().ref('kategori');
 var restoran = firebase.database().ref('dataResto');
 var menu = firebase.database().ref('dataMenu');
@@ -44,13 +40,14 @@ var transaksi = firebase.database().ref('transaksi');
 var queue = firebase.database().ref('status').child('queue');
 var ongkir = firebase.database().ref('ongkir');
 var settings = firebase.database().ref('settings');
+var appVersion = firebase.database().ref('appVersion');
 
 angular.module('app.services', [])
 
 .service('Services', function($q, $localStorage) {
 	$localStorage = $localStorage.$default({
 		indexes: [],
-		maxSaved: 5,
+		maxSaved: 30,
 		token: null,
 		location: null, // default location,
 		welcome: null,
@@ -58,9 +55,9 @@ angular.module('app.services', [])
 	});
 
 	this.getVersion = function() {
-		return promiseAdded(
-			version
-		);
+		return promiseValue(
+			appVersion.child('android/version')
+			);
 	}
 
 	this.getCategories = function() {
@@ -70,21 +67,13 @@ angular.module('app.services', [])
 	}
 
 	this.getRestoranKeyword = function() {
-		return promiseValue(keyword);
+		return promiseValue(
+			getRefKota('keywordResto')
+			);
 	}
 
 	this.getRestoranCategory = function(category) {
-		// var promise = $q.defer();
-
-		// console.log(category);
-		// firebase.database().ref('dataResto').orderByChild('kategori').startAt(category).on('value', function(data) {
-		// 	promise.resolve(data.val());
-		// 	console.log(data.val());
-		// });
-
-		// return promise.promise;
 		return promiseValue(
-			// getRefKota('kategori').child(category).orderByChild('tanggalInput')
 			getRefKota('kategori').child(category)
 			);
 	}
@@ -99,7 +88,6 @@ angular.module('app.services', [])
 		return promiseValue(
 			getRefKota('dataResto').orderByChild('tglInput').endAt(startDate).limitToLast(10)
 			);
-		// return ServiceRestoran.getAllRestorans();
 	}
 
 	this.getRestoranDetails = function(id) {
@@ -110,7 +98,6 @@ angular.module('app.services', [])
 
 	this.getRestoranMenus = function(id) {
 		return promiseValue(
-			// menu.child(id)//.orderByChild('priority').equalTo(true)
 			getRefKota('dataMenu').child(id)
 			);
 	}
@@ -121,61 +108,35 @@ angular.module('app.services', [])
 			);
 	}
 
-		this.getJmlSad = function(id) {
-			return promiseValue(
-				getRefKota('dataResto').child(id +'/jmlSad')
-				);
-		}
+	this.getJmlSad = function(id) {
+		return promiseValue(
+			getRefKota('dataResto').child(id +'/jmlSad')
+			);
+	}
 
-		this.getJmlHappy = function(id) {
-			return promiseValue(
-				getRefKota('dataResto').child(id +'/jmlHappy')
-				);
-		}
+	this.getJmlHappy = function(id) {
+		return promiseValue(
+			getRefKota('dataResto').child(id +'/jmlHappy')
+			);
+	}
 
-		this.getJmlFavorite = function(id) {
-			return promiseValue(
-				getRefKota('dataResto').child(id +'/jmlFavorite')
-				);
-		}
+	this.getJmlFavorite = function(id) {
+		return promiseValue(
+			getRefKota('dataResto').child(id +'/jmlFavorite')
+			);
+	}
 
 	this.getRestoransByLocation = function(lon1, lon2) {
-		// console.log(lon1 +' | '+ lon2);
 		return promiseValue(
 			getRefKota('dataResto').orderByChild('map/long').startAt(lon1).endAt(lon2)
 			);
 	}
 
 	this.getSavedRestorans = function() {
-		// for testing purpose
-		// if($localStorage.indexes.length === 0) {
-		// 	$localStorage.indexes.push('resto1');
-		// }
-
-
-		// var promise = $q.defer();
-
-		// var indexes = $localStorage.indexes;
-		// if(indexes) {
-		// 	promise.resolve(indexes);
-		// } else {
-		// 	promise.reject(null);
-		// 	console.log("Error fetch data");
-		// }
-
-		// return promise.promise;
-
-
 		return $localStorage.indexes;
 	}
 
 	this.checkSavedRestoran = function(id) {
-		// for below IE9. Dude, we use mobile.
-		// for(var i=0; i<$localStorage.indexes.length; i++) {
-		// 	if(id === $localStorage.indexes[i]) {
-		// 		return true;
-		// 	}
-		// } return false;
 		if($localStorage.indexes.indexOf(id) >= 0) {
 			return true;
 		} return false;
@@ -192,7 +153,7 @@ angular.module('app.services', [])
 	this.saveRestoran = function(id) {
 		var promise = $q.defer();
 
-		if($localStorage.indexes.length < 5) {
+		if($localStorage.indexes.length < 30) {
 			if(!this.checkSavedRestoran(id)) {
 				$localStorage.indexes.push(id);
 				promise.resolve(true);
@@ -204,19 +165,6 @@ angular.module('app.services', [])
 		}
 
 		return promise.promise;
-
-		// isSaved = false;
-		// for(var i=0; i<$localStorage.indexes.length; i++) {
-		// 	if(id === $localStorage.indexes[i]) {
-		// 		isSaved = true;
-		// 		break;
-		// 	}
-		// }
-
-		// if(!isSaved) {
-		// 	$localStorage.indexes.push(id);
-		// 	return true;
-		// }
 	}
 
 	this.deleteRestoran = function(id) {
@@ -234,57 +182,17 @@ angular.module('app.services', [])
 
 	this.getRatingReview = function(resto, user) {
 		console.log('try get ratrev');
-		// return promiseAdded(
-		// 	review.child(resto +'/'+ user)
-		// 	);
-
 		var promise = $q.defer();
 
 		firebase.database().ref('reviewRating/'+ resto +'/'+ user).on('value', function(data) {
 			promise.resolve(data.val());
-			console.log(data.val().review);
 		});
 
 		return promise.promise;
 	}
 
 	this.updateRatingReview = function(userIndex, resto, user, userPhotoUrl, userRating, titleReview, userReview, emoji) {
-		// this.getRestoranReviews(resto).then(function(result) {
-		// 	var ratingReviews = result;
-		// 	console.log(ratingReviews);
-		// 	var newRR = {
-		// 		'rating': userRating,
-		// 		'review': userReview || null,
-		// 		'reviewer': user
-		// 	};
-		// 	ratingReviews.push(newRR);
-		// 	console.log(ratingReviews);
-
-			
-		// 	var promise = $q.defer();
-
-		// 	review.child(resto).set(ratingReviews).then(function() {
-		// 		promise.resolve(true);
-		// 	});
-
-		// 	return promise;
-		// });
-
 		var promise = $q.defer();
-
-		// 1. ini versi update,jadi 1 user cuma bisa kasih 1 komen,kalo komen lagi yg sebelumnya diupdate
-		// review.child(resto +'/'+ user).set({
-		// 	'rating': userRating,
-		// 	'titleReview': titleReview || null,
-		// 	'review' : userReview || null,
-		// 	'username': user,
-		// 	'userPhotoUrl': userPhotoUrl,
-		// 	'tglReview': firebase.database.ServerValue.TIMESTAMP
-		// }).then(function() {
-		// 	promise.resolve(true);
-		// });
-
-		// 2. ini versi add, 1 user bisa nambah komen berapapun
 		review.child(resto).push({
 			'indexUser': userIndex,
 			'rating': userRating || null,
@@ -292,71 +200,70 @@ angular.module('app.services', [])
 			'review' : userReview || null,
 			'username': user,
 			'userPhotoUrl': userPhotoUrl,
-			'emoji': emoji || null,
+			'emoji': emoji || 'happy',
 			'tglReview': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
 			promise.resolve(true);
+		});
+		return promise.promise;
+	}
+
+	this.updateJmlSad = function(resto) {
+		var promise = $q.defer();
+
+		getRefKota('dataResto').child(resto +'/jmlSad').once('value', function(jml) {
+			var jmlSad = jml.val();
+			if(typeof jmlSad === 'number' && jmlSad >= 1) {
+				jmlSad++;
+			} else {
+				jmlSad = 1;
+			}
+
+			getRefKota('dataResto').child(resto +'/jmlSad').set(jmlSad).then(function() {
+				promise.resolve(true);
+			});
 		});
 
 		return promise.promise;
 	}
 
-		this.updateJmlSad = function(resto) {
-			var promise = $q.defer();
+	this.updateJmlHappy = function(resto, jmlHappy) {
+		var promise = $q.defer();
 
-			getRefKota('dataResto').child(resto +'/jmlSad').once('value', function(jml) {
-				var jmlSad = jml.val();
-				if(typeof jmlSad === 'number' && jmlSad >= 1) {
-					jmlSad++;
-				} else {
-					jmlSad = 1;
-				}
+		getRefKota('dataResto').child(resto +'/jmlHappy').once('value', function(jml) {
+			var jmlHappy = jml.val();
+			if(typeof jmlHappy === 'number' && jmlHappy >= 1) {
+				jmlHappy++;
+			} else {
+				jmlHappy = 1;
+			}
 
-				getRefKota('dataResto').child(resto +'/jmlSad').set(jmlSad).then(function() {
-					promise.resolve(true);
-				});
+			getRefKota('dataResto').child(resto +'/jmlHappy').set(jmlHappy).then(function() {
+				promise.resolve(true);
 			});
+		});
 
-			return promise.promise;
-		}
+		return promise.promise;
+	}
 
-		this.updateJmlHappy = function(resto, jmlHappy) {
-			var promise = $q.defer();
+	this.updateJmlFavorite = function(resto, jmlFavorite) {
+		var promise = $q.defer();
 
-			getRefKota('dataResto').child(resto +'/jmlHappy').once('value', function(jml) {
-				var jmlHappy = jml.val();
-				if(typeof jmlHappy === 'number' && jmlHappy >= 1) {
-					jmlHappy++;
-				} else {
-					jmlHappy = 1;
-				}
+		getRefKota('dataResto').child(resto +'/jmlFavorite').once('value', function(jml) {
+			var jmlFavorite = jml.val();
+			if(typeof jmlFavorite === 'number' && jmlFavorite >= 1) {
+				jmlFavorite++;
+			} else {
+				jmlFavorite = 1;
+			}
 
-				getRefKota('dataResto').child(resto +'/jmlHappy').set(jmlHappy).then(function() {
-					promise.resolve(true);
-				});
+			getRefKota('dataResto').child(resto +'/jmlFavorite').set(jmlFavorite).then(function() {
+				promise.resolve(true);
 			});
+		});
 
-			return promise.promise;
-		}
-
-		this.updateJmlFavorite = function(resto, jmlFavorite) {
-			var promise = $q.defer();
-
-			getRefKota('dataResto').child(resto +'/jmlFavorite').once('value', function(jml) {
-				var jmlFavorite = jml.val();
-				if(typeof jmlFavorite === 'number' && jmlFavorite >= 1) {
-					jmlFavorite++;
-				} else {
-					jmlFavorite = 1;
-				}
-
-				getRefKota('dataResto').child(resto +'/jmlFavorite').set(jmlFavorite).then(function() {
-					promise.resolve(true);
-				});
-			});
-
-			return promise.promise;
-		}
+		return promise.promise;
+	}
 
 	this.searchQuery = function(query) {
 		var promise = $q.defer();
@@ -369,7 +276,7 @@ angular.module('app.services', [])
 			});
 		}
 
-		search.child('all').push({
+		getRefKota('searching').child('all').push({
 			'keyword': query,
 			'timestamp': firebase.database.ServerValue.TIMESTAMP
 		}).then(function() {
@@ -387,13 +294,13 @@ angular.module('app.services', [])
 
 	this.getSliders = function() {
 		return promiseValue(
-			slider
+			getRefKota('slider')
 		);
 	}
 
 	this.getPromos = function() {
 		return promiseValue(
-			promo
+			getRefKota('promo')
 		);
 	}
 
@@ -411,7 +318,7 @@ angular.module('app.services', [])
 
 	this.getSettingsDelivery = function(){
 		return promiseValue(
-			settings.child('delivery')
+			getRefKota('settings').child('delivery')
 		);
 	}
 
@@ -434,13 +341,22 @@ angular.module('app.services', [])
 			);
 	}
 
+	this.getRecomendation = function(slide) {
+		return promiseValue(
+			getRefKota('kategori/rekomendasi').orderByChild('slide').equalTo(slide)
+			);
+	}
+
+	this.getRecomendations = function() {
+		return promiseValue(getRefKota('kategori/rekomendasi'));
+	}
+
 	this.setUserPickLocation = function(uid) {
 		var promise = $q.defer();
 
 		refUser.child(uid +"/pickLocation/"+ $localStorage.location).set(
 			true
 		).then(function() {
-			// yg di promise resolve hanya set pada user, bukan add counter
 			promise.resolve(true);
 			console.log('brasil');
 			getRefKota('jmlUser').once('value', function(jml) {
@@ -687,30 +603,28 @@ angular.module('app.services', [])
 		);	
 	}
 
-
 	// wizard registrasi
 	this.addWizardData = function(uid, dateOfBirth, gender, phone) {
 		var promise = $q.defer();
-
-		console.log(uid);
 		var date = new Date(dateOfBirth);
 		firebase.database().ref('user/'+ uid +'/dateOfBirth').set(date.getTime()).then(function(result) {
-			console.log(result);
 			console.log("success add dateOfBirth: "+ dateOfBirth);
 			firebase.database().ref('user/'+ uid +'/gender').set(gender).then(function() {
 				console.log("success add gender: "+ gender);
 				promise.resolve(true);
 			});
 
-			firebase.database().ref('user/'+ uid +'/phone').set(phone);
+			firebase.database().ref('user/'+ uid +'/noTelpUser').set("+62"+phone);
+			refUser.child(uid).update({
+				'dateUpdatedData' : firebase.database.ServerValue.TIMESTAMP,
+				'device_token' : $localStorage.token
+			});
 		}, function(reason) {
 			console.log("why "+ reason);
 		});
 
 		return promise.promise;
 	}
-
-
 
 	// DAFTAR& REKOMENDASI
 	this.daftarResto = function(data) {
@@ -745,12 +659,37 @@ angular.module('app.services', [])
 		return promise.promise;
 	}
 
+	function restoranKota()
+	{
+		return restoran;
+
+		if($localStorage.location == 'Surakarta') {
+			return firebase.database().ref('dataResto');
+		} else if($localStorage.location == 'Yogyakarta') {
+			return firebase.database().ref('yogyakarta/dataRestoJogja');
+		} else {
+			return firebase.database().ref('dataResto');
+		}
+	}
+
+	function getRefKota(ref) {
+		var newRef = "";
+		if($localStorage.location == 'Surakarta') {
+			newRef = ref;
+		} else if($localStorage.location == 'Yogyakarta') {
+			newRef = "yogyakarta/"+ ref;
+		} else {
+			newRef = ref;
+		}
+
+		return firebase.database().ref(newRef);
+	}
+
 	function promiseAdded(obj) {
 		var promise = $q.defer();
 
 		obj.on('child_added', function(data) {
 			promise.resolve(data.val());
-			// console.log(data.val());
 		}, function(err) {
 			promise.reject(null);
 			console.log("Error fetch data");
@@ -764,7 +703,6 @@ angular.module('app.services', [])
 
 		obj.on('value', function(data) {
 			promise.resolve(data.val());
-			// console.log(data.val());
 		}, function(err) {
 			promise.reject(null);
 			console.log("Error fetch data");
@@ -772,72 +710,7 @@ angular.module('app.services', [])
 
 		return promise.promise;
 	}
-
-	function restoranKota()
-	{
-		// console.log('try get resto');
-		// return restoran.child($localStorage.location);
-		return restoran;
-
-		//next utk 2 kota
-		if($localStorage.location == 'Surakarta') {
-			return firebase.database().ref('dataResto');
-		} else if($localStorage.location == 'Yogyakarta') {
-			return firebase.database().ref('yogyakarta/dataRestoJogja');
-		} else {
-			return firebase.database().ref('dataResto');
-		}
-	}
-
-	function getRefKota(ref) {
-		// return firebase.database().ref(ref);
-
-		//next utk 2 kota
-		var newRef = "";
-		if($localStorage.location == 'Surakarta') {
-			newRef = ref;
-		} else if($localStorage.location == 'Yogyakarta') {
-			newRef = "yogyakarta/"+ ref;
-		} else {
-			newRef = ref;
-		}
-
-		return firebase.database().ref(newRef);
-	}
 })
-
-// .service('ServiceRestoran', function($localStorage) {
-// 	var restoransRef = {};
-// 	var restorans = {};
-// 	var kota = $localStorage.location;
-// 	if (!restoransRef[kota]) {
-// 		if($localStorage.location == 'Yogyakarta') {
-// 			restoransRef['Yogyakarta'] = firebase.database().ref('dataRestoJogja');
-// 		} else {
-// 			restoransRef['Surakarta'] = firebase.database().ref('dataResto');
-// 		}
-
-// 		restoransRef[kota].on('child_added', function(data) {
-// 			if (!restoransRef[kota]) {
-// 				restorans[kota] = {};
-// 			}
-
-// 			restorans[kota][data.key] = data.val();
-// 		});
-
-// 		restoransRef[kota].on('child_changed', function(data) {
-// 			restorans[kota][data.key] = data.val();
-// 		});
-
-// 		restoransRef[kota].on('child_removed', function(data) {
-// 			delete restorans[kota][data.key];
-// 		});
-// 	}
-
-// 	this.getAllRestorans = function() {
-// 		return restorans[kota];
-// 	}
-// })
 
 .service('Analytics', function() {
 	// ABOUT ANALYTICS
@@ -864,12 +737,8 @@ angular.module('app.services', [])
 		branch.push(category);
 		branch.push(action);
 		if(label) {
-			// addValue('trackEvent/'+ category +'/'+ action +'/'+ label);
 			branch.push(label);
 		}
-		// else {
-		// 	addValue('trackEvent/'+ category +'/'+ action);
-		// }
 		this.logEventArr(branch);
 	}
 
@@ -914,13 +783,11 @@ angular.module('app.services', [])
 	function addValue(branch) {
 		firebase.database().ref('appLogs/'+ branch).once('value', function(_value) {
 			var newValue = _value.val();
-			// console.log('_value: '+ _value.val());
 			if(typeof newValue === 'number' && newValue >= 1) {
 				newValue++;
 			} else {
 				newValue = 1;
 			}
-			// console.log('newValue: '+ newValue);
 			firebase.database().ref('appLogs/'+ branch).set(newValue);
 		});
 	}
@@ -931,16 +798,13 @@ angular.module('app.services', [])
 			var sub = "/"+ branch[i];
 			path += sub;
 		}
-		// console.log(path);
 		firebase.database().ref('appLogs/'+ path).once('value', function(_value) {
 			var newValue = _value.val();
-			// console.log('_value: '+ _value.val());
 			if(typeof newValue === 'number' && newValue >= 1) {
 				newValue++;
 			} else {
 				newValue = 1;
 			}
-			// console.log('newValue: '+ newValue);
 			firebase.database().ref('appLogs/'+ path).set(newValue);
 		});
 	}
@@ -948,7 +812,7 @@ angular.module('app.services', [])
 
 .service('ManganAds', function() {
 	this.getAdsUrl = function() {
-		return "img/cat.jpg";
+		return "https://i.ytimg.com/vi/8yLDH51NTPU/hqdefault.jpg";
 	}
 })
 

@@ -19,11 +19,11 @@
                             <span class="input-label" style="width: 0;">Telepon</span>
                             <input type="number" ng-model="user.phone" >
                         </label>
-                        <label class="item-input item-select mangan-menu" style="">
-                            <span class="input-label" style="width: 0;">Gender</span>
-                            <select ng-model="user.gender">
-                              <option>Male</option>
-                              <option>Female</option>
+                        <label class="item-input item-select mangan-menu">
+                            <div class="input-label" style="width: 0;">Gender</div>
+                            <select ng-model="user.gender" required="true">
+                              <option value="male">Male</option>
+                              <option value="female">Female</option>
                             </select>
                         </label>
                     </div>
@@ -32,7 +32,6 @@
                     <button class="button button-block button-oren" ng-click="complete()" ion-ripple>Simpan</button> 
                 </div>
             </div>
-            <!-- <img src="img/slide1.jpg" style="height: 100%; width: 100%; opacity: 0.8"> -->
         </div>
     </ion-content>
 </ion-view>

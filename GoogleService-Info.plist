@@ -7,9 +7,9 @@
 	<key>AD_UNIT_ID_FOR_INTERSTITIAL_TEST</key>
 	<string>ca-app-pub-3940256099942544/4411468910</string>
 	<key>CLIENT_ID</key>
-	<string>709664584161-jcr1qdg9dtlb04lvr8i1fshe16iskjuj.apps.googleusercontent.com</string>
+	<string>709664584161-ae3t4t9j52t3p4c8m4ef02uvlimoihs0.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.709664584161-jcr1qdg9dtlb04lvr8i1fshe16iskjuj</string>
+	<string>com.googleusercontent.apps.709664584161-ae3t4t9j52t3p4c8m4ef02uvlimoihs0</string>
 	<key>API_KEY</key>
 	<string>AIzaSyB1HzKtbTF1Z8xLZedL1ES228_o74PR1G8</string>
 	<key>GCM_SENDER_ID</key>
@@ -17,7 +17,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.manganindonesia.mangan</string>
+	<string>com.mangan.mangan</string>
 	<key>PROJECT_ID</key>
 	<string>project-1449647215698534337</string>
 	<key>STORAGE_BUCKET</key>
@@ -33,7 +33,7 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true/>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:709664584161:ios:32ecb0f3b81b2fce</string>
+	<string>1:709664584161:ios:6c7a5735bd830ce6</string>
 	<key>DATABASE_URL</key>
 	<string>https://project-1449647215698534337.firebaseio.com</string>
 </dict>
