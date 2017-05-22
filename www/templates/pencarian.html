@@ -17,6 +17,7 @@
         <p>Ups, Sepertinya Belum Ada Kuliner Disini</p>
         <center><button class="button button-oren button-small button-outline" style="width: 50%; display: block; margin: 10px auto;" ng-click="rekomendasikan()" ion-ripple>REKOMENDASIKAN</button></center>
     </div>
+    <div class="item item-text-wrap mangan-menu" style="margin:0; border:0; font-size:12px; " ng-show="restorans">Ditemukan {{restorans.length}} Kuliner</div>
     
         <div class="list card mangan-restorans" ng-repeat="restoran in restorans | orderObjectBy: 'tglInput' :true" ng-show="restoran.keteranganResto && restoran.keteranganResto != 'null'" style="padding:0;" ion-ripple>
             <div class="mangan-list-header" ion-ripple>
@@ -31,7 +32,7 @@
                 <a ui-sref="tabsController.restoran({index: restoran.index})">
                     <div class="row mangan-keterangan-buka" ng-show="restoran.keteranganBuka && restoran.keteranganBuka != 'null'">
                         <div class="" style="">
-                            <i class="mangan-kontak-icon icon ion-calendar"></i>
+                            <i class="mangan-restorans-icon icon ion-calendar"></i>
                         </div>
                         <div class="col col-100">
                             <p ng-show="restoran.alamat && restoran.alamat != 'null'" style="text-align: ;">
